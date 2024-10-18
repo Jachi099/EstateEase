@@ -84,15 +84,15 @@
   position: absolute;
   top: 533px;
   width: 236px;
-}
-
-.adminu95login .log-in {
-  left: 692px;
   letter-spacing: 0;
   line-height: normal;
-  position: absolute;
-  top: 546px;
+  font-family: 'Montserrat', sans-serif; /* Example font-family */
+  font-size: 16px;
+  color: white;
+  font-weight: bolder;
 }
+
+
 
 .adminu95login .pass_warnings {
   color: var(--black);

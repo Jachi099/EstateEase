@@ -8,9 +8,11 @@
     <link rel="shortcut icon" type="image/png" href="https://animaproject.s3.amazonaws.com/home/favicon.png" />
     <meta name="og:type" content="website" />
     <meta name="twitter:card" content="photo" />
-    <link rel="stylesheet" type="text/css" href="css/adminu95login.css" />
-    <link rel="stylesheet" type="text/css" href="css/styleguide.css" />
-    <link rel="stylesheet" type="text/css" href="css/globals.css" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/adminu95login.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/styleguide.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/globals.css') }}" />
+    
+    
 
     <title>EstateEase-Admin</title>
   </head>
@@ -27,44 +29,43 @@
 
           <form action="{{ route('admin.login') }}" method="POST">
             @csrf
-            <h2>Admin Login</h2>
-
+            <div class="login_logo">LOG IN</div>
+        
             @if($errors->any())
                 <div class="error-message">
                     {{ $errors->first() }}
                 </div>
             @endif
-
-            <!-- Email Textbox -->
-            <div class="email_txtbox">
-                <label for="email">Email</label>
-                <input type="email" name="email" required>
-            </div>
-
-            <!-- Password Textbox -->
-            <div class="pass_txtbox">
-                <label for="password">Password</label>
-                <input type="password" name="password" required>
-            </div>
-
-            <!-- Login Button -->
-            <div class="login_btn">
-                <button type="submit">
-                    <div class="log-in montserrat-black-white-16px">LOG IN</div>
-                </button>
-            </div>
-        </form>
-
-          <div class="forgot-password">Forgot password?</div>
-    
-          <div class="pass_warnings">*</div>
-          <div class="email_warnings">*</div>
-          <div class="password montserrat-medium-black-16px">PASSWORD</div>
         
-          <div class="login_logo">LOG IN</div>
-          <div class="email montserrat-medium-black-16px">EMAIL</div>
+            <!-- Email Textbox -->
+            <div class="email montserrat-medium-black-16px">EMAIL</div>
+            <input type="email" class="email_txtbox" name="email" value="{{ old('email') }}" required>
+            <div class="email_warnings">
+                @error('email')
+                    {{ $message }} <!-- This will show the error for email -->
+                @enderror
+            </div>
+        
+            <!-- Password Textbox -->
+            <div class="password montserrat-medium-black-16px">PASSWORD</div>
+            <input type="password" class="pass_txtbox" name="password" required>
+            <div class="pass_warnings">
+                @error('password')
+                    {{ $message }} <!-- This will show the error for password -->
+                @enderror
+            </div>
+        
+            <!-- Login Button -->
+            <button type="submit" class="login_btn">
+                LOG IN
+            </button>
+        
+            <div class="forgot-password">Forgot password?</div>
+        </form>
+        
+    
+        
         </div>
       </div>
-    </div>
   </body>
 </html>

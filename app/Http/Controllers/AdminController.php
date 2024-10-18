@@ -9,7 +9,7 @@ class AdminController extends Controller
 {
     // Show the admin login form
     public function showLoginForm() {
-        return view('admin.login');
+        return view('admin.login'); // Adjust this to your actual login view path
     }
 
     // Handle the admin login
@@ -18,6 +18,10 @@ class AdminController extends Controller
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
+        ], [
+            'email.required' => 'Email is required.',
+            'email.email' => 'Email is not valid.',
+            'password.required' => 'Password is required.',
         ]);
 
         $credentials = $request->only('email', 'password');
@@ -34,7 +38,7 @@ class AdminController extends Controller
 
     // Show the admin dashboard
     public function dashboard() {
-        return view('admin.dashboard'); // Create this view next
+        return view('admin.dashboard'); // Adjust this to your actual dashboard view path
     }
 
     // Logout the admin
