@@ -1,0 +1,219 @@
+/* screen - login */
+
+.login {
+  align-items: flex-start;
+  background-color: var(--white);
+  display: flex;
+  flex-direction: column;
+  height: 731px;
+  width: 1440px;
+}
+
+.login .navbar-link-estate-ease_logo {
+  letter-spacing: 0;
+  line-height: normal;
+  min-height: 22px;
+  min-width: 102px;
+}
+
+.login .navbar-link-place {
+  cursor: pointer;
+  letter-spacing: 0;
+  line-height: normal;
+  margin-left: 327px;
+  margin-top: 1px;
+  min-height: 20px;
+  min-width: 50px;
+}
+
+.login .navbar-link-about {
+  cursor: pointer;
+  letter-spacing: 0;
+  line-height: normal;
+  margin-left: 95px;
+  margin-top: 1px;
+  min-height: 20px;
+  min-width: 50px;
+}
+
+.login .navbar-link-properties {
+  cursor: pointer;
+  letter-spacing: 0;
+  line-height: normal;
+  margin-left: 95px;
+  margin-top: 1px;
+  min-height: 20px;
+  min-width: 83px;
+}
+
+.login .navbar-link-services {
+  cursor: pointer;
+  letter-spacing: 0;
+  line-height: normal;
+  margin-left: 95px;
+  margin-top: 1px;
+  min-height: 20px;
+  min-width: 66px;
+}
+
+.login .overlap-group1 {
+  height: 644px;
+  position: relative;
+  width: 1440px;
+}
+
+.login .all-room-header-1 {
+  height: 644px;
+  left: 2px;
+  position: absolute;
+  top: 0;
+  width: 1438px;
+}
+
+.login .div_pic {
+  background-color: var(--black-2);
+  height: 644px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 1440px;
+}
+
+.login .middle_box {
+  background-color: var(--white);
+  border: 3px solid;
+  border-color: var(--beaver);
+  border-radius: 10px;
+  box-shadow: 0px 4px 4px #00000040;
+  height: 553px;
+  left: 456px;
+  position: absolute;
+  top: 45px;
+  width: 527px;
+}
+
+.login .sign_up_btn {
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--beaver);
+  border-radius: 10px;
+  box-shadow: 0px 4px 4px #00000040;
+  cursor: pointer;
+  height: 48px;
+  left: 600px;
+  position: absolute;
+  top: 456px;
+  width: 236px;
+}
+
+.login .sign-up {
+  color: var(--beaver);
+  cursor: pointer;
+  font-family: var(--font-family-montserrat);
+  font-size: var(--font-size-l);
+  font-weight: 700;
+  left: 685px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 469px;
+}
+
+.login .forgot-password {
+  color: var(--beaver);
+  font-family: var(--font-family-montserrat);
+  font-size: var(--font-size-s);
+  font-weight: 700;
+  left: 663px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 522px;
+}
+
+.login .login_btn {
+  background-color: var(--mongoose);
+  border-radius: 10px;
+  box-shadow: 0px 4px 4px #00000040;
+  height: 48px;
+  left: 600px;
+  position: absolute;
+  top: 389px;
+  width: 236px;
+}
+
+.login .log-in {
+  left: 690px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 402px;
+}
+
+.login .pass_warnings {
+  left: 501px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 349px;
+}
+
+.login .email_warnings {
+  left: 498px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 249px;
+}
+
+.login .password {
+  left: 498px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 283px;
+}
+
+.login .pass_txtbox {
+  background-color: var(--white);
+  border: 2px solid;
+  border-color: var(--beaver);
+  border-radius: 5px;
+  height: 38px;
+  left: 499px;
+  position: absolute;
+  top: 304px;
+  width: 441px;
+}
+
+.login .estate-ease_logo {
+  color: var(--beaver);
+  font-family: var(--font-family-montserrat);
+  font-size: 40px;
+  font-weight: 800;
+  left: 644px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 96px;
+}
+
+.login .email_txtbox {
+  background-color: var(--white);
+  border: 2px solid;
+  border-color: var(--beaver);
+  border-radius: 5px;
+  height: 38px;
+  left: 499px;
+  position: absolute;
+  top: 204px;
+  width: 441px;
+}
+
+.login .email {
+  left: 498px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 183px;
+}

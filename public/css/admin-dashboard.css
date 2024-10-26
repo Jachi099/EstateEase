@@ -1,12 +1,26 @@
 /* screen - admin-dashboard */
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  overflow-y: auto;   /* Allows vertical scrolling */
+  overflow-x: hidden; /* Prevents horizontal scrolling */
+}
+
 .admin-dashboard {
   align-items: flex-start;
   background-color: var(--white);
   display: flex;
-  height: 1024px;
-  width: 1440px;
+  width: 100%;         /* Use 100% to prevent horizontal scroll issues */
+  min-height: 100vh;   /* Minimum height to cover the viewport */
+  position: relative;  /* Optional, allows for positioned child elements */
 }
+
 
 .admin-dashboard .overlap-group {
   align-items: center;
@@ -291,6 +305,7 @@
   border-radius: 38.5px/36.5px;
   height: 73px;
   width: 77px;
+margin-right: 90px;
 }
 
 .admin-dashboard .total-container-3 {
