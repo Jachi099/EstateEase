@@ -89,15 +89,32 @@
   border-color: var(--mongoose);
   left: 740px;
   top: 174px;
+ 
+    display: inline-flex; /* Change to inline-flex for centering */
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
 }
+
+ 
+   
+    .homepage .sign_up_btn-2 {
+      border-radius: 5px;
+      box-shadow: 0px 4px 4px #00000040;
+      cursor: pointer;
+      height: 48px;
+      position: absolute;
+      width: 236px;
+    }
+    
 
 .homepage .sign-up {
   cursor: pointer;
-  left: 823px;
   letter-spacing: 0;
   line-height: normal;
-  position: absolute;
-  top: 186px;
+  font-family: 'Montserrat', sans-serif; /* Ensure you have the Montserrat font imported */
+  font-size: 16px; /* Adjust based on your design */
+  color: var(--mongoose); 
+  font-weight: bolder;
 }
 
 .homepage .manage-your-properties-with-ease {

@@ -115,7 +115,7 @@
   letter-spacing: 0;
   line-height: normal;
   position: absolute;
-  top: 490px;
+  top: 495px;
 }
 
 .signup .radio2 {
@@ -136,7 +136,7 @@
   letter-spacing: 0;
   line-height: normal;
   position: absolute;
-  top: 490px;
+  top: 495px;
 }
 
 .signup .account-type {
@@ -260,16 +260,16 @@
   position: absolute;
   top: 479px;
   width: 522px;
-}
-
-.signup .sign-up {
-  left: 987px;
+  cursor: pointer;
   letter-spacing: 0;
   line-height: normal;
-  position: absolute;
-  top: 492px;
-  width: 101px;
+  font-family: 'Montserrat', sans-serif; /* Ensure you have the Montserrat font imported */
+  font-size: 16px; /* Adjust based on your design */
+  color: #FFFFFF; 
+  font-weight: bolder;
 }
+
+
 
 .signup .pass_warnings {
   left: 759px;

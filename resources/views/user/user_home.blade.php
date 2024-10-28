@@ -8,37 +8,36 @@
     <link rel="shortcut icon" type="image/png" href="https://animaproject.s3.amazonaws.com/home/favicon.png" />
     <meta name="og:type" content="website" />
     <meta name="twitter:card" content="photo" />
-    <link rel="stylesheet" type="text/css" href="{{ asset('css1/homepage.css') }}" />
-    <link rel="stylesheet" type="text/css" href="{{ asset('css1/styleguide.css') }}" />
-    <link rel="stylesheet" type="text/css" href="{{ asset('css1/globals.css') }}" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
     <script src="https://animaapp.s3.amazonaws.com/launchpad-static/launchpad.js"></script>
+  
+    <link rel="stylesheet" type="text/css" href="{{ asset('css1/homepageu95loggedu95in.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('css1/styleguide.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('css1/globals.css') }}" />
   </head>
   <body style="margin: 0; background: #ffffff">
-    <input type="hidden" id="anPageName" name="page" value="homepage" />
+    <input type="hidden" id="anPageName" name="page" value="homepageu95loggedu95in" />
     <div class="container-center-horizontal">
-      <div class="homepage screen">
-        <div class="navbar-link-container">
+      <div class="homepageu95loggedu95in screen">
+        <div class="navbar">
           <div class="navbar-link-estate-ease_logo montserrat-semi-bold-beaver-18px">EstateEase</div>
-          <a href="#div_top"><div class="navbar-link-place montserrat-normal-black-16px">Home</div> </a
-          ><a href="#div_mid"><div class="navbar-link-about montserrat-normal-black-16px">About</div> </a
-          >
-          <a href="{{ route('user.properties') }}"><div class="navbar-link-properties montserrat-normal-black-16px">Properties</div> </a
-          >
-          <a href="{{ route('user.service') }}"><div class="navbar-link-services montserrat-normal-black-16px">Services</div> </a
-          ><a href="signup.html"><div class="navbar-link-sign-up montserrat-normal-black-16px">Sign Up</div> </a>
+          <a href="#div_top"><div class="navbar-link-place navbar-link montserrat-normal-black-16px">Home</div> </a
+          ><a href="#div_mid"><div class="navbar-link-about navbar-link montserrat-normal-black-16px">About</div> </a
+          ><a href="propertyu95detailsu95guest.html#propertyu95listu95foru95visitor" data-turbolinks="false"
+            ><div class="navbar-link-properties navbar-link montserrat-normal-black-16px">Properties</div> </a
+          ><a href="serviceu95listu95foru95client.html"
+            ><div class="navbar-link-services navbar-link montserrat-normal-black-16px">Services</div>
+          </a>
+          <div class="navbar-link-notification navbar-link montserrat-normal-black-16px">Notification</div>
+          <a href="visitoru95dashboard.html" class="align-self-flex-start"> <div class="head_pic"></div></a>
         </div>
-        <div class="overlap-group">
+        <div class="overlap-group2">
           <img class="all-room-header-1" src="img/all-room-header-1.png" alt="All-Room-Header 1" />
           <div class="div_mid div_mid-2" id="div_mid"></div>
           <div class="div_pic"></div>
-          <a href="{{ route('user.signup') }}" > <div class="sign_up_btn sign_up_btn-2"> <span class="sign-up">SIGN UP</span></div></a
-          >
           <p class="manage-your-properties-with-ease">Manage Your Properties with Ease</p>
           <h1 class="title">EstateEase</h1>
           <div class="list-manage-earn lexendzetta-semi-bold-mongoose-30px">List,<br />Manage,<br />Earn</div>
-          <a href="login.html"> <div class="sign_up_btn-1 sign_up_btn-2"></div></a
-          ><a href="login.html"><div class="login montserrat-black-white-16px">LOGIN</div> </a>
           <p class="list-your-property-i montserrat-normal-black-14px">
             List your property in just a few clicks, manage every detail with ease, and start earning from reliable
             tenants.
@@ -52,11 +51,11 @@
           <img class="banner-1" src="img/banner-1.png" alt="Banner 1" />
           <img class="x497656952-1" src="img/497656952-1.png" alt="497656952 1" />
         </div>
-        <div class="overlap-group1">
+        <div class="overlap-group">
           <div class="services lexendzetta-bold-mongoose-30px">SERVICES</div>
           <p class="one-stop-solution-fo">One-Stop Solution for All Your Property Needs</p>
           <div class="overlap-group-container">
-            <div class="overlap-group6">
+            <div class="overlap-group3">
               <img class="repairing-1" src="img/repairing-1.png" alt="repairing 1" />
               <div class="plumbing lexendzetta-bold-mongoose-20px">PLUMBING</div>
               <p class="quick-and-reliable-p montserrat-medium-black-14px">
@@ -86,8 +85,8 @@
             </div>
           </div>
         </div>
-        {{-- <div class="feedbacks lexendzetta-bold-mongoose-30px">FEEDBACKS</div>
-        <div class="rectangle-14"></div> --}}
+        <div class="feedbacks lexendzetta-bold-mongoose-30px">FEEDBACKS</div>
+        <div class="rectangle-14"></div>
       </div>
     </div>
   </body>

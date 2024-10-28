@@ -1,22 +1,45 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
 
 /*
 |--------------------------------------------------------------------------
-| Web Routes
+| Public Routes
 |--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
 */
-use App\Http\Controllers\UserController;
 
-Route::get('/', [UserController::class, 'index'])->name('user.home');
+// Public homepage route, accessible to everyone
+Route::get('/', function() {
+    return view('user.home'); // Updated to point to the correct path
+})->name('public.home');
 
-use App\Http\Controllers\AdminController;
+// User signup page
+Route::get('/signup', [UserController::class, 'signup'])->name('user.signup');
+Route::post('/signup', [UserController::class, 'signupSubmit'])->name('user.signup.submit');
+
+/*
+|--------------------------------------------------------------------------
+| User Routes (Protected for Logged-In Users Only)
+|--------------------------------------------------------------------------
+*/
+
+// Group of routes for authenticated users only
+Route::middleware(['auth'])->group(function () {
+    // User-specific homepage
+    Route::get('/user/home', [UserController::class, 'userHome'])->name('user.home'); // Now points to userHome method
+
+    // Properties and service pages for logged-in users
+    Route::get('/properties', [UserController::class, 'properties'])->name('user.properties');
+    Route::get('/service', [UserController::class, 'service'])->name('user.service');
+});
+
+/*
+|--------------------------------------------------------------------------
+| Admin Routes
+|--------------------------------------------------------------------------
+*/
 
 // Admin login routes
 Route::get('admin/login', [AdminController::class, 'showLoginForm'])->name('admin.login');
