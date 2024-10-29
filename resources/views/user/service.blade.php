@@ -19,13 +19,12 @@
       <div class="serviceu95listu95foru95guest screen">
         <div class="navbar-link-container">
           <div class="navbar-link-estate-ease_logo montserrat-semi-bold-beaver-18px">EstateEase</div>
-          <a href="{{ route('user.home') }}"><div class="navbar-link-place montserrat-normal-black-16px">Home</div> </a
-          ><a href="{{ route('user.home') }}"><div class="navbar-link-about montserrat-normal-black-16px">About</div> </a
-          ><a href="propertyu95detailsu95guest.html#propertyu95listu95foru95guest" data-turbolinks="false"
-            ><div class="navbar-link-properties montserrat-normal-black-16px">Properties</div>
-          </a>
-          <div class="navbar-link-services montserrat-normal-black-16px">Services</div>
-          <a href="signup.html"><div class="navbar-link-sign-up montserrat-normal-black-16px">Sign Up</div> </a>
+          <a href="{{ route('public.home') }}"><div class="navbar-link-place montserrat-normal-black-16px">Home</div> </a
+            ><a href="{{ route('public.home') }}"><div class="navbar-link-about montserrat-normal-black-16px">About</div> </a
+            ><a href="propertyu95detailsu95guest.html#propertyu95listu95foru95guest" data-turbolinks="false"
+              ><div class="navbar-link-properties montserrat-normal-black-16px">Properties</div> </a
+            > <a href="{{ route('user.service') }}"><div class="navbar-link-services montserrat-normal-black-16px">Services</div> </a
+            ><a href="{{ route('user.signup') }}"><div class="navbar-link-sign-up montserrat-normal-black-16px">Sign Up</div> </a>
         </div>
         <h1 class="estate-ease_logo lexendzetta-medium-beaver-25px">SERVICES</h1>
         <div class="flex-row">

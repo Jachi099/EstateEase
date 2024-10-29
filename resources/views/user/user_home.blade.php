@@ -23,16 +23,12 @@
           <div class="navbar-link-estate-ease_logo montserrat-semi-bold-beaver-18px">EstateEase</div>
           <a href="#div_top"><div class="navbar-link-place navbar-link montserrat-normal-black-16px">Home</div> </a
           ><a href="#div_mid"><div class="navbar-link-about navbar-link montserrat-normal-black-16px">About</div> </a
-          ><a href="propertyu95detailsu95guest.html#propertyu95listu95foru95visitor" data-turbolinks="false"
-            ><div class="navbar-link-properties navbar-link montserrat-normal-black-16px">Properties</div> </a
-          ><a href="serviceu95listu95foru95client.html"
-            ><div class="navbar-link-services navbar-link montserrat-normal-black-16px">Services</div>
-          </a>
-          <div class="navbar-link-notification navbar-link montserrat-normal-black-16px">Notification</div>
+          > <div class="navbar-link-properties montserrat-normal-black-16px">Properties</div> </a
+            > <a href="{{ route('user.service') }}"><div class="navbar-link-services montserrat-normal-black-16px">Services</div> </a>
           <a href="visitoru95dashboard.html" class="align-self-flex-start"> <div class="head_pic"></div></a>
         </div>
         <div class="overlap-group2">
-          <img class="all-room-header-1" src="img/all-room-header-1.png" alt="All-Room-Header 1" />
+          <img class="all-room-header-1"  src="{{ asset('img/all-room-header-1.png') }}" alt="All-Room-Header 1" />
           <div class="div_mid div_mid-2" id="div_mid"></div>
           <div class="div_pic"></div>
           <p class="manage-your-properties-with-ease">Manage Your Properties with Ease</p>
@@ -48,45 +44,45 @@
             Find Your Next Home, Hassle-Free. Discover a wide range of rental options tailored to your needs, all in one
             place.
           </p>
-          <img class="banner-1" src="img/banner-1.png" alt="Banner 1" />
-          <img class="x497656952-1" src="img/497656952-1.png" alt="497656952 1" />
+          <img class="banner-1" src="{{ asset('img/banner-1.png') }}" alt="Banner 1" />
+          <img class="x497656952-1" src="{{ asset('img/497656952-1.png') }}" alt="497656952 1" />
+          
         </div>
         <div class="overlap-group">
           <div class="services lexendzetta-bold-mongoose-30px">SERVICES</div>
           <p class="one-stop-solution-fo">One-Stop Solution for All Your Property Needs</p>
           <div class="overlap-group-container">
             <div class="overlap-group3">
-              <img class="repairing-1" src="img/repairing-1.png" alt="repairing 1" />
-              <div class="plumbing lexendzetta-bold-mongoose-20px">PLUMBING</div>
+                <img class="repairing-1" src="{{ asset('img/repairing-1.png') }}" alt="repairing 1" />
+                <div class="plumbing lexendzetta-bold-mongoose-20px">PLUMBING</div>
               <p class="quick-and-reliable-p montserrat-medium-black-14px">
                 Quick and reliable plumbing services for leaks, clogged drains, and repairs.
               </p>
             </div>
             <div class="overlap-group-container-item">
-              <img class="paint-roller-1" src="img/paint-roller-1.png" alt="paint-roller 1" />
-              <div class="painting lexendzetta-bold-mongoose-20px">PAINTING</div>
+                <img class="paint-roller-1" src="{{ asset('img/paint-roller-1.png') }}" alt="paint-roller 1" />
+                <div class="painting lexendzetta-bold-mongoose-20px">PAINTING</div>
               <p class="refresh-your-space-w montserrat-medium-black-14px">
                 Refresh your space with professional painting services.
               </p>
             </div>
             <div class="overlap-group-container-item">
-              <img class="cleaning-1" src="img/cleaning-1.png" alt="cleaning 1" />
-              <div class="cleaning lexendzetta-bold-mongoose-20px">CLEANING</div>
+                <img class="cleaning-1" src="{{ asset('img/cleaning-1.png') }}" alt="cleaning 1" />
+                <div class="cleaning lexendzetta-bold-mongoose-20px">CLEANING</div>
               <p class="professional-cleanin montserrat-medium-black-14px">
                 Professional cleaning services tailored to your needs.
               </p>
             </div>
             <div class="electric-container">
-              <img class="electrician-1-1" src="img/electrician--1--1.png" alt="electrician (1) 1" />
-              <div class="electric-repair lexendzetta-bold-mongoose-20px">ELECTRIC REPAIR</div>
+                <img class="electrician-1-1" src="{{ asset('img/electrician--1--1.png') }}" alt="electrician (1) 1" />
+                <div class="electric-repair lexendzetta-bold-mongoose-20px">ELECTRIC REPAIR</div>
               <p class="expert-electrical-se montserrat-medium-black-14px">
                 Expert electrical services to fix wiring issues, faulty outlets, or broken appliances.
               </p>
             </div>
           </div>
         </div>
-        <div class="feedbacks lexendzetta-bold-mongoose-30px">FEEDBACKS</div>
-        <div class="rectangle-14"></div>
+       
       </div>
     </div>
   </body>

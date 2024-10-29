@@ -20,13 +20,24 @@
       <div class="homepage screen">
         <div class="navbar-link-container">
           <div class="navbar-link-estate-ease_logo montserrat-semi-bold-beaver-18px">EstateEase</div>
-          <a href="#div_top"><div class="navbar-link-place montserrat-normal-black-16px">Home</div> </a
-          ><a href="#div_mid"><div class="navbar-link-about montserrat-normal-black-16px">About</div> </a
-          >
-          <a href="{{ route('user.properties') }}"><div class="navbar-link-properties montserrat-normal-black-16px">Properties</div> </a
-          >
-          <a href="{{ route('user.service') }}"><div class="navbar-link-services montserrat-normal-black-16px">Services</div> </a
-          ><a href="signup.html"><div class="navbar-link-sign-up montserrat-normal-black-16px">Sign Up</div> </a>
+          <a href="#div_top">
+            <div class="navbar-link-place montserrat-normal-black-16px">Home</div>
+        </a>
+        <a href="#div_mid">
+            <div class="navbar-link-about montserrat-normal-black-16px">About</div>
+        </a>
+        @auth
+            <a href="{{ route('user.properties') }}">
+                <div class="navbar-link-properties montserrat-normal-black-16px">Properties</div>
+            </a>
+            <a href="{{ route('user.service') }}">
+                <div class="navbar-link-services montserrat-normal-black-16px">Services</div>
+            </a>
+        @endauth
+        <a href="{{ route('user.signup') }}">
+            <div class="navbar-link-sign-up montserrat-normal-black-16px">Sign Up</div>
+        </a>
+        
         </div>
         <div class="overlap-group">
           <img class="all-room-header-1" src="img/all-room-header-1.png" alt="All-Room-Header 1" />
@@ -37,8 +48,8 @@
           <p class="manage-your-properties-with-ease">Manage Your Properties with Ease</p>
           <h1 class="title">EstateEase</h1>
           <div class="list-manage-earn lexendzetta-semi-bold-mongoose-30px">List,<br />Manage,<br />Earn</div>
-          <a href="login.html"> <div class="sign_up_btn-1 sign_up_btn-2"></div></a
-          ><a href="login.html"><div class="login montserrat-black-white-16px">LOGIN</div> </a>
+          <a href="{{ route('user.login') }}" > <div class="sign_up_btn-1 sign_up_btn-2"><span class="login">LOGIN</span></div></a
+          > 
           <p class="list-your-property-i montserrat-normal-black-14px">
             List your property in just a few clicks, manage every detail with ease, and start earning from reliable
             tenants.

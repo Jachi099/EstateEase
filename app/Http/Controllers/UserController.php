@@ -88,6 +88,32 @@ public function userHome()
         // Redirect to the user homepage with a success message
         return redirect()->route('user.user_home')->with('success', 'Registration successful!');
     }
-    
-    
+
+
+
+    // UserController.php
+
+public function showLoginForm()
+{
+    return view('user.login'); // Ensure this matches your view structure
 }
+
+public function login(Request $request)
+{
+    // Validate the input data
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required|string',
+    ]);
+
+    // Attempt to log the user in
+    if (Auth::attempt($request->only('email', 'password'))) {
+        // If successful, redirect to the user homepage
+        return redirect()->route('user.user_home')->with('success', 'Logged in successfully!');
+    }
+
+    // If unsuccessful, redirect back with an error message
+    return back()->with('error', 'Invalid credentials. Please try again.');
+}
+
+}  

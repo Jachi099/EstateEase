@@ -95,6 +95,16 @@
     justify-content: center; /* Center horizontally */
 }
 
+.homepage .sign_up_btn-1 {
+  background-color: var(--mongoose);
+  left: 465px;
+  top: 175px;
+  
+  display: inline-flex; /* Change to inline-flex for centering */
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+}
+
  
    
     .homepage .sign_up_btn-2 {
@@ -116,6 +126,18 @@
   color: var(--mongoose); 
   font-weight: bolder;
 }
+
+.homepage .login {
+  cursor: pointer;
+  letter-spacing: 0;
+  line-height: normal;
+  font-family: 'Montserrat', sans-serif; /* Ensure you have the Montserrat font imported */
+  font-size: 16px; /* Adjust based on your design */
+  font-weight: bolder;
+  color: #FFFFFF; 
+
+}
+
 
 .homepage .manage-your-properties-with-ease {
   color: var(--white);
@@ -143,20 +165,7 @@
   top: 47px;
 }
 
-.homepage .sign_up_btn-1 {
-  background-color: var(--mongoose);
-  left: 465px;
-  top: 175px;
-}
 
-.homepage .login {
-  cursor: pointer;
-  left: 556px;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  top: 187px;
-}
 
 .homepage .overlap-group1 {
   align-items: center;

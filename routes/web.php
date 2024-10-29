@@ -19,6 +19,10 @@ Route::get('/', function() {
 Route::get('/signup', [UserController::class, 'signup'])->name('user.signup');
 Route::post('/signup', [UserController::class, 'signupSubmit'])->name('user.signup.submit');
 
+// User login page
+Route::get('/login', [UserController::class, 'showLoginForm'])->name('user.login');
+Route::post('/login', [UserController::class, 'login'])->name('user.login.submit');
+
 /*
 |--------------------------------------------------------------------------
 | User Routes (Protected for Logged-In Users Only)
@@ -28,7 +32,7 @@ Route::post('/signup', [UserController::class, 'signupSubmit'])->name('user.sign
 // Group of routes for authenticated users only
 Route::middleware(['auth'])->group(function () {
     // User-specific homepage
-    Route::get('/user/home', [UserController::class, 'userHome'])->name('user.home'); // Now points to userHome method
+    Route::get('/user/home', [UserController::class, 'userHome'])->name('user.user_home'); // Now points to userHome method
 
     // Properties and service pages for logged-in users
     Route::get('/properties', [UserController::class, 'properties'])->name('user.properties');
