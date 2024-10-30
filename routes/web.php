@@ -37,6 +37,14 @@ Route::middleware(['auth'])->group(function () {
     // Properties and service pages for logged-in users
     Route::get('/properties', [UserController::class, 'properties'])->name('user.properties');
     Route::get('/service', [UserController::class, 'service'])->name('user.service');
+    Route::get('/user/profile', [UserController::class, 'profile'])->name('user.profile');
+    // Route for the profile edit page
+    Route::get('/user/profile/edit', [UserController::class, 'editProfile'])->name('user.edit_profile');
+    Route::post('/user/profile/update', [UserController::class, 'updateProfile'])->name('user.profile.update');
+// User logout route
+Route::post('/logout', [UserController::class, 'logout'])->name('user.logout');
+
+
 });
 
 /*

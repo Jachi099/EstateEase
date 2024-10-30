@@ -1,6 +1,6 @@
 /* screen - homepageu95loggedu95in */
 
-.homepageu95loggedu95in {
+.homepageu95loggedu95in  {
   align-items: center;
   background-color: var(--white);
   display: flex;
@@ -13,59 +13,73 @@
   overflow-x: hidden; /* Prevents horizontal scrolling */
 }
 
-.homepageu95loggedu95in .navbar {
-  align-items: center;
-  background-color: var(--white);
-  border: 3px solid;
-  border-color: var(--beaver);
-  display: flex;
-  height: 87px;
-  justify-content: flex-end;
-  min-width: 1440px;
-  padding: 4px 34px;
-}
-
-.homepageu95loggedu95in .navbar-link-estate-ease_logo {
+.homepageu95loggedu95in  .navbar-link-estate-ease_logo {
   letter-spacing: 0;
   line-height: normal;
-  margin-bottom: 7.0px;
   min-height: 22px;
   min-width: 102px;
 }
 
 .homepageu95loggedu95in .navbar-link-place {
   cursor: pointer;
-  margin-bottom: 7.0px;
+  letter-spacing: 0;
+  line-height: normal;
   margin-left: 327px;
+  margin-top: 1px;
+  min-height: 20px;
   min-width: 50px;
 }
 
 .homepageu95loggedu95in .navbar-link-about {
   cursor: pointer;
-  margin-bottom: 7.0px;
+  letter-spacing: 0;
+  line-height: normal;
   margin-left: 95px;
+  margin-top: 1px;
+  min-height: 20px;
   min-width: 50px;
 }
 
 .homepageu95loggedu95in .navbar-link-properties {
   cursor: pointer;
-  margin-bottom: 7.0px;
+  letter-spacing: 0;
+  line-height: normal;
   margin-left: 95px;
+  margin-top: 1px;
+  min-height: 20px;
   min-width: 83px;
 }
 
-.homepageu95loggedu95in .navbar-link-services {
+.homepageu95loggedu95in  .navbar-link-services {
   cursor: pointer;
-  margin-bottom: 7.0px;
+  letter-spacing: 0;
+  line-height: normal;
   margin-left: 95px;
+  margin-top: 1px;
+  min-height: 20px;
   min-width: 66px;
 }
 
-.homepageu95loggedu95in .navbar-link-notification {
-  margin-bottom: 9.0px;
-  margin-left: 90px;
-  min-width: 94px;
+.homepageu95loggedu95in .overlap-group {
+  height: 988px;
+  position: relative;
+  width: 1440px;
 }
+
+.homepageu95loggedu95in .all-room-header-1 {
+  height: 300px;
+  left: 2px;
+  position: absolute;
+  top: 0;
+  width: 1438px;
+}
+.profile-picture {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%; /* For a circular profile image */
+  object-fit: cover;
+}
+
 
 .homepageu95loggedu95in .head_pic {
   align-self: flex-start;
@@ -75,8 +89,16 @@
   border-radius: 38.5px/36.5px;
   cursor: pointer;
   height: 73px;
-  margin-left: 89px;
-  width: 77px;
+  margin-left: 170px;
+  margin-top: -25px; /* Adjust this value as needed */
+  width: 73px;
+}
+.head_pic img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block; /* Removes potential whitespace */
 }
 
 .homepageu95loggedu95in .overlap-group2 {

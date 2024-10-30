@@ -26,14 +26,14 @@
         <a href="#div_mid">
             <div class="navbar-link-about montserrat-normal-black-16px">About</div>
         </a>
-        @auth
+  
             <a href="{{ route('user.properties') }}">
                 <div class="navbar-link-properties montserrat-normal-black-16px">Properties</div>
             </a>
             <a href="{{ route('user.service') }}">
                 <div class="navbar-link-services montserrat-normal-black-16px">Services</div>
             </a>
-        @endauth
+      
         <a href="{{ route('user.signup') }}">
             <div class="navbar-link-sign-up montserrat-normal-black-16px">Sign Up</div>
         </a>

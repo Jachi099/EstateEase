@@ -16,16 +16,32 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css1/globals.css') }}" />
   </head>
   <body style="margin: 0; background: #ffffff">
-    <input type="hidden" id="anPageName" name="page" value="homepageu95loggedu95in" />
-    <div class="container-center-horizontal">
-      <div class="homepageu95loggedu95in screen">
-        <div class="navbar">
-          <div class="navbar-link-estate-ease_logo montserrat-semi-bold-beaver-18px">EstateEase</div>
+
+
+
+          <input type="hidden" id="anPageName" name="page" value="homepageu95loggedu95in" />
+          <div class="container-center-horizontal">
+            <div class="homepageu95loggedu95in screen">
+              <div class="navbar-link-container">
+                <div class="navbar-link-estate-ease_logo montserrat-semi-bold-beaver-18px">EstateEase</div>
           <a href="#div_top"><div class="navbar-link-place navbar-link montserrat-normal-black-16px">Home</div> </a
           ><a href="#div_mid"><div class="navbar-link-about navbar-link montserrat-normal-black-16px">About</div> </a
           > <div class="navbar-link-properties montserrat-normal-black-16px">Properties</div> </a
             > <a href="{{ route('user.service') }}"><div class="navbar-link-services montserrat-normal-black-16px">Services</div> </a>
-          <a href="visitoru95dashboard.html" class="align-self-flex-start"> <div class="head_pic"></div></a>
+          
+          <a href="{{ route('user.profile') }}">
+    <div class="head_pic">
+        @if(isset($profilePicture) && $profilePicture)
+            <img src="{{ asset('storage/' . $profilePicture) }}" alt="User Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
+        @else
+            <img src="path/to/default/image.png" alt="Default Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
+        @endif
+    </div>
+</a>
+
+
+
+
         </div>
         <div class="overlap-group2">
           <img class="all-room-header-1"  src="{{ asset('img/all-room-header-1.png') }}" alt="All-Room-Header 1" />

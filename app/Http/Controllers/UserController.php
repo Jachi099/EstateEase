@@ -10,6 +10,7 @@ use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Log;
 
 
+
 class UserController extends Controller
 {
     // Method to display the user homepage
@@ -19,12 +20,99 @@ class UserController extends Controller
         return view('user.home'); // Updated to match the new view file name
     }
 
-public function userHome()
+    public function userHome()
+    {
+        $user = Auth::user(); // Retrieve the authenticated user
+        return view('user.user_home', ['profilePicture' => $user->picture]);
+    }
+    
+    public function profile()
+    {
+        // Get the authenticated user
+        $user = Auth::user();
+        
+        // Retrieve the user's profile picture using the email
+        $profilePicture = User::where('email', $user->email)->value('picture');
+    
+        // Pass the user's information to the profile view
+        return view('user.profile', [
+            'profilePicture' => $profilePicture,
+            'name' => $user->full_name,
+            'email' => $user->email,
+            'phone' => $user->phone_number,
+            'address' => $user->current_address,
+            'account_type' => $user->account_type,
+        ]);
+    }
+
+    public function editProfile(Request $request)
+    {
+        // Get the authenticated user
+        $user = Auth::user();
+    
+        // Check if the user is a valid instance of the User model
+        if (!$user instanceof User) {
+            return redirect()->route('user.profile')->with('error', 'User not found.');
+        }
+    
+        // Prepare the profile picture path
+        $profilePicture = $user->picture; // Adjust according to your User model's picture attribute
+    
+        // Return the edit profile view with the user data and profile picture
+        return view('user.edit_profile', compact('user', 'profilePicture'));
+    }
+    
+    public function updateProfile(Request $request)
 {
-    return view('user.user_home'); // Ensure this matches your view structure
+    // Validate request data
+    $request->validate([
+        'full_name' => 'nullable|string|max:255',
+        'current_address' => 'nullable|string|max:255',
+        'phone_number' => 'nullable|string|max:15',
+        'email' => 'nullable|email|max:255',
+        'password' => 'nullable|string|min:6|confirmed',
+        'picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
+
+    // Get the authenticated user
+    $user = Auth::user();
+
+    // Check if the user is a valid instance of User model
+    if (!$user instanceof User) {
+        return redirect()->route('user.profile')->with('error', 'User not found.');
+    }
+
+    // Prepare an array of attributes to update
+    $data = $request->only(['full_name', 'current_address', 'phone_number', 'email']);
+
+    // Handle password if provided
+    if ($request->filled('password')) {
+        $data['password'] = Hash::make($request->input('password'));
+    }
+
+    // Handle picture upload if present
+    if ($request->hasFile('picture')) {
+        $data['picture'] = $request->file('picture')->store('profile_pictures', 'public');
+    }
+
+    // Debugging: Check the data array
+    // dd($data); // Uncomment this to see the values being saved
+
+    // Update the user attributes
+    foreach ($data as $key => $value) {
+        if ($value !== null) { // Only update fields that are provided
+            $user->$key = $value;
+        }
+    }
+
+    // Save the updated user instance
+    $user->save(); // Ensure $user is a valid User instance here
+
+    return redirect()->route('user.profile')->with('success', 'Profile updated successfully.');
 }
 
-
+    
+    
     // Method to display the properties page
     public function properties()
     {
@@ -114,6 +202,16 @@ public function login(Request $request)
 
     // If unsuccessful, redirect back with an error message
     return back()->with('error', 'Invalid credentials. Please try again.');
+}
+
+
+public function logout(Request $request)
+{
+    Auth::logout();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+
+    return redirect('/login')->with('success', 'You have been logged out.');
 }
 
 }  
