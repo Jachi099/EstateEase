@@ -1,0 +1,199 @@
+/* screen - homepageu95loggedu95in */
+
+.homepageu95loggedu95in  {
+  align-items: center;
+  background-color: var(--white);
+  display: flex;
+  flex-direction: column;
+  width: 100%;  
+  height: 100%;
+  /* Use 100% to prevent horizontal scroll issues */
+  min-height: 100vh; 
+  overflow-y: auto;   /* Allows vertical scrolling */
+  overflow-x: hidden; /* Prevents horizontal scrolling */
+}
+
+.homepageu95loggedu95in  .navbar-link-estate-ease_logo {
+  letter-spacing: 0;
+  line-height: normal;
+  min-height: 22px;
+  min-width: 102px;
+}
+
+.homepageu95loggedu95in .navbar-link-place {
+  cursor: pointer;
+  letter-spacing: 0;
+  line-height: normal;
+  margin-left: 327px;
+  margin-top: 1px;
+  min-height: 20px;
+  min-width: 50px;
+}
+
+.homepageu95loggedu95in .navbar-link-about {
+  cursor: pointer;
+  letter-spacing: 0;
+  line-height: normal;
+  margin-left: 95px;
+  margin-top: 1px;
+  min-height: 20px;
+  min-width: 50px;
+}
+
+.homepageu95loggedu95in .navbar-link-properties {
+  cursor: pointer;
+  letter-spacing: 0;
+  line-height: normal;
+  margin-left: 95px;
+  margin-top: 1px;
+  min-height: 20px;
+  min-width: 83px;
+}
+
+.homepageu95loggedu95in  .navbar-link-services {
+  cursor: pointer;
+  letter-spacing: 0;
+  line-height: normal;
+  margin-left: 95px;
+  margin-top: 1px;
+  min-height: 20px;
+  min-width: 66px;
+}
+
+.homepageu95loggedu95in .overlap-group {
+  height: 988px;
+  position: relative;
+  width: 1440px;
+}
+
+.homepageu95loggedu95in .all-room-header-1 {
+  height: 300px;
+  left: 2px;
+  position: absolute;
+  top: 0;
+  width: 1438px;
+}
+.profile-picture {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%; /* For a circular profile image */
+  object-fit: cover;
+}
+
+
+.homepageu95loggedu95in .head_pic {
+  align-self: flex-start;
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--beaver);
+  border-radius: 38.5px/36.5px;
+  cursor: pointer;
+  height: 73px;
+  margin-left: 170px;
+  margin-top: -25px; /* Adjust this value as needed */
+  width: 73px;
+}
+.head_pic img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block; /* Removes potential whitespace */
+}
+
+.homepageu95loggedu95in .overlap-group2 {
+  height: 988px;
+  position: relative;
+  width: 1440px;
+}
+
+.homepageu95loggedu95in .all-room-header-1 {
+  height: 300px;
+  left: 2px;
+  position: absolute;
+  top: 0;
+  width: 1438px;
+}
+
+.homepageu95loggedu95in .div_pic {
+  background-color: var(--black-2);
+  height: 301px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 1440px;
+}
+
+.homepageu95loggedu95in .manage-your-properties-with-ease {
+  color: var(--white);
+  font-family: var(--font-family-montserrat);
+  font-size: var(--font-size-l);
+  font-weight: 400;
+  left: 584px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-shadow: 0px 4px 4px #00000040;
+  top: 173px;
+}
+
+.homepageu95loggedu95in .title {
+  color: var(--mongoose);
+  font-family: var(--font-family-lexend_zetta);
+  font-size: 40px;
+  font-weight: 700;
+  left: 541px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-shadow: 0px 4px 4px #00000040;
+  top: 105px;
+}
+
+.homepageu95loggedu95in .overlap-group {
+  align-items: center;
+  background-color: var(--eerie-black);
+  display: flex;
+  flex-direction: column;
+  min-height: 684px;
+  padding: 47px 99px;
+  width: 1440px;
+}
+
+.homepageu95loggedu95in .services {
+  letter-spacing: 0;
+  line-height: normal;
+  margin-left: 22.0px;
+  min-height: 38px;
+  text-shadow: 0px 4px 4px #00000040;
+  width: 240px;
+}
+
+.homepageu95loggedu95in .overlap-group-container {
+  align-items: flex-start;
+  align-self: flex-end;
+  display: flex;
+  gap: 11px;
+  height: 376px;
+  margin-top: 74px;
+  min-width: 1241px;
+}
+
+.homepageu95loggedu95in .overlap-group3 {
+  align-items: center;
+  background-color: var(--white);
+  border: 3px solid;
+  border-color: var(--beaver);
+  box-shadow: 4px 4px 4px #c09a7f;
+  display: flex;
+  flex-direction: column;
+  min-height: 376px;
+  padding: 59px 38px;
+  width: 302px;
+}
+
+.homepageu95loggedu95in .navbar-link {
+  letter-spacing: 0;
+  line-height: normal;
+  min-height: 20px;
+}

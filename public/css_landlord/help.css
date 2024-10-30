@@ -1,0 +1,221 @@
+/* screen - help */
+
+.help {
+  align-items: flex-start;
+  background-color: var(--white);
+  display: flex;
+  width: 1440px;
+}
+
+.help .overlap-group-container {
+  height: 731px;
+  position: relative;
+  width: 1440px;
+}
+
+.help .overlap-group1 {
+  height: 731px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 1440px;
+}
+
+.help .profile_btn {
+  background-color: var(--black);
+  border: 2px solid;
+  cursor: pointer;
+  height: 74px;
+  left: 0;
+  position: absolute;
+  top: 235px;
+  width: 214px;
+}
+
+.help .visit_btn {
+  background-color: var(--black);
+  border: 2px solid;
+  cursor: pointer;
+  height: 74px;
+  left: 0;
+  position: absolute;
+  top: 310px;
+  width: 214px;
+}
+
+.help .help_btn {
+  background-color: var(--eerie-black);
+  border: 2px solid;
+  border-color: var(--black);
+  height: 74px;
+  left: 0;
+  position: absolute;
+  top: 384px;
+  width: 214px;
+}
+
+.help .visit-requested-properties {
+  cursor: pointer;
+  left: 20px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 326px;
+  width: 178px;
+}
+
+.help .help-center {
+  left: 49px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 410px;
+}
+
+.help .profile {
+  cursor: pointer;
+  left: 73px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 261px;
+}
+
+.help .services {
+  cursor: pointer;
+  left: 993px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 33px;
+}
+
+.help .estate-ease_logo {
+  left: 96px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 32px;
+}
+
+.help .head_pic {
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--beaver);
+  border-radius: 38.5px/36.5px;
+  height: 73px;
+  left: 1332px;
+  position: absolute;
+  top: 7px;
+  width: 77px;
+}
+
+.help .overlap-group {
+  align-items: center;
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--beaver);
+  display: flex;
+  flex-direction: column;
+  gap: 31px;
+  left: 214px;
+  min-height: 644px;
+  position: absolute;
+  top: 87px;
+  width: 1226px;
+}
+
+.help .estate-ease_logo-2 {
+  margin-right: 26.0px;
+  margin-top: 26px;
+  min-height: 31px;
+  width: 264px;
+}
+
+.help .overlap-group-container-1 {
+  align-items: flex-start;
+  display: flex;
+  height: 556px;
+  min-width: 1226px;
+}
+
+.help .overlap-group3 {
+  align-items: flex-start;
+  background-color: var(--white);
+  border: 3px solid;
+  border-color: var(--beaver);
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  min-height: 556px;
+  padding: 18px 29px;
+  width: 601px;
+}
+
+.help .estate-ease_logo-3 {
+  color: var(--beaver);
+  font-family: var(--font-family-lexend_zetta);
+  font-size: var(--font-size-xl);
+  font-weight: 500;
+  min-height: 25px;
+  width: 80px;
+}
+
+.help .faq {
+  background-color: var(--white);
+  border: 2px solid;
+  border-color: var(--black);
+  height: 457px;
+  margin-left: 4px;
+  width: 527px;
+}
+
+.help .overlap-group2 {
+  align-items: flex-start;
+  background-color: var(--white);
+  border: 3px solid;
+  border-color: var(--beaver);
+  display: flex;
+  flex-direction: column;
+  min-height: 556px;
+  padding: 21px 39px;
+  width: 625px;
+}
+
+.help .need-assistance-write-below {
+  letter-spacing: 0;
+  line-height: normal;
+  min-height: 20px;
+}
+
+.help .assist {
+  background-color: var(--white);
+  border: 2px solid;
+  border-color: var(--beaver);
+  border-radius: 5px;
+  height: 223px;
+  margin-left: 1px;
+  margin-top: 2px;
+  width: 522px;
+}
+
+.help .overlap-group4 {
+  align-items: flex-start;
+  background-color: var(--mongoose);
+  border-radius: 10px;
+  box-shadow: 0px 4px 4px #00000040;
+  display: flex;
+  height: 48px;
+  margin-left: 6px;
+  margin-top: 35px;
+  min-width: 522px;
+  padding: 13px 222px;
+}
+
+.help .submit {
+  letter-spacing: 0;
+  line-height: normal;
+  min-height: 20px;
+  width: 78px;
+}

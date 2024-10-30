@@ -1,0 +1,217 @@
+/* screen - visitu95property */
+
+.visitu95property {
+  align-items: flex-start;
+  background-color: var(--white);
+  display: flex;
+  width: 1440px;
+}
+
+.visitu95property .overlap-group-container {
+  height: 731px;
+  position: relative;
+  width: 1440px;
+}
+
+.visitu95property .overlap-group {
+  height: 731px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 1440px;
+}
+
+.visitu95property .profile_btn {
+  background-color: var(--black);
+  border: 2px solid;
+  cursor: pointer;
+  height: 74px;
+  left: 0;
+  position: absolute;
+  top: 235px;
+  width: 214px;
+}
+
+.visitu95property .visit_btn {
+  background-color: var(--eerie-black);
+  border: 2px solid;
+  border-color: var(--black);
+  height: 74px;
+  left: 0;
+  position: absolute;
+  top: 310px;
+  width: 214px;
+}
+
+.visitu95property .help_btn {
+  background-color: var(--black);
+  border: 2px solid;
+  cursor: pointer;
+  height: 74px;
+  left: 0;
+  position: absolute;
+  top: 384px;
+  width: 214px;
+}
+
+.visitu95property .visit-requested-properties {
+  left: 20px;
+  text-align: center;
+  top: 326px;
+  width: 178px;
+}
+
+.visitu95property .help-center {
+  cursor: pointer;
+  left: 49px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 410px;
+}
+
+.visitu95property .profile {
+  cursor: pointer;
+  left: 73px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 261px;
+}
+
+.visitu95property .services {
+  cursor: pointer;
+  left: 993px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 33px;
+}
+
+.visitu95property .estate-ease_logo {
+  left: 96px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 32px;
+}
+
+.visitu95property .head_pic {
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--beaver);
+  border-radius: 38.5px/36.5px;
+  height: 73px;
+  left: 1332px;
+  position: absolute;
+  top: 7px;
+  width: 77px;
+}
+
+.visitu95property .overlap-group1 {
+  align-items: flex-start;
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--beaver);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  left: 214px;
+  min-height: 644px;
+  padding: 29px 70px;
+  position: absolute;
+  top: 87px;
+  width: 1226px;
+}
+
+.visitu95property .flex-row {
+  align-items: flex-end;
+  display: flex;
+  height: 91px;
+  margin-top: 6px;
+  min-width: 1048px;
+}
+
+.visitu95property .estate-ease_logo-2 {
+  align-self: flex-start;
+  min-height: 62px;
+  width: 623px;
+}
+
+.visitu95property .sort-by {
+  letter-spacing: 0;
+  line-height: normal;
+  margin-bottom: 8px;
+  margin-left: 103px;
+  min-height: 20px;
+  min-width: 71px;
+}
+
+.visitu95property .sort {
+  background-color: var(--white);
+  border: 2px solid;
+  border-color: var(--beaver);
+  height: 35px;
+  margin-left: 9px;
+  width: 242px;
+}
+
+.visitu95property .overlap-group2 {
+  background-color: var(--white);
+  border: 2px solid;
+  border-color: var(--black);
+  height: 473px;
+  margin-left: 3px;
+  position: relative;
+  width: 1045px;
+}
+
+.visitu95property .visit-requested-date {
+  left: 161px;
+  top: 88px;
+}
+
+.visitu95property .pro_pic {
+  background-color: var(--white);
+  border: 2px solid;
+  border-color: var(--beaver);
+  height: 148px;
+  left: 26px;
+  position: absolute;
+  top: 26px;
+  width: 128px;
+}
+
+.visitu95property .pro_add {
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--cloud);
+  height: 37px;
+  left: 163px;
+  position: absolute;
+  top: 45px;
+  width: 153px;
+}
+
+.visitu95property .pro_detail_btn {
+  background-color: var(--mongoose);
+  border-radius: 10px;
+  box-shadow: 0px 4px 4px #00000040;
+  cursor: pointer;
+  height: 21px;
+  left: 163px;
+  position: absolute;
+  top: 145px;
+  width: 153px;
+}
+
+.visitu95property .estate-ease_logo-3 {
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.visitu95property .visit-requested {
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+}
