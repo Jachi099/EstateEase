@@ -48,4 +48,10 @@ if (Auth::guard('admin')->attempt($credentials)) {
         Auth::logout();
         return redirect()->route('admin.login');
     }
+
+    public function propertyList()
+{
+    return view('admin.property_list'); // Adjust path if needed
+}
+
 }

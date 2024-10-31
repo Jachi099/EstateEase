@@ -30,8 +30,12 @@
 </form>
 
             <div class="profile_btn"></div>
-            <a href="visitu95property.html"> <div class="visit_btn"><div class="visit-requested-properties">VISIT REQUESTED PROPERTIES</div></div></a
-            ><a href="help.html"> <div class="help_btn"> <div class="help-center">HELP CENTER</div></div></a
+            <a href="{{ route('user.visit.requested.properties') }}">
+                <div class="visit_btn">
+                    <div class="visit-requested-properties">VISIT REQUESTED PROPERTIES</div>
+                </div>
+            </a>
+            <a href="help.html"> <div class="help_btn"> <div class="help-center">HELP CENTER</div></div></a
             >
         
    

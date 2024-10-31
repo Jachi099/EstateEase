@@ -81,7 +81,8 @@
 }
 
 
-.homepageu95loggedu95in .head_pic {
+
+.homepageu95loggedu95in  .head_pic {
   align-self: flex-start;
   background-color: var(--white);
   border: 1px solid;
@@ -100,6 +101,7 @@
   object-fit: cover;
   display: block; /* Removes potential whitespace */
 }
+
 
 .homepageu95loggedu95in .overlap-group2 {
   height: 988px;

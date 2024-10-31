@@ -8,8 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth; // Import Auth facade
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Log;
-
-
+use App\Models\Property;
 
 class UserController extends Controller
 {
@@ -20,6 +19,20 @@ class UserController extends Controller
         return view('user.home'); // Updated to match the new view file name
     }
 
+ public function visitRequestedProperties()
+ {
+     // Get the authenticated user
+     $user = Auth::user();
+ 
+     // Prepare the data to pass to the view
+     $profilePicture = $user->picture; // Adjust this according to your user model's attribute
+ 
+     // You can also fetch other properties as needed
+     // $requestedProperties = ...; // Logic to get requested properties
+ 
+     return view('user.visit_requested_list', compact('profilePicture')); // Pass the profile picture to the view
+ }
+ 
     public function userHome()
     {
         $user = Auth::user(); // Retrieve the authenticated user
@@ -111,7 +124,22 @@ class UserController extends Controller
     return redirect()->route('user.profile')->with('success', 'Profile updated successfully.');
 }
 
-    
+public function showProperties()
+{
+    // Retrieve properties with the necessary details
+    $properties = Property::select(
+            'property_ID', 'status', 'img1', 'num_of_rooms', 'num_of_bathrooms',
+            'floor', 'city', 'state', 'rent', 'available_from'
+        )
+        ->get();
+
+    // Get the authenticated user's profile picture
+    $user = Auth::user();
+    $profilePicture = $user->picture;
+
+    return view('user.property_list', compact('properties', 'profilePicture'));
+}
+
     
     // Method to display the properties page
     public function properties()
@@ -213,5 +241,9 @@ public function logout(Request $request)
 
     return redirect('/login')->with('success', 'You have been logged out.');
 }
+
+
+
+
 
 }  
