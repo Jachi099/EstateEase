@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LandlordController;
-
+use App\Http\Controllers\PropertyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -79,3 +79,12 @@ Route::middleware(['auth:landlord'])->group(function () {
     Route::get('landlord/properties', [LandlordController::class, 'properties'])->name('landlord.properties');
     Route::post('landlord/logout', [LandlordController::class, 'logout'])->name('landlord.logout');
 });
+
+
+/*
+|--------------------------------------------------------------------------
+| Property Routes
+|--------------------------------------------------------------------------
+*/
+
+Route::resource('properties', PropertyController::class);

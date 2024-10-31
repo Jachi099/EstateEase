@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 30, 2024 at 03:06 PM
+-- Generation Time: Oct 31, 2024 at 04:53 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -55,10 +55,10 @@ CREATE TABLE `feedback` (
 --
 
 CREATE TABLE `landlord` (
-  `Landlord_ID` int(11) NOT NULL,
-  `Name` varchar(100) DEFAULT NULL,
-  `Email` varchar(100) DEFAULT NULL,
-  `Phone` varchar(15) DEFAULT NULL,
+  `landlord_id` int(11) NOT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `phone` varchar(15) DEFAULT NULL,
   `password` varchar(100) NOT NULL,
   `picture` mediumblob NOT NULL,
   `account_type` varchar(30) NOT NULL
@@ -93,18 +93,17 @@ CREATE TABLE `property` (
   `city` varchar(100) DEFAULT NULL,
   `state` varchar(100) DEFAULT NULL,
   `country` varchar(100) DEFAULT NULL,
-  `Type` varchar(50) DEFAULT NULL,
-  `Size` decimal(10,2) DEFAULT NULL,
-  `Amenities` text DEFAULT NULL,
-  `Num_of_rooms` int(11) DEFAULT NULL,
-  `Rent` decimal(15,2) DEFAULT NULL,
+  `type` varchar(50) DEFAULT NULL,
+  `size` decimal(10,2) DEFAULT NULL,
+  `amenities` text DEFAULT NULL,
+  `num_of_rooms` int(11) DEFAULT NULL,
+  `num_of_bathrooms` int(11) NOT NULL,
+  `rent` decimal(15,2) DEFAULT NULL,
   `img1` mediumblob NOT NULL,
   `img2` mediumblob NOT NULL,
   `img3` mediumblob NOT NULL,
-  `img4` mediumblob NOT NULL,
-  `img5` mediumblob NOT NULL,
-  `Status` varchar(50) DEFAULT NULL,
-  `Landlord_ID` int(11) DEFAULT NULL
+  `status` varchar(50) DEFAULT NULL,
+  `landlord_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -212,7 +211,7 @@ ALTER TABLE `feedback`
 -- Indexes for table `landlord`
 --
 ALTER TABLE `landlord`
-  ADD PRIMARY KEY (`Landlord_ID`);
+  ADD PRIMARY KEY (`landlord_id`);
 
 --
 -- Indexes for table `payment`
@@ -226,7 +225,7 @@ ALTER TABLE `payment`
 --
 ALTER TABLE `property`
   ADD PRIMARY KEY (`property_ID`),
-  ADD KEY `Landlord_ID` (`Landlord_ID`);
+  ADD KEY `Landlord_ID` (`landlord_id`);
 
 --
 -- Indexes for table `service`
@@ -291,7 +290,7 @@ ALTER TABLE `feedback`
 -- AUTO_INCREMENT for table `landlord`
 --
 ALTER TABLE `landlord`
-  MODIFY `Landlord_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `landlord_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `payment`
