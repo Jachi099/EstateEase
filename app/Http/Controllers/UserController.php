@@ -139,6 +139,30 @@ public function showProperties()
 
     return view('user.property_list', compact('properties', 'profilePicture'));
 }
+public function filterProperties(Request $request)
+{
+    $location = $request->input('location');
+    $rentRange = $request->input('rent_range');  // Format: "min-max"
+
+    $query = Property::query();
+
+    if ($location) {
+        $query->where('city', 'LIKE', "%{$location}%");
+    }
+
+    if ($rentRange) {
+        [$minRent, $maxRent] = explode('-', $rentRange);
+        $query->whereBetween('rent', [(float)$minRent, (float)$maxRent]);
+    }
+
+    $properties = $query->get();
+
+    $user = Auth::user();
+    $profilePicture = $user->picture;
+
+    return view('user.property_list', compact('properties', 'profilePicture'));
+}
+
 
     
     // Method to display the properties page

@@ -42,6 +42,8 @@ Route::get('/landlord/profile', [UserController::class, 'landlordProfile'])->nam
     Route::get('/service', [UserController::class, 'service'])->name('user.service');
     Route::get('/user/profile', [UserController::class, 'profile'])->name('user.profile');
     Route::get('/user/properties', [UserController::class, 'showProperties'])->name('user.properties_list');
+    Route::get('/properties/filter', [UserController::class, 'filterProperties'])->name('properties.filter');
+
 
 
 

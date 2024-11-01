@@ -324,17 +324,6 @@
 }
 
 
-.propertyu95listu95foru95visitor .status {
-  background-color: var(--white);
-  border: 1px solid;
-  border-color: var(--mongoose);
-  border-radius: 20px 20px 0px 0px;
-  height: 16px;
-  left: 42px;
-  top: 45px;
-  transform: rotate(-28.10deg);
-  width: 78px;
-}
 
 .propertyu95listu95foru95visitor .bedroom {
   left: 51px;
@@ -355,17 +344,25 @@
   cursor: pointer;
 
 }
+.propertyu95listu95foru95visitor .status {
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--mongoose);
+  border-radius: 20px 20px 0px 0px;
+  height: 16px;
+  transform: rotate(-28.10deg);
+  width: 78px;
+}
 
 .propertyu95listu95foru95visitor .update_btn-1 {
   background-color: var(--white);
   border: 1px solid;
   border-color: var(--beaver);
   cursor: pointer;
-  left: 76px;
-  top: 366px;
   display: inline-flex; /* Change to inline-flex for centering */
   align-items: center; /* Center vertically */
-  justify-content: center; /* Center horizontally */
+  justify-content: center; 
+  margin-top: 70px;/* Center horizontally */
 }
 .propertyu95listu95foru95visitor .floor {
   left: 180px;
