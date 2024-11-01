@@ -21,12 +21,15 @@
           <div class="estate-ease estate lexendzetta-black-mongoose-20px">EstateEase</div>
           <div class="overlap-group10"><div class="dashboard montserrat-extra-bold-beaver-20px">Dashboard</div></div>
           <div class="overlap-group8"><div class="profile montserrat-extra-bold-mongoose-20px">Profile</div></div>
-          <div class="x-container">
-            <a href="propertyu95listu95admin.html"> <div class="link"></div></a>
-            <div class="property montserrat-extra-bold-mongoose-20px">Property</div>
+          <div class="x-container1">
+          <a href="{{ route('admin.property_list') }}"> <div class="link"> <div class="property">Property</div></div></a>
+          
           </div>
+
+
+
           <div class="overlap-group14"><div class="landlord montserrat-extra-bold-mongoose-20px">Landlord</div></div>
-          <div class="x-container">
+          <div class="x-container2">
             <a href="visitor.html"> <div class="link"></div></a>
             <div class="tenant-visitor montserrat-extra-bold-mongoose-20px">Tenant &amp; Visitor</div>
           </div>

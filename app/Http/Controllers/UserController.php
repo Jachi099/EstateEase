@@ -10,7 +10,6 @@ use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Log;
 
 
-
 class UserController extends Controller
 {
     // Method to display the user homepage
@@ -20,6 +19,20 @@ class UserController extends Controller
         return view('user.home'); // Updated to match the new view file name
     }
 
+ public function visitRequestedProperties()
+ {
+     // Get the authenticated user
+     $user = Auth::user();
+ 
+     // Prepare the data to pass to the view
+     $profilePicture = $user->picture; // Adjust this according to your user model's attribute
+ 
+     // You can also fetch other properties as needed
+     // $requestedProperties = ...; // Logic to get requested properties
+ 
+     return view('user.visit_requested_list', compact('profilePicture')); // Pass the profile picture to the view
+ }
+ 
     public function userHome()
     {
         $user = Auth::user(); // Retrieve the authenticated user
@@ -111,7 +124,7 @@ class UserController extends Controller
     return redirect()->route('user.profile')->with('success', 'Profile updated successfully.');
 }
 
-    
+
     
     // Method to display the properties page
     public function properties()
@@ -213,5 +226,9 @@ public function logout(Request $request)
 
     return redirect('/login')->with('success', 'You have been logged out.');
 }
+
+
+
+
 
 }  

@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 28, 2024 at 04:35 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.0.28
+-- Generation Time: Nov 01, 2024 at 05:15 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -56,6 +56,30 @@ CREATE TABLE `failed_jobs` (
   `exception` longtext NOT NULL,
   `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `landlord`
+--
+
+CREATE TABLE `landlord` (
+  `landlord_id` int(11) NOT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `phone` varchar(15) DEFAULT NULL,
+  `password` varchar(100) NOT NULL,
+  `picture` mediumblob NOT NULL,
+  `account_type` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `landlord`
+--
+
+INSERT INTO `landlord` (`landlord_id`, `name`, `email`, `phone`, `password`, `picture`, `account_type`) VALUES
+(1, 'John Doe', 'johndoe@example.com', '1234567890', 'hashed_password1', '', 'landlord'),
+(2, 'Jane Smith', 'janesmith@example.com', '0987654321', 'hashed_password2', '', 'landlord');
 
 -- --------------------------------------------------------
 
@@ -114,6 +138,41 @@ CREATE TABLE `personal_access_tokens` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `property`
+--
+
+CREATE TABLE `property` (
+  `property_ID` int(11) NOT NULL,
+  `st_no` int(11) DEFAULT NULL,
+  `city` varchar(100) DEFAULT NULL,
+  `state` varchar(100) DEFAULT NULL,
+  `country` varchar(100) DEFAULT NULL,
+  `type` varchar(50) DEFAULT NULL,
+  `size` decimal(10,2) DEFAULT NULL,
+  `amenities` text DEFAULT NULL,
+  `num_of_rooms` int(11) DEFAULT NULL,
+  `num_of_bathrooms` int(11) NOT NULL,
+  `rent` decimal(15,2) DEFAULT NULL,
+  `img1` varchar(255) DEFAULT NULL,
+  `img2` varchar(255) DEFAULT NULL,
+  `img3` varchar(255) DEFAULT NULL,
+  `status` varchar(50) DEFAULT NULL,
+  `landlord_id` int(11) DEFAULT NULL,
+  `floor` int(11) DEFAULT NULL,
+  `available_from` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `property`
+--
+
+INSERT INTO `property` (`property_ID`, `st_no`, `city`, `state`, `country`, `type`, `size`, `amenities`, `num_of_rooms`, `num_of_bathrooms`, `rent`, `img1`, `img2`, `img3`, `status`, `landlord_id`, `floor`, `available_from`) VALUES
+(1, 123, 'New York', 'NY', 'USA', 'Apartment', 1200.50, 'Pool, Gym, Parking', 3, 2, 2500.00, '', '', '', 'available', 1, 5, '2024-11-01'),
+(2, 456, 'Los Angeles', 'CA', 'USA', 'Condo', 850.00, 'Gym, Laundry, Balcony', 2, 1, 1800.00, '', '', '', 'rented', 2, 3, '2024-12-15');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
@@ -135,7 +194,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `full_name`, `current_address`, `phone_number`, `account_type`, `email`, `password`, `picture`, `created_at`, `updated_at`) VALUES
-(1, 'John Doe', '123 Main Street, Springfield', '1234567890', 'visitor', 'johndoe@example.com', '$2y$10$VrRkODn4idr/2JtmDTrfTu6e8CuSUM6vFkqFAiqyzezZaj1U24E0m', 'profile_pictures/ZytDuA20gD7vh4tvjjEHSz6YS0DKnuroCMBdxRoe.png', '2024-10-28 09:09:50', '2024-10-28 09:09:50');
+(1, 'John Daniel', '123 Main Street, Springfield', '1234567890', 'visitor', 'johndoe@example.com', '$2y$10$VrRkODn4idr/2JtmDTrfTu6e8CuSUM6vFkqFAiqyzezZaj1U24E0m', 'profile_pictures/iQU79Mmsj4rOutcSyvEcA7yuzwfoBAzKNpILlAgJ.jpg', '2024-10-28 03:09:50', '2024-10-29 23:37:24'),
+(2, 'jachi sangma', 'kalachandpur,dhaka', '01785546431', 'visitor', 'jsangma09@gmail.com', '$2y$10$9D4KnlIIEGlDC9yET3.62uINHPGcEZoxmpRUt3wYF7iVdsjw5JPM2', 'profile_pictures/G1v8WmspvVQpbYYMmHJhphGbE9XZhh98ND3aV9RF.jpg', '2024-10-28 04:15:21', '2024-10-30 00:47:11');
 
 --
 -- Indexes for dumped tables
@@ -157,6 +217,12 @@ ALTER TABLE `failed_jobs`
   ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
 
 --
+-- Indexes for table `landlord`
+--
+ALTER TABLE `landlord`
+  ADD PRIMARY KEY (`landlord_id`);
+
+--
 -- Indexes for table `migrations`
 --
 ALTER TABLE `migrations`
@@ -175,6 +241,13 @@ ALTER TABLE `personal_access_tokens`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `personal_access_tokens_token_unique` (`token`),
   ADD KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`);
+
+--
+-- Indexes for table `property`
+--
+ALTER TABLE `property`
+  ADD PRIMARY KEY (`property_ID`),
+  ADD KEY `Landlord_ID` (`landlord_id`);
 
 --
 -- Indexes for table `users`
@@ -200,6 +273,12 @@ ALTER TABLE `failed_jobs`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `landlord`
+--
+ALTER TABLE `landlord`
+  MODIFY `landlord_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
@@ -212,10 +291,26 @@ ALTER TABLE `personal_access_tokens`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `property`
+--
+ALTER TABLE `property`
+  MODIFY `property_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `property`
+--
+ALTER TABLE `property`
+  ADD CONSTRAINT `property_ibfk_1` FOREIGN KEY (`landlord_id`) REFERENCES `landlord` (`landlord_id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -5,8 +5,10 @@
   background-color: var(--white);
   display: flex;
   gap: 48px;
-  height: 1024px;
-  width: 1440px;
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;   /* Allows vertical scrolling */
+  overflow-x: hidden; /* Prevents horizontal scrolling */
 }
 
 .propertyu95listu95admin .overlap-group1 {

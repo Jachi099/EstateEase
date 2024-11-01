@@ -9,6 +9,10 @@ class Property extends Model
 {
     use HasFactory;
 
+
+    protected $table = 'property';
+    protected $primaryKey = 'property_ID';
+
     /**
      * The attributes that are mass assignable.
      *
