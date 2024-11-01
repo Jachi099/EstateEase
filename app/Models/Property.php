@@ -10,27 +10,12 @@ class Property extends Model
     use HasFactory;
 
     protected $table = 'property';
-
     protected $primaryKey = 'property_ID';
 
-    // In App\Models\Property.php
-protected $fillable = [ 
-    'st_no', 'city', 'state', 'country', 'type', 'size',
-    'amenities', 'num_of_rooms', 'num_of_bathrooms', 'rent',
-    'img1', 'img2', 'img3', 'status', 'landlord_id', 'floor', 'available_from'
-];
-
-protected $attributes = [
-    'status' => 'available',
-];
-
-protected static function boot()
-{
-    parent::boot();
-
-    static::creating(function ($property) {
-        $property->available_from = now();
-    });
-}
+    protected $fillable = [ 
+        'st_no', 'city', 'state', 'country', 'type', 'size',
+        'amenities', 'num_of_rooms', 'num_of_bathrooms', 'rent',
+        'img1', 'img2', 'img3', 'status', 'landlord_id', 'floor', 'available_from'
+    ];
 
 }
