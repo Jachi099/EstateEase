@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth; // Import Auth facade
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Log;
-use App\Models\Property;
+
 
 class UserController extends Controller
 {
@@ -122,45 +122,6 @@ class UserController extends Controller
     $user->save(); // Ensure $user is a valid User instance here
 
     return redirect()->route('user.profile')->with('success', 'Profile updated successfully.');
-}
-
-public function showProperties()
-{
-    // Retrieve properties with the necessary details
-    $properties = Property::select(
-            'property_ID', 'status', 'img1', 'num_of_rooms', 'num_of_bathrooms',
-            'floor', 'city', 'state', 'rent', 'available_from'
-        )
-        ->get();
-
-    // Get the authenticated user's profile picture
-    $user = Auth::user();
-    $profilePicture = $user->picture;
-
-    return view('user.property_list', compact('properties', 'profilePicture'));
-}
-public function filterProperties(Request $request)
-{
-    $location = $request->input('location');
-    $rentRange = $request->input('rent_range');  // Format: "min-max"
-
-    $query = Property::query();
-
-    if ($location) {
-        $query->where('city', 'LIKE', "%{$location}%");
-    }
-
-    if ($rentRange) {
-        [$minRent, $maxRent] = explode('-', $rentRange);
-        $query->whereBetween('rent', [(float)$minRent, (float)$maxRent]);
-    }
-
-    $properties = $query->get();
-
-    $user = Auth::user();
-    $profilePicture = $user->picture;
-
-    return view('user.property_list', compact('properties', 'profilePicture'));
 }
 
 

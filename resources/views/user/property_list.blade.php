@@ -97,9 +97,8 @@
                 <div class="rent rent-1 montserrat-normal-black-12px">RENT: {{ number_format($property->rent, 2) }}</div>
                 <div class="floor montserrat-normal-black-12px">FLOOR: {{ $property->floor }}</div>
                 <div class="available-from montserrat-normal-black-12px">AVAILABLE FROM: {{ \Carbon\Carbon::parse($property->available_from)->format('M d, Y') }}</div>
-                <div class="update_btn-1 update_btn-2">
-                    <div class="more-details">MORE DETAILS</div>
-                </div>
+               <a href="{{ route('property.details', ['id' => $property->property_ID]) }}" class="update_btn-1 update_btn-2">
+                <div class="more-details">MORE DETAILS</div></a> 
         </div>
     @endforeach
 </div>

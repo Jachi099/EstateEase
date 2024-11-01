@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\PropertyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,8 +42,12 @@ Route::get('/landlord/profile', [UserController::class, 'landlordProfile'])->nam
     Route::get('/properties', [UserController::class, 'properties'])->name('user.properties');
     Route::get('/service', [UserController::class, 'service'])->name('user.service');
     Route::get('/user/profile', [UserController::class, 'profile'])->name('user.profile');
-    Route::get('/user/properties', [UserController::class, 'showProperties'])->name('user.properties_list');
-    Route::get('/properties/filter', [UserController::class, 'filterProperties'])->name('properties.filter');
+   
+
+    // In routes/web.php
+ Route::get('/user/properties', [PropertyController::class, 'showProperties'])->name('user.properties_list');
+    Route::get('/properties/filter', [PropertyController::class, 'filterProperties'])->name('properties.filter');
+Route::get('/property/details/{id}', [PropertyController::class, 'showPropertyDetails'])->name('property.details');
 
 
 
