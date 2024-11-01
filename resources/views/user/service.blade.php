@@ -22,7 +22,7 @@
           <a href="{{ route('public.home') }}"><div class="navbar-link-place montserrat-normal-black-16px">Home</div> </a
             ><a href="{{ route('public.home') }}"><div class="navbar-link-about montserrat-normal-black-16px">About</div> </a
             ><a href="propertyu95detailsu95guest.html#propertyu95listu95foru95guest" data-turbolinks="false"
-              ><div class="navbar-link-properties montserrat-normal-black-16px">Properties</div> </a
+              > <a href="{{ route('user.properties_list') }}"><div class="navbar-link-properties montserrat-normal-black-16px">Properties</div> </a
             > <a href="{{ route('user.service') }}"><div class="navbar-link-services montserrat-normal-black-16px">Services</div> </a
             ><a href="{{ route('user.signup') }}"><div class="navbar-link-sign-up montserrat-normal-black-16px">Sign Up</div> </a>
         </div>

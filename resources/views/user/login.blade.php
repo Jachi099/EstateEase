@@ -24,7 +24,7 @@
             ><a href="propertyu95detailsu95guest.html#propertyu95listu95foru95guest" data-turbolinks="false"
             ><div class="navbar-link-properties montserrat-normal-black-16px">Properties</div> </a
           > <a href="{{ route('user.service') }}"><div class="navbar-link-services montserrat-normal-black-16px">Services</div> </a
-          ><a href="{{ route('user.signup') }}"><div class="navbar-link-sign-up montserrat-normal-black-16px">Sign Up</div> </a>
+          >  <a href="{{ route('admin.login') }}"><div class="navbar-link-sign-up montserrat-normal-black-16px">ADMIN</div> </a>
         </div>
         <div class="overlap-group1">
           <img class="all-room-header-1" src="img/all-room-header-1-1.png" alt="All-Room-Header 1" />
