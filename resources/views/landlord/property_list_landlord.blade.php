@@ -30,6 +30,7 @@
 </form>
 
             <div class="profile_btn"></div>
+            
             <a href="{{ route('landlord.properties_list') }}">  <!-- Link to the property list page -->
     <div class="visit_btn">
         <div class="add-property">PROPERTY LIST</div>  <!-- Updated text -->
@@ -73,49 +74,25 @@
             </div>
             <div class="flex-row-1">
               <div class="flex-col-1 flex-col-4">
-                <div class="pic"> @if($profilePicture)
-                    <img src="{{ asset('storage/' . $profilePicture) }}" alt="User Profile Picture" style="width: 100%; height: 100%; ">
-                @else
-                    <img src="path/to/default/image.png" alt="Default Profile Picture" style="width: 100%; height: 100%; ">
-                @endif</div>
-                <div class="account-type">ACCOUNT TYPE</div>
-                <span class="font-bold">{{ $account_type }}  </span>            </div>
-              <div class="flex-col-2 flex-col-4">
-                <div class="name-container">
-                  <div class="full-name montserrat-medium-black-16px">FULL NAME :</div>
-                  <span class="font-bold">{{ $name }}</span>
+              <div class="container">
+        <a href="{{ route('landlord.add_property') }}">
+            <div class="add-property-btn">Add Property</div>
+        </a>
+
+        <h1>Your Properties</h1>
+        <div class="property-list">
+            @foreach ($properties as $property)
+                <div class="property-card">
+                    <img src="{{ asset('storage/' . $property->img1) }}" alt="Property Image" class="property-image">
+                    <h2>{{ $property->type }} - {{ $property->city }}</h2>
+                    <p>Rent: ${{ $property->rent }}</p>
+                    <p>Size: {{ $property->size }} sq ft</p>
+                    <p>{{ Str::limit($property->amenities, 100) }}</p>
+                    <a href="{{ route('landlord.property_details', $property->property_ID) }}">More Details</a> <!-- Adjust to your route -->
                 </div>
-                <div class="email-container">
-                  <div class="email montserrat-medium-black-16px">EMAIL :</div>
-                  <span class="font-bold"> {{ $email }}</span>
-                </div>
-                <div class="address-container">
-                  <div class="current-address montserrat-medium-black-16px">CURRENT ADDRESS :</div>
-                  <span class="font-bold">{{ $address }}   </span>             </div>
-                <div class="flex-row-2">
-                  <div class="phone-number montserrat-medium-black-16px">PHONE NUMBER :</div>
-                  <span class="font-bold">{{ $phone }}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="overlap-group">
-            <img class="arrow-left-circle" src="{{ asset('img/arrow-left-circle.svg') }}" alt="arrow-left-circle" />
-            <div class="flex-col-3 flex-col-4">
-              <p class="estate-ease_logo-3 estate-ease_logo-4">CURRENTLY VISIT REQUESTED PROPERTY LIST</p>
-              <div class="overlap-group3">
-                <div class="pro_card"></div>
-                <div class="visit_date"></div>
-                <div class="rented-date montserrat-normal-black-12px">RENTED DATE:</div>
-                <div class="property-address montserrat-normal-black-12px">PROPERTY ADDRESS:</div>
-                <div class="pro_pic"></div>
-                <div class="pro_add"></div>
-                <div class="pro_detail_btn"></div>
-                <div class="details">DETAILS</div>
-                <div class="status"></div>
-              </div>
-            </div>
-            <img class="arrow-right-circle" src="{{ asset('img/arrow-right-circle.svg') }}" alt="arrow-right-circle" />
+            @endforeach
+        </div>
+    </div>
         </div>
         </div>
       </div>
