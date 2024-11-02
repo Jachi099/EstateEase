@@ -349,6 +349,7 @@
   border-color: var(--black);
   height: 396px;
   width: 241px;
+  left: 20px;
   position: relative; /* Change from absolute to relative */
 }
 

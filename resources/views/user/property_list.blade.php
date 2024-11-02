@@ -55,57 +55,52 @@
           </div>
         </div>
         
-        <form action="{{ route('properties.filter') }}" method="GET">
+        <!-- Filter Form -->
+        <form action="{{ route('user.properties.filter') }}" method="GET">
+          <div class="flex-row-1">
+            <div class="location location-2 montserrat-medium-black-16px">LOCATION: </div>
+            <select name="location" id="location" class="sort-2">
+              <option value="">All Locations</option>
+              <option value="Bashundhara">Bashundhara</option>
+              <option value="Badda">Badda</option>
+              <option value="Nadda">Nadda</option>
+              <option value="Uttara">Uttara</option>
+              <option value="Mohammadpur">Mohammadpur</option>
+              <option value="Mohakhali">Mohakhali</option>
+            </select>
 
-        <div class="flex-row-1">
-          <div class="location location-2 montserrat-medium-black-16px">LOCATION:</div>
+            <div class="rent-range rent-1 montserrat-medium-black-16px">RENT RANGE: </div>
+            <select name="rent_range" id="rent_range" class="sort-3">
+              <option value="">Select Rent Range</option>
+              <option value="1000-5000" {{ request('rent_range') == '1000-5000' ? 'selected' : '' }}>Under Tk.5000</option>
+              <option value="5000-20000" {{ request('rent_range') == '5000-20000' ? 'selected' : '' }}>Tk.5000 - Tk.20000</option>
+              <option value="20000-30000" {{ request('rent_range') == '20000-30000' ? 'selected' : '' }}>Tk.20000 - Tk.30000</option>
+              <option value="30000-40000" {{ request('rent_range') == '30000-40000' ? 'selected' : '' }}>Tk.30000 - Tk.40000</option>
+              <option value="40000-100000" {{ request('rent_range') == '40000-100000' ? 'selected' : '' }}>Above Tk.40000</option>
+            </select>
 
-         <select name="location" id="location" class="sort-2">
-          <option value="">All Locations</option>
-          <!-- Add location options here -->
-          <option value="City1">Bashundhara</option>
-                    <option value="City2">Badda</option>
-                    <option value="City1">Nadda</option>
-                    <option value="City2">Uttara</option>
-                    <option value="City1">Mohammadpur</option>
-                    <option value="City2">Mohakhali</option>
-      </select>
-          <div class="rent-range rent-1 montserrat-medium-black-16px">RENT RANGE:</div>
-          <select name="rent_range" class="sort-3">
-            <option value="">Select Rent Range</option>
-            <option value="1000-5000" {{ request('rent_range') == '1000-5000' ? 'selected' : '' }}>Under Tk.5000</option>
-            <option value="5000-20000" {{ request('rent_range') == '5000-20000' ? 'selected' : '' }}>Tk.5000 - Tk.20000</option>
-            <option value="20000-30000" {{ request('rent_range') == '20000-30000' ? 'selected' : '' }}>Tk.20000 - Tk.30000</option>
-            <option value="30000-40000" {{ request('rent_range') == '30000-40000' ? 'selected' : '' }}>Tk.30000 - Tk.40000</option>
-            <option value="40000-100000" {{ request('rent_range') == '40000-100000' ? 'selected' : '' }}>Above Tk.40000</option>
-        </select>
-
-
-          <div class="overlap-group2">
-            <button type="submit" class="update_btn update_btn-2"><div class="filter">FILTER</div></button>
-        </div>
+            <button type="submit" class="update_btn update_btn-2">FILTER</button>
           </div>
         </form>
 
-
       <div class="overlap-group1">
-    @foreach($properties as $property)
-        <div class="rented_list_box">
 
+          @foreach($properties as $property)
+            <!-- <div class="rented_list_box"> </div> -->
+            <div class="property_card">
                 <img src="{{ asset('storage/' . $property->img1) }}" alt="Property Image" class="pro_pic">
-
-                            
-                <div class="status">{{ $property->status }}</div>
+                <div class="location-1 montserrat-normal-black-12px">LOCATION: {{ $property->city }}</div>
+                <div class="floor montserrat-normal-black-12px">FLOOR: {{ $property->floor }}</div>
+                <div class="rent-1 montserrat-normal-black-12px">RENT: {{ $property->rent }}</div>
+                <div class="available-from montserrat-normal-black-12px">AVAILABLE FROM: {{ $property->available_from }}</div>
                 <div class="bedroom montserrat-normal-black-12px">BEDROOM: {{ $property->num_of_rooms }}</div>
                 <div class="bathroom montserrat-normal-black-12px">BATHROOM: {{ $property->num_of_bathrooms }}</div>
-                <div class="location-1 location-2 montserrat-normal-black-12px">LOCATION: {{ $property->city }}, {{ $property->state }}</div>
-                <div class="rent rent-1 montserrat-normal-black-12px">RENT: {{ number_format($property->rent, 2) }}</div>
-                <div class="floor montserrat-normal-black-12px">FLOOR: {{ $property->floor }}</div>
-                <div class="available-from montserrat-normal-black-12px">AVAILABLE FROM: {{ \Carbon\Carbon::parse($property->available_from)->format('M d, Y') }}</div>
-               <a href="{{ route('property.details', ['id' => $property->property_ID]) }}" class="update_btn-1 update_btn-2">
-                <div class="more-details">MORE DETAILS</div></a> 
-        </div>
-    @endforeach
+                <a href="{{ route('property.details', ['id' => $property->property_ID]) }}" class="update_btn-1 update_btn-2">
+                    <div class="more-details">MORE DETAILS</div>
+                </a> 
+            </div>
+              
+          @endforeach
 </div>
 
     </div>

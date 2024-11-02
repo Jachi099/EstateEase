@@ -1,10 +1,11 @@
 /* screen - propertyu95listu95foru95visitor */
 
 .propertyu95listu95foru95visitor {
-  align-items: center;
+  align-items: flex-start;
   background-color: var(--white);
   display: flex;
   flex-direction: column;
+  gap: 48px;
   width: 100%;  
   height: 100%;
   /* Use 100% to prevent horizontal scroll issues */
@@ -99,9 +100,21 @@
 
 
 .propertyu95listu95foru95visitor .flex-row {
-  margin-left: 2.0px;
-  min-width: 1276px;
+  align-items: flex-end;
+  display: flex;
+  gap: 20px; /* Adjusted gap for better spacing */
+  margin-left: 2px;
+  min-width: 1134px;
+  flex-wrap: wrap; /* Allows elements to wrap if they exceed the width */
 }
+
+
+.propertyu95listu95admin select {
+  padding: 5px; /* Adds padding inside the dropdowns for better appearance */
+  margin-right: 100px; /* Adds spacing to the right of each dropdown */
+  font-size: 14px; /* Adjust size for readability */
+}
+
 
 .propertyu95listu95foru95visitor .estate-ease_logo {
   letter-spacing: 0;
@@ -138,9 +151,14 @@
 }
 
 .propertyu95listu95foru95visitor .location {
+  letter-spacing: 0;
+  line-height: normal;
   margin-bottom: 1.0px;
   min-height: 20px;
   min-width: 90px;
+  color: var(--black); /* Ensure text color is visible */
+  font-size: 16px; /* Adjust font size if needed */
+  margin-right: 20px;
 }
 
 .propertyu95listu95foru95visitor .sort-2 {
@@ -153,10 +171,16 @@
 }
 
 .propertyu95listu95foru95visitor .rent-range {
+  letter-spacing: 0;
+  line-height: normal;
   margin-bottom: 1.0px;
-  margin-left: 40px;
   min-height: 20px;
-  min-width: 117px;
+  min-width: 90px;
+  color: var(--black); /* Ensure text color is visible */
+  font-size: 16px; /* Adjust font size if needed */
+  margin-right: 20px;
+  /* margin-left: 500px; */
+  margin-top: 20px;
 }
 
 .propertyu95listu95foru95visitor .sort-3 {
@@ -196,19 +220,31 @@
   cursor: pointer;
 }
 
-
+/*
 .propertyu95listu95foru95visitor .overlap-group1 {
   background-color: var(--white);
   border: 3px solid var(--black);
   margin-right: 8px;
   margin-top: 36px;
-  padding: 10px;  /* Adds padding around the cards */
+  padding: 10px;  // Adds padding around the cards 
   width: 1334px;
   display: flex;
-  flex-wrap: wrap;  /* Allows cards to wrap to a new row */
-  gap: 15px;  /* Adds space between the cards */
+  flex-wrap: wrap;  //Allows cards to wrap to a new row 
+  gap: 15px;  //Adds space between the cards 
   box-sizing: border-box;
+  align-items: center;
+} */
+
+.propertyu95listu95foru95visitor .overlap-group1 {
+  align-items: center;
+  background-color: var(--black);
+  display: flex;
+  flex-direction: column;
+  min-height: 1024px;
+  padding: 80px 0;
+  width: 214px;
 }
+
 
 .propertyu95listu95foru95visitor .rented_list_box {
   background-color: var(--white);
@@ -224,13 +260,19 @@
 
 
 .propertyu95listu95foru95visitor .pro_card {
+  align-items: center;
   background-color: var(--white);
   border: 1px solid;
   border-color: var(--black);
   height: 195px;
   margin-top: 10px;  /* Add some space from the top */
   width: 223px;
+  left: 20px;
+  position: relative; /* Change from absolute to relative */
 }
+
+
+
 .propertyu95listu95foru95visitor .pro_pic {
   background-color: var(--white);
   border: 2px solid;
@@ -238,7 +280,12 @@
   height: 113px;
   width: 201px;
   margin-bottom: 10px;
+  left: 20px;
+  position: absolute;
+  top: 38px;
 }
+
+
 
 .propertyu95listu95foru95visitor .visit_date {
   height: 19px;

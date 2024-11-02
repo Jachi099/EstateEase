@@ -51,6 +51,9 @@ Route::get('/landlord/profile', [UserController::class, 'landlordProfile'])->nam
 Route::get('/property/details/{id}', [PropertyController::class, 'showPropertyDetails'])->name('property.details');
 
 
+// Route for the user to view all properties
+Route::get('/user/properties', [PropertyController::class, 'userPropertyList'])->name('user.properties');
+Route::get('/user/properties/filter', [PropertyController::class, 'filterUserProperties'])->name('user.properties.filter');
 
 
 

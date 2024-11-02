@@ -41,6 +41,36 @@ class PropertyController extends Controller
     }
 
 
+    public function userPropertyList()
+    {
+        // Fetch all properties for initial page load
+        $properties = Property::all();
+
+        return view('user.property_list', compact('properties'));
+    }
+
+    public function filterUserProperties(Request $request)
+    {
+        // Define the base query
+        $query = Property::query();
+
+        // Filter based on location if provided
+        if ($request->filled('location')) {
+            $query->where('city', $request->location);
+        }
+
+        // Filter based on rent range if provided
+        if ($request->filled('rent_range')) {
+            [$min, $max] = explode('-', $request->rent_range);
+            $query->whereBetween('rent', [(int)$min, (int)$max]);
+        }
+
+        // Execute the query
+        $properties = $query->get();
+
+        return view('user.property_list', compact('properties'));
+    }
+
 
     /**
      * Display a listing of all properties of the landlord.
