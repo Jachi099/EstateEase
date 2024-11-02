@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Landlord;
+use App\Models\Tenant;
+
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth; // Import Auth facade
 use Illuminate\Validation\Rules\Password;
@@ -48,15 +50,24 @@ public function showPropertiesList()
     // Fetch properties added by the landlord
     $properties = Property::where('landlord_id', $landlord->landlord_id)->get();
 
+    // Initialize an array to hold tenant information for each property
+    $tenants = [];
+
+    // Fetch tenant info for each property if it exists
+    foreach ($properties as $property) {
+        $tenants[$property->property_ID] = Tenant::where('property_ID', $property->property_ID)->first();
+    }
+
     // Get the profile picture
     $profilePicture = $landlord->picture ?? null; // Assuming `picture` is the correct attribute
 
-    // Pass properties and profile picture to the view
-    return view('landlord.property_list_landlord', compact('properties', 'profilePicture'));
+    // Pass properties, tenants, and profile picture to the view
+    return view('landlord.property_list_landlord', compact('properties', 'tenants', 'profilePicture'));
 }
 
 public function storeProperty(Request $request)
 {
+    // Validation rules
     $request->validate([
         'st_no' => 'required|string|max:255',
         'city' => 'required|string|max:255',
@@ -70,25 +81,37 @@ public function storeProperty(Request $request)
         'rent' => 'required|numeric',
         'floor' => 'nullable|string|max:255',
         'available_from' => 'nullable|date',
-        'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validation for multiple images
+        'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
     ]);
+
+    // Debugging: check incoming request data
+    Log::info($request->all());  // Log the incoming request data for debugging
 
     $property = new Property($request->except('images'));
     $property->landlord_id = Auth::guard('landlord')->id();
 
     // Handle image uploads
     if ($request->hasFile('images')) {
-        $imagePaths = [];
-        foreach ($request->file('images') as $image) {
-            $imagePaths[] = $image->store('properties', 'public');
+        $imageFiles = $request->file('images');
+        foreach ($imageFiles as $index => $image) {
+            $path = $image->store('properties', 'public');
+            // Save image paths in respective columns
+            if ($index == 0) {
+                $property->img1 = $path;
+            } elseif ($index == 1) {
+                $property->img2 = $path;
+            } elseif ($index == 2) {
+                $property->img3 = $path;
+            }
         }
-        // You can store $imagePaths as JSON or as individual fields depending on your database setup
-        $property->images = json_encode($imagePaths); // Assuming images is a JSON field in the Property model
     }
 
-    $property->save();
-
-    return redirect()->route('landlord.properties_list')->with('success', 'Property added successfully!');
+    // Try saving the property
+    if ($property->save()) {
+        return redirect()->route('landlord.properties_list')->with('success', 'Property added successfully!');
+    } else {
+        return redirect()->back()->with('error', 'Failed to add property.');
+    }
 }
 
 
@@ -120,6 +143,22 @@ public function addProperty(Request $request)
     // Return the add property view with the landlord data and profile picture
     return view('landlord.add_property', compact('landlord', 'profilePicture'));
 }
+
+public function showPropertyDetails($id)
+{
+    $property = Property::find($id);
+    if (!$property) {
+        abort(404);
+    }
+
+    $tenant = Tenant::where('property_ID', $id)->first(); // Fetch tenant info if it exists
+    
+    // Pass tenant profile picture if tenant exists
+    $profilePicture = $landlord->picture ?? null; // Assuming `picture` is a field in the landlord table
+
+    return view('landlord.details', compact('property', 'tenant', 'profilePicture'));
+}
+
 
 
 }  

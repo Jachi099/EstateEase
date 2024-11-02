@@ -18,34 +18,99 @@
   min-width: 102px;
 }
 .container {
-  width: 80%;
-  margin: 0 auto;
+  width: 100%;
+  margin: 5px auto;
+  padding: 20px;
+  border: 2px solid black; /* Black border */
+  border-radius: 10px;
+  height: 380px; /* Set fixed height for the container */
+  overflow-y: auto; /* Enable vertical scrolling */
 }
+
 .add-property-btn {
-  background-color: #4CAF50;
+  background-color: #28a745; /* Green background */
   color: white;
   padding: 10px 20px;
-  border-radius: 5px;
   text-align: center;
-  margin-bottom: 20px;
-  cursor: pointer;
-}
-.property-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-.property-card {
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 15px;
-  width: calc(33.333% - 20px);
-}
-.property-image {
-  width: 100%;
-  height: auto;
   border-radius: 5px;
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 50px;
+
 }
+
+.property-card {
+  width: 250px; /* Fixed width for property card */
+  height: 340px; /* Set height for the property card */
+  border: 1px solid #000; /* Black border for property card */
+  border-radius: 5px;
+  padding: 15px;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden; /* Prevent overflow of content */
+  position: relative; /* For tooltip positioning */
+}
+
+.property-image-link {
+  position: relative; /* For tooltip positioning */
+  display: block; /* Ensure the link takes up full space */
+}
+
+.property-image {
+  width: 100%; /* Make image responsive */
+  height: 150px; /* Fixed height for the image */
+  object-fit: cover; /* Cover to maintain aspect ratio */
+  transition: filter 0.3s ease; /* Smooth transition for grey effect */
+}
+
+.property-image-link:hover .property-image {
+  filter: grayscale(80%); /* Apply grey effect on hover */
+}
+
+.property-image-link:hover .tooltip {
+  display: block; /* Show tooltip on hover */
+}
+
+.tooltip {
+  display: none; /* Hidden by default */
+  position: absolute; /* Position relative to parent */
+  top: 30%; /* Center vertically */
+  left: 50%; /* Center horizontally */
+  transform: translate(-50%, -50%); /* Adjust position */
+  background-color: rgba(0, 0, 0, 0.7); /* Black background with transparency */
+  color: white; /* White text */
+  padding: 5px;
+  border-radius: 5px;
+  font-family: 'Montserrat', sans-serif; /* Font style */
+  font-size: 14px; /* Font size for tooltip */
+  z-index: 10; /* Ensure it's above other elements */
+}
+
+.property-title {
+  font-family: 'Montserrat', sans-serif; /* Montserrat font */
+  font-size: 18px; /* Title font size */
+  font-weight: bold; /* Bold title */
+  margin: 10px 0; /* Margin around the title */
+}
+
+.property-details {
+  flex: 1; /* Allow details to take remaining space */
+  display: flex; /* Use flexbox for alignment */
+  flex-direction: column; /* Stack items vertically */
+  margin-left: 10px; /* Margin to separate image and details */
+  align-items: flex-start; /* Align items to the start (left) */
+  /* Add a small gap between items */
+
+}
+.detail-item {
+  flex: 1; /* Make each item take up equal space */
+  font-family: 'Montserrat', sans-serif; /* Font style */
+  font-size: 14px; /* Smaller font size */
+  line-height: 1.2; /* Line height for better readability */
+}
+
+
+
 .visitoru95dashboard .navbar-link-place {
   cursor: pointer;
   letter-spacing: 0;
@@ -513,4 +578,59 @@
 .visitoru95dashboard .flex-col-4 {
   display: flex;
   flex-direction: column;
+}
+
+/* Property Details Section */
+.property-details-wrapper {
+  display: flex; /* Use flexbox for layout */
+  justify-content: space-between; /* Space between property and tenant info */
+  width: 100%; /* Full width */
+  max-width: 800px; /* Limit the width of the details section */
+  margin: 0 auto; /* Center the container */
+  padding: 20px; /* Add some padding */
+  border: 1px solid #000; /* Optional: Border around the details */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+/* Property Images */
+.property-images-wrapper {
+  display: flex; /* Flexbox for horizontal layout */
+  justify-content: center; /* Center the images */
+  flex-wrap: wrap; /* Wrap images to the next line if needed */
+  gap: 10px; /* Space between images */
+}
+
+.property-image-small {
+  width: 200px; /* Set a fixed width for images */
+  height: 190px; /* Set a fixed height for images */
+  object-fit: cover; /* Cover to maintain aspect ratio */
+  border-radius: 5px; /* Rounded corners for images */
+}
+
+/* Property Details Content */
+.property-details-content-wrapper {
+  text-align: left; /* Align text to the left */
+  margin-top: 10px; /* Space above details */
+}
+
+/* Tenant Info Section */
+.tenant-info-wrapper {
+  margin-left: 20px; /* Space to separate from property details */
+  text-align: left; /* Align text to the left */
+}
+
+.tenant-info-title {
+  font-size: 20px; /* Title font size for tenant info */
+  font-weight: bold; /* Bold title */
+}
+
+.tenant-info-item {
+  font-size: 14px; /* Smaller font size for tenant details */
+  margin: 5px 0; /* Space between tenant details */
+}
+
+/* General Font Style */
+.normal-text {
+  font-family: 'Montserrat', sans-serif; /* Montserrat font */
 }

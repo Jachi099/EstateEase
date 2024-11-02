@@ -31,7 +31,12 @@ Route::middleware(['auth:landlord'])->group(function () {
     Route::get('/landlord/add-property', [LandlordController::class, 'addProperty'])->name('landlord.add_property');
     Route::get('/landlord/profile', [LandlordController::class, 'profile'])->name('landlord.profile');
     Route::get('/landlord/edit-profile', [LandlordController::class, 'editProfile'])->name('landlord.edit_profile');
-    Route::post('/landlord/add-property', [LandlordController::class, 'storeProperty'])->name('landlord.store_property');
+    Route::post('/landlord/store-property', [LandlordController::class, 'storeProperty'])->name('landlord.store_property');
+    Route::get('/landlord/property/{id}', [LandlordController::class, 'showPropertyDetails'])->name('landlord.property_details');
+
+// Add this route for the property list
+Route::get('/landlord/properties', [LandlordController::class, 'showPropertiesList'])->name('landlord.properties_list');
+
 
 // Add this route for the property list
 Route::get('/landlord/properties', [LandlordController::class, 'showPropertiesList'])->name('landlord.properties_list');

@@ -12,10 +12,11 @@ class Property extends Model
     protected $table = 'property';
     protected $primaryKey = 'property_ID';
 
+    public $timestamps = false; // Disable timestamps
+
     protected $fillable = [ 
         'st_no', 'city', 'state', 'country', 'type', 'size',
         'amenities', 'num_of_rooms', 'num_of_bathrooms', 'rent',
         'img1', 'img2', 'img3', 'status', 'landlord_id', 'floor', 'available_from'
     ];
-
 }

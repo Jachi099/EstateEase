@@ -14,6 +14,15 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css1/globals.css') }}" />
    
   </head>
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property Details</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400&display=swap" rel="stylesheet"> <!-- Montserrat font -->
+   
+
   <body style="margin: 0; background: #ffffff">
     <input type="hidden" id="anPageName" name="page" value="visitoru95dashboard" />
     <div class="container-center-horizontal">
@@ -66,70 +75,49 @@
           <div class="flex-col">
             <div class="flex-row">
               <h1 class="estate-ease_logo-2 estate-ease_logo-4 lexendzetta-medium-beaver-25px">PROPERTY LISTING</h1>
-             
+              <a href="{{ route('landlord.edit_profile') }}">
+                <img class="edit" src="{{ asset('img/edit.svg') }}" alt="edit" />
+            </a>
+            
+            <img class="trash-2" src="{{ asset('img/trash-2.svg') }}" alt="trash-2" />
 
             </div>
-              <a href="{{ route('landlord.add_property') }}">
-            <div class="add-property-btn">Add Property</div>
-        </a>
+            <div class="property-details-wrapper">
+  <div class="property-details-content-wrapper">
+    <div class="property-images-wrapper">
+      @if ($property->img1)
+          <img src="{{ asset('storage/' . $property->img1) }}" alt="Property Image" class="property-image-small">
+      @endif
+      @if ($property->img2)
+          <img src="{{ asset('storage/' . $property->img2) }}" alt="Property Image" class="property-image-small">
+      @endif
+      @if ($property->img3)
+          <img src="{{ asset('storage/' . $property->img3) }}" alt="Property Image" class="property-image-small">
+      @endif
+    </div>
+    <div class="property-details-content">
+    <h2 class="normal-text">{{ $property->type }} - {{ $property->city }}</h2>
 
-        <div class="container">
-     
+      <strong>Rent:</strong><div class="normal-text">${{ $property->rent }}</div>
+      <strong>Size:</strong><div class="normal-text">{{ $property->size }} sq ft</div>
+      <strong>Status:</strong><div class="normal-text">{{ $property->status }}</div>
+      <strong>Available From:</strong><div class="normal-text">{{ $property->available_from }}</div>
+      <strong>Amenities:</strong><div class="normal-text">{{ $property->amenities }}</div>
+      <strong>Rooms:</strong><div class="normal-text">{{ $property->num_of_rooms }}</div>
+      <strong>Bathrooms:</strong><div class="normal-text">{{ $property->num_of_bathrooms }}</div>
+    </div>
 
-        <div class="property-list">
-            @foreach ($properties as $property)
-            <div class="property-card">
-            @if ($property->img1)
-        <a href="{{ route('landlord.property_details', $property->property_ID) }}" class="property-image-link">
-            <img src="{{ asset('storage/' . $property->img1) }}" alt="Property Image" class="property-image">
-            <span class="tooltip">More Details</span>
-        </a>
-    @else
-        <a href="{{ route('landlord.property_details', $property->property_ID) }}" class="property-image-link">
-            <img src="path/to/default/image.png" alt="Default Property Image" class="property-image">
-            <span class="tooltip">More Details</span>
-        </a>
-    @endif
-    <h2 class="property-title">{{ $property->type }}
-    @php
-        // Get the tenant info for the current property
-        $tenant = isset($tenants[$property->property_ID]) ? $tenants[$property->property_ID] : null;
-    @endphp
-    
+  <div class="tenant-info-wrapper">
+    <h2 class="tenant-info-title normal-text">Tenant Information</h2>
     @if ($tenant)
-        <div class="tenant-info-item normal-text">- Rented</div> <!-- Change here -->
+        <div class="tenant-info-item"><strong>Name:</strong> {{ $tenant->full_name }}</div>
+        <div class="tenant-info-item"><strong>Rented Since:</strong> {{ $tenant->rented_since }}</div>
     @else
-        <div class="tenant-info-item normal-text">- Available</div>
+        <div class="tenant-info-item normal-text">Status: Available</div>
     @endif
-</h2>
-    <div class="property-details">
-    <div class="detail-item">
-        <strong>Rent:</strong> <span>${{ $property->rent }}</span>
-    </div>
-    <div class="detail-item">
-        <strong>Size:</strong> <span>{{ $property->size }} sq ft</span>
-    </div>
-    <div class="detail-item">
-        <strong>Floor:</strong> <span>{{ $property->floor }}</span>
-    </div>
-    <div class="detail-item">
-        <strong>State:</strong> <span>{{ $property->state }}</span>
-    </div>
-    <div class="detail-item">
-        <strong>Available From:</strong> <span>{{ $property->available_from }}</span>
-    </div>
-
-
-    
+  </div>
 </div>
 
-
-</div>
-
-            @endforeach
-        </div>
-    </div>
-    </div>
         </div>
         </div>
       </div>
