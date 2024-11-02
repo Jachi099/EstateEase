@@ -14,49 +14,40 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'web',
-        'passwords' => 'users',
-    ],
+    'guard' => 'web', // You can set the default guard to 'tenant' or another type based on your needs
+    'passwords' => 'users', // Update if you have different password reset configurations
+],
 
-    /*
-    |--------------------------------------------------------------------------
-    | Authentication Guards
-    |--------------------------------------------------------------------------
-    |
-    | Next, you may define every authentication guard for your application.
-    | Of course, a great default configuration has been defined for you
-    | here which uses session storage and the Eloquent user provider.
-    |
-    | All authentication drivers have a user provider. This defines how the
-    | users are actually retrieved out of your database or other storage
-    | mechanisms used by this application to persist your user's data.
-    |
-    | Supported: "session"
-    |
-    */
 'guards' => [
     'web' => [
         'driver' => 'session',
-        'provider' => 'users',
+        'provider' => 'users', // This can be your visitors
     ],
-
-    'admin' => [
+    'landlord' => [
         'driver' => 'session',
-        'provider' => 'admins',
+        'provider' => 'landlords',
+    ],
+    'tenant' => [
+        'driver' => 'session',
+        'provider' => 'tenants',
     ],
 ],
 
 'providers' => [
     'users' => [
         'driver' => 'eloquent',
-        'model' => App\Models\User::class,
+        'model' => App\Models\User::class, // Model for visitors
     ],
-
-    'admins' => [
+    'landlords' => [
         'driver' => 'eloquent',
-        'model' => App\Models\Admin::class,
+        'model' => App\Models\Landlord::class, // Create this model for landlords
+    ],
+    'tenants' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\Tenant::class, // Tenant model created earlier
     ],
 ],
+
 
 
     /*

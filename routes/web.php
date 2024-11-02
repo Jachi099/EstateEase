@@ -12,7 +12,7 @@ use App\Http\Controllers\PropertyController;
 */
 
 // Public homepage route, accessible to everyone
-Route::get('/', function() {
+Route::get('/', function () {
     return view('user.home'); // Updated to point to the correct path
 })->name('public.home');
 
@@ -25,47 +25,61 @@ Route::get('/login', [UserController::class, 'showLoginForm'])->name('user.login
 Route::post('/login', [UserController::class, 'login'])->name('user.login.submit');
 
 /*
-|--------------------------------------------------------------------------
-| User Routes (Protected for Logged-In Users Only)
-|--------------------------------------------------------------------------
+|----------------------------------------------------------------------
+| Protected Routes (Authenticated Users Only)
+|----------------------------------------------------------------------
 */
-
-// Group of routes for authenticated users only
 Route::middleware(['auth'])->group(function () {
-    // User-specific homepage
-    Route::get('/user/home', [UserController::class, 'userHome'])->name('user.user_home'); // Now points to userHome method
 
-    // Landlord profile page
-Route::get('/landlord/profile', [UserController::class, 'landlordProfile'])->name('landlord.profile');
+    // General user homepage (shared between visitors and landlords)
+    Route::get('/user/home', [UserController::class, 'userHome'])->name('user.user_home');
+    Route::get('user/properties', [PropertyController::class, 'properties'])->name('user.properties');
 
-    // Properties and service pages for logged-in users
-    Route::get('/properties', [UserController::class, 'properties'])->name('user.properties');
-    Route::get('/service', [UserController::class, 'service'])->name('user.service');
-    Route::get('/user/profile', [UserController::class, 'profile'])->name('user.profile');
-   
+    /*
+    |----------------------------------------------------------------------
+    | Visitor-Specific Routes
+    |----------------------------------------------------------------------
+    */
+    Route::middleware('role:visitor')->group(function () {
+        Route::get('/user/profile', [UserController::class, 'profile'])->name('visitor.profile');
+        
+        Route::get('/properties', [PropertyController::class, 'showProperties'])->name('user.properties_list');
+        Route::get('/properties/filter', [PropertyController::class, 'filterProperties'])->name('properties.filter');
+        Route::get('/property/details/{id}', [PropertyController::class, 'showPropertyDetails'])->name('property.details');
+        Route::get('/user/visit-requested-properties', [UserController::class, 'visitRequestedProperties'])->name('user.visit.requested.properties');
+    });
 
-    // In routes/web.php
- Route::get('/user/properties', [PropertyController::class, 'showProperties'])->name('user.properties_list');
-    Route::get('/properties/filter', [PropertyController::class, 'filterProperties'])->name('properties.filter');
-Route::get('/property/details/{id}', [PropertyController::class, 'showPropertyDetails'])->name('property.details');
+    /*
+    |----------------------------------------------------------------------
+    | Landlord-Specific Routes
+    |----------------------------------------------------------------------
+    */
+    Route::middleware('role:landlord')->group(function () {
+        Route::get('/landlord/profile', [UserController::class, 'landlordProfile'])->name('landlord.profile');
+        // Add more landlord-specific routes here
+    });
 
+    /*
+    |----------------------------------------------------------------------
+    | Tenant-Specific Routes
+    |----------------------------------------------------------------------
+    */
+    Route::middleware('role:tenant')->group(function () {
+        Route::get('/tenant/profile', [UserController::class, 'tenantProfile'])->name('tenant.profile');
+        // Add more tenant-specific routes here
+    });
 
-
-
-
-    // Route for visiting requested properties
-// Route for visiting requested properties
-Route::get('/user/visit-requested-properties', [UserController::class, 'visitRequestedProperties'])->name('user.visit.requested.properties');
-
-
-    // Route for the profile edit page
+    /*
+    |----------------------------------------------------------------------
+    | Common Routes (Shared by Both Visitors and Landlords)
+    |----------------------------------------------------------------------
+    */
+    Route::get('/user/service', [UserController::class, 'service'])->name('user.service');
     Route::get('/user/profile/edit', [UserController::class, 'editProfile'])->name('user.edit_profile');
     Route::post('/user/profile/update', [UserController::class, 'updateProfile'])->name('user.profile.update');
 
-// User logout route
-Route::post('/logout', [UserController::class, 'logout'])->name('user.logout');
-
-
+    // User logout route
+    Route::post('/logout', [UserController::class, 'logout'])->name('user.logout');
 });
 
 /*

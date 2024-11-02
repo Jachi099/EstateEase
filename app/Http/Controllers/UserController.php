@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth; // Import Auth facade
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Log;
+use App\Models\Landlord;
+use App\Models\Tenant;
 
 
 class UserController extends Controller
@@ -44,19 +46,34 @@ class UserController extends Controller
         // Get the authenticated user
         $user = Auth::user();
         
-        // Retrieve the user's profile picture using the email
-        $profilePicture = User::where('email', $user->email)->value('picture');
+        // Initialize an array to hold the profile data
+        $profileData = null;
+    
+        // Determine the user's account type and retrieve the relevant information
+        if ($user->account_type === 'landlord') {
+            $profileData = Landlord::where('email', $user->email)->first(['name', 'email', 'phone', 'picture']);
+        } elseif ($user->account_type === 'tenant') {
+            $profileData = Tenant::where('email', $user->email)->first(['full_name', 'email', 'current_address', 'phone_number', 'picture']);
+        } else { // Assuming visitor is the default case
+            $profileData = User::where('email', $user->email)->first(['full_name', 'email', 'current_address', 'phone_number', 'picture']);
+        }
+    
+        // Check if profile data is retrieved
+        if (!$profileData) {
+            return redirect()->route('user.user_home')->with('error', 'Profile not found.');
+        }
     
         // Pass the user's information to the profile view
-        return view('user.profile', [
-            'profilePicture' => $profilePicture,
-            'name' => $user->full_name,
-            'email' => $user->email,
-            'phone' => $user->phone_number,
-            'address' => $user->current_address,
+        return view('visitor.profile', [
+            'profilePicture' => $profileData->picture ?? null,
+            'name' => $profileData->full_name ?? $profileData->name, // Use name based on account type
+            'email' => $profileData->email,
+            'phone' => $profileData->phone_number ?? $profileData->phone ?? null,
+            'address' => $profileData->current_address ?? null,
             'account_type' => $user->account_type,
         ]);
     }
+    
 
     public function editProfile(Request $request)
     {
@@ -146,49 +163,68 @@ class UserController extends Controller
 
     // Method to handle the signup form submission
     public function signupSubmit(Request $request)
-    {
-        // Log the incoming request
-        Log::info('Signup form submitted', $request->all());
+{
+    // Log the incoming request
+    Log::info('Signup form submitted', $request->all());
 
-        // Validate the input data
-        $validatedData = $request->validate([
-            'full_name' => 'required|string|max:255',
-            'current_address' => 'required|string|max:255',
-            'phone_number' => 'required|numeric|digits_between:10,15',
-            'account_type' => 'required|in:landlord,visitor',
-            'email' => 'required|email|unique:users,email',
-            'password' => [
-                'required',
-                'confirmed',
-                Password::min(8)
-                    ->mixedCase()
-                    ->letters()
-                    ->numbers()
-                    ->symbols()
-            ],
-            'picture' => 'required|image|mimes:jpeg,png,jpg|max:2048'
+    // Validate the input data
+    $validatedData = $request->validate([
+        'full_name' => 'required|string|max:255',
+        'current_address' => 'required|string|max:255',
+        'phone_number' => 'required|numeric|digits_between:10,15',
+        'account_type' => 'required|in:landlord,visitor',
+        'email' => 'required|email|unique:users,email|unique:landlord,email',
+        'password' => [
+            'required',
+            'confirmed',
+            Password::min(8)
+                ->mixedCase()
+                ->letters()
+                ->numbers()
+                ->symbols()
+        ],
+        'picture' => 'required|image|mimes:jpeg,png,jpg|max:2048'
+    ]);
+
+    // Store profile picture
+    $picturePath = $request->file('picture')->store('profile_pictures', 'public');
+
+    // Check if account type is landlord or visitor
+    if ($validatedData['account_type'] === 'landlord') {
+        // Create a new landlord record in the landlord table
+        $landlord = Landlord::create([
+            'name' => $validatedData['full_name'],
+            'email' => $validatedData['email'],
+            'phone' => $validatedData['phone_number'],
+            'password' => Hash::make($validatedData['password']),
+            'picture' => $picturePath,
+            'account_type' => 'landlord'
         ]);
 
-        // Store profile picture
-        $picturePath = $request->file('picture')->store('profile_pictures', 'public');
+        // Log the landlord in (optional: you may use a different method if landlord login differs)
+        Auth::login($landlord);
 
-        // Create the new user record in the database
+        // Redirect to the landlord dashboard or homepage
+        return redirect()->route('user.user_home')->with('success', 'Registration successful!');
+    } else {
+        // Create a new user record in the users table for visitors
         $user = User::create([
             'full_name' => $validatedData['full_name'],
             'current_address' => $validatedData['current_address'],
             'phone_number' => $validatedData['phone_number'],
-            'account_type' => $validatedData['account_type'],
+            'account_type' => 'visitor',
             'email' => $validatedData['email'],
             'password' => Hash::make($validatedData['password']),
             'picture' => $picturePath
         ]);
 
-        // Log the user in
+        // Log the visitor in
         Auth::login($user);
 
-        // Redirect to the user homepage with a success message
+        // Redirect to the visitor's homepage or user home
         return redirect()->route('user.user_home')->with('success', 'Registration successful!');
     }
+}
 
 
 
@@ -207,15 +243,32 @@ public function login(Request $request)
         'password' => 'required|string',
     ]);
 
-    // Attempt to log the user in
-    if (Auth::attempt($request->only('email', 'password'))) {
-        // If successful, redirect to the user homepage
-        return redirect()->route('user.user_home')->with('success', 'Logged in successfully!');
+    // Check for the user type
+    $user = User::where('email', $request->email)->first();
+
+    if ($user) {
+        if ($user->account_type == 'landlord') {
+            // Attempt to log in as landlord
+            if (Auth::guard('landlord')->attempt($request->only('email', 'password'))) {
+                return redirect()->route('user.user_home')->with('success', 'Logged in successfully as landlord!');
+            }
+        } elseif ($user->account_type == 'visitor') {
+            // Attempt to log in as visitor
+            if (Auth::guard('web')->attempt($request->only('email', 'password'))) {
+                return redirect()->route('user.user_home')->with('success', 'Logged in successfully as visitor!');
+            }
+        } elseif ($user->account_type == 'tenant') {
+            // Attempt to log in as tenant
+            if (Auth::guard('tenant')->attempt($request->only('email', 'password'))) {
+                return redirect()->route('user.user_home')->with('success', 'Logged in successfully as tenant!');
+            }
+        }
     }
 
     // If unsuccessful, redirect back with an error message
     return back()->with('error', 'Invalid credentials. Please try again.');
 }
+
 
 
 public function logout(Request $request)
