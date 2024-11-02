@@ -41,13 +41,13 @@
    
                 <div class="navbar-link-container">
                   <div class="navbar-link-estate-ease_logo montserrat-semi-bold-beaver-18px">EstateEase</div>
-                  <a href="{{ route('user.user_home') }}"><div class="navbar-link-place navbar-link montserrat-normal-black-16px">Home</div> </a
-            > <a href="{{ route('user.user_home') }}"><div class="navbar-link-about navbar-link montserrat-normal-black-16px">About</div> </a
+                  <a href="{{ route('visitor.user_home') }}"><div class="navbar-link-place navbar-link montserrat-normal-black-16px">Home</div> </a
+            > <a href="{{ route('visitor.user_home') }}"><div class="navbar-link-about navbar-link montserrat-normal-black-16px">About</div> </a
             >  <a href="{{ route('user.properties_list') }}"><div class="navbar-link-properties montserrat-normal-black-16px">Properties</div> </a
               > <a href="{{ route('user.service') }}"><div class="navbar-link-services montserrat-normal-black-16px">Services</div> </a>
             
             
-              <a href="{{ route('user.profile') }}"><div class="head_pic">
+              <a href="{{ route('visitor.profile') }}"><div class="head_pic">
                   @if($profilePicture)
                       <img src="{{ asset('storage/' . $profilePicture) }}" alt="User Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
                   @else
@@ -62,7 +62,7 @@
           <div class="flex-col">
             <div class="flex-row">
               <h1 class="estate-ease_logo-2 estate-ease_logo-4 lexendzetta-medium-beaver-25px">VISITOR DASHBOARD</h1>
-              <a href="{{ route('user.edit_profile') }}">
+              <a href="{{ route('visitor.edit_profile') }}">
                 <img class="edit" src="{{ asset('img/edit.svg') }}" alt="edit" />
             </a>
             

@@ -37,10 +37,36 @@ class UserController extends Controller
  
  public function userHome()
  {
-     $user = Auth::user();
-     Log::info('Redirected to user home for: ' . $user->email);
-     return view('user.user_home', ['profilePicture' => $user->picture]);
+     $user = Auth::user(); // Retrieve the authenticated user
+ 
+     // Log user details for debugging
+     Log::info('User Home accessed by: ' . $user->email);
+ 
+     // Check if the profile picture exists
+     $picturePath = 'path/to/default/image.png'; // Default image path
+ 
+     if ($user->account_type === 'landlord') {
+         $landlord = Landlord::where('email', $user->email)->first();
+         if ($landlord && $landlord->picture) {
+             $picturePath = 'storage/' . $landlord->picture;
+         }
+     } elseif ($user->account_type === 'tenant') {
+         $tenant = Tenant::where('email', $user->email)->first();
+         if ($tenant && $tenant->picture) {
+             $picturePath = 'storage/' . $tenant->picture;
+         }
+     } else {
+         if ($user->picture) {
+             $picturePath = 'storage/' . $user->picture;
+         }
+     }
+ 
+     return view('user.user_home', [
+         'profilePicture' => $picturePath,
+         // Pass any other necessary data to the view
+     ]);
  }
+ 
  
  
     
@@ -237,59 +263,59 @@ class UserController extends Controller
         return view('user.login'); // Return the login view
     }
     public function login(Request $request)
-{
-    $request->validate([
-        'email' => 'required|email',
-        'password' => 'required|string',
-    ]);
-
-    Log::info('Login attempt for email: ' . $request->email);
-
-    // Attempt to find a landlord first
-    $landlord = Landlord::where('email', $request->email)->first();
-    if ($landlord) {
-        Log::info('Landlord found: ' . $landlord->email);
-
-        if (Auth::guard('landlord')->attempt($request->only('email', 'password'))) {
-            Log::info('Landlord login successful: ' . $landlord->email);
-            return redirect()->route('user.user_home')->with('success', 'Logged in successfully as landlord!');
-        } else {
-            Log::warning('Landlord login failed: Invalid credentials');
-        }
-    }
-
-    // Attempt to find a visitor if landlord not found
-    $visitor = User::where('email', $request->email)->first();
-    if ($visitor) {
-        Log::info('Visitor found: ' . $visitor->email);
-
-        if (Auth::guard('web')->attempt($request->only('email', 'password'))) {
-            Log::info('Visitor login successful: ' . $visitor->email);
-            return redirect()->route('user.user_home')->with('success', 'Logged in successfully as visitor!');
-        } else {
-            Log::warning('Visitor login failed: Invalid credentials');
-        }
-    }
-
-    // Attempt to find a tenant if neither landlord nor visitor is found
-    $tenant = Tenant::where('email', $request->email)->first();
-    if ($tenant) {
-        Log::info('Tenant found: ' . $tenant->email);
-
-        if (Auth::guard('tenant')->attempt($request->only('email', 'password'))) {
-            Log::info('Tenant login successful: ' . $tenant->email);
-            return redirect()->route('user.user_home')->with('success', 'Logged in successfully as tenant!');
-        } else {
-            Log::warning('Tenant login failed: Invalid credentials');
-        }
-    }
-
-    Log::warning('No user found for email: ' . $request->email);
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string',
+        ]);
     
-    // If no login attempts were successful, return back with an error message
-    return back()->with('error', 'Invalid credentials. Please try again.');
-}
-
+        Log::info('Login attempt for email: ' . $request->email);
+    
+        // Attempt to find a landlord first
+        $landlord = Landlord::where('email', $request->email)->first();
+        if ($landlord) {
+            Log::info('Landlord found: ' . $landlord->email);
+    
+            if (Auth::guard('landlord')->attempt($request->only('email', 'password'))) {
+                Log::info('Landlord login successful: ' . $landlord->email);
+                return redirect()->route('landlord.user_home')->with('success', 'Logged in successfully as landlord!');
+            } else {
+                Log::warning('Landlord login failed: Invalid credentials');
+            }
+        }
+    
+        // Attempt to find a visitor if landlord not found
+        $visitor = User::where('email', $request->email)->first();
+        if ($visitor) {
+            Log::info('Visitor found: ' . $visitor->email);
+    
+            if (Auth::guard('web')->attempt($request->only('email', 'password'))) {
+                Log::info('Visitor login successful: ' . $visitor->email);
+                return redirect()->route('visitor.user_home')->with('success', 'Logged in successfully as visitor!');
+            } else {
+                Log::warning('Visitor login failed: Invalid credentials');
+            }
+        }
+    
+        // Attempt to find a tenant if neither landlord nor visitor is found
+        $tenant = Tenant::where('email', $request->email)->first();
+        if ($tenant) {
+            Log::info('Tenant found: ' . $tenant->email);
+    
+            if (Auth::guard('tenant')->attempt($request->only('email', 'password'))) {
+                Log::info('Tenant login successful: ' . $tenant->email);
+                return redirect()->route('tenant.user_home')->with('success', 'Logged in successfully as tenant!');
+            } else {
+                Log::warning('Tenant login failed: Invalid credentials');
+            }
+        }
+    
+        Log::warning('No user found for email: ' . $request->email);
+        
+        // If no login attempts were successful, return back with an error message
+        return back()->with('error', 'Invalid credentials. Please try again.');
+    }
+    
     
 
 public function logout(Request $request)
@@ -303,6 +329,40 @@ public function logout(Request $request)
 
 
 
+public function landlordHome()
+{
+    // Get the authenticated landlord
+    $landlord = auth()->guard('landlord')->user();
 
+    // Get the profile picture
+    $profilePicture = $landlord->picture ?? null; // Assuming `picture` is a field in the landlord table
+
+    // Pass the picture to the view
+    return view('landlord.home', compact('profilePicture'));
+}
+
+public function tenantHome()
+{
+    // Get the authenticated tenant
+    $tenant = auth()->guard('tenant')->user();
+
+    // Get the profile picture
+    $profilePicture = $tenant->picture ?? null; // Assuming `picture` is a field in the tenant table
+
+    // Pass the picture to the view
+    return view('tenant.home', compact('profilePicture'));
+}
+
+public function visitorHome()
+{
+    // Get the authenticated visitor
+    $visitor = auth()->user(); // Assuming visitors use the default auth guard
+
+    // Get the profile picture
+    $profilePicture = $visitor->picture ?? null; // Assuming `picture` is a field in the user table
+
+    // Pass the picture to the view
+    return view('visitor.home', compact('profilePicture'));
+}
 
 }  

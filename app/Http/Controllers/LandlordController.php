@@ -12,8 +12,17 @@ use Illuminate\Support\Facades\Log;
 
 class LandlordController extends Controller
 {
-    // Method to display the user homepage
+  
+    public function profile()
+    {
+        // Get the authenticated landlord
+        $landlord = auth()->guard('landlord')->user();
 
-   
+        // Get the profile picture
+        $profilePicture = $landlord->picture ?? null;
+
+        // Pass the profile information to the view
+        return view('landlord.profile', compact('landlord', 'profilePicture'));
+    }
 
 }  
