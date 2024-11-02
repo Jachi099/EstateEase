@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 02, 2024 at 10:40 AM
+-- Generation Time: Nov 02, 2024 at 04:39 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -84,7 +84,8 @@ INSERT INTO `landlord` (`landlord_id`, `name`, `email`, `phone`, `current_addres
 (1, 'John Doe', 'johndoe@example.com', '1234567890', NULL, 'hashed_password1', '', 'landlord', '2024-11-02 06:49:23', '2024-11-02 06:49:23'),
 (7, 'Jachi sangma', 'jsangma09@gmail.com', '01785546431', 'kalachandpur', '$2y$10$bwKLtRFg2WgXZdGCkW71BO48fQEHhBIegjpsKyEAmrNE0CEP1vGqi', 0x70726f66696c655f70696374757265732f5637786f567261367948646d544d6b424e76336b6b5a7954754a444a4c30455939314131397633452e6a7067, 'landlord', '2024-11-02 01:41:55', '2024-11-02 01:41:55'),
 (12, 'jachijachi', 'samia@gmail.com', '01727652231', NULL, '$2y$10$wZVvWAgs.2gQxtWyrl8H5eBqWuErqg37H9C9YVP1568QxTaal2zIG', 0x70726f66696c655f70696374757265732f6e764c666d5a63597034454f4867696b6433426b4f5a31614e6548496f50347174643438636a42562e6a7067, 'landlord', '2024-11-02 02:29:27', '2024-11-02 02:29:27'),
-(13, 'tdhdfh', 'shamima@gmail.com', '01837493744', NULL, '$2y$10$zi/9oV.L6i6yfkua.rplFen4Xrlov6r0p30jfri4SwLb7Cc6Xqgva', 0x70726f66696c655f70696374757265732f74414d4c687a6476647863764b416c354f6f73704c3146547555686c3268544d79744d753654524a2e6a7067, 'landlord', '2024-11-02 02:39:05', '2024-11-02 02:39:05');
+(13, 'tdhdfh', 'shamima@gmail.com', '01837493744', NULL, '$2y$10$zi/9oV.L6i6yfkua.rplFen4Xrlov6r0p30jfri4SwLb7Cc6Xqgva', 0x70726f66696c655f70696374757265732f74414d4c687a6476647863764b416c354f6f73704c3146547555686c3268544d79744d753654524a2e6a7067, 'landlord', '2024-11-02 02:39:05', '2024-11-02 02:39:05'),
+(14, 'mia', 'mia@gmail.com', '01727652231', NULL, '$2y$10$o/lLa3tvk/mcKaMLetP8kOgVedoOVYI/oPfTqiORKIVQVZ2HALIze', 0x70726f66696c655f70696374757265732f7a37666133423977306156676c514f5266337239304d707932766468304b41703742624b6c74576c2e6a7067, 'landlord', '2024-11-02 04:07:20', '2024-11-02 04:07:20');
 
 -- --------------------------------------------------------
 
@@ -172,7 +173,8 @@ CREATE TABLE `property` (
 --
 
 INSERT INTO `property` (`property_ID`, `st_no`, `city`, `state`, `country`, `type`, `size`, `amenities`, `num_of_rooms`, `num_of_bathrooms`, `rent`, `img1`, `img2`, `img3`, `status`, `landlord_id`, `floor`, `available_from`) VALUES
-(1, 123, 'New York', 'NY', 'USA', 'Apartment', 1200.50, 'Pool, Gym, Parking', 3, 2, 2500.00, '', '', '', 'available', 1, 5, '2024-11-01');
+(1, 123, 'New York', 'NY', 'USA', 'Apartment', 1200.50, 'Pool, Gym, Parking', 3, 2, 2500.00, '', '', '', 'available', 1, 5, '2024-11-01'),
+(3, 345345, 'Dhaka', 'gulshan', 'bangladesh', 'apartment', 1000.00, 'gym', 7, 3, 3466.00, 'properties/tpuL3RnTNXxh2T65t1GPKJVlEQ9LgSlQQ25LfEJ2.jpg', 'properties/pejbfHtZNIl5KR735SBIL4iCDdhmQaGB5a6eezwX.jpg', 'properties/u4UzLmGPQdRlXEVcmEru0fSxWx0OnMbn33hdqReI.jpg', NULL, 7, 7, '2024-11-30');
 
 -- --------------------------------------------------------
 
@@ -190,7 +192,8 @@ CREATE TABLE `tenants` (
   `phone_number` varchar(15) NOT NULL,
   `account_type` varchar(50) DEFAULT 'tenant',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `property_ID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -218,6 +221,21 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `full_name`, `current_address`, `phone_number`, `account_type`, `email`, `password`, `picture`, `created_at`, `updated_at`) VALUES
 (1, 'jachi', 'sdgsdg', '01727652231', 'visitor', 'jsangma234@gmail.com', '$2y$10$t5LcX7qSMXIWLPSBpP.vFemvq/fH0ebg9/bRvXUYCLiXlHdAM5dUC', 'profile_pictures/WCACtmUJj0XrLxjSaioz2fYkHu88ZmeCIIImszfM.jpg', '2024-11-02 03:34:56', '2024-11-02 03:34:56');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `visit_requests`
+--
+
+CREATE TABLE `visit_requests` (
+  `id` int(11) NOT NULL,
+  `user_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `visit_date` date NOT NULL,
+  `visit_time` time NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Indexes for dumped tables
@@ -276,7 +294,8 @@ ALTER TABLE `property`
 --
 ALTER TABLE `tenants`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `email` (`email`);
+  ADD UNIQUE KEY `email` (`email`),
+  ADD KEY `fk_property` (`property_ID`);
 
 --
 -- Indexes for table `users`
@@ -284,6 +303,13 @@ ALTER TABLE `tenants`
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `users_email_unique` (`email`);
+
+--
+-- Indexes for table `visit_requests`
+--
+ALTER TABLE `visit_requests`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_user_id` (`user_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -305,7 +331,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `landlord`
 --
 ALTER TABLE `landlord`
-  MODIFY `landlord_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `landlord_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -323,7 +349,7 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `property`
 --
 ALTER TABLE `property`
-  MODIFY `property_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `property_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tenants`
@@ -338,6 +364,12 @@ ALTER TABLE `users`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `visit_requests`
+--
+ALTER TABLE `visit_requests`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- Constraints for dumped tables
 --
 
@@ -346,6 +378,18 @@ ALTER TABLE `users`
 --
 ALTER TABLE `property`
   ADD CONSTRAINT `property_ibfk_1` FOREIGN KEY (`landlord_id`) REFERENCES `landlord` (`landlord_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `tenants`
+--
+ALTER TABLE `tenants`
+  ADD CONSTRAINT `fk_property` FOREIGN KEY (`property_ID`) REFERENCES `property` (`property_ID`);
+
+--
+-- Constraints for table `visit_requests`
+--
+ALTER TABLE `visit_requests`
+  ADD CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
