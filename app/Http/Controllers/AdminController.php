@@ -50,8 +50,8 @@ if (Auth::guard('admin')->attempt($credentials)) {
     }
 
     public function propertyList()
-{
-    return view('admin.property_list'); // Adjust path if needed
-}
+    {
+        return view('admin.property_list'); // Adjust path if needed
+    }
 
 }

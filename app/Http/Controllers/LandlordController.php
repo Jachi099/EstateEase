@@ -12,17 +12,40 @@ use Illuminate\Support\Facades\Log;
 
 class LandlordController extends Controller
 {
-    // Method to display the user homepage
+    
+            // LandlordController.php
 
-    public function index()
+    public function showLoginForm()
     {
-        return view('landlord.home'); // Updated to match the new view file name
+        return view('landlord.login'); // Ensure this matches your view structure
     }
 
-public function userHome()
-{
-    return view('landlord.landlordu95dashboard'); // Ensure this matches your view structure
-}
+    public function login(Request $request)
+    {
+        // Validate the input data
+        $request->validate([
+            'Email' => 'required|Email',
+            'password' => 'required|string',
+        ]);
+
+        // Attempt to log the user in
+        if (Auth::attempt($request->only('email', 'password'))) {
+            // If successful, redirect to the user homepage
+            return redirect()->route('landlord.landlordu95dashboard')->with('success', 'Logged in successfully!');
+        }
+
+        // If unsuccessful, redirect back with an error message
+        return back()->with('error', 'Invalid credentials. Please try again.');
+    }
+
+    
+    
+    
+    // Method to display the user homepage
+    public function userHome()
+    {
+        return view('landlord.landlordu95dashboard'); // Ensure this matches your view structure
+    }
 
 
     // Method to display the properties page
@@ -51,10 +74,10 @@ public function userHome()
 
         // Validate the input data
         $validatedData = $request->validate([
-            'Name' => 'required|string|max:255',
-            'Phone' => 'required|numeric|digits_between:10,15',
+            'name' => 'required|string|max:255',
+            'phone' => 'required|numeric|digits_between:10,15',
             'account_type' => 'required|in:landlord,visitor',
-            'Email' => 'required|email|unique:users,email',
+            'email' => 'required|email|unique:users,email',
             'password' => [
                 'required',
                 'confirmed',
@@ -72,9 +95,9 @@ public function userHome()
 
         // Create the new user record in the database
         $user = User::create([
-            'Name' => $validatedData['Name'],
-            'Email' => $validatedData['Email'],
-            'Phone' => $validatedData['Phone'],
+            'name' => $validatedData['Name'],
+            'email' => $validatedData['Email'],
+            'phone' => $validatedData['Phone'],
             'password' => Hash::make($validatedData['password']),
             'picture' => $picturePath,
             'account_type' => $validatedData['account_type']
@@ -89,29 +112,4 @@ public function userHome()
 
 
 
-    // LandlordController.php
-
-public function showLoginForm()
-{
-    return view('landlord.login'); // Ensure this matches your view structure
 }
-
-public function login(Request $request)
-{
-    // Validate the input data
-    $request->validate([
-        'Email' => 'required|Email',
-        'password' => 'required|string',
-    ]);
-
-    // Attempt to log the user in
-    if (Auth::attempt($request->only('Email', 'password'))) {
-        // If successful, redirect to the user homepage
-        return redirect()->route('landlord.landlordu95dashboard')->with('success', 'Logged in successfully!');
-    }
-
-    // If unsuccessful, redirect back with an error message
-    return back()->with('error', 'Invalid credentials. Please try again.');
-}
-
-}  

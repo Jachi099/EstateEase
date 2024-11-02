@@ -34,6 +34,8 @@ class Property extends Model
         'img3',
         'status', // e.g., "available", "rented", etc.
         'landlord_id',
+        'floor',
+        'available_from',
     ];
 
     /**

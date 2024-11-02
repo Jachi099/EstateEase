@@ -83,9 +83,13 @@ Route::post('admin/login', [AdminController::class, 'login']);
 Route::middleware(['auth:admin'])->group(function () {
     Route::get('admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::post('admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
-    Route::get('/admin/property-list', [AdminController::class, 'propertyList'])->name('admin.property_list');
+    //Route::get('/admin/property-list', [AdminController::class, 'propertyList'])->name('admin.property_list');
 
 });
+
+// Route for the admin to view all properties
+Route::get('/admin/properties', [PropertyController::class, 'index'])->name('admin.properties.index');
+Route::get('/admin/properties/filter', [PropertyController::class, 'index'])->name('properties.filter');
 
 
 /*
@@ -98,6 +102,7 @@ Route::get('landlord/login', [LandlordController::class, 'showLoginForm'])->name
 Route::post('landlord/login', [LandlordController::class, 'login'])->name('landlord.login.submit');
 
 Route::middleware(['auth:landlord'])->group(function () {
+    Route::get('landlord/user_home', [LandlordController::class, 'signup'])->name('landlord.signup');
     Route::get('landlord/landlordu95dashboard', [LandlordController::class, 'dashboard'])->name('landlord.dashboard');
     Route::get('landlord/properties', [LandlordController::class, 'properties'])->name('landlord.properties');
     Route::post('landlord/logout', [LandlordController::class, 'logout'])->name('landlord.logout');
@@ -110,4 +115,6 @@ Route::middleware(['auth:landlord'])->group(function () {
 |--------------------------------------------------------------------------
 */
 
-Route::resource('properties', PropertyController::class);
+
+Route::get('/properties', [PropertyController::class, 'index'])->name('properties.index');
+

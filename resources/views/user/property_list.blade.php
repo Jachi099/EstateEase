@@ -54,6 +54,7 @@
             <div class="sort-1"></div>
           </div>
         </div>
+        
         <form action="{{ route('properties.filter') }}" method="GET">
 
         <div class="flex-row-1">
@@ -62,18 +63,22 @@
          <select name="location" id="location" class="sort-2">
           <option value="">All Locations</option>
           <!-- Add location options here -->
-          <option value="City1">DHAKA</option>
-          <option value="City2">CA</option>
+          <option value="City1">Bashundhara</option>
+                    <option value="City2">Badda</option>
+                    <option value="City1">Nadda</option>
+                    <option value="City2">Uttara</option>
+                    <option value="City1">Mohammadpur</option>
+                    <option value="City2">Mohakhali</option>
       </select>
           <div class="rent-range rent-1 montserrat-medium-black-16px">RENT RANGE:</div>
-    <select name="rent_range" class="sort-3">
-      <option value="">Select Rent Range</option>
-      <option value="0-1000" {{ request('rent_range') == '0-1000' ? 'selected' : '' }}>Under $1000</option>
-      <option value="1000-2000" {{ request('rent_range') == '1000-2000' ? 'selected' : '' }}>$1000 - $2000</option>
-      <option value="2000-3000" {{ request('rent_range') == '2000-3000' ? 'selected' : '' }}>$2000 - $3000</option>
-      <option value="3000-4000" {{ request('rent_range') == '3000-4000' ? 'selected' : '' }}>$3000 - $4000</option>
-      <option value="4000-100000" {{ request('rent_range') == '4000-100000' ? 'selected' : '' }}>Above $4000</option>
-  </select>
+          <select name="rent_range" class="sort-3">
+            <option value="">Select Rent Range</option>
+            <option value="1000-5000" {{ request('rent_range') == '1000-5000' ? 'selected' : '' }}>Under Tk.5000</option>
+            <option value="5000-20000" {{ request('rent_range') == '5000-20000' ? 'selected' : '' }}>Tk.5000 - Tk.20000</option>
+            <option value="20000-30000" {{ request('rent_range') == '20000-30000' ? 'selected' : '' }}>Tk.20000 - Tk.30000</option>
+            <option value="30000-40000" {{ request('rent_range') == '30000-40000' ? 'selected' : '' }}>Tk.30000 - Tk.40000</option>
+            <option value="40000-100000" {{ request('rent_range') == '40000-100000' ? 'selected' : '' }}>Above Tk.40000</option>
+        </select>
 
 
           <div class="overlap-group2">

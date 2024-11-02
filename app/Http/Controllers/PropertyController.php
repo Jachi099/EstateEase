@@ -7,21 +7,46 @@ use Illuminate\Http\Request;
 
 class PropertyController extends Controller
 {
-    /**
-     * Display a listing of all properties.
-     */
+    /*
     public function index()
     {
-        $properties = Property::all();
-        return view('properties.index', compact('properties'));
+        // Fetch all properties
+        $properties = Property::paginate(3);
+
+        // Return the view with properties data
+        return view('admin.property_list', compact('properties'));
+    } */
+
+    public function index(Request $request)
+    {
+        // Start with a base query
+        $query = Property::query();
+
+        // Apply location filter if provided
+        if ($request->has('location') && $request->location != '') {
+            $query->where('city', $request->location);
+        }
+
+        // Apply rent range filter if provided
+        if ($request->has('rent_range') && $request->rent_range != '') {
+            $range = explode('-', $request->rent_range);
+            $query->whereBetween('rent', [$range[0], $range[1]]);
+        }
+
+        // Fetch properties (should retrieve all if no filters are applied)
+        $properties = $query->get();
+
+        // Return the view with filtered properties
+        return view('admin.property_list', compact('properties'));
     }
+
 
 
     /**
      * Display a listing of all properties of the landlord.
      */
 
-    public function index()
+    public function index_myPro()
     {
         $landlordId = auth()->user()->id; // Assuming landlord is authenticated
         $properties = Property::where('landlord_id', $landlordId)->get();
@@ -59,6 +84,8 @@ class PropertyController extends Controller
             'img3' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'status' => 'required|string', 
             'landlord_id' => 'required|integer',
+            'floor' => 'required|integer',
+            'available_from' => 'required|date',
 
         ]);
 

@@ -139,9 +139,16 @@
 .propertyu95listu95admin .flex-row {
   align-items: flex-end;
   display: flex;
-  gap: 40px;
+  gap: 20px; /* Adjusted gap for better spacing */
   margin-left: 2px;
   min-width: 1134px;
+  flex-wrap: wrap; /* Allows elements to wrap if they exceed the width */
+}
+
+.propertyu95listu95admin select {
+  padding: 5px; /* Adds padding inside the dropdowns for better appearance */
+  margin-right: 100px; /* Adds spacing to the right of each dropdown */
+  font-size: 14px; /* Adjust size for readability */
 }
 
 .propertyu95listu95admin .flex-col-1 {
@@ -197,6 +204,9 @@
   margin-bottom: 1.0px;
   min-height: 20px;
   min-width: 90px;
+  color: var(--black); /* Ensure text color is visible */
+  font-size: 16px; /* Adjust font size if needed */
+  margin-right: 20px;
 }
 
 .propertyu95listu95admin .location_opt {
@@ -210,16 +220,21 @@
 .propertyu95listu95admin .flex-row-1 {
   align-items: flex-end;
   display: flex;
-  height: 290px;
+  height: 50px;
   min-width: 688px;
 }
 
 .propertyu95listu95admin .rent-range {
   letter-spacing: 0;
   line-height: normal;
-  margin-bottom: 8px;
+  margin-bottom: 1.0px;
   min-height: 20px;
-  min-width: 117px;
+  min-width: 90px;
+  color: var(--black); /* Ensure text color is visible */
+  font-size: 16px; /* Adjust font size if needed */
+  margin-right: 20px;
+  /* margin-left: 500px; */
+  margin-top: 20px;
 }
 
 .propertyu95listu95admin .rent_range {
@@ -229,6 +244,7 @@
   height: 35px;
   margin-left: 24px;
   width: 314px;
+  
 }
 
 .propertyu95listu95admin .flex-col-2 {
@@ -271,7 +287,7 @@
 .propertyu95listu95admin .flex-row-2 {
   align-items: center;
   display: flex;
-  margin-top: 58px;
+  margin-top: 20px;
   min-width: 1130px;
 }
 
@@ -291,6 +307,7 @@
   margin-bottom: 1.0px;
   margin-left: 11px;
   width: 80px;
+  text-align: center;
 }
 
 .propertyu95listu95admin .sort {
@@ -315,22 +332,26 @@
   background-color: var(--white);
   border: 3px solid;
   border-color: var(--black);
-  height: 443px;
+  height: auto; /* Allows the container to expand with content */
   margin-top: 31px;
   position: relative;
   width: 1130px;
+  overflow: visible;
+  display: flex;
+  flex-wrap: wrap; /* Allows items to wrap to the next line */
+  gap: 40px; /* Adds spacing between property cards */
 }
 
 .propertyu95listu95admin .property_card {
+  align-items: center;
   background-color: var(--white);
   border: 2px solid;
   border-color: var(--black);
   height: 396px;
-  left: 31px;
-  position: absolute;
-  top: 22px;
   width: 241px;
+  position: relative; /* Change from absolute to relative */
 }
+
 
 .propertyu95listu95admin .detail_btn {
   background-color: var(--white);
@@ -346,7 +367,7 @@
 }
 
 .propertyu95listu95admin .more-details {
-  left: 86px;
+  left: 55px;
   letter-spacing: 0;
   line-height: normal;
   position: absolute;
@@ -436,15 +457,15 @@
   letter-spacing: 0;
   line-height: normal;
   position: absolute;
-  top: 217px;
+  top: 240px;
 }
 
 .propertyu95listu95admin .floor {
-  left: 187px;
+  left: 51px;
   letter-spacing: 0;
   line-height: normal;
   position: absolute;
-  top: 196px;
+  top: 215px;
 }
 
 .propertyu95listu95admin .rent-1 {
@@ -468,7 +489,7 @@
   border: 2px solid;
   border-color: var(--beaver);
   height: 113px;
-  left: 52px;
+  left: 20px;
   position: absolute;
   top: 38px;
   width: 201px;
