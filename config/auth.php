@@ -17,35 +17,34 @@ return [
     'guard' => 'web', // You can set the default guard to 'tenant' or another type based on your needs
     'passwords' => 'users', // Update if you have different password reset configurations
 ],
-
 'guards' => [
     'web' => [
         'driver' => 'session',
-        'provider' => 'users', // This can be your visitors
+        'provider' => 'users',
     ],
+
     'landlord' => [
         'driver' => 'session',
         'provider' => 'landlords',
     ],
+    
     'tenant' => [
         'driver' => 'session',
         'provider' => 'tenants',
     ],
 ],
 
+
 'providers' => [
     'users' => [
         'driver' => 'eloquent',
-        'model' => App\Models\User::class, // Model for visitors
+        'model' => App\Models\User::class,
     ],
     'landlords' => [
         'driver' => 'eloquent',
-        'model' => App\Models\Landlord::class, // Create this model for landlords
+        'model' => App\Models\Landlord::class,
     ],
-    'tenants' => [
-        'driver' => 'eloquent',
-        'model' => App\Models\Tenant::class, // Tenant model created earlier
-    ],
+    // Define tenant provider if applicable
 ],
 
 

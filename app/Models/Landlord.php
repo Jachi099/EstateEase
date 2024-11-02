@@ -17,7 +17,7 @@ class Landlord extends Authenticatable
         protected $primaryKey = 'landlord_id';
     
         protected $fillable = [
-            'name', 'email', 'phone', 'password', 'picture', 'account_type'
+            'name', 'email', 'phone', 'password', 'picture', 'account_type', 'current_address'
         ];
     
     

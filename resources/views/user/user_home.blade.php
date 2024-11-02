@@ -32,13 +32,16 @@
         
              <a href="{{ route('user.service') }}"><div class="navbar-link-services montserrat-normal-black-16px">Services</div> </a>
           
-            <a href="{{ route(auth()->user()->account_type . '.profile') }}" class="head_pic">
-              @if(isset($profilePicture) && $profilePicture)
-                  <img src="{{ asset('storage/' . $profilePicture) }}" alt="User Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
-              @else
-                  <img src="path/to/default/image.png" alt="Default Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
-              @endif
-          </a>
+             @if(auth()->check())
+    <a href="{{ route(auth()->user()->account_type . '.profile') }}" class="head_pic">
+        ...
+    </a>
+@else
+    <a href="{{ route('user.login') }}" class="head_pic">
+        <img src="path/to/default/image.png" alt="Default Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
+    </a>
+@endif
+
           
 </a>
 

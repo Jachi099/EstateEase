@@ -35,11 +35,14 @@ class UserController extends Controller
      return view('user.visit_requested_list', compact('profilePicture')); // Pass the profile picture to the view
  }
  
-    public function userHome()
-    {
-        $user = Auth::user(); // Retrieve the authenticated user
-        return view('user.user_home', ['profilePicture' => $user->picture]);
-    }
+ public function userHome()
+ {
+     $user = Auth::user();
+     Log::info('Redirected to user home for: ' . $user->email);
+     return view('user.user_home', ['profilePicture' => $user->picture]);
+ }
+ 
+ 
     
     public function profile()
     {
@@ -82,7 +85,7 @@ class UserController extends Controller
     
         // Check if the user is a valid instance of the User model
         if (!$user instanceof User) {
-            return redirect()->route('user.profile')->with('error', 'User not found.');
+            return redirect()->route('visitor.profile')->with('error', 'User not found.');
         }
     
         // Prepare the profile picture path
@@ -109,7 +112,7 @@ class UserController extends Controller
 
     // Check if the user is a valid instance of User model
     if (!$user instanceof User) {
-        return redirect()->route('user.profile')->with('error', 'User not found.');
+        return redirect()->route('visitor.profile')->with('error', 'User not found.');
     }
 
     // Prepare an array of attributes to update
@@ -138,7 +141,7 @@ class UserController extends Controller
     // Save the updated user instance
     $user->save(); // Ensure $user is a valid User instance here
 
-    return redirect()->route('user.profile')->with('success', 'Profile updated successfully.');
+    return redirect()->route('visitor.profile')->with('success', 'Profile updated successfully.');
 }
 
 
@@ -229,47 +232,65 @@ class UserController extends Controller
 
 
     // UserController.php
-
-public function showLoginForm()
+    public function showLoginForm()
+    {
+        return view('user.login'); // Return the login view
+    }
+    public function login(Request $request)
 {
-    return view('user.login'); // Ensure this matches your view structure
-}
-
-public function login(Request $request)
-{
-    // Validate the input data
     $request->validate([
         'email' => 'required|email',
         'password' => 'required|string',
     ]);
 
-    // Check for the user type
-    $user = User::where('email', $request->email)->first();
+    Log::info('Login attempt for email: ' . $request->email);
 
-    if ($user) {
-        if ($user->account_type == 'landlord') {
-            // Attempt to log in as landlord
-            if (Auth::guard('landlord')->attempt($request->only('email', 'password'))) {
-                return redirect()->route('user.user_home')->with('success', 'Logged in successfully as landlord!');
-            }
-        } elseif ($user->account_type == 'visitor') {
-            // Attempt to log in as visitor
-            if (Auth::guard('web')->attempt($request->only('email', 'password'))) {
-                return redirect()->route('user.user_home')->with('success', 'Logged in successfully as visitor!');
-            }
-        } elseif ($user->account_type == 'tenant') {
-            // Attempt to log in as tenant
-            if (Auth::guard('tenant')->attempt($request->only('email', 'password'))) {
-                return redirect()->route('user.user_home')->with('success', 'Logged in successfully as tenant!');
-            }
+    // Attempt to find a landlord first
+    $landlord = Landlord::where('email', $request->email)->first();
+    if ($landlord) {
+        Log::info('Landlord found: ' . $landlord->email);
+
+        if (Auth::guard('landlord')->attempt($request->only('email', 'password'))) {
+            Log::info('Landlord login successful: ' . $landlord->email);
+            return redirect()->route('user.user_home')->with('success', 'Logged in successfully as landlord!');
+        } else {
+            Log::warning('Landlord login failed: Invalid credentials');
         }
     }
 
-    // If unsuccessful, redirect back with an error message
+    // Attempt to find a visitor if landlord not found
+    $visitor = User::where('email', $request->email)->first();
+    if ($visitor) {
+        Log::info('Visitor found: ' . $visitor->email);
+
+        if (Auth::guard('web')->attempt($request->only('email', 'password'))) {
+            Log::info('Visitor login successful: ' . $visitor->email);
+            return redirect()->route('user.user_home')->with('success', 'Logged in successfully as visitor!');
+        } else {
+            Log::warning('Visitor login failed: Invalid credentials');
+        }
+    }
+
+    // Attempt to find a tenant if neither landlord nor visitor is found
+    $tenant = Tenant::where('email', $request->email)->first();
+    if ($tenant) {
+        Log::info('Tenant found: ' . $tenant->email);
+
+        if (Auth::guard('tenant')->attempt($request->only('email', 'password'))) {
+            Log::info('Tenant login successful: ' . $tenant->email);
+            return redirect()->route('user.user_home')->with('success', 'Logged in successfully as tenant!');
+        } else {
+            Log::warning('Tenant login failed: Invalid credentials');
+        }
+    }
+
+    Log::warning('No user found for email: ' . $request->email);
+    
+    // If no login attempts were successful, return back with an error message
     return back()->with('error', 'Invalid credentials. Please try again.');
 }
 
-
+    
 
 public function logout(Request $request)
 {
