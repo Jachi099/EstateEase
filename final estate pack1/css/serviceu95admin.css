@@ -1,0 +1,246 @@
+/* screen - serviceu95admin */
+
+.serviceu95admin {
+  align-items: flex-start;
+  background-color: var(--white);
+  display: flex;
+  gap: 91px;
+  height: 1024px;
+  width: 1440px;
+}
+
+.serviceu95admin .overlap-group {
+  align-items: center;
+  background-color: var(--black);
+  display: flex;
+  flex-direction: column;
+  min-height: 1024px;
+  padding: 80px 0;
+  width: 214px;
+}
+
+.serviceu95admin .overlap-group8 {
+  align-items: flex-start;
+  background-color: var(--black);
+  display: flex;
+  height: 77px;
+  margin-top: 84px;
+  min-width: 214px;
+  padding: 26px 45px;
+}
+
+.serviceu95admin .profile {
+  left: 68px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-shadow: 0px 4px 4px #c09a7f66;
+  top: 27px;
+  white-space: nowrap;
+}
+
+.serviceu95admin .overlap-group2 {
+  align-items: flex-start;
+  background-color: var(--black);
+  display: flex;
+  height: 77px;
+  justify-content: flex-end;
+  min-width: 214px;
+  padding: 26px 58px;
+}
+
+.serviceu95admin .overlap-group9 {
+  align-items: flex-start;
+  background-color: var(--black);
+  display: flex;
+  height: 77px;
+  min-width: 214px;
+  padding: 26px 59px;
+}
+
+.serviceu95admin .overlap-group7 {
+  align-items: flex-end;
+  background-color: var(--black);
+  display: flex;
+  height: 77px;
+  min-width: 214px;
+  padding: 26px 18px;
+}
+
+.serviceu95admin .tenant-visitor {
+  letter-spacing: 0;
+  line-height: normal;
+  min-height: 24px;
+  min-width: 171px;
+  text-shadow: 0px 4px 4px #c09a7f66;
+  white-space: nowrap;
+}
+
+.serviceu95admin .overlap-group5 {
+  align-items: flex-end;
+  background-color: var(--white);
+  display: flex;
+  height: 77px;
+  min-width: 214px;
+  padding: 26px 64px;
+}
+
+.serviceu95admin .service {
+  letter-spacing: 0;
+  line-height: normal;
+  min-height: 24px;
+  min-width: 85px;
+  text-shadow: 0px 4px 4px #c09a7f66;
+  white-space: nowrap;
+}
+
+.serviceu95admin .service-provider {
+  left: 24px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-shadow: 0px 4px 4px #c09a7f66;
+  top: 26px;
+  white-space: nowrap;
+}
+
+.serviceu95admin .feedback {
+  left: 56px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-shadow: 0px 4px 4px #c09a7f66;
+  top: 26px;
+  white-space: nowrap;
+}
+
+.serviceu95admin .overlap-group10 {
+  align-items: flex-end;
+  background-color: var(--black);
+  display: flex;
+  height: 77px;
+  min-width: 214px;
+  padding: 26px 62px;
+}
+
+.serviceu95admin .flex-col {
+  flex-direction: column;
+  gap: 1px;
+  margin-top: 33px;
+  min-height: 940px;
+  width: 1093px;
+}
+
+.serviceu95admin .flex-row {
+  gap: 187px;
+  height: 332px;
+  min-width: 1093px;
+}
+
+.serviceu95admin .flex-col-1 {
+  align-self: flex-end;
+  min-height: 285px;
+  width: 606px;
+}
+
+.serviceu95admin .estate-ease_logo {
+  min-height: 31px;
+  width: 431px;
+}
+
+.serviceu95admin .service-container {
+  align-items: flex-start;
+  align-self: flex-end;
+  display: flex;
+  gap: 91px;
+  height: 24px;
+  margin-top: 118px;
+  min-width: 535px;
+}
+
+.serviceu95admin .add-services {
+  cursor: pointer;
+  letter-spacing: 0;
+  line-height: normal;
+  min-height: 24px;
+  min-width: 157px;
+  white-space: nowrap;
+}
+
+.serviceu95admin .check-service-requests {
+  cursor: pointer;
+  letter-spacing: 0;
+  line-height: normal;
+  min-height: 24px;
+  white-space: nowrap;
+}
+
+.serviceu95admin .list-of-services {
+  letter-spacing: 0;
+  line-height: normal;
+  margin-top: 81px;
+  min-height: 31px;
+  width: 186px;
+}
+
+.serviceu95admin .flex-row-1 {
+  align-items: flex-end;
+  display: flex;
+  gap: 11px;
+  height: 321px;
+  min-width: 300px;
+}
+
+.serviceu95admin .total-properties {
+  letter-spacing: 0;
+  line-height: normal;
+  margin-bottom: 1px;
+  min-height: 20px;
+  min-width: 170px;
+}
+
+.serviceu95admin .flex-col-2 {
+  gap: 226px;
+  min-height: 321px;
+  width: 119px;
+}
+
+.serviceu95admin .head_pic {
+  align-self: flex-end;
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--beaver);
+  border-radius: 38.5px/36.5px;
+  cursor: pointer;
+  height: 73px;
+  width: 77px;
+}
+
+.serviceu95admin .total {
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--mongoose-2);
+  height: 22px;
+  width: 80px;
+}
+
+.serviceu95admin .overlap-group1 {
+  align-items: flex-start;
+  background-color: var(--white);
+  border: 2px solid;
+  border-color: var(--black);
+  display: flex;
+  height: 607px;
+  min-width: 1054px;
+}
+
+.serviceu95admin .flex {
+  align-items: flex-start;
+  display: flex;
+}
+
+.serviceu95admin .flex-col-3 {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+}

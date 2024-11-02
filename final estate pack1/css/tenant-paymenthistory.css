@@ -1,0 +1,230 @@
+/* screen - tenant-paymenthistory */
+
+.tenant-paymenthistory {
+  align-items: flex-start;
+  background-color: var(--white);
+  display: flex;
+  gap: 88px;
+  height: 1024px;
+  width: 1440px;
+}
+
+.tenant-paymenthistory .overlap-group {
+  align-items: center;
+  background-color: var(--black);
+  display: flex;
+  flex-direction: column;
+  min-height: 1024px;
+  padding: 80px 0;
+  width: 214px;
+}
+
+.tenant-paymenthistory .overlap-group9 {
+  align-items: flex-start;
+  background-color: var(--black);
+  display: flex;
+  height: 77px;
+  margin-top: 84px;
+  min-width: 214px;
+  padding: 26px 45px;
+}
+
+.tenant-paymenthistory .profile {
+  left: 68px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-shadow: 0px 4px 4px #c09a7f66;
+  top: 27px;
+  white-space: nowrap;
+}
+
+.tenant-paymenthistory .overlap-group6 {
+  align-items: flex-start;
+  background-color: var(--black);
+  display: flex;
+  height: 77px;
+  justify-content: flex-end;
+  min-width: 214px;
+  padding: 26px 58px;
+}
+
+.tenant-paymenthistory .overlap-group7 {
+  align-items: flex-start;
+  background-color: var(--black);
+  display: flex;
+  height: 77px;
+  min-width: 214px;
+  padding: 26px 59px;
+}
+
+.tenant-paymenthistory .overlap-group11 {
+  align-items: flex-end;
+  background-color: var(--white);
+  display: flex;
+  height: 77px;
+  min-width: 214px;
+  padding: 26px 18px;
+}
+
+.tenant-paymenthistory .tenant-visitor {
+  letter-spacing: 0;
+  line-height: normal;
+  min-height: 24px;
+  min-width: 171px;
+  text-shadow: 0px 4px 4px #c09a7f66;
+  white-space: nowrap;
+}
+
+.tenant-paymenthistory .service {
+  left: 64px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-shadow: 0px 4px 4px #c09a7f66;
+  top: 27px;
+  white-space: nowrap;
+}
+
+.tenant-paymenthistory .service-provider {
+  left: 24px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-shadow: 0px 4px 4px #c09a7f66;
+  top: 26px;
+  white-space: nowrap;
+}
+
+.tenant-paymenthistory .feedback {
+  left: 56px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-shadow: 0px 4px 4px #c09a7f66;
+  top: 26px;
+  white-space: nowrap;
+}
+
+.tenant-paymenthistory .overlap-group8 {
+  align-items: flex-end;
+  background-color: var(--black);
+  display: flex;
+  height: 77px;
+  min-width: 214px;
+  padding: 26px 62px;
+}
+
+.tenant-paymenthistory .flex-col {
+  flex-direction: column;
+  margin-top: 33px;
+  min-height: 903px;
+  width: 1096px;
+}
+
+.tenant-paymenthistory .flex-row {
+  gap: 78px;
+  height: 78px;
+  margin-left: 3px;
+  min-width: 1093px;
+}
+
+.tenant-paymenthistory .estate-ease_logo {
+  align-self: flex-end;
+  min-height: 31px;
+  width: 938px;
+}
+
+.tenant-paymenthistory .head_pic {
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--beaver);
+  border-radius: 38.5px/36.5px;
+  cursor: pointer;
+  height: 73px;
+  width: 77px;
+}
+
+.tenant-paymenthistory .flex-row-1 {
+  align-items: flex-end;
+  display: flex;
+  height: 96px;
+  margin-top: 43px;
+  min-width: 1058px;
+}
+
+.tenant-paymenthistory .flex-col-1 {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  min-height: 96px;
+  width: 309px;
+}
+
+.tenant-paymenthistory .overlap-group2 {
+  background-color: var(--white);
+  border: 3px solid;
+  border-color: var(--black);
+  border-radius: 15px;
+  height: 47px;
+  position: relative;
+  width: 309px;
+}
+
+.tenant-paymenthistory .tenant {
+  color: var(--white);
+  font-family: var(--font-family-montserrat);
+  font-size: var(--font-size-xxl);
+  font-weight: 800;
+  left: 22px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 4px;
+  white-space: nowrap;
+}
+
+.tenant-paymenthistory .list-of-payment-history {
+  letter-spacing: 0;
+  line-height: normal;
+  margin-left: 4px;
+  min-height: 24px;
+  white-space: nowrap;
+}
+
+.tenant-paymenthistory .sort {
+  letter-spacing: 0;
+  line-height: normal;
+  margin-bottom: 8px;
+  margin-left: 446px;
+  min-height: 20px;
+  min-width: 48px;
+}
+
+.tenant-paymenthistory .sort-1 {
+  background-color: var(--white);
+  border: 2px solid;
+  border-color: var(--beaver);
+  height: 27px;
+  margin-bottom: 4px;
+  margin-left: 11px;
+  width: 244px;
+}
+
+.tenant-paymenthistory .overlap-group1 {
+  align-items: flex-start;
+  background-color: var(--white);
+  border: 2px solid;
+  border-color: var(--black);
+  display: flex;
+  height: 678px;
+  margin-left: 4px;
+  margin-top: 8px;
+  min-width: 1054px;
+}
+
+.tenant-paymenthistory .flex {
+  align-items: flex-start;
+  display: flex;
+}

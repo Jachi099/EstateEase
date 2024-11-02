@@ -1,0 +1,476 @@
+/* screen - propertyu95detailsu95tenant-1 */
+
+.propertyu95detailsu95tenant-1 {
+  align-items: center;
+  background-color: var(--white);
+  display: flex;
+  flex-direction: column;
+  height: 731px;
+  width: 1440px;
+}
+
+.propertyu95detailsu95tenant-1 .flex-col {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  min-height: 245px;
+  width: 1440px;
+}
+
+.propertyu95detailsu95tenant-1 .navbar-link-place {
+  margin-bottom: 7.0px;
+  margin-left: 327px;
+  min-height: 20px;
+  min-width: 50px;
+}
+
+.propertyu95detailsu95tenant-1 .navbar-link-about {
+  margin-bottom: 7.0px;
+  margin-left: 95px;
+  min-height: 20px;
+  min-width: 50px;
+}
+
+.propertyu95detailsu95tenant-1 .navbar-link-properties {
+  cursor: pointer;
+  margin-bottom: 7.0px;
+  margin-left: 95px;
+  min-height: 20px;
+  min-width: 83px;
+}
+
+.propertyu95detailsu95tenant-1 .navbar-link-services {
+  margin-bottom: 7.0px;
+  margin-left: 95px;
+  min-height: 20px;
+  min-width: 66px;
+}
+
+.propertyu95detailsu95tenant-1 .navbar-link-notification {
+  margin-bottom: 9.0px;
+  margin-left: 90px;
+  min-height: 20px;
+  min-width: 94px;
+}
+
+.propertyu95detailsu95tenant-1 .head_pic {
+  align-self: flex-start;
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--beaver);
+  border-radius: 38.5px/36.5px;
+  height: 73px;
+  margin-left: 89px;
+  width: 77px;
+}
+
+.propertyu95detailsu95tenant-1 .estate-ease_logo {
+  align-self: flex-start;
+  letter-spacing: 0;
+  line-height: normal;
+  margin-left: 182px;
+  margin-top: 23px;
+  min-height: 31px;
+  width: 623px;
+}
+
+.propertyu95detailsu95tenant-1 .rent {
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--cloud);
+  height: 20px;
+  margin-bottom: 2.0px;
+  margin-left: 10px;
+  width: 120px;
+}
+
+.propertyu95detailsu95tenant-1 .overlap-group9 {
+  height: 24px;
+  margin-left: 6px;
+  position: relative;
+  width: 145px;
+}
+
+.propertyu95detailsu95tenant-1 .paid_sign {
+  background-color: var(--white);
+  border: 2px solid;
+  border-color: var(--beaver);
+  border-radius: 10px;
+  height: 24px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 137px;
+}
+
+.propertyu95detailsu95tenant-1 .due_sign {
+  background-color: var(--mongoose);
+  border-radius: 10px;
+  height: 21px;
+  left: 64px;
+  position: absolute;
+  top: 2px;
+  width: 73px;
+}
+
+.propertyu95detailsu95tenant-1 .due {
+  color: var(--white);
+  font-family: var(--font-family-montserrat);
+  font-size: 11px;
+  font-weight: 900;
+  left: 86px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 4px;
+  width: 59px;
+}
+
+.propertyu95detailsu95tenant-1 .paid {
+  color: var(--mongoose);
+  font-family: var(--font-family-montserrat);
+  font-size: 11px;
+  font-weight: 900;
+  left: 7px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 5px;
+  width: 59px;
+}
+
+.propertyu95detailsu95tenant-1 .navbar-link-rented-date {
+  letter-spacing: 0;
+  line-height: normal;
+  margin-bottom: 3.0px;
+  margin-left: 19px;
+  min-height: 15px;
+  min-width: 93px;
+}
+
+.propertyu95detailsu95tenant-1 .overlap-group-container {
+  align-items: flex-start;
+  display: flex;
+  gap: 15px;
+  margin-right: 1.0px;
+  margin-top: 10px;
+  min-width: 1075px;
+}
+
+.propertyu95detailsu95tenant-1 .overlap-group8 {
+  height: 34px;
+  position: relative;
+  width: 614px;
+}
+
+.propertyu95detailsu95tenant-1 .overlap-group5 {
+  height: 34px;
+  position: relative;
+  width: 446px;
+}
+
+.propertyu95detailsu95tenant-1 .flex-row {
+  align-items: flex-start;
+  display: flex;
+  gap: 15px;
+  height: 402px;
+  min-width: 1076px;
+}
+
+.propertyu95detailsu95tenant-1 .flex-col-1 {
+  width: 614px;
+}
+
+.propertyu95detailsu95tenant-1 .overlap-group7 {
+  align-items: flex-start;
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--black);
+  display: flex;
+  height: 177px;
+  min-width: 614px;
+  padding: 12px 20px;
+}
+
+.propertyu95detailsu95tenant-1 .pro_pic {
+  background-color: var(--white);
+  border: 2px solid;
+  border-color: var(--beaver);
+  height: 148px;
+  width: 128px;
+}
+
+.propertyu95detailsu95tenant-1 .overlap-group-container-1 {
+  align-items: flex-start;
+  display: flex;
+  gap: 14px;
+  height: 219px;
+  min-width: 614px;
+}
+
+.propertyu95detailsu95tenant-1 .overlap-group4 {
+  align-items: center;
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--black);
+  display: flex;
+  flex-direction: column;
+  min-height: 219px;
+  padding: 10px 0;
+  width: 261px;
+}
+
+.propertyu95detailsu95tenant-1 .flex-row-1 {
+  align-items: flex-start;
+  display: flex;
+  gap: 24px;
+  margin-right: 7.0px;
+  margin-top: 14px;
+  min-width: 212px;
+}
+
+.propertyu95detailsu95tenant-1 .bedroom {
+  letter-spacing: 0;
+  line-height: normal;
+  margin-top: 1px;
+  min-height: 15px;
+  min-width: 70px;
+}
+
+.propertyu95detailsu95tenant-1 .bed_count {
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--cloud);
+  height: 20px;
+  width: 118px;
+}
+
+.propertyu95detailsu95tenant-1 .bathroom {
+  letter-spacing: 0;
+  line-height: normal;
+  margin-top: 1px;
+  min-height: 15px;
+  min-width: 77px;
+}
+
+.propertyu95detailsu95tenant-1 .bath_count {
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--cloud);
+  height: 20px;
+  width: 118px;
+}
+
+.propertyu95detailsu95tenant-1 .floor_count {
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--cloud);
+  height: 20px;
+  width: 118px;
+}
+
+.propertyu95detailsu95tenant-1 .overlap-group2 {
+  align-items: center;
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--black);
+  display: flex;
+  flex-direction: column;
+  min-height: 219px;
+  padding: 10px 0;
+  width: 339px;
+}
+
+.propertyu95detailsu95tenant-1 .flex-row-2 {
+  align-items: center;
+  display: flex;
+  gap: 12px;
+  margin-right: 4.0px;
+  margin-top: 12px;
+  min-width: 289px;
+}
+
+.propertyu95detailsu95tenant-1 .flex-row-3 {
+  align-items: flex-start;
+  display: flex;
+  gap: 2px;
+  margin-right: 4.0px;
+  margin-top: 10px;
+  min-width: 289px;
+}
+
+.propertyu95detailsu95tenant-1 .flex-col-2 {
+  width: 447px;
+}
+
+.propertyu95detailsu95tenant-1 .overlap-group6 {
+  align-items: center;
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--black);
+  display: flex;
+  flex-direction: column;
+  min-height: 259px;
+  padding: 12px 0;
+  width: 447px;
+}
+
+.propertyu95detailsu95tenant-1 .payment-information {
+  align-self: flex-start;
+  letter-spacing: 0;
+  line-height: normal;
+  margin-left: 32px;
+  margin-top: 1px;
+  min-height: 22px;
+  width: 225px;
+}
+
+.propertyu95detailsu95tenant-1 .line-1 {
+  margin-right: 2.0px;
+  margin-top: 5px;
+  width: 447px;
+}
+
+.propertyu95detailsu95tenant-1 .payment-history {
+  align-self: flex-start;
+  letter-spacing: 0;
+  line-height: normal;
+  margin-left: 32px;
+  margin-top: 10px;
+  min-height: 22px;
+  width: 136px;
+}
+
+.propertyu95detailsu95tenant-1 .payhistory_list {
+  background-color: var(--white);
+  border: 2px solid;
+  border-color: var(--beaver);
+  height: 58px;
+  margin-right: 2.0px;
+  margin-top: 3px;
+  width: 387px;
+}
+
+.propertyu95detailsu95tenant-1 .payment-container {
+  align-items: center;
+  display: flex;
+  gap: 28px;
+  margin-right: 62.0px;
+  margin-top: 13px;
+  min-width: 319px;
+}
+
+.propertyu95detailsu95tenant-1 .payment-due {
+  letter-spacing: 0;
+  line-height: normal;
+  margin-top: 1.0px;
+  min-height: 15px;
+  width: 104px;
+}
+
+.propertyu95detailsu95tenant-1 .payment_due {
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--beaver);
+  height: 20px;
+  width: 187px;
+}
+
+.propertyu95detailsu95tenant-1 .method-container {
+  height: 20px;
+  margin-right: 62.0px;
+  margin-top: 18px;
+  position: relative;
+  width: 319px;
+}
+
+.propertyu95detailsu95tenant-1 .pay_method_opt {
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--beaver);
+  height: 20px;
+  left: 132px;
+  position: absolute;
+  top: 0;
+  width: 187px;
+}
+
+.propertyu95detailsu95tenant-1 .payment-method {
+  left: 0;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 0;
+  width: 149px;
+}
+
+.propertyu95detailsu95tenant-1 .overlap-group11 {
+  align-items: flex-start;
+  align-self: flex-end;
+  background-color: var(--mongoose);
+  border-radius: 10px;
+  box-shadow: 0px 4px 4px #00000040;
+  display: flex;
+  height: 29px;
+  justify-content: flex-end;
+  margin-right: 19px;
+  margin-top: 13px;
+  min-width: 76px;
+  padding: 4px 18px;
+}
+
+.propertyu95detailsu95tenant-1 .pay {
+  color: var(--white);
+  font-family: var(--font-family-montserrat);
+  font-size: var(--font-size-xs);
+  font-weight: 900;
+  letter-spacing: 0;
+  line-height: normal;
+  min-height: 17px;
+  width: 34px;
+}
+
+.propertyu95detailsu95tenant-1 .back-container {
+  border-radius: 10px;
+  height: 34px;
+  margin-left: 31.0px;
+  margin-top: 25px;
+  position: relative;
+  width: 329px;
+}
+
+.propertyu95detailsu95tenant-1 .go_back {
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--beaver);
+  border-radius: 10px;
+  box-shadow: 0px 4px 4px #00000040;
+  cursor: pointer;
+  height: 34px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 329px;
+}
+
+.propertyu95detailsu95tenant-1 .go-back {
+  left: 120px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 6px;
+  width: 88px;
+}
+
+.propertyu95detailsu95tenant-1 .flex-col-3 {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-height: 402px;
+}
+
+.propertyu95detailsu95tenant-1 .navbar-link {
+  letter-spacing: 0;
+  line-height: normal;
+}

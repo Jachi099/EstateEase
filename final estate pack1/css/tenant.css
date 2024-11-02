@@ -1,0 +1,224 @@
+/* screen - tenant */
+
+.tenant {
+  align-items: flex-start;
+  background-color: var(--white);
+  display: flex;
+  gap: 88px;
+  height: 1024px;
+  width: 1440px;
+}
+
+.tenant .overlap-group {
+  align-items: center;
+  background-color: var(--black);
+  display: flex;
+  flex-direction: column;
+  min-height: 1024px;
+  padding: 80px 0;
+  width: 214px;
+}
+
+.tenant .overlap-group10 {
+  align-items: flex-start;
+  background-color: var(--black);
+  display: flex;
+  height: 77px;
+  margin-top: 84px;
+  min-width: 214px;
+  padding: 26px 45px;
+}
+
+.tenant .profile {
+  left: 68px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-shadow: 0px 4px 4px #c09a7f66;
+  top: 27px;
+  white-space: nowrap;
+}
+
+.tenant .overlap-group12 {
+  align-items: flex-start;
+  background-color: var(--black);
+  display: flex;
+  height: 77px;
+  justify-content: flex-end;
+  min-width: 214px;
+  padding: 26px 58px;
+}
+
+.tenant .overlap-group9 {
+  align-items: flex-start;
+  background-color: var(--black);
+  display: flex;
+  height: 77px;
+  min-width: 214px;
+  padding: 26px 59px;
+}
+
+.tenant .overlap-group11 {
+  align-items: flex-end;
+  background-color: var(--white);
+  display: flex;
+  height: 77px;
+  min-width: 214px;
+  padding: 26px 18px;
+}
+
+.tenant .tenant-visitor {
+  min-height: 24px;
+  min-width: 171px;
+  text-shadow: 0px 4px 4px #c09a7f66;
+}
+
+.tenant .service {
+  left: 64px;
+  top: 27px;
+}
+
+.tenant .service-provider {
+  left: 24px;
+  top: 26px;
+}
+
+.tenant .feedback {
+  left: 56px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-shadow: 0px 4px 4px #c09a7f66;
+  top: 26px;
+  white-space: nowrap;
+}
+
+.tenant .overlap-group6 {
+  align-items: flex-end;
+  background-color: var(--black);
+  display: flex;
+  height: 77px;
+  min-width: 214px;
+  padding: 26px 62px;
+}
+
+.tenant .flex-col {
+  flex-direction: column;
+  margin-top: 33px;
+  min-height: 954px;
+  width: 1096px;
+}
+
+.tenant .flex-row {
+  gap: 585px;
+  height: 78px;
+  margin-left: 3px;
+  min-width: 1093px;
+}
+
+.tenant .estate-ease_logo {
+  align-self: flex-end;
+  min-height: 31px;
+  width: 431px;
+}
+
+.tenant .head_pic {
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--beaver);
+  border-radius: 38.5px/36.5px;
+  cursor: pointer;
+  height: 73px;
+  width: 77px;
+}
+
+.tenant .overlap-group2 {
+  background-color: var(--white);
+  border: 3px solid;
+  border-color: var(--black);
+  border-radius: 15px;
+  height: 47px;
+  margin-top: 43px;
+  position: relative;
+  width: 309px;
+}
+
+.tenant .tenant-1 {
+  color: var(--white);
+  font-family: var(--font-family-montserrat);
+  font-size: var(--font-size-xxl);
+  font-weight: 800;
+  left: 22px;
+  position: absolute;
+  top: 4px;
+}
+
+.tenant .list-of-visit-requests {
+  letter-spacing: 0;
+  line-height: normal;
+  margin-left: 4px;
+  margin-top: 25px;
+  min-height: 24px;
+  white-space: nowrap;
+}
+
+.tenant .overlap-group1 {
+  align-items: flex-start;
+  background-color: var(--white);
+  border: 2px solid;
+  border-color: var(--black);
+  display: flex;
+  height: 280px;
+  margin-left: 4px;
+  margin-top: 8px;
+  min-width: 1054px;
+}
+
+.tenant .list-of-tenants {
+  letter-spacing: 0;
+  line-height: normal;
+  margin-left: 2px;
+  margin-top: 41px;
+  min-height: 24px;
+  white-space: nowrap;
+}
+
+.tenant .overlap-group3 {
+  align-items: flex-start;
+  background-color: var(--white);
+  border: 2px solid;
+  border-color: var(--black);
+  display: flex;
+  height: 367px;
+  margin-top: 17px;
+  min-width: 1054px;
+}
+
+.tenant .visit_accept_heading {
+  background-color: var(--white);
+  border: 3px solid;
+  border-color: var(--black);
+  height: 46px;
+  margin-left: -1px;
+  margin-top: -2px;
+  width: 1053px;
+}
+
+.tenant .flex {
+  align-items: flex-start;
+  display: flex;
+}
+
+.tenant .service-1 {
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-shadow: 0px 4px 4px #c09a7f66;
+  white-space: nowrap;
+}
+
+.tenant .tenant-2 {
+  letter-spacing: 0;
+  line-height: normal;
+  white-space: nowrap;
+}

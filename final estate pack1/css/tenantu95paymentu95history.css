@@ -1,0 +1,217 @@
+/* screen - tenantu95paymentu95history */
+
+.tenantu95paymentu95history {
+  align-items: flex-start;
+  background-color: var(--white);
+  display: flex;
+  width: 1440px;
+}
+
+.tenantu95paymentu95history .overlap-group-container {
+  height: 731px;
+  position: relative;
+  width: 1440px;
+}
+
+.tenantu95paymentu95history .overlap-group {
+  height: 731px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 1440px;
+}
+
+.tenantu95paymentu95history .payhistory_btn {
+  background-color: var(--eerie-black);
+  border: 2px solid;
+  border-color: var(--black);
+  height: 53px;
+  left: 0;
+  position: absolute;
+  top: 521px;
+  width: 214px;
+}
+
+.tenantu95paymentu95history .payment-history {
+  left: 36px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 537px;
+  white-space: nowrap;
+  width: 178px;
+}
+
+.tenantu95paymentu95history .help_btn {
+  background-color: var(--black);
+  border: 2px solid;
+  height: 53px;
+  left: 0;
+  position: absolute;
+  top: 469px;
+  width: 214px;
+}
+
+.tenantu95paymentu95history .rented_btn {
+  background-color: var(--black);
+  border: 2px solid;
+  cursor: pointer;
+  height: 53px;
+  left: 0;
+  position: absolute;
+  top: 310px;
+  width: 214px;
+}
+
+.tenantu95paymentu95history .rented-properties {
+  left: 20px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 326px;
+}
+
+.tenantu95paymentu95history .service_btn {
+  background-color: var(--black);
+  border: 2px solid;
+  cursor: pointer;
+  height: 53px;
+  left: 0;
+  position: absolute;
+  top: 363px;
+  width: 214px;
+}
+
+.tenantu95paymentu95history .service-list {
+  left: 52px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 378px;
+  white-space: nowrap;
+  width: 109px;
+}
+
+.tenantu95paymentu95history .feedback_btn {
+  background-color: var(--black);
+  border: 2px solid;
+  cursor: pointer;
+  height: 53px;
+  left: 0;
+  position: absolute;
+  top: 416px;
+  width: 214px;
+}
+
+.tenantu95paymentu95history .estate-ease_logo {
+  left: 96px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 32px;
+}
+
+.tenantu95paymentu95history .head_pic {
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--beaver);
+  border-radius: 38.5px/36.5px;
+  height: 73px;
+  left: 1332px;
+  position: absolute;
+  top: 7px;
+  width: 77px;
+}
+
+.tenantu95paymentu95history .profile_btn {
+  background-color: var(--black);
+  border: 2px solid;
+  cursor: pointer;
+  height: 53px;
+  left: 0;
+  position: absolute;
+  top: 257px;
+  width: 214px;
+}
+
+.tenantu95paymentu95history .profile {
+  left: 71px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 273px;
+}
+
+.tenantu95paymentu95history .overlap-group1 {
+  align-items: flex-start;
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--beaver);
+  display: flex;
+  flex-direction: column;
+  left: 214px;
+  min-height: 644px;
+  padding: 29px 69px;
+  position: absolute;
+  top: 87px;
+  width: 1226px;
+}
+
+.tenantu95paymentu95history .estate-ease_logo-2 {
+  margin-top: 5px;
+  min-height: 31px;
+  width: 700px;
+}
+
+.tenantu95paymentu95history .sort-container {
+  align-items: center;
+  align-self: flex-end;
+  display: flex;
+  gap: 9px;
+  margin-right: 39px;
+  margin-top: 26px;
+  min-width: 322px;
+}
+
+.tenantu95paymentu95history .sort-by {
+  letter-spacing: 0;
+  line-height: normal;
+  margin-bottom: 1.0px;
+  min-height: 20px;
+  min-width: 71px;
+}
+
+.tenantu95paymentu95history .sort {
+  background-color: var(--white);
+  border: 2px solid;
+  border-color: var(--beaver);
+  height: 35px;
+  width: 242px;
+}
+
+.tenantu95paymentu95history .overlap-group2 {
+  align-items: flex-start;
+  background-color: var(--white);
+  border: 2px solid;
+  border-color: var(--black);
+  display: flex;
+  height: 473px;
+  margin-left: 4px;
+  margin-top: 16px;
+  min-width: 1045px;
+}
+
+.tenantu95paymentu95history .payment_heading {
+  background-color: var(--white);
+  border: 2px solid;
+  border-color: var(--black);
+  height: 65px;
+  margin-left: -2px;
+  margin-top: -2px;
+  width: 1045px;
+}
+
+.tenantu95paymentu95history .estate-ease_logo-3 {
+  letter-spacing: 0;
+  line-height: normal;
+}

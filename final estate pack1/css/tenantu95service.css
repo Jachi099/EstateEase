@@ -1,0 +1,248 @@
+/* screen - tenantu95service */
+
+.tenantu95service {
+  align-items: flex-start;
+  background-color: var(--white);
+  display: flex;
+  width: 1440px;
+}
+
+.tenantu95service .overlap-group-container {
+  height: 731px;
+  position: relative;
+  width: 1440px;
+}
+
+.tenantu95service .overlap-group {
+  height: 731px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 1440px;
+}
+
+.tenantu95service .payhistory_btn {
+  background-color: var(--black);
+  border: 2px solid;
+  cursor: pointer;
+  height: 53px;
+  left: 0;
+  position: absolute;
+  top: 521px;
+  width: 214px;
+}
+
+.tenantu95service .payment-history {
+  left: 36px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 537px;
+  white-space: nowrap;
+  width: 178px;
+}
+
+.tenantu95service .help_btn {
+  background-color: var(--black);
+  border: 2px solid;
+  cursor: pointer;
+  height: 53px;
+  left: 0;
+  position: absolute;
+  top: 469px;
+  width: 214px;
+}
+
+.tenantu95service .rented_btn {
+  background-color: var(--black);
+  border: 2px solid;
+  cursor: pointer;
+  height: 53px;
+  left: 0;
+  position: absolute;
+  top: 310px;
+  width: 214px;
+}
+
+.tenantu95service .rented-properties {
+  left: 20px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 326px;
+}
+
+.tenantu95service .service_btn {
+  background-color: var(--eerie-black);
+  border: 2px solid;
+  border-color: var(--black);
+  height: 53px;
+  left: 0;
+  position: absolute;
+  top: 363px;
+  width: 214px;
+}
+
+.tenantu95service .service-list {
+  left: 52px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 378px;
+  white-space: nowrap;
+  width: 109px;
+}
+
+.tenantu95service .feedback_btn {
+  background-color: var(--black);
+  border: 2px solid;
+  cursor: pointer;
+  height: 53px;
+  left: 0;
+  position: absolute;
+  top: 416px;
+  width: 214px;
+}
+
+.tenantu95service .estate-ease_logo {
+  left: 96px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 32px;
+}
+
+.tenantu95service .head_pic {
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--beaver);
+  border-radius: 38.5px/36.5px;
+  height: 73px;
+  left: 1332px;
+  position: absolute;
+  top: 7px;
+  width: 77px;
+}
+
+.tenantu95service .profile_btn {
+  background-color: var(--black);
+  border: 2px solid;
+  cursor: pointer;
+  height: 53px;
+  left: 0;
+  position: absolute;
+  top: 257px;
+  width: 214px;
+}
+
+.tenantu95service .profile {
+  left: 71px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 273px;
+}
+
+.tenantu95service .overlap-group1 {
+  align-items: flex-start;
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--beaver);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  left: 214px;
+  min-height: 644px;
+  padding: 29px 70px;
+  position: absolute;
+  top: 87px;
+  width: 1226px;
+}
+
+.tenantu95service .flex-row {
+  gap: 9px;
+  height: 91px;
+  margin-top: 6px;
+  min-width: 1048px;
+}
+
+.tenantu95service .flex-col {
+  flex-direction: column;
+  min-height: 86px;
+  width: 797px;
+}
+
+.tenantu95service .estate-ease_logo-2 {
+  min-height: 62px;
+  width: 700px;
+}
+
+.tenantu95service .flex-row-1 {
+  align-items: flex-start;
+  display: flex;
+  margin-left: 3px;
+  min-width: 794px;
+}
+
+.tenantu95service .create-a-new-request {
+  letter-spacing: 0;
+  line-height: normal;
+  margin-top: 1px;
+  min-height: 20px;
+  min-width: 210px;
+}
+
+.tenantu95service .new_req_btn {
+  cursor: pointer;
+  height: 24px;
+  margin-left: 16px;
+  width: 24px;
+}
+
+.tenantu95service .sort-by {
+  letter-spacing: 0;
+  line-height: normal;
+  margin-left: 473px;
+  margin-top: 1px;
+  min-height: 20px;
+}
+
+.tenantu95service .sort {
+  align-self: flex-end;
+  background-color: var(--white);
+  border: 2px solid;
+  border-color: var(--beaver);
+  height: 35px;
+  width: 242px;
+}
+
+.tenantu95service .overlap-group2 {
+  align-items: flex-start;
+  background-color: var(--white);
+  border: 2px solid;
+  border-color: var(--black);
+  display: flex;
+  height: 473px;
+  margin-left: 3px;
+  min-width: 1045px;
+}
+
+.tenantu95service .tenant_service_heading {
+  background-color: var(--white);
+  border: 2px solid;
+  border-color: var(--black);
+  height: 65px;
+  margin-left: -2px;
+  margin-top: -2px;
+  width: 1045px;
+}
+
+.tenantu95service .estate-ease_logo-3 {
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.tenantu95service .flex {
+  align-items: flex-start;
+  display: flex;
+}
