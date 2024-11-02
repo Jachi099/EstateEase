@@ -62,4 +62,34 @@ Route::post('/profile/edit', [ProfileController::class, 'update'])->name('profil
 Route::post('/profile/delete', [ProfileController::class, 'destroy'])->name('profile.delete')->middleware('auth');
 
 
+
+//tenantprofileedit
+
+
+use App\Http\Controllers\TenantProfileController;
+
+// Show the edit profile page
+Route::get('/tenant/profile/edit', [TenantProfileController::class, 'edit'])
+    ->name('tenant.profile.edit')
+    ->middleware('auth');
+
+// Update the tenant profile
+Route::post('/tenant/profile/edit', [TenantProfileController::class, 'update'])
+    ->name('tenant.profile.update')
+    ->middleware('auth');
+
+  // Rented properties route
+    use App\Http\Controllers\TenantRentalController;
+
+    
+Route::get('/tenant/rented-properties', [TenantRentalController::class, 'index'])
+    ->name('tenant.rented_properties')
+    ->middleware('auth');
+
+//servicereqtenant
+
+use App\Http\Controllers\ServiceRequestTenantController;
+
+Route::resource('service_requests', ServiceRequestTenantController::class);
+
 ?>

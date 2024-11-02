@@ -1,0 +1,283 @@
+/* screen - visitor */
+
+.visitor {
+  align-items: flex-start;
+  background-color: var(--white);
+  display: flex;
+  gap: 88px;
+  height: 1024px;
+  width: 1440px;
+}
+
+.visitor .overlap-group {
+  align-items: center;
+  background-color: var(--black);
+  display: flex;
+  flex-direction: column;
+  min-height: 1024px;
+  padding: 80px 0;
+  width: 214px;
+}
+
+.visitor .dashboard {
+  left: 45px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-shadow: 0px 4px 4px #c09a7f66;
+  top: 26px;
+  white-space: nowrap;
+}
+
+.visitor .overlap-group6 {
+  align-items: flex-end;
+  background-color: var(--black);
+  display: flex;
+  height: 77px;
+  min-width: 214px;
+  padding: 26px 68px;
+}
+
+.visitor .property-container {
+  height: 77px;
+  position: relative;
+  width: 214px;
+}
+
+.visitor .property {
+  left: 62px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-shadow: 0px 4px 4px #c09a7f66;
+  top: 26px;
+  white-space: nowrap;
+}
+
+.visitor .overlap-group4 {
+  align-items: flex-start;
+  background-color: var(--black);
+  display: flex;
+  height: 77px;
+  min-width: 214px;
+  padding: 26px 59px;
+}
+
+.visitor .landlord {
+  letter-spacing: 0;
+  line-height: normal;
+  min-height: 24px;
+  text-shadow: 0px 4px 4px #c09a7f66;
+  white-space: nowrap;
+}
+
+.visitor .overlap-group12 {
+  align-items: flex-end;
+  background-color: var(--white);
+  display: flex;
+  height: 77px;
+  min-width: 214px;
+  padding: 26px 18px;
+}
+
+.visitor .tenant-visitor {
+  min-height: 24px;
+  min-width: 171px;
+  text-shadow: 0px 4px 4px #c09a7f66;
+}
+
+.visitor .overlap-group9 {
+  align-items: flex-end;
+  background-color: var(--black);
+  display: flex;
+  height: 77px;
+  min-width: 214px;
+  padding: 26px 64px;
+}
+
+.visitor .service {
+  min-width: 85px;
+}
+
+.visitor .overlap-group5 {
+  align-items: flex-start;
+  background-color: var(--black);
+  display: flex;
+  height: 77px;
+  justify-content: flex-end;
+  min-width: 214px;
+  padding: 26px 15px;
+}
+
+.visitor .overlap-group7 {
+  align-items: flex-start;
+  background-color: var(--black);
+  display: flex;
+  height: 77px;
+  justify-content: flex-end;
+  min-width: 214px;
+  padding: 26px 53px;
+}
+
+.visitor .overlap-group11 {
+  align-items: flex-end;
+  background-color: var(--black);
+  display: flex;
+  height: 77px;
+  min-width: 214px;
+  padding: 26px 62px;
+}
+
+.visitor .flex-col {
+  flex-direction: column;
+  margin-top: 33px;
+  min-height: 954px;
+  width: 1096px;
+}
+
+.visitor .flex-row {
+  gap: 585px;
+  height: 78px;
+  margin-left: 3px;
+  min-width: 1093px;
+}
+
+.visitor .estate-ease_logo {
+  align-self: flex-end;
+  min-height: 31px;
+  width: 431px;
+}
+
+.visitor .head_pic {
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--beaver);
+  border-radius: 38.5px/36.5px;
+  height: 73px;
+  width: 77px;
+}
+
+.visitor .overlap-group1 {
+  background-color: var(--white);
+  border: 3px solid;
+  border-color: var(--black);
+  border-radius: 15px;
+  height: 47px;
+  margin-top: 43px;
+  position: relative;
+  width: 309px;
+}
+
+.visitor .tenant_btn {
+  background-color: var(--white);
+  border: 3px solid;
+  border-color: var(--black);
+  border-radius: 15px 0px 0px 15px;
+  height: 45px;
+  left: -3px;
+  position: absolute;
+  top: -2px;
+  width: 166px;
+}
+
+.visitor .visitor_btn {
+  background-color: var(--mongoose);
+  border: 3px solid;
+  border-color: var(--black);
+  border-radius: 15px;
+  height: 45px;
+  left: 148px;
+  position: absolute;
+  top: -1px;
+  width: 158px;
+}
+
+.visitor .tenant {
+  color: var(--black);
+  font-family: var(--font-family-montserrat);
+  font-size: var(--font-size-l);
+  font-weight: 800;
+  left: 25px;
+  position: absolute;
+  top: 4px;
+}
+
+.visitor .visitor-1 {
+  color: var(--white);
+  font-family: var(--font-family-montserrat);
+  font-size: var(--font-size-l);
+  font-weight: 800;
+  left: 173px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 4px;
+  white-space: nowrap;
+}
+
+.visitor .list-of-visit-requests {
+  letter-spacing: 0;
+  line-height: normal;
+  margin-left: 4px;
+  margin-top: 25px;
+  min-height: 24px;
+  white-space: nowrap;
+}
+
+.visitor .overlap-group3 {
+  align-items: flex-start;
+  background-color: var(--white);
+  border: 2px solid;
+  border-color: var(--black);
+  display: flex;
+  height: 280px;
+  margin-left: 4px;
+  margin-top: 8px;
+  min-width: 1054px;
+}
+
+.visitor .visit_req_list_heading {
+  background-color: var(--white);
+  border: 3px solid;
+  border-color: var(--black);
+  height: 46px;
+  margin-left: -2px;
+  margin-top: -2px;
+  width: 1054px;
+}
+
+.visitor .list-of-potential-tenants {
+  letter-spacing: 0;
+  line-height: normal;
+  margin-left: 2px;
+  margin-top: 41px;
+  min-height: 24px;
+  white-space: nowrap;
+}
+
+.visitor .overlap-group2 {
+  align-items: flex-start;
+  background-color: var(--white);
+  border: 2px solid;
+  border-color: var(--black);
+  display: flex;
+  height: 367px;
+  margin-top: 17px;
+  min-width: 1054px;
+}
+
+.visitor .visit_accept_heading {
+  background-color: var(--white);
+  border: 3px solid;
+  border-color: var(--black);
+  height: 46px;
+  margin-left: -1px;
+  margin-top: -2px;
+  width: 1053px;
+}
+
+.visitor .tenant-1 {
+  letter-spacing: 0;
+  line-height: normal;
+  white-space: nowrap;
+}
