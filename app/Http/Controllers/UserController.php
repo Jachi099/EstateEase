@@ -35,37 +35,7 @@ class UserController extends Controller
      return view('user.visit_requested_list', compact('profilePicture')); // Pass the profile picture to the view
  }
  
- public function userHome()
- {
-     $user = Auth::user(); // Retrieve the authenticated user
  
-     // Log user details for debugging
-     Log::info('User Home accessed by: ' . $user->email);
- 
-     // Check if the profile picture exists
-     $picturePath = 'path/to/default/image.png'; // Default image path
- 
-     if ($user->account_type === 'landlord') {
-         $landlord = Landlord::where('email', $user->email)->first();
-         if ($landlord && $landlord->picture) {
-             $picturePath = 'storage/' . $landlord->picture;
-         }
-     } elseif ($user->account_type === 'tenant') {
-         $tenant = Tenant::where('email', $user->email)->first();
-         if ($tenant && $tenant->picture) {
-             $picturePath = 'storage/' . $tenant->picture;
-         }
-     } else {
-         if ($user->picture) {
-             $picturePath = 'storage/' . $user->picture;
-         }
-     }
- 
-     return view('user.user_home', [
-         'profilePicture' => $picturePath,
-         // Pass any other necessary data to the view
-     ]);
- }
  
  
  
@@ -288,8 +258,7 @@ class UserController extends Controller
         $visitor = User::where('email', $request->email)->first();
         if ($visitor) {
             Log::info('Visitor found: ' . $visitor->email);
-    
-            if (Auth::guard('web')->attempt($request->only('email', 'password'))) {
+            if (Auth::guard('visitor')->attempt($request->only('email', 'password'))) {
                 Log::info('Visitor login successful: ' . $visitor->email);
                 return redirect()->route('visitor.user_home')->with('success', 'Logged in successfully as visitor!');
             } else {
@@ -355,14 +324,35 @@ public function tenantHome()
 
 public function visitorHome()
 {
-    // Get the authenticated visitor
-    $visitor = auth()->user(); // Assuming visitors use the default auth guard
+    // Get the authenticated visitor using the 'visitor' guard
+    $visitor = Auth::guard('visitor')->user();
 
-    // Get the profile picture
-    $profilePicture = $visitor->picture ?? null; // Assuming `picture` is a field in the user table
+    // Check if the visitor is authenticated
+    if (!$visitor) {
+        return redirect()->route('login')->with('error', 'Please log in first.'); // Adjust this according to your routing
+    }
 
-    // Pass the picture to the view
+    // Get the profile picture path from the visitor object
+    $profilePicture = $visitor->picture ?? null; // Ensure this field exists in the users table
+
+    // Pass the profile picture to the view
     return view('visitor.home', compact('profilePicture'));
 }
+public function requestVisit(Request $request)
+{
+    // Validate the request
+    $request->validate([
+        'date' => 'required|date',
+        'property_id' => 'required|exists:property,property_ID'
+    ]);
+
+    // Logic to store the visit request in the database
+    // Check if the date is already booked, then save it or return an error
+
+    return response()->json(['success' => 'Visit request submitted successfully!']);
+}
+
+
+
 
 }  

@@ -8,12 +8,41 @@
     <meta name="og:type" content="website" />
     <meta name="twitter:card" content="photo" />
 
-
+ 
     <link rel="stylesheet" type="text/css" href="{{ asset('css1/visit-request.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('css1/styleguide.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('css1/globals.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('css1/propertyu95details.css') }}" />
-  
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            display: none; /* Initially hidden */
+        }
+
+        .overlay-content {
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            width: 80%;
+            max-width: 600px;
+        }
+
+        .close {
+            cursor: pointer;
+            float: right;
+            font-size: 20px;
+        }
+    </style>
   </head>
   <body style="margin: 0; background: #ffffff">
     <input type="hidden" id="anPageName" name="page" value="propertyu95details" />
@@ -22,9 +51,9 @@
         <div class="flex-col">
           <div class="navbar navbar-2">
             <div class="navbar-link-estate-ease_logo montserrat-semi-bold-beaver-18px">EstateEase</div>
-            <a href="{{ route('user.user_home') }}">
+            <a href="{{ route('visitor.user_home') }}">
               <div class="navbar-link-place navbar-link montserrat-normal-black-16px">Home</div> </a
-            ><a href="{{ route('user.user_home') }}">
+            ><a href="{{ route('visitor.user_home') }}">
               <div class="navbar-link-about navbar-link montserrat-normal-black-16px">About</div>
             </a>
            
@@ -34,7 +63,7 @@
               ><div class="navbar-link-services navbar-link montserrat-normal-black-16px">Services</div>
             </a>
          
-            <a href="{{ route('user.profile') }}">
+            <a href="{{ route('visitor.profile') }}">
                 <div class="head_pic">
                     @if(isset($profilePicture) && $profilePicture)
                         <img src="{{ asset('storage/' . $profilePicture) }}" alt="User Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
@@ -170,6 +199,10 @@
             <a onclick="ShowOverlay('visit-request', 'animate-appear');"> <div class="visit_req_btn"></div></a>
             <div class="visit-request montserrat-black-white-16px">VISIT REQUEST</div>
           </div>
+
+        
+
+
         </div>
       </div>
     </div>
@@ -201,88 +234,72 @@
         </div>
       </div>
     </div>
-    <script>
-      ShowOverlay = function (overlayName, animationName) {
-        overlayName = "overlay-" + overlayName;
-        var cssClasses = document.getElementById(overlayName).className.split(" ");
-        var last = cssClasses.slice(-1)[0];
-        if (last.lastIndexOf("animate") == -1) {
-          document.getElementById(overlayName).className =
-            document.getElementById(overlayName).className + " " + animationName;
-        }
-        if (window.loadAsyncSrc != undefined) {
-          loadAsyncSrc();
-        }
-      };
+  <!-- Include Flatpickr CSS and JS -->
+  <div class="visit-container">
+    <a onclick="ShowOverlay('visit-request');">
+        <div class="visit_req_btn">Request Visit</div>
+    </a>
+</div>
 
-      HideOverlay = function (overlayName, animationName) {
-        overlayName = "overlay-" + overlayName;
-        var cssClasses = document.getElementById(overlayName).className.split(" ");
-        var last = cssClasses.slice(-1)[0];
-        if (last.lastIndexOf("animate") != -1) {
-          cssClasses.splice(-1);
-          cssClasses.push(animationName);
-          document.getElementById(overlayName).className = cssClasses.join(" ");
+<!-- Overlay for the visit request -->
+<div id="visit-request" class="overlay">
+    <div class="overlay-content">
+        <span class="close" onclick="ShowOverlay('visit-request');">&times;</span>
+        <h2>Select Visit Date and Time</h2>
+        <label for="visit-date">Visit Date:</label>
+        <input type="date" id="visit-date" class="form-control">
+        <label for="visit-time" style="margin-top: 10px;">Visit Time:</label>
+        <input type="time" id="visit-time" class="form-control">
+        <button id="submit-visit" class="btn btn-primary" style="margin-top: 10px;">Submit</button>
+    </div>
+</div>
 
-          cssClasses.splice(-1);
-          setTimeout(function () {
-            document.getElementById(overlayName).className = cssClasses.join(" ");
-          }, 1100);
-        }
-        var vids = document.getElementsByTagName("video");
-        if (vids) {
-          for (var i = 0; i < vids.length; i++) {
-            var video = vids.item(i);
-            video.pause();
-          }
-        }
-      };
+<!-- JavaScript -->
+<script>
+    function ShowOverlay(overlayId) {
+        const overlay = document.getElementById(overlayId);
+        overlay.style.display = overlay.style.display === 'none' || overlay.style.display === '' ? 'flex' : 'none';
+    }
 
-      closeOutsideOverlay = function (overlay_slug) {
-        var overlay_id = `overlay-${overlay_slug}`;
-        const overlayElement = document.getElementById(overlay_id);
-        overlayElement.addEventListener(
-          `click`,
-          function (event) {
-            var overlay_id = `overlay-${overlay_slug}`;
-            var e = event || window.event;
-            var overlayContainer = overlayElement.getElementsByClassName(`${overlay_slug}`);
-            if (e.target === overlayElement) {
-              HideOverlay(`${overlay_slug}`, "animate-disappear");
-            }
-          },
-          false
-        );
-      };
+    document.getElementById('submit-visit').addEventListener('click', function() {
+        const date = document.getElementById('visit-date').value;
+        const time = document.getElementById('visit-time').value;
 
-      CloseOnOverlayClick = function (overlay_slug) {
-        var overlay_id = `overlay-${overlay_slug}`;
-        document.getElementById(overlay_id).addEventListener(
-          `click`,
-          function (event) {
-            {
-              var overlay_id = `overlay-${overlay_slug}`;
-              var e = event || window.event;
-              var overlayElement = document.getElementById(overlay_id);
-              var overlayContainer = overlayElement.getElementsByClassName(`${overlay_slug}`);
-              var clickedDiv = e.toElement || e.target;
-              var dismissButton = clickedDiv.parentElement.id == overlay_id;
-              var clickOutsideOverlay = false;
-              if (overlayContainer.length > 0) {
-                {
-                  clickOutsideOverlay = !overlayContainer[0].contains(clickedDiv) || overlayContainer[0] == clickedDiv;
+        if (date && time) {
+            fetch('/visit-requests', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}' // Add CSRF token for security
+                },
+                body: JSON.stringify({
+                    visit_date: date,
+                    visit_time: time
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
                 }
-              }
-              if (dismissButton || clickOutsideOverlay) {
-                {
-                  HideOverlay(`${overlay_slug}`, "animate-disappear");
-                }
-              }
-            }
-          },
-          false
-        );
-      };
-    </script>
+                return response.json();
+            })
+            .then(data => {
+                alert(data.success);
+                ShowOverlay('visit-request'); // Hide overlay after scheduling
+            })
+            .catch((error) => {
+                alert(error.message);
+            });
+        } else {
+            alert('Please select both date and time.');
+        }
+    });
+</script>
+
+
+<!-- Bootstrap and jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
   </body>
 </html>
