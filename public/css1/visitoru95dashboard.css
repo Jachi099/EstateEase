@@ -28,7 +28,7 @@
 }
 
 .add-property-btn {
-  background-color: #28a745; /* Green background */
+  background-color: var(--beaver); /* Green background */
   color: white;
   padding: 10px 20px;
   text-align: center;
@@ -36,6 +36,7 @@
   text-decoration: none;
   display: inline-block;
   margin-top: 50px;
+  font-weight: bolder;
 
 }
 
@@ -633,4 +634,51 @@
 /* General Font Style */
 .normal-text {
   font-family: 'Montserrat', sans-serif; /* Montserrat font */
+}
+
+.table {
+  width: 100%;
+  margin: 5px auto;
+  padding: 20px;
+  border: 2px solid black; /* Black border */
+  border-radius: 10px;
+  height: 380px; /* Set fixed height for the container */
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
+
+.table-container {
+  max-height: 380px; /* Set max height for the container */
+  overflow-y: auto; /* Enable vertical scrolling */
+  border: 2px solid black; /* Border around the table */
+  border-radius: 10px; /* Rounded corners */
+  background-color: #f9f9f9; /* Background color for better contrast */
+}
+
+.table {
+  width: 100%;
+  margin: 0; /* Remove margin for better alignment */
+  padding: 0; /* Remove padding to prevent excess space */
+  border-collapse: collapse; /* Collapse borders */
+}
+
+.table th, .table td {
+  padding: 12px 15px; /* Add some padding for better spacing */
+  text-align: left; /* Align text to the left */
+  border-bottom: 2px solid #ccc; /* Light grey bottom border for table rows */
+}
+
+.table th {
+  background-color: var(--beaver); /* Blue background for the header */
+  color: white; /* White text color for header */
+  font-weight: bold; /* Bold font for header */
+  height: 20px;
+}
+
+.table tbody tr:hover {
+  background-color: #f1f1f1; /* Light grey background on row hover */
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none; /* Remove bottom border for the last row */
 }

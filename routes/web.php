@@ -56,11 +56,12 @@ Route::middleware(['auth:tenant'])->group(function () {
     
     // Define a separate route for showing rented properties, if needed
     Route::get('/tenant/rented-properties', [TenantController::class, 'showPropertiesList'])->name('tenant.rented_properties_list');
-    Route::get('/tenant/service', [TenantController::class, 'showServiceList'])->name('tenant.service');
-  
-        Route::post('/tenant/service/request', [TenantController::class, 'requestService'])->name('tenant.service.request');
-        Route::delete('/tenant/service/cancel/{id}', [TenantController::class, 'cancelServiceRequest'])->name('tenant.service.cancel');
+    Route::get('/tenant/service', [TenantController::class, 'showServiceRequests'])->name('tenant.service');
     
+    // Cancel a service request
+    Route::post('/tenant/service/cancel/{id}', [TenantController::class, 'cancelServiceRequest'])->name('tenant.service.cancel');
+    Route::get('/tenant/service/request', [TenantController::class, 'showServiceRequestForm'])->name('tenant.service.request.form');
+    Route::post('/tenant/service/request', [TenantController::class, 'storeServiceRequest'])->name('tenant.service.request');
     Route::get('/tenant/property/{id}', [TenantController::class, 'showPropertyDetails'])->name('tenant.property_details');
 });
 

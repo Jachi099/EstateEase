@@ -11,6 +11,7 @@ use App\Models\Property; // Import the Property model
 use Illuminate\Support\Facades\Log;
 use App\Models\ServiceRequest; // Import the Property model
 
+use App\Models\Service; // Import the Property model
 
 class TenantController extends Controller
 {
@@ -81,63 +82,7 @@ class TenantController extends Controller
         return redirect()->route('tenant.profile')->with('success', 'Profile updated successfully!');
     }
 
-    public function showServiceList()
-    {
-        // Retrieve the authenticated tenant
-        $tenant = Auth::guard('tenant')->user();
     
-        // Get the authenticated user's profile picture
-        $profilePicture = $tenant->picture;
-    
-        // Retrieve properties that the tenant is renting
-        $properties = Property::where('property_ID', $tenant->property_ID)->get();
-    
-        // Retrieve any existing service requests for this tenant
-        $serviceRequests = ServiceRequest::where('tenant_id', $tenant->id)->get();
-    
-        return view('tenant.service', compact('profilePicture', 'properties', 'serviceRequests'));
-    }
-    
-    
-
-    // Method to handle service request submission
-    public function requestService(Request $request)
-    {
-        $request->validate([
-            'property_id' => 'required|exists:properties,property_ID',
-            'service_type' => 'required|string',
-            'service_date' => 'required|date',
-            'service_time' => 'required|date_format:H:i',
-            'description' => 'required|string|max:500',
-        ]);
-
-        // Create a new service request
-        ServiceRequest::create([
-            'tenant_id' => Auth::guard('tenant')->id(),
-            'property_ID' => $request->property_id,
-            'service_type' => $request->service_type,
-            'service_date' => $request->service_date,
-            'service_time' => $request->service_time,
-            'description' => $request->description,
-            'status' => 'pending',
-        ]);
-
-        return redirect()->route('tenant.service')->with('success', 'Service request submitted successfully!');
-    }
-
-    // Method to cancel a service request
-    public function cancelServiceRequest($id)
-    {
-        $serviceRequest = ServiceRequest::findOrFail($id);
-
-        if ($serviceRequest->status === 'pending') {
-            $serviceRequest->status = 'canceled';
-            $serviceRequest->save();
-            return redirect()->route('tenant.service')->with('success', 'Service request canceled successfully.');
-        }
-
-        return redirect()->route('tenant.service')->with('error', 'Only pending requests can be canceled.');
-    }
 
 
     public function showPropertiesList()
@@ -173,6 +118,110 @@ class TenantController extends Controller
     $profilePicture = $tenant->picture ?? null; // Assuming `picture` is a field in the landlord table
 
     return view('tenant.details', compact('property', 'tenant', 'profilePicture'));
+}
+
+
+
+public function showServiceRequests()
+{
+    // Retrieve the authenticated tenant
+    $tenant = Auth::guard('tenant')->user();
+
+    // Get service requests related to this tenant
+
+    // Fetch the service requests for the tenant, ordered by created_at descending
+    $serviceRequests = ServiceRequest::where('tenant_id', $tenant->id)
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+    // Get the authenticated tenant's profile picture
+    $profilePicture = $tenant->picture; // Ensure 'picture' column exists in your tenants table
+
+    return view('tenant.service', compact('serviceRequests', 'profilePicture'));
+}
+
+// Cancel service request
+public function cancelServiceRequest($id)
+{
+    $serviceRequest = ServiceRequest::find($id);
+    
+    if ($serviceRequest) {
+        $serviceRequest->status = 'canceled';
+        $serviceRequest->save();
+        
+        session()->flash('success', 'Service request canceled successfully.');
+    } else {
+        session()->flash('error', 'Service request not found.');
+    }
+
+    return redirect()->back();
+}
+
+
+
+
+public function requestService(Request $request)
+{
+    $request->validate([
+        'property_id' => 'required|exists:property,property_ID',
+        'service_type' => 'required|string|max:255',
+        'service_date' => 'required|date|after_or_equal:today', // Ensures the date is today or later
+        'service_time' => 'required|date_format:H:i',
+        'description' => 'required|string|max:500',
+    ]);
+
+    // Create a new service request
+    ServiceRequest::create([
+        'tenant_id' => Auth::guard('tenant')->id(), // Get the authenticated tenant ID
+        'property_ID' => $request->property_id,
+        'service_type' => $request->service_type,
+        'service_date' => $request->service_date,
+        'service_time' => $request->service_time,
+        'description' => $request->description,
+        'status' => 'pending', // Default status
+    ]);
+
+    return redirect()->route('tenant.service')->with('success', 'Service request submitted successfully!');
+}
+
+public function showServiceRequestForm()
+{
+    // Retrieve the authenticated tenant
+    $tenant = Auth::guard('tenant')->user();
+
+    // Get the tenant's profile picture
+    $profilePicture = $tenant->picture;
+
+    // Retrieve properties for the authenticated tenant
+    $properties = Property::where('property_ID', $tenant->property_ID)->get();
+
+    // Return the view with properties and profile picture
+    return view('tenant.request_service', compact('properties', 'profilePicture'));
+}
+
+public function storeServiceRequest(Request $request)
+{
+    // Validate the request
+    $validatedData = $request->validate([
+        'property_id' => 'required|exists:property,property_ID',
+        'service_type' => 'required|string|max:255',
+        'service_date' => 'required|date',
+        'service_time' => 'required|date_format:H:i',
+        'description' => 'required|string|max:500',
+    ]);
+
+    // Create a new service request
+    ServiceRequest::create([
+        'tenant_id' => Auth::guard('tenant')->id(),
+        'property_ID' => $validatedData['property_id'],
+        'service_type' => $validatedData['service_type'],
+        'service_date' => $validatedData['service_date'],
+        'service_time' => $validatedData['service_time'],
+        'description' => $validatedData['description'],
+    ]);
+
+    // Redirect back with success message
+    return redirect()->route('tenant.service')->with('success', 'Service request submitted successfully!');
 }
 
 }

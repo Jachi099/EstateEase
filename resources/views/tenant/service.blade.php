@@ -68,101 +68,62 @@
           </div>
           <div class="flex-col">
             <div class="flex-row">
-              <h1 class="estate-ease_logo-2 estate-ease_logo-4 lexendzetta-medium-beaver-25px">PROPERTY LISTING</h1>
+              <h1 class="estate-ease_logo-2 estate-ease_logo-4 lexendzetta-medium-beaver-25px">SERVICE</h1>
              
 
             </div>
           
-            <div class="container">
-    <h2>Request Home Service</h2>
+            <a href="{{ route('tenant.service.request.form') }}">
+            <div class="add-property-btn">SERVICE REQUEST</div>
+        </a>     
 
-    <form action="{{ route('tenant.service.request') }}" method="POST">
-        @csrf
+    <!-- Success/Error messages -->
+  
 
-        <!-- Property Selection -->
-        <div class="form-group">
-            <label for="property">Select Property:</label>
-            <select id="property" name="property_id" class="form-control" required>
-                @foreach ($properties as $property)
-                    <option value="{{ $property->property_ID }}">{{ $property->type }} - {{ $property->address }}</option>
-                @endforeach
-            </select>
-        </div>
-
-        <!-- Service Type Selection -->
-        <div class="form-group">
-            <label for="service_type">Select Service Type:</label>
-            <select id="service_type" name="service_type" class="form-control" required>
-                <option value="plumbing">Plumbing</option>
-                <option value="electrical">Electrical</option>
-                <option value="cleaning">Cleaning</option>
-                <option value="repair">Repair</option>
-                <option value="maintenance">Maintenance</option>
-                <!-- Add more service types as needed -->
-            </select>
-        </div>
-
-        <!-- Date of Service -->
-        <div class="form-group">
-            <label for="service_date">Date of Service:</label>
-            <input type="date" id="service_date" name="service_date" class="form-control" required>
-        </div>
-
-        <!-- Time of Service -->
-        <div class="form-group">
-            <label for="service_time">Time of Service:</label>
-            <input type="time" id="service_time" name="service_time" class="form-control" required>
-        </div>
-
-        <!-- Description -->
-        <div class="form-group">
-            <label for="description">Description:</label>
-            <textarea id="description" name="description" class="form-control" rows="4" required></textarea>
-        </div>
-
-        <!-- Submit Button -->
-        <button type="submit" class="btn btn-primary">Request Service</button>
-    </form>
-
-    <!-- Service Request History Table -->
-    <h3 class="mt-5">Service Request History</h3>
-    <table class="table table-bordered">
+    <table class="table">
         <thead>
             <tr>
                 <th>Service Type</th>
-                <th>Date of Service</th>
+                <th>Problem</th>
+                <th>Service Date</th>
+                <th>Service Time</th>
                 <th>Status</th>
                 <th>Action</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($serviceRequests as $request)
+            @forelse ($serviceRequests as $request)
                 <tr>
                     <td>{{ $request->service_type }}</td>
-                    <td>{{ $request->service_date }} at {{ $request->service_time }}</td>
+                    <td>{{ $request->description }}</td> <!-- Show the description -->
+                    <td>{{ $request->service_date }}</td>
+                    <td>{{ $request->service_time }}</td>
                     <td>{{ ucfirst($request->status) }}</td>
                     <td>
-                        @if ($request->status === 'pending')
-                            <form action="{{ route('tenant.service.cancel', $request->id) }}" method="POST" style="display:inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm">Cancel</button>
-                            </form>
-                        @else
-                            N/A
-                        @endif
-                    </td>
+
+
+                    @if ($request->status === 'pending')
+        <form action="{{ route('tenant.service.cancel', $request->id) }}" method="POST" style="display:inline;">
+            @csrf
+            <button type="submit" class="btn btn-danger">Cancel</button>
+        </form>
+    @endif
+</td>
+
                 </tr>
-            @endforeach
+            @empty
+                <tr>
+                    <td colspan="5" class="text-center">No service requests found.</td>
+                </tr>
+            @endforelse
         </tbody>
     </table>
-</div>
+        </div>
 
     </div>
     </div>
         </div>
         </div>
       </div>
-    </div>
   </body>
 </html>
