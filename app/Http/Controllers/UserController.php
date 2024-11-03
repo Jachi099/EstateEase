@@ -59,7 +59,7 @@ class UserController extends Controller
     
         // Check if profile data is retrieved
         if (!$profileData) {
-            return redirect()->route('user.user_home')->with('error', 'Profile not found.');
+            return redirect()->route('visitor.user_home')->with('error', 'Profile not found.');
         }
     
         // Pass the user's information to the profile view
@@ -204,7 +204,7 @@ class UserController extends Controller
         Auth::login($landlord);
 
         // Redirect to the landlord dashboard or homepage
-        return redirect()->route('user.user_home')->with('success', 'Registration successful!');
+        return redirect()->route('landlord.user_home')->with('success', 'Registration successful!');
     } else {
         // Create a new user record in the users table for visitors
         $user = User::create([
@@ -221,7 +221,7 @@ class UserController extends Controller
         Auth::login($user);
 
         // Redirect to the visitor's homepage or user home
-        return redirect()->route('user.user_home')->with('success', 'Registration successful!');
+        return redirect()->route('visitor.user_home')->with('success', 'Registration successful!');
     }
 }
 

@@ -241,8 +241,16 @@
         </div>
       </div>
     </div>
+
+
+
+
+
+
+
+    
     <div class="visit-container">
-    <a onclick="ShowOverlay('visit-request', '{{ $property->property_ID }}');">
+    <a onclick="ShowOverlay('visit-request');">
         <div class="visit_req_btn">Request Visit</div>
     </a>
 </div>
@@ -256,24 +264,61 @@
         <input type="date" id="visit-date" class="form-control">
         <label for="visit-time" style="margin-top: 10px;">Visit Time:</label>
         <input type="time" id="visit-time" class="form-control">
+        <input type="hidden" id="property-id" value="{{ $property->property_ID }}"> <!-- Hidden input for property ID -->
         <button id="submit-visit" class="btn btn-primary" style="margin-top: 10px;">Submit</button>
     </div>
 </div>
 
 <!-- JavaScript -->
 <script>
-    function ShowOverlay(overlayId, propertyId) {
+    // Show or hide the overlay
+    function ShowOverlay(overlayId) {
         const overlay = document.getElementById(overlayId);
         overlay.style.display = overlay.style.display === 'none' || overlay.style.display === '' ? 'flex' : 'none';
-        
-        // Store the property ID for later use
-        document.getElementById('submit-visit').setAttribute('data-property-id', propertyId);
+
+        // Only fetch booked dates if the overlay is being shown
+        if (overlay.style.display === 'flex') {
+            const propertyId = document.getElementById('property-id').value;
+            fetchBookedDates(propertyId);
+        }
     }
 
+    // Fetch booked dates for the selected property
+    function fetchBookedDates(propertyId) {
+        fetch(`/visit-requests/booked-dates/${propertyId}`)
+            .then(response => response.json())
+            .then(data => {
+                const bookedDates = data.map(visit => visit.visit_date); // Extract booked dates
+                // Disable booked dates in the date input
+                updateDateInput(bookedDates);
+            })
+            .catch(error => {
+                console.error('Error fetching booked dates:', error);
+            });
+    }
+
+    // Disable booked dates in the date input
+    function updateDateInput(bookedDates) {
+        const dateInput = document.getElementById('visit-date');
+        const options = dateInput.querySelectorAll('option');
+
+        // Clear previous options
+        options.forEach(option => option.disabled = false);
+
+        // Disable booked dates
+        bookedDates.forEach(date => {
+            const option = Array.from(options).find(opt => opt.value === date);
+            if (option) {
+                option.disabled = true; // Disable the option
+            }
+        });
+    }
+
+    // Handle the submit button click
     document.getElementById('submit-visit').addEventListener('click', function() {
         const date = document.getElementById('visit-date').value;
         const time = document.getElementById('visit-time').value;
-        const propertyId = this.getAttribute('data-property-id'); // Get the property ID
+        const propertyId = document.getElementById('property-id').value; // Get the property ID
 
         if (date && time) {
             fetch('/visit-requests', {
@@ -290,7 +335,9 @@
             })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                    return response.text().then(text => {
+                        throw new Error(text); // Throw the plain text error
+                    });
                 }
                 return response.json();
             })
@@ -306,6 +353,7 @@
         }
     });
 </script>
+
 
 
 <!-- Bootstrap and jQuery -->

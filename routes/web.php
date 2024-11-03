@@ -59,6 +59,7 @@ Route::middleware(['auth:visitor'])->group(function () {
     Route::post('/visit/request', [UserController::class, 'requestVisit'])->name('visit.request');
     Route::get('/visit-requests/booked-dates/{propertyId}', [VisitRequestController::class, 'getBookedDates']);
 
+
     Route::get('/user/properties', [PropertyController::class, 'properties'])->name('user.properties');
     // Visitor-Specific Routes
         Route::get('/properties', [PropertyController::class, 'showProperties'])->name('user.properties_list');
@@ -74,27 +75,3 @@ Route::middleware(['auth:visitor'])->group(function () {
     // Property-related routes
    
 
-
-    // Landlord-Specific Routes
- 
-
-
-    // User logout route
-
-/*
-|--------------------------------------------------------------------------
-| Admin Routes
-|--------------------------------------------------------------------------
-*/
-
-// Admin login routes
-Route::get('admin/login', [AdminController::class, 'showLoginForm'])->name('admin.login');
-Route::post('admin/login', [AdminController::class, 'login']);
-
-// Protected routes for admins only
-Route::middleware(['auth:admin'])->group(function () {
-    Route::get('admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-    Route::post('admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
-    Route::get('/admin/property-list', [AdminController::class, 'propertyList'])->name('admin.property_list');
-
-});
