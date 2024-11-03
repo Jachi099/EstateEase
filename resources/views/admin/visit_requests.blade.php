@@ -86,7 +86,8 @@
                           <th>Visit Date</th>
                           <th>Visit Time</th>
                           <th>Status</th>
-                          <th>Actions</th>
+                          <th>Accept Request</th>
+                          <th>Decline Request</th>
                       </tr>
                   </thead>
                   <tbody>
@@ -98,17 +99,21 @@
                               <td>{{ $request->visit_date }}</td>
                               <td>{{ $request->visit_time }}</td>
                               <td>{{ ucfirst($request->status) }}</td>
+                              
                               <td>
                                   <form action="{{ route('admin.updateRequestStatus', [$request->id, 'accepted']) }}" method="POST" class="action-form">
                                       @csrf
                                       @method('PATCH')
                                       <button type="submit" class="accept-btn">Accept</button>
                                   </form>
-                                  <form action="{{ route('admin.updateRequestStatus', [$request->id, 'rejected']) }}" method="POST" class="action-form">
-                                      @csrf
-                                      @method('PATCH')
-                                      <button type="submit" class="reject-btn">Reject</button>
-                                  </form>
+                                  
+                              </td>
+                              <td>
+                                <form action="{{ route('admin.updateRequestStatus', [$request->id, 'rejected']) }}" method="POST" class="action-form">
+                                  @csrf
+                                  @method('PATCH')
+                                  <button type="submit" class="reject-btn">Reject</button>
+                              </form>
                               </td>
                           </tr>
                       @endforeach
@@ -130,11 +135,12 @@
                           <th>Visit Date</th>
                           <th>Visit Time</th>
                           <th>Status</th>
-                          <th>Actions</th>
+                          <th>Remove Request</th>
+                          <th>Confirm to Rent</th>
                       </tr>
                   </thead>
                   <tbody>
-                      @foreach($acceptedRequests as $request) <!-- Assuming you have a separate variable for accepted requests -->
+                      @foreach($acceptedRequests as $request)
                           <tr>
                               <td>{{ $request->visitor->name ?? 'N/A' }}</td>
                               <td>{{ $request->visitor->phn ?? 'N/A' }}</td>
@@ -143,12 +149,23 @@
                               <td>{{ $request->visit_time }}</td>
                               <td>{{ ucfirst($request->status) }}</td>
                               <td>
-                                  <form action="{{ route('admin.updateRequestStatus', [$request->id, 'rejected']) }}" method="POST" class="action-form">
+                                  <!-- Remove Button -->
+                                  <form action="{{ route('admin.removeVisitRequest', $request->id) }}" method="POST" class="action-form" style="display: inline;">
                                       @csrf
                                       @method('PATCH')
-                                      <button type="submit" class="reject-btn">Reject</button>
+                                      <button type="submit" class="remove-btn">Remove</button>
                                   </form>
+                                 
                               </td>
+                              <td>
+                                
+                                <!-- Change to Tenant Button -->
+                                <form action="{{ route('admin.changeToTenant', $request->id) }}" method="POST" class="action-form" style="display: inline;">
+                                    @csrf
+                                    @method('PATCH')
+                                    <button type="submit" class="tenant-btn">Change to Tenant</button>
+                                </form>
+                            </td>
                           </tr>
                       @endforeach
                   </tbody>

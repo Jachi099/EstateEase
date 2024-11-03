@@ -87,6 +87,39 @@ class AdminController extends Controller
         return redirect()->back()->with('success', 'Visit request ' . $status . ' successfully.');
     }
 
+    public function removeVisitRequest($id)
+    {
+        // Find and delete the visit request
+        $visitRequest = VisitRequest::find($id);
+        if ($visitRequest) {
+            $visitRequest->delete();
+        }
+
+        return redirect()->back()->with('success', 'Visit request removed successfully.');
+    }
+
+    public function changeToTenant($id)
+    {
+        // Find the visit request
+        $visitRequest = VisitRequest::find($id);
+
+        if ($visitRequest) {
+            // Update the user's account type to 'tenant' and assign the property ID
+            $user = $visitRequest->visitor; // Assuming `visitor` relationship is defined in VisitRequest model
+            if ($user) {
+                $user->account_type = 'tenant';
+                $user->property_id = $visitRequest->property_id; // Assign property ID
+                $user->save();
+            }
+
+            // Delete the visit request
+            $visitRequest->delete();
+        }
+
+        return redirect()->back()->with('success', 'Visitor changed to tenant.');
+    }
+
+
 
 
 

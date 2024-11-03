@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 01, 2024 at 05:15 PM
+-- Generation Time: Nov 03, 2024 at 11:49 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -68,18 +68,21 @@ CREATE TABLE `landlord` (
   `name` varchar(100) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
   `phone` varchar(15) DEFAULT NULL,
+  `current_address` varchar(255) NOT NULL,
   `password` varchar(100) NOT NULL,
   `picture` mediumblob NOT NULL,
-  `account_type` varchar(30) NOT NULL
+  `account_type` varchar(30) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `landlord`
 --
 
-INSERT INTO `landlord` (`landlord_id`, `name`, `email`, `phone`, `password`, `picture`, `account_type`) VALUES
-(1, 'John Doe', 'johndoe@example.com', '1234567890', 'hashed_password1', '', 'landlord'),
-(2, 'Jane Smith', 'janesmith@example.com', '0987654321', 'hashed_password2', '', 'landlord');
+INSERT INTO `landlord` (`landlord_id`, `name`, `email`, `phone`, `current_address`, `password`, `picture`, `account_type`, `created_at`, `updated_at`) VALUES
+(1, 'John Doe', 'johndoe@example.com', '1234567890', '', 'hashed_password1', '', 'landlord', '2024-11-02 00:06:22', '2024-11-02 00:06:22'),
+(2, 'Jane Smith', 'janesmith@example.com', '0987654321', '', 'hashed_password2', '', 'landlord', '2024-11-02 00:06:22', '2024-11-02 00:06:22');
 
 -- --------------------------------------------------------
 
@@ -168,7 +171,28 @@ CREATE TABLE `property` (
 
 INSERT INTO `property` (`property_ID`, `st_no`, `city`, `state`, `country`, `type`, `size`, `amenities`, `num_of_rooms`, `num_of_bathrooms`, `rent`, `img1`, `img2`, `img3`, `status`, `landlord_id`, `floor`, `available_from`) VALUES
 (1, 123, 'New York', 'NY', 'USA', 'Apartment', 1200.50, 'Pool, Gym, Parking', 3, 2, 2500.00, '', '', '', 'available', 1, 5, '2024-11-01'),
-(2, 456, 'Los Angeles', 'CA', 'USA', 'Condo', 850.00, 'Gym, Laundry, Balcony', 2, 1, 1800.00, '', '', '', 'rented', 2, 3, '2024-12-15');
+(2, 456, 'Los Angeles', 'CA', 'USA', 'Condo', 850.00, 'Gym, Laundry, Balcony', 2, 1, 1800.00, '', '', '', 'rented', 2, 3, '2024-12-15'),
+(3, 13, 'Badda', 'Dhaka', 'Bangladesh', 'apartment', 1000.00, 'Parking', 2, 2, 12000.00, NULL, NULL, NULL, 'vacant', 2, 4, '2024-12-01');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tenants`
+--
+
+CREATE TABLE `tenants` (
+  `id` int(11) NOT NULL,
+  `full_name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `picture` varchar(255) DEFAULT NULL,
+  `current_address` varchar(255) DEFAULT NULL,
+  `phone_number` varchar(20) DEFAULT NULL,
+  `account_type` varchar(50) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `property_ID` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -181,21 +205,50 @@ CREATE TABLE `users` (
   `full_name` varchar(255) NOT NULL,
   `current_address` varchar(255) NOT NULL,
   `phone_number` varchar(15) NOT NULL,
-  `account_type` enum('landlord','visitor') NOT NULL,
+  `account_type` varchar(255) DEFAULT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `picture` varchar(255) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `property_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `full_name`, `current_address`, `phone_number`, `account_type`, `email`, `password`, `picture`, `created_at`, `updated_at`) VALUES
-(1, 'John Daniel', '123 Main Street, Springfield', '1234567890', 'visitor', 'johndoe@example.com', '$2y$10$VrRkODn4idr/2JtmDTrfTu6e8CuSUM6vFkqFAiqyzezZaj1U24E0m', 'profile_pictures/iQU79Mmsj4rOutcSyvEcA7yuzwfoBAzKNpILlAgJ.jpg', '2024-10-28 03:09:50', '2024-10-29 23:37:24'),
-(2, 'jachi sangma', 'kalachandpur,dhaka', '01785546431', 'visitor', 'jsangma09@gmail.com', '$2y$10$9D4KnlIIEGlDC9yET3.62uINHPGcEZoxmpRUt3wYF7iVdsjw5JPM2', 'profile_pictures/G1v8WmspvVQpbYYMmHJhphGbE9XZhh98ND3aV9RF.jpg', '2024-10-28 04:15:21', '2024-10-30 00:47:11');
+INSERT INTO `users` (`id`, `full_name`, `current_address`, `phone_number`, `account_type`, `email`, `password`, `picture`, `created_at`, `updated_at`, `property_id`) VALUES
+(1, 'John Daniel', '123 Main Street, Springfield', '1234567890', 'tenant', 'johndoe@example.com', '$2y$10$VrRkODn4idr/2JtmDTrfTu6e8CuSUM6vFkqFAiqyzezZaj1U24E0m', 'profile_pictures/iQU79Mmsj4rOutcSyvEcA7yuzwfoBAzKNpILlAgJ.jpg', '2024-10-28 03:09:50', '2024-11-03 16:38:23', 3),
+(2, 'jachi sangma', 'kalachandpur,dhaka', '01785546431', 'visitor', 'jsangma09@gmail.com', '$2y$10$9D4KnlIIEGlDC9yET3.62uINHPGcEZoxmpRUt3wYF7iVdsjw5JPM2', 'profile_pictures/G1v8WmspvVQpbYYMmHJhphGbE9XZhh98ND3aV9RF.jpg', '2024-10-28 04:15:21', '2024-10-30 00:47:11', NULL),
+(3, 'James Bond', 'New York', '2468793254', 'visitor', 'jbond@gmail.com', '456789', NULL, '2024-11-03 22:42:10', '2024-11-03 22:42:10', NULL),
+(4, 'Shamima', 'Ashkona, Dhaka', '9871234565', 'visitor', 'shamima@gmail.com', '74123', NULL, '2024-11-03 22:43:35', '2024-11-03 22:43:35', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `visit_requests`
+--
+
+CREATE TABLE `visit_requests` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_phn` varchar(15) DEFAULT NULL,
+  `visit_date` date DEFAULT NULL,
+  `visit_time` time DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `property_id` int(11) DEFAULT NULL,
+  `status` enum('pending','accepted','rejected') DEFAULT 'pending'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `visit_requests`
+--
+
+INSERT INTO `visit_requests` (`id`, `user_id`, `user_phn`, `visit_date`, `visit_time`, `created_at`, `updated_at`, `property_id`, `status`) VALUES
+(2, 1, '1234567890', '2024-11-15', '11:07:30', '2024-11-03 19:08:24', '2024-11-03 16:18:28', 1, 'accepted'),
+(4, 4, '9871234565', '2024-11-20', '14:43:48', '2024-11-03 22:44:36', '2024-11-03 22:44:36', NULL, 'pending');
 
 --
 -- Indexes for dumped tables
@@ -250,11 +303,29 @@ ALTER TABLE `property`
   ADD KEY `Landlord_ID` (`landlord_id`);
 
 --
+-- Indexes for table `tenants`
+--
+ALTER TABLE `tenants`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`),
+  ADD KEY `property_ID` (`property_ID`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `email` (`email`);
+  ADD UNIQUE KEY `email` (`email`),
+  ADD UNIQUE KEY `phone_number` (`phone_number`);
+
+--
+-- Indexes for table `visit_requests`
+--
+ALTER TABLE `visit_requests`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `user_phn` (`user_phn`),
+  ADD KEY `property_id` (`property_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -264,7 +335,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `admins`
 --
 ALTER TABLE `admins`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -294,13 +365,25 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `property`
 --
 ALTER TABLE `property`
-  MODIFY `property_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `property_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `tenants`
+--
+ALTER TABLE `tenants`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `visit_requests`
+--
+ALTER TABLE `visit_requests`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
@@ -311,6 +394,20 @@ ALTER TABLE `users`
 --
 ALTER TABLE `property`
   ADD CONSTRAINT `property_ibfk_1` FOREIGN KEY (`landlord_id`) REFERENCES `landlord` (`landlord_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `tenants`
+--
+ALTER TABLE `tenants`
+  ADD CONSTRAINT `tenants_ibfk_1` FOREIGN KEY (`property_ID`) REFERENCES `property` (`property_ID`);
+
+--
+-- Constraints for table `visit_requests`
+--
+ALTER TABLE `visit_requests`
+  ADD CONSTRAINT `visit_requests_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `visit_requests_ibfk_2` FOREIGN KEY (`user_phn`) REFERENCES `users` (`phone_number`),
+  ADD CONSTRAINT `visit_requests_ibfk_3` FOREIGN KEY (`property_id`) REFERENCES `property` (`property_ID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

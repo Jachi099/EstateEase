@@ -631,3 +631,19 @@
 .reject-btn:hover {
     background-color: #e60000;
 }
+
+.remove-btn {
+  background-color: #e74c3c; /* Red for delete */
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  cursor: pointer;
+}
+
+.tenant-btn {
+  background-color: #3498db; /* Blue for change to tenant */
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  cursor: pointer;
+}

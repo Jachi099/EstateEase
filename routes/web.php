@@ -108,8 +108,8 @@ Route::get('/admin/property-list', [PropertyController::class, 'index'])->name('
 // Route for admin - visit requests
 Route::get('/admin/visit-requests', [AdminController::class, 'viewVisitRequests'])->name('admin.visitRequests');
 Route::patch('/admin/visit-requests/{id}/{status}', [AdminController::class, 'updateRequestStatus'])->name('admin.updateRequestStatus');
-
-
+Route::patch('/admin/visit-request/{id}/remove', [AdminController::class, 'removeVisitRequest'])->name('admin.removeVisitRequest');
+Route::patch('/admin/visit-request/{id}/change-to-tenant', [AdminController::class, 'changeToTenant'])->name('admin.changeToTenant');
 
 /*
 |--------------------------------------------------------------------------
