@@ -3,7 +3,7 @@
 
 
 namespace App\Http\Controllers;
-
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use App\Models\Tenant; // Import the Tenant model
 use Illuminate\Support\Facades\Auth;
@@ -159,30 +159,54 @@ public function cancelServiceRequest($id)
 
 
 
-
 public function requestService(Request $request)
 {
+Log::info('RequestService method called.');
+
     $request->validate([
         'property_id' => 'required|exists:property,property_ID',
         'service_type' => 'required|string|max:255',
-        'service_date' => 'required|date|after_or_equal:today', // Ensures the date is today or later
+        'service_date' => 'required|date|after_or_equal:today',
         'service_time' => 'required|date_format:H:i',
         'description' => 'required|string|max:500',
     ]);
 
-    // Create a new service request
-    ServiceRequest::create([
-        'tenant_id' => Auth::guard('tenant')->id(), // Get the authenticated tenant ID
+    Log::info('Validation passed.');
+
+    $serviceRequest = ServiceRequest::create([
+        'tenant_id' => Auth::guard('tenant')->id(),
         'property_ID' => $request->property_id,
         'service_type' => $request->service_type,
         'service_date' => $request->service_date,
         'service_time' => $request->service_time,
         'description' => $request->description,
-        'status' => 'pending', // Default status
+        'status' => 'pending',
     ]);
+
+    Log::info('Service request created: ', $serviceRequest->toArray());
+
+    $property = Property::findOrFail($request->property_id);
+    Log::info('Property found: ' . $property->property_ID);
+
+    $landlordId = $property->landlord_id;
+
+    if ($landlordId) {
+        Log::info('Landlord ID exists, creating notification for landlord ID: ' . $landlordId);
+        Notification::create([
+            'landlord_id' => $landlordId,
+            'message' => 'A tenant has requested a service for property ' . $property->type,
+            'status' => 'unread',
+        ]);
+        Log::info('Notification created successfully.');
+    } else {
+        Log::error('No landlord ID found for property ID: ' . $property->property_ID);
+    }
 
     return redirect()->route('tenant.service')->with('success', 'Service request submitted successfully!');
 }
+
+
+
 
 public function showServiceRequestForm()
 {

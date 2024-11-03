@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Landlord;
 use App\Models\Tenant;
+use App\Models\Notification;
 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth; // Import Auth facade
@@ -160,5 +161,26 @@ public function showPropertyDetails($id)
 }
 
 
+
+public function showNotifications()
+{
+    // Assuming you have a way to get the authenticated landlord
+    $landlord = Auth::guard('landlord')->user();
+    $profilePicture = $landlord->picture; // Adjust based on your actual field name
+
+    // Fetch notifications as needed
+    $notifications = Notification::where('landlord_id', $landlord->id)->get(); // Example query
+
+    return view('landlord.notifications', compact('notifications', 'profilePicture'));
+}
+
+
+public function markAsRead($id)
+{
+    $notification = Notification::findOrFail($id);
+    $notification->update(['is_read' => true]);
+
+    return redirect()->back()->with('success', 'Notification marked as read.');
+}
 
 }  
