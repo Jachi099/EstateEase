@@ -65,6 +65,11 @@ return [
         'driver' => 'eloquent',
         'model' => App\Models\Admin::class, // make sure this points to your Admin model
     ],
+
+    'tenants' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\Tenant::class,
+    ],
 ],
 
 

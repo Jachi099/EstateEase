@@ -118,14 +118,9 @@
     <div class="detail-item">
         <strong>Available From:</strong> <span>{{ $property->available_from }}</span>
     </div>
-
-
     
 </div>
-
-
 </div>
-
             @endforeach
         </div>
     </div>

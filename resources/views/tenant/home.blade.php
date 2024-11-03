@@ -26,39 +26,22 @@
                 <div class="navbar-link-estate-ease_logo montserrat-semi-bold-beaver-18px">EstateEase</div>
           <a href="#div_top"><div class="navbar-link-place navbar-link montserrat-normal-black-16px">Home</div> </a
           ><a href="#div_mid"><div class="navbar-link-about navbar-link montserrat-normal-black-16px">About</div> </a
-          > <a href="{{ route('user.properties_list') }}">
-            <div class="navbar-link-properties montserrat-normal-black-16px">Properties</div>
-        </a>
+          > <a href="{{ route('tenant.property_list') }}">
+    <div class="navbar-link-properties montserrat-normal-black-16px">Properties</div>
+</a>
+
         
              <a href="{{ route('user.service') }}"><div class="navbar-link-services montserrat-normal-black-16px">Services</div> </a>
           
-             <a href="{{ route(auth()->user()->account_type . '.profile') }}">
-    <div class="head_pic">
-        @php
-            $user = auth()->user();
-            $picturePath = 'path/to/default/image.png'; // Default image path
-
-            if ($user->account_type === 'landlord') {
-                $landlord = \App\Models\Landlord::where('email', $user->email)->first();
-                if ($landlord && $landlord->picture) {
-                    $picturePath = 'storage/' . $landlord->picture; // Use the landlord picture
-                }
-            } elseif ($user->account_type === 'tenant') {
-                $tenant = \App\Models\Tenant::where('email', $user->email)->first();
-                if ($tenant && $tenant->picture) {
-                    $picturePath = 'storage/' . $tenant->picture; // Use the tenant picture
-                }
-            } else {
-                // Default case for visitors
-                if ($user->picture) {
-                    $picturePath = 'storage/' . $user->picture; // Use the visitor picture
-                }
-            }
-        @endphp
-
-        <img src="{{ asset($picturePath) }}" alt="{{ ucfirst($user->account_type) }} Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
-    </div>
-</a>
+           
+             <a href="{{ route('tenant.profile') }}"><div class="head_pic">
+                  @if($profilePicture)
+                      <img src="{{ asset('storage/' . $profilePicture) }}" alt="User Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
+                  @else
+                      <img src="path/to/default/image.png" alt="Default Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
+                  @endif
+              </div>
+             </a>
 
 
           

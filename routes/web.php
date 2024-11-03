@@ -4,12 +4,15 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PropertyController;
+use App\Http\Controllers\Property1Controller;
+
 use App\Http\Controllers\LandlordController;
 use App\Http\Controllers\VisitRequestController;
 
 use App\Http\Controllers\TenantController;
 
 use App\Models\Landlord;
+use App\Models\Tenant;
 use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
@@ -40,16 +43,27 @@ Route::get('/landlord/properties', [LandlordController::class, 'showPropertiesLi
 
 
 // Add this route for the property list
-Route::get('/landlord/properties', [LandlordController::class, 'showPropertiesList'])->name('landlord.properties_list');
-Route::get('/landlord/property/{id}', [LandlordController::class, 'showPropertyDetails'])->name('landlord.property_details');
 
 });
 
 Route::middleware(['auth:tenant'])->group(function () {
     Route::get('/tenant/home', [UserController::class, 'tenantHome'])->name('tenant.user_home');
-    Route::get('/tenant/profile', [TenantController::class, 'tenantProfile'])->name('tenant.profile');
+    Route::get('/tenant/profile', [TenantController::class, 'profile'])->name('tenant.profile');
     Route::get('/tenant/edit-profile', [TenantController::class, 'editProfile'])->name('tenant.edit_profile');
+    
+    // Define a route for showing all properties
+    Route::get('/tenant/properties', [TenantController::class, 'showProperties'])->name('tenant.property_list');
+    
+    // Define a separate route for showing rented properties, if needed
+    Route::get('/tenant/rented-properties', [TenantController::class, 'showPropertiesList'])->name('tenant.rented_properties_list');
+    Route::get('/tenant/service', [TenantController::class, 'showServiceList'])->name('tenant.service');
+  
+        Route::post('/tenant/service/request', [TenantController::class, 'requestService'])->name('tenant.service.request');
+        Route::delete('/tenant/service/cancel/{id}', [TenantController::class, 'cancelServiceRequest'])->name('tenant.service.cancel');
+    
+    Route::get('/tenant/property/{id}', [TenantController::class, 'showPropertyDetails'])->name('tenant.property_details');
 });
+
 
 Route::middleware(['auth:visitor'])->group(function () {
     Route::get('/visitor/home', [UserController::class, 'visitorHome'])->name('visitor.user_home');
@@ -74,4 +88,38 @@ Route::middleware(['auth:visitor'])->group(function () {
 
     // Property-related routes
    
-
+/*
+    | Admin Routes
+    |--------------------------------------------------------------------------
+    */
+    
+    // Admin login routes
+    Route::get('/admin/login', [AdminController::class, 'showLoginForm'])->name('admin.login');
+    Route::post('/admin/login', [AdminController::class, 'login'])->name('admin.login');
+    
+    
+    // Protected routes for admins only
+    Route::middleware(['auth:admin'])->group(function () {
+        //Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+        Route::post('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
+        //Route::get('/admin/property-list', [AdminController::class, 'propertyList'])->name('admin.property_list');
+    
+    });
+    
+    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    
+    // Route for the admin to view all properties
+    Route::get('/admin/properties', [Property1Controller::class, 'index'])->name('admin.properties.index');
+    Route::get('/admin/properties/filter', [Property1Controller::class, 'index'])->name('properties.filter');
+    Route::get('/admin/property-list', [Property1Controller::class, 'index'])->name('admin.property_list');
+    
+    
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Property Routes
+    |--------------------------------------------------------------------------
+    */
+    
+    
+    Route::get('/properties', [Property1Controller::class, 'index'])->name('properties.index');

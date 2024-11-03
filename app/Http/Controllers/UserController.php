@@ -315,6 +315,10 @@ public function tenantHome()
     // Get the authenticated tenant
     $tenant = auth()->guard('tenant')->user();
 
+    if (!$tenant) {
+        return redirect()->route('login')->with('error', 'Please log in first.'); // Adjust this according to your routing
+    }
+
     // Get the profile picture
     $profilePicture = $tenant->picture ?? null; // Assuming `picture` is a field in the tenant table
 

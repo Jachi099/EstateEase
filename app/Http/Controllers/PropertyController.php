@@ -30,6 +30,7 @@ public function showProperties()
 
     return view('user.property_list', compact('properties', 'profilePicture'));
 }
+
 public function filterProperties(Request $request)
 {
     $location = $request->input('location');
