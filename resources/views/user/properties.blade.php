@@ -20,27 +20,25 @@
         <div class="flex-col flex">
           <div class="navbar">
             <div class="navbar-link-estate-ease_logo montserrat-semi-bold-beaver-18px">EstateEase</div>
-            <a href="homepageu95loggedu95in.html"
-              ><div class="navbar-link-place navbar-link montserrat-normal-black-16px">Home</div> </a
-            ><a href="homepageu95loggedu95in.html"
-              ><div class="navbar-link-about navbar-link montserrat-normal-black-16px">About</div>
-            </a>
+            <a href="{{ route('visitor.user_home') }}"><div class="navbar-link-place navbar-link montserrat-normal-black-16px">Home</div> </a
+              > <a href="{{ route('visitor.user_home') }}"><div class="navbar-link-about navbar-link montserrat-normal-black-16px">About</div> </a
+              >
+             
+              <a href="{{ route('user.properties_list') }}"><div class="navbar-link-properties navbar-link montserrat-normal-black-16px">Properties</div>
+              </a>
+                  <a href="homepageu95loggedu95in.html"
+                ><div class="navbar-link-services navbar-link montserrat-normal-black-16px">Services</div>
+              </a>
            
-            <a href="{{ route('user.properties_list') }}"><div class="navbar-link-properties navbar-link montserrat-normal-black-16px">Properties</div>
-            </a>
-                <a href="homepageu95loggedu95in.html"
-              ><div class="navbar-link-services navbar-link montserrat-normal-black-16px">Services</div>
-            </a>
-         
-            <a href="{{ route('user.profile') }}">
-                <div class="head_pic">
-                    @if(isset($profilePicture) && $profilePicture)
-                        <img src="{{ asset('storage/' . $profilePicture) }}" alt="User Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
-                    @else
-                        <img src="path/to/default/image.png" alt="Default Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
-                    @endif
-                </div>
-            </a>
+              <a href="{{ route('visitor.profile') }}">
+                  <div class="head_pic">
+                      @if(isset($profilePicture) && $profilePicture)
+                          <img src="{{ asset('storage/' . $profilePicture) }}" alt="User Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
+                      @else
+                          <img src="path/to/default/image.png" alt="Default Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
+                      @endif
+                  </div>
+              </a>
 
           </div>
 

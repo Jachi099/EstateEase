@@ -3,47 +3,24 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\Landlord as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Foundation\Auth\User as Authenticatable; // Allows it to be authenticated
+use Illuminate\Database\Eloquent\Model;
+
 
 class Landlord extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [
-        'name',
-        'email',
-        'phone',              
-        'password',
-        'picture',
-        'account_type',
-    ];
-
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
-
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
-
+   
+        use HasFactory;
+    
+        protected $table = 'landlord';
+    
+        protected $primaryKey = 'landlord_id';
+    
+        protected $fillable = [
+            'name', 'email', 'phone', 'password', 'picture', 'account_type', 'current_address'
+        ];
+    
+    
     public function properties()
     {
         return $this->hasMany(Property::class);

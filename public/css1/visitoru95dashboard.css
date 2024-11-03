@@ -17,7 +17,35 @@
   min-height: 22px;
   min-width: 102px;
 }
-
+.container {
+  width: 80%;
+  margin: 0 auto;
+}
+.add-property-btn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-align: center;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+.property-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.property-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 15px;
+  width: calc(33.333% - 20px);
+}
+.property-image {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
 .visitoru95dashboard .navbar-link-place {
   cursor: pointer;
   letter-spacing: 0;

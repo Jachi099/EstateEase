@@ -38,11 +38,5 @@ class Property extends Model
         'available_from',
     ];
 
-    /**
-     * Relationship: Property belongs to one landlord.
-     */
-    public function landlord()
-    {
-        return $this->belongsTo(Landlord::class);
-    }
+   
 }

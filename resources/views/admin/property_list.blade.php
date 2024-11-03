@@ -23,6 +23,7 @@
             <div class="estate-ease estate lexendzetta-black-mongoose-20px">EstateEase</div>
 
             
+                        {{-- 
             <a href="{{ route('user.profile') }}">
                 <div class="head_pic">
                     @if(isset($profilePicture) && $profilePicture)
@@ -32,11 +33,15 @@
                     @endif
                 </div>
             </a>
+            --}}
+
 
             <div class="dashb-container">
-              <a href="admin-dashboard.html"> <div class="link"></div></a>
+              <a href="{{ route('admin.dashboard') }}">
+                  <div class="link"></div>
+              </a>
               <div class="dashboard montserrat-extra-bold-mongoose-20px">Dashboard</div>
-            </div>
+          </div>
             <div class="overlap-group6"><div class="profile montserrat-extra-bold-mongoose-20px">Profile</div></div>
             <div class="overlap-group8"><div class="property montserrat-extra-bold-beaver-20px">Property</div></div>
             <div class="overlap-group4"><div class="landlord montserrat-extra-bold-mongoose-20px">Landlord</div></div>
