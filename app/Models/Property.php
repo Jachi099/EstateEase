@@ -38,5 +38,11 @@ class Property extends Model
         'available_from',
     ];
 
+
+    // Assuming each property can have multiple visit requests
+    public function visitRequests()
+    {
+        return $this->hasMany(VisitRequest::class, 'property_id'); // Match foreign key in VisitRequest
+    }
    
 }

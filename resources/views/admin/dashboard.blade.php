@@ -26,13 +26,17 @@
           
           </div>
 
-
-
           <div class="overlap-group14"><div class="landlord montserrat-extra-bold-mongoose-20px">Landlord</div></div>
+
+
           <div class="x-container2">
-            <a href="visitor.html"> <div class="link"></div></a>
+            <a href="{{ route('admin.visitRequests') }}">
+              <div class="link"></div>
+          </a>
             <div class="tenant-visitor montserrat-extra-bold-mongoose-20px">Tenant &amp; Visitor</div>
           </div>
+
+
           <div class="overlap-group9"><div class="service montserrat-extra-bold-mongoose-20px">Service</div></div>
           <div class="overlap-group6">
             <div class="service-provider montserrat-extra-bold-mongoose-20px">Service Provider</div>

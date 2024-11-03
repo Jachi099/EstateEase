@@ -7,7 +7,9 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Property;
 use App\Models\Landlord;
 use App\Models\Tenant;
+use App\Models\User;
 //use App\Models\ServiceProvider;
+use App\Models\VisitRequest; 
 
 
 class AdminController extends Controller
@@ -59,6 +61,35 @@ class AdminController extends Controller
     }
 
 
+
+
+    //VISIT REQUESTS
+
+    public function viewVisitRequests()
+    {
+        // Fetch pending visit requests with related visitor and property data
+        $visitRequests = VisitRequest::with(['visitor', 'property']) ->get();
+
+        $acceptedRequests = VisitRequest::with(['visitor', 'property'])
+        ->where('status', 'accepted') // Fetch only accepted requests
+        ->get();
+
+        return view('admin.visit_requests', compact('visitRequests', 'acceptedRequests'));
+    }
+
+    public function updateRequestStatus($id, $status)
+    {
+        // Find the visit request and update the status
+        $visitRequest = VisitRequest::findOrFail($id);
+        $visitRequest->status = $status;
+        $visitRequest->save();
+
+        return redirect()->back()->with('success', 'Visit request ' . $status . ' successfully.');
+    }
+
+
+
+
     // Logout the admin
     public function logout() {
         Auth::logout();
@@ -69,5 +100,6 @@ class AdminController extends Controller
     {
         return view('admin.property_list'); // Adjust path if needed
     }
+
 
 }
