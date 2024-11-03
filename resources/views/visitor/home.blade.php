@@ -34,29 +34,17 @@
           
              <a href="{{ route(auth()->user()->account_type . '.profile') }}">
     <div class="head_pic">
-        @php
-            $user = auth()->user();
-            $picturePath = 'path/to/default/image.png'; // Default image path
+      
+    <a href="{{ route('visitor.profile') }}"><div class="head_pic">
+                  @if($profilePicture)
+                      <img src="{{ asset('storage/' . $profilePicture) }}" alt="User Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
+                  @else
+                      <img src="path/to/default/image.png" alt="Default Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
+                  @endif
+              </div>
+             </a>
 
-            if ($user->account_type === 'landlord') {
-                $landlord = \App\Models\Landlord::where('email', $user->email)->first();
-                if ($landlord && $landlord->picture) {
-                    $picturePath = 'storage/' . $landlord->picture; // Use the landlord picture
-                }
-            } elseif ($user->account_type === 'tenant') {
-                $tenant = \App\Models\Tenant::where('email', $user->email)->first();
-                if ($tenant && $tenant->picture) {
-                    $picturePath = 'storage/' . $tenant->picture; // Use the tenant picture
-                }
-            } else {
-                // Default case for visitors
-                if ($user->picture) {
-                    $picturePath = 'storage/' . $user->picture; // Use the visitor picture
-                }
-            }
-        @endphp
 
-        <img src="{{ asset($picturePath) }}" alt="{{ ucfirst($user->account_type) }} Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
     </div>
 </a>
 

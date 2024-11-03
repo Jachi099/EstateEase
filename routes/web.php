@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LandlordController;
 use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\TenantController;
+use App\Http\Controllers\VisitRequestController;
 
 use App\Models\Landlord;
 use Illuminate\Support\Facades\Auth;
@@ -50,18 +51,22 @@ Route::middleware(['auth:tenant'])->group(function () {
 });
 
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth:visitor'])->group(function () {
     Route::get('/visitor/home', [UserController::class, 'visitorHome'])->name('visitor.user_home');
     Route::get('/user/profile', [UserController::class, 'profile'])->name('visitor.profile');
     Route::get('/user/edit-profile', [UserController::class, 'editProfile'])->name('visitor.edit_profile');
-    //Route::get('/user/properties', [PropertyController::class, 'properties'])->name('user.properties');
-    // Route for the user to view all properties
-    Route::get('/user/properties', [PropertyController::class, 'userPropertyList'])->name('user.properties');
-    Route::get('/user/properties/filter', [PropertyController::class, 'filterUserProperties'])->name('user.properties.filter');
-    
+    Route::post('/visit-requests', [VisitRequestController::class, 'store'])->middleware('auth'); // Ensure only authenticated users can book visits
+    Route::post('/visit/request', [UserController::class, 'requestVisit'])->name('visit.request');
+    Route::get('/get-booked-dates', [VisitRequestController::class, 'getBookedDates']);
+
+    Route::get('/user/properties', [PropertyController::class, 'properties'])->name('user.properties');
     // Visitor-Specific Routes
         Route::get('/properties', [PropertyController::class, 'showProperties'])->name('user.properties_list');
         Route::get('/properties/filter', [PropertyController::class, 'filterProperties'])->name('properties.filter');
+
+        // Route::get('/user/properties', [PropertyController::class, 'userPropertyList'])->name('user.properties');
+        // Route::get('/user/properties/filter', [PropertyController::class, 'filterUserProperties'])->name('user.properties.filter');
+
         Route::get('/property/details/{id}', [PropertyController::class, 'showPropertyDetails'])->name('property.details');
         Route::get('/user/visit-requested-properties', [UserController::class, 'visitRequestedProperties'])->name('user.visit.requested.properties');
         Route::post('/logout', [UserController::class, 'logout'])->name('user.logout');
@@ -69,6 +74,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/user/profile/edit', [UserController::class, 'editProfile'])->name('visitor.edit_profile');
         Route::post('/user/profile/update', [UserController::class, 'updateProfile'])->name('user.profile.update');
     });
+
 
 /*
 |--------------------------------------------------------------------------

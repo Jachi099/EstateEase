@@ -37,6 +37,11 @@ return [
         'driver' => 'session',
         'provider' => 'admins',
     ],
+
+    'visitor' => [
+        'driver' => 'session',
+        'provider' => 'visitors',
+    ],
 ],
 
 
@@ -54,6 +59,11 @@ return [
     'admins' => [
         'driver' => 'eloquent',
         'model' => App\Models\Admin::class, // make sure this points to your Admin model
+    ],
+
+    'visitors' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\User::class, // Assuming visitors are stored in the same table as users
     ],
 ],
 

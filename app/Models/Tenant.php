@@ -21,9 +21,13 @@ class Tenant extends Model
         'phone_number',
         'account_type',
         'picture',
+        'property_ID', // Add this line for mass assignment
         // Add any other fields relevant to the tenant
     ];
     
-
-    // Other necessary model methods or relationships can be added here
+    // Define relationship to Property if needed
+    public function property()
+    {
+        return $this->belongsTo(Property::class, 'property_ID', 'property_ID');
+    }
 }
