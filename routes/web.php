@@ -57,7 +57,7 @@ Route::middleware(['auth:visitor'])->group(function () {
     Route::get('/user/edit-profile', [UserController::class, 'editProfile'])->name('visitor.edit_profile');
     Route::post('/visit-requests', [VisitRequestController::class, 'store'])->middleware('auth'); // Ensure only authenticated users can book visits
     Route::post('/visit/request', [UserController::class, 'requestVisit'])->name('visit.request');
-    Route::get('/get-booked-dates', [VisitRequestController::class, 'getBookedDates']);
+    Route::get('/visit-requests/booked-dates/{propertyId}', [VisitRequestController::class, 'getBookedDates']);
 
     Route::get('/user/properties', [PropertyController::class, 'properties'])->name('user.properties');
     // Visitor-Specific Routes

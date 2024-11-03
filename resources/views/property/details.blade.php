@@ -42,6 +42,13 @@
             float: right;
             font-size: 20px;
         }
+
+        input[type="date"].booked {
+    background-color: #ffcccc; /* Light red for booked dates */
+    pointer-events: none; /* Prevent selection */
+    color: #888; /* Gray out the text */
+}
+
     </style>
   </head>
   <body style="margin: 0; background: #ffffff">
@@ -234,15 +241,14 @@
         </div>
       </div>
     </div>
-  <!-- Include Flatpickr CSS and JS -->
-  <div class="visit-container">
-    <a onclick="ShowOverlay('visit-request');">
+    <div class="visit-container">
+    <a onclick="ShowOverlay('visit-request', '{{ $property->property_ID }}');">
         <div class="visit_req_btn">Request Visit</div>
     </a>
 </div>
 
 <!-- Overlay for the visit request -->
-<div id="visit-request" class="overlay">
+<div id="visit-request" class="overlay" style="display: none;">
     <div class="overlay-content">
         <span class="close" onclick="ShowOverlay('visit-request');">&times;</span>
         <h2>Select Visit Date and Time</h2>
@@ -256,14 +262,18 @@
 
 <!-- JavaScript -->
 <script>
-    function ShowOverlay(overlayId) {
+    function ShowOverlay(overlayId, propertyId) {
         const overlay = document.getElementById(overlayId);
         overlay.style.display = overlay.style.display === 'none' || overlay.style.display === '' ? 'flex' : 'none';
+        
+        // Store the property ID for later use
+        document.getElementById('submit-visit').setAttribute('data-property-id', propertyId);
     }
 
     document.getElementById('submit-visit').addEventListener('click', function() {
         const date = document.getElementById('visit-date').value;
         const time = document.getElementById('visit-time').value;
+        const propertyId = this.getAttribute('data-property-id'); // Get the property ID
 
         if (date && time) {
             fetch('/visit-requests', {
@@ -274,7 +284,8 @@
                 },
                 body: JSON.stringify({
                     visit_date: date,
-                    visit_time: time
+                    visit_time: time,
+                    property_id: propertyId // Include the property ID in the request
                 })
             })
             .then(response => {
@@ -300,6 +311,8 @@
 <!-- Bootstrap and jQuery -->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
 
   </body>
 </html>
