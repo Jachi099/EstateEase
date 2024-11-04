@@ -19,7 +19,13 @@
       <div class="admin-dashboard screen">
         <div class="overlap-group">
           <div class="estate-ease estate lexendzetta-black-mongoose-20px">EstateEase</div>
-          <div class="overlap-group10"><div class="dashboard montserrat-extra-bold-beaver-20px">Dashboard</div></div>
+          <div class="overlap-group10">
+            <a href="{{ route('admin.dashboard') }}">
+              <div class="link"></div>
+          </a>
+            
+            <div class="dashboard montserrat-extra-bold-beaver-20px">Dashboard</div></div>
+
           <div class="overlap-group8"><div class="profile montserrat-extra-bold-mongoose-20px">Profile</div></div>
           <div class="x-container1">
           <a href="{{ route('admin.property_list') }}"> <div class="link"> <div class="property">Property</div></div></a>
@@ -38,8 +44,12 @@
 
 
           <div class="overlap-group9"><div class="service montserrat-extra-bold-mongoose-20px">Service</div></div>
+
           <div class="overlap-group6">
-            <div class="service-provider montserrat-extra-bold-mongoose-20px">Service Provider</div>
+            <a href="{{ route('admin.serviceProviders') }}">
+              <div class="link"></div>
+          </a>
+            <div class="service-provider montserrat-extra-bold-mongoose-20px">Service Providers</div>
           </div>
           <div class="overlap-group12"><div class="feedback montserrat-extra-bold-mongoose-20px">Feedback</div></div>
           <div class="overlap-group11"><div class="log-out montserrat-extra-bold-mongoose-20px">Log out</div></div>

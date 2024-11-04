@@ -8,6 +8,7 @@ use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\Property1Controller;
 use App\Http\Controllers\TenantController;
 use App\Http\Controllers\VisitRequestController;
+use App\Http\Controllers\ServiceProviderController;
 
 use App\Models\Landlord;
 use Illuminate\Support\Facades\Auth;
@@ -111,6 +112,13 @@ Route::patch('/admin/visit-requests/{id}/{status}', [AdminController::class, 'up
 Route::patch('/admin/visit-request/{id}/remove', [AdminController::class, 'removeVisitRequest'])->name('admin.removeVisitRequest');
 Route::patch('/admin/visit-request/{id}/change-to-tenant', [AdminController::class, 'changeToTenant'])->name('admin.changeToTenant');
 
+
+// Admin Service Providers Routes
+Route::get('/admin/service-providers', [ServiceProviderController::class, 'index'])->name('admin.serviceProviders');
+Route::delete('/admin/service-providers/{id}', [ServiceProviderController::class, 'destroy'])->name('admin.serviceProviders.delete');
+
+
+
 /*
 |--------------------------------------------------------------------------
 | Property Routes
@@ -119,4 +127,7 @@ Route::patch('/admin/visit-request/{id}/change-to-tenant', [AdminController::cla
 
 
 Route::get('/properties', [PropertyController::class, 'index'])->name('properties.index');
+
+
+
 

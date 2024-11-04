@@ -43,16 +43,27 @@
               <div class="dashboard montserrat-extra-bold-mongoose-20px">Dashboard</div>
           </div>
             <div class="overlap-group6"><div class="profile montserrat-extra-bold-mongoose-20px">Profile</div></div>
-            <div class="overlap-group8"><div class="property montserrat-extra-bold-beaver-20px">Property</div></div>
+
+            <div class="overlap-group8">
+              <a href="{{ route('admin.property_list') }}">
+                <div class="link"></div>
+            </a>
+            <div class="property montserrat-extra-bold-beaver-20px">Property</div></div>
+
             <div class="overlap-group4"><div class="landlord montserrat-extra-bold-mongoose-20px">Landlord</div></div>
             <div class="tenant-container">
-              <a href="visitor.html"> <div class="link"></div></a>
+              <a href="{{ route('admin.visitRequests') }}">
+              <div class="link"></div>
+          </a>
               <div class="tenant-visitor montserrat-extra-bold-mongoose-20px">Tenant &amp; Visitor</div>
             </div>
             <div class="overlap-group5">
               <div class="service service-1 montserrat-extra-bold-mongoose-20px">Service</div>
             </div>
             <div class="overlap-group7">
+              <a href="{{ route('admin.serviceProviders') }}">
+                <div class="link"></div>
+            </a>
               <div class="service-1 montserrat-extra-bold-mongoose-20px">Service Provider</div>
             </div>
             <div class="overlap-group10"><div class="feedback montserrat-extra-bold-mongoose-20px">Feedback</div></div>
@@ -66,10 +77,7 @@
             <div class="flex-row">
               <div class="flex-col-1 flex-col-3">
                 <h1 class="estate-ease_logo estate lexendzetta-medium-beaver-25px">PROPERTY LIST</h1>
-                <div class="overlap-group3">
-                  <div class="add-property add-1">ADD PROPERTY</div>
-                  <img class="add add-1" src="img/add@2x.png" alt="Add" />
-                </div>
+                
             
                 <div class="flex-row-2 montserrat-medium-black-16px">
                     <div class="total-properties">TOTAL PROPERTIES:</div>
@@ -120,7 +128,7 @@
                         <div class="bedroom montserrat-normal-black-12px">BEDROOM: {{ $property->num_of_rooms }}</div>
                         <div class="bathroom montserrat-normal-black-12px">BATHROOM: {{ $property->num_of_bathrooms }}</div>
                         <a href="{{ route('property.details', ['id' => $property->property_ID]) }}" class="update_btn-1 update_btn-2">
-                            <div class="more-details">MORE DETAILS</div>
+                            
                         </a> 
                     </div>
                     

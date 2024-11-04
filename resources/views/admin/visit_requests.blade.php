@@ -43,14 +43,19 @@
 
             <div class="overlap-group4"><div class="landlord montserrat-extra-bold-mongoose-20px">Landlord</div></div>
             <div class="tenant-container">
-              <a href="visitor.html"> <div class="link"></div></a>
+              <a href="{{ route('admin.visitRequests') }}">
+                <div class="link"></div>
+            </a>
               <div class="tenant-visitor montserrat-extra-bold-mongoose-20px">Tenant &amp; Visitor</div>
             </div>
             <div class="overlap-group5">
               <div class="service service-1 montserrat-extra-bold-mongoose-20px">Service</div>
             </div>
             <div class="overlap-group7">
-              <div class="service-1 montserrat-extra-bold-mongoose-20px">Service Provider</div>
+              <a href="{{ route('admin.serviceProviders') }}">
+                <div class="link"></div>
+            </a>
+              <div class="service-1 montserrat-extra-bold-mongoose-20px">Service Providers</div>
             </div>
             <div class="overlap-group10"><div class="feedback montserrat-extra-bold-mongoose-20px">Feedback</div></div>
             <div class="overlap-group12"><div class="log-out montserrat-extra-bold-mongoose-20px">Log out</div></div>
