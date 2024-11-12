@@ -28,7 +28,6 @@
           ><a href="#div_mid"><div class="navbar-link-about navbar-link montserrat-normal-black-16px">About</div> </a
           > 
         
-             <a href="{{ route('user.service') }}"><div class="navbar-link-services montserrat-normal-black-16px">Services</div> </a>
           
      
              <a href="{{ route('landlord.profile') }}"><div class="head_pic">

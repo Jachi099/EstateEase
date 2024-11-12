@@ -14,4 +14,14 @@ class VisitRequest extends Model
         'visit_time',
         'status',
     ];
+
+    public function visitor()
+    {
+        return $this->belongsTo(User::class, 'user_id'); // Adjust if the visitor model is different
+    }
+
+    public function property()
+    {
+        return $this->belongsTo(Property::class, 'property_id');
+    }
 }

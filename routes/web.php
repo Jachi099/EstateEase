@@ -8,11 +8,12 @@ use App\Http\Controllers\Property1Controller;
 
 use App\Http\Controllers\LandlordController;
 use App\Http\Controllers\VisitRequestController;
-
+use App\Http\Controllers\ServiceProviderController;
 use App\Http\Controllers\TenantController;
 
 use App\Models\Landlord;
 use App\Models\Tenant;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
@@ -77,17 +78,19 @@ Route::middleware(['auth:visitor'])->group(function () {
     Route::get('/visit-requests/booked-dates/{propertyId}', [VisitRequestController::class, 'getBookedDates']);
 
 
-    Route::get('/user/properties', [PropertyController::class, 'properties'])->name('user.properties');
-    // Visitor-Specific Routes
-        Route::get('/properties', [PropertyController::class, 'showProperties'])->name('user.properties_list');
-        Route::get('/properties/filter', [PropertyController::class, 'filterProperties'])->name('properties.filter');
-        Route::get('/property/details/{id}', [PropertyController::class, 'showPropertyDetails'])->name('property.details');
-        Route::get('/user/visit-requested-properties', [UserController::class, 'visitRequestedProperties'])->name('user.visit.requested.properties');
+ 
+    Route::get('/visitor/properties', [UserController::class, 'showProperties'])->name('visitor.property_list');
+
+        Route::get('/visitor/properties/filter', [UserController::class, 'filterProperties'])->name('visitor.filter');
+        Route::get('/visitor/properties/details/{id}', [UserController::class, 'showPropertyDetails'])->name('visitor.details');
+        Route::get('/user/visit-requested-properties', [UserController::class, 'visitRequestedProperties'])->name('visitor.visit.requested.list');
         Route::post('/logout', [UserController::class, 'logout'])->name('user.logout');
-        Route::get('/user/service', [UserController::class, 'service'])->name('user.service');
         Route::get('/user/profile/edit', [UserController::class, 'editProfile'])->name('visitor.edit_profile');
         Route::post('/user/profile/update', [UserController::class, 'updateProfile'])->name('user.profile.update');
     });
+        Route::get('/user/properties', [UserController::class, 'properties'])->name('user.properties');
+        Route::get('/user/service', [UserController::class, 'service'])->name('user.service');
+
 
     // Property-related routes
    
@@ -116,10 +119,14 @@ Route::middleware(['auth:visitor'])->group(function () {
     Route::get('/admin/properties/filter', [Property1Controller::class, 'index'])->name('properties.filter');
     Route::get('/admin/property-list', [Property1Controller::class, 'index'])->name('admin.property_list');
     
+    Route::get('/admin/visit-requests', [AdminController::class, 'viewVisitRequests'])->name('admin.visitRequests');
+Route::patch('/admin/visit-requests/{id}/{status}', [AdminController::class, 'updateRequestStatus'])->name('admin.updateRequestStatus');
+Route::patch('/admin/visit-request/{id}/remove', [AdminController::class, 'removeVisitRequest'])->name('admin.removeVisitRequest');
+Route::patch('/admin/visit-request/{id}/change-to-tenant', [AdminController::class, 'changeToTenant'])->name('admin.changeToTenant');
     
-    
-    /*
-    |--------------------------------------------------------------------------
+   Route::get('/admin/service-providers', [ServiceProviderController::class, 'index'])->name('admin.serviceProviders');
+Route::delete('/admin/service-providers/{id}', [ServiceProviderController::class, 'destroy'])->name('admin.serviceProviders.delete');
+  /*   |--------------------------------------------------------------------------
     | Property Routes
     |--------------------------------------------------------------------------
     */

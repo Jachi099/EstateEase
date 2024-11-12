@@ -20,15 +20,15 @@
         <div class="flex-col flex">
           <div class="navbar">
             <div class="navbar-link-estate-ease_logo montserrat-semi-bold-beaver-18px">EstateEase</div>
-            <a href="{{ route('tenant.user_home') }}"><div class="navbar-link-place navbar-link montserrat-normal-black-16px">Home</div> </a
-            > <a href="{{ route('tenant.user_home') }}"><div class="navbar-link-about navbar-link montserrat-normal-black-16px">About</div> </a
+            <a href="{{ route('visitor.user_home') }}"><div class="navbar-link-place navbar-link montserrat-normal-black-16px">Home</div> </a
+            > <a href="{{ route('visitor.user_home') }}"><div class="navbar-link-about navbar-link montserrat-normal-black-16px">About</div> </a
             >
            
-            <a href="{{ route('tenant.property_list') }}"><div class="navbar-link-properties navbar-link montserrat-normal-black-16px">Properties</div>
+            <a href="{{ route('visitor.property_list') }}"><div class="navbar-link-properties navbar-link montserrat-normal-black-16px">Properties</div>
             </a>
                
          
-            <a href="{{ route('tenant.profile') }}">
+            <a href="{{ route('visitor.profile') }}">
                 <div class="head_pic">
                     @if(isset($profilePicture) && $profilePicture)
                         <img src="{{ asset('storage/' . $profilePicture) }}" alt="User Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
@@ -93,7 +93,7 @@
                 <div class="rent rent-1 montserrat-normal-black-12px">RENT: {{ number_format($property->rent, 2) }}</div>
                 <div class="floor montserrat-normal-black-12px">FLOOR: {{ $property->floor }}</div>
                 <div class="available-from montserrat-normal-black-12px">AVAILABLE FROM: {{ \Carbon\Carbon::parse($property->available_from)->format('M d, Y') }}</div>
-               <a href="{{ route('property.details', ['id' => $property->property_ID]) }}" class="update_btn-1 update_btn-2">
+               <a href="{{ route('visitor.details', ['id' => $property->property_ID]) }}" class="update_btn-1 update_btn-2">
                 <div class="more-details">MORE DETAILS</div></a> 
         </div>
     @endforeach

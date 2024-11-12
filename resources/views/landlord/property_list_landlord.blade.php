@@ -50,7 +50,8 @@
                   <div class="navbar-link-estate-ease_logo montserrat-semi-bold-beaver-18px">EstateEase</div>
                   <a href="{{ route('landlord.user_home') }}"><div class="navbar-link-place navbar-link montserrat-normal-black-16px">Home</div> </a
             > <a href="{{ route('landlord.user_home') }}"><div class="navbar-link-about navbar-link montserrat-normal-black-16px">About</div> </a
-            > <a href="{{ route('user.service') }}"><div class="navbar-link-services montserrat-normal-black-16px">Services</div> </a>
+            > 
+            
             
             
               <a href="{{ route('landlord.profile') }}"><div class="head_pic">
@@ -78,7 +79,6 @@
         <div class="container">
      
 
-        <div class="property-list">
             @foreach ($properties as $property)
             <div class="property-card">
             @if ($property->img1)
@@ -106,7 +106,7 @@
 </h2>
     <div class="property-details">
     <div class="detail-item">
-        <strong>Rent:</strong> <span>${{ $property->rent }}</span>
+        <strong>Rent:</strong> <span>{{ $property->rent }}tk</span>
     </div>
     <div class="detail-item">
         <strong>Size:</strong> <span>{{ $property->size }} sq ft</span>

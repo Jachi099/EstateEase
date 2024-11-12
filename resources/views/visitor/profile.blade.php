@@ -30,21 +30,20 @@
 </form>
 
             <div class="profile_btn"></div>
-            <a href="{{ route('user.visit.requested.properties') }}">
+            <a href="{{ route('visitor.visit.requested.properties') }}">
                 <div class="visit_btn">
                     <div class="visit-requested-properties">VISIT REQUESTED PROPERTIES</div>
                 </div>
             </a>
-            <a href="help.html"> <div class="help_btn"> <div class="help-center">HELP CENTER</div></div></a
-            >
+           
         
    
                 <div class="navbar-link-container">
                   <div class="navbar-link-estate-ease_logo montserrat-semi-bold-beaver-18px">EstateEase</div>
                   <a href="{{ route('visitor.user_home') }}"><div class="navbar-link-place navbar-link montserrat-normal-black-16px">Home</div> </a
             > <a href="{{ route('visitor.user_home') }}"><div class="navbar-link-about navbar-link montserrat-normal-black-16px">About</div> </a
-            >  <a href="{{ route('user.properties_list') }}"><div class="navbar-link-properties montserrat-normal-black-16px">Properties</div> </a
-              > <a href="{{ route('user.service') }}"><div class="navbar-link-services montserrat-normal-black-16px">Services</div> </a>
+            >  <a href="{{ route('visitor.property_list') }}"><div class="navbar-link-properties montserrat-normal-black-16px">Properties</div> </a
+              > 
             
             
               <a href="{{ route('visitor.profile') }}"><div class="head_pic">

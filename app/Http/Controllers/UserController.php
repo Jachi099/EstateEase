@@ -10,6 +10,8 @@ use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Log;
 use App\Models\Landlord;
 use App\Models\Tenant;
+use App\Models\Property;
+
 
 
 class UserController extends Controller
@@ -32,7 +34,7 @@ class UserController extends Controller
      // You can also fetch other properties as needed
      // $requestedProperties = ...; // Logic to get requested properties
  
-     return view('user.visit_requested_list', compact('profilePicture')); // Pass the profile picture to the view
+     return view('visitor.visit_requested_list', compact('profilePicture')); // Pass the profile picture to the view
  }
  
  
@@ -356,7 +358,53 @@ public function requestVisit(Request $request)
     return response()->json(['success' => 'Visit request submitted successfully!']);
 }
 
+public function showProperties()
+    {
+        // Retrieve properties with the necessary details
+        $properties = Property::select(
+                'property_ID', 'status', 'img1', 'num_of_rooms', 'num_of_bathrooms',
+                'floor', 'city', 'state', 'rent', 'available_from'
+            )
+            ->get();
+    
+        // Get the authenticated user's profile picture
+        $user = Auth::user();
+        $profilePicture = $user->picture;
+    
+        return view('visitor.property_list', compact('properties', 'profilePicture'));
+    }
 
 
+    public function filterProperties(Request $request)
+    {
+        $location = $request->input('location');
+        $rentRange = $request->input('rent_range');  // Format: "min-max"
+    
+        $query = Property::query();
+    
+        if ($location) {
+            $query->where('city', 'LIKE', "%{$location}%");
+        }
+    
+        if ($rentRange) {
+            [$minRent, $maxRent] = explode('-', $rentRange);
+            $query->whereBetween('rent', [(float)$minRent, (float)$maxRent]);
+        }
+    
+        $properties = $query->get();
+    
+        $user = Auth::user();
+        $profilePicture = $user->picture;
+    
+        return view('visitor.property_list', compact('properties', 'profilePicture'));
+    }
+    
+    // In PropertyController.php
+    public function showPropertyDetails($id)
+    {
+        $property = Property::findOrFail($id);
+        return view('visitor.details', compact('property'));
+    }
+    
 
 }  

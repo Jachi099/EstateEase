@@ -21,13 +21,14 @@
      
         <div class="navbar-link-container">
             <div class="navbar-link-estate-ease_logo montserrat-semi-bold-beaver-18px">EstateEase</div>
-     <a href="{{ route('user.user_home') }}"><div class="navbar-link-place navbar-link montserrat-normal-black-16px">Home</div> </a
-      ><a href="{{ route('user.user_home') }}"><div class="navbar-link-about navbar-link montserrat-normal-black-16px">About</div> </a
-      >  <a href="{{ route('user.properties_list') }}"><div class="navbar-link-properties montserrat-normal-black-16px">Properties</div> </a
-        > <a href="{{ route('user.service') }}"> <div class="navbar-link-services montserrat-normal-black-16px">Services</div> </a>
+     <a href="{{ route('visitor.user_home') }}"><div class="navbar-link-place navbar-link montserrat-normal-black-16px">Home</div> </a
+      ><a href="{{ route('visitor.user_home') }}"><div class="navbar-link-about navbar-link montserrat-normal-black-16px">About</div> </a
+      >  <a href="{{ route('visitor.property_list') }}"><div class="navbar-link-properties montserrat-normal-black-16px">Properties</div> </a
+        > 
+        
       
       
-        <a href="{{ route('user.profile') }}"><div class="head_pic">
+        <a href="{{ route('visitor.profile') }}"><div class="head_pic">
             @if($profilePicture)
                 <img src="{{ asset('storage/' . $profilePicture) }}" alt="User Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
             @else
@@ -105,7 +106,7 @@
                 <div class="update-profile">UPDATE PROFILE</div>
               </button>
               <div class="back-container">
-                <a href="{{ route('user.profile') }}"> <div class="go_back"> 
+                <a href="{{ route('visitor.profile') }}"> <div class="go_back"> 
                     <div class="go-back">GO BACK</div>
                 </div></a>
               </div>

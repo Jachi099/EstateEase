@@ -31,7 +31,6 @@
 </a>
 
         
-             <a href="{{ route('user.service') }}"><div class="navbar-link-services montserrat-normal-black-16px">Services</div> </a>
           
            
              <a href="{{ route('tenant.profile') }}"><div class="head_pic">
