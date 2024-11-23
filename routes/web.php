@@ -30,6 +30,7 @@ Route::post('/signup', [UserController::class, 'signupSubmit'])->name('user.sign
 // User Login Routes
 Route::get('/login', [UserController::class, 'showLoginForm'])->name('user.login');
 Route::post('/login', [UserController::class, 'login'])->name('user.login.submit');
+
 // Protected Routes for All Authenticated Users
 Route::middleware(['auth:landlord'])->group(function () {
     Route::get('/landlord/home', [UserController::class, 'landlordHome'])->name('landlord.user_home');
