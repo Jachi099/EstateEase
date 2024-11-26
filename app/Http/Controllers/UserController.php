@@ -34,7 +34,7 @@ class UserController extends Controller
      // You can also fetch other properties as needed
      // $requestedProperties = ...; // Logic to get requested properties
  
-     return view('visitor.visit_requested_list', compact('profilePicture')); // Pass the profile picture to the view
+     return view('user.visit_requested_list', compact('profilePicture')); // Pass the profile picture to the view
  }
  
  

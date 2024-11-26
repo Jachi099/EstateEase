@@ -84,7 +84,8 @@ Route::middleware(['auth:visitor'])->group(function () {
 
         Route::get('/visitor/properties/filter', [UserController::class, 'filterProperties'])->name('visitor.filter');
         Route::get('/visitor/properties/details/{id}', [UserController::class, 'showPropertyDetails'])->name('visitor.details');
-        Route::get('/user/visit-requested-properties', [UserController::class, 'visitRequestedProperties'])->name('visitor.visit.requested.list');
+        Route::get('/user/visit-requested-properties', [UserController::class, 'visitRequestedProperties'])->name('user.visit_requested_list');
+
         Route::post('/logout', [UserController::class, 'logout'])->name('user.logout');
         Route::get('/user/profile/edit', [UserController::class, 'editProfile'])->name('visitor.edit_profile');
         Route::post('/user/profile/update', [UserController::class, 'updateProfile'])->name('user.profile.update');
