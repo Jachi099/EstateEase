@@ -62,7 +62,6 @@ class AdminController extends Controller
 
 
 
-
     //VISIT REQUESTS
 
     public function viewVisitRequests()
@@ -74,7 +73,7 @@ class AdminController extends Controller
         ->where('status', 'accepted') // Fetch only accepted requests
         ->get();
 
-        return view('admin.visit_requests', compact('visitRequests', 'acceptedRequests'));
+        return view('admin.visitor', compact('visitRequests', 'acceptedRequests'));
     }
 
     public function updateRequestStatus($id, $status)
@@ -154,6 +153,21 @@ class AdminController extends Controller
     {
         return view('admin.property_list'); // Adjust path if needed
     }
+
+
+// AdminController.php
+public function showTenant()
+{
+    $visitRequests = VisitRequest::with(['visitor', 'property']) ->get();
+
+    $acceptedRequests = VisitRequest::with(['visitor', 'property'])
+    ->where('status', 'accepted') // Fetch only accepted requests
+    ->get();
+
+    return view('admin.tenant', compact('visitRequests', 'acceptedRequests'));
+}
+
+
 
 
 }

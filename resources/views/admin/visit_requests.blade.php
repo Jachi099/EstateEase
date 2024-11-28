@@ -78,46 +78,8 @@
               <h2>ALL VISIT REQUESTS</h2>
               <br>
               <table class="visit-requests-table">
-                  <thead>
-                      <tr>
-                          <th>Visitor Name</th>
-                          <th>Phone</th>
-                          <th>Property Address</th>
-                          <th>Visit Date</th>
-                          <th>Visit Time</th>
-                          <th>Status</th>
-                          <th>Accept Request</th>
-                          <th>Decline Request</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                      @foreach($visitRequests as $request)
-                          <tr>
-                              <td>{{ $request->visitor->full_name ?? 'N/A' }}</td>
-                              <td>{{ $request->visitor->phone_number ?? 'N/A' }}</td>
-                              <td>{{ $request->property->property_ID ?? 'N/A' }}</td>
-                              <td>{{ $request->visit_date }}</td>
-                              <td>{{ $request->visit_time }}</td>
-                              <td>{{ ucfirst($request->status) }}</td>
-                              
-                              <td>
-                                  <form action="{{ route('admin.updateRequestStatus', [$request->id, 'accepted']) }}" method="POST" class="action-form">
-                                      @csrf
-                                      @method('PATCH')
-                                      <button type="submit" class="accept-btn">Accept</button>
-                                  </form>
-                                  
-                              </td>
-                              <td>
-                                <form action="{{ route('admin.updateRequestStatus', [$request->id, 'rejected']) }}" method="POST" class="action-form">
-                                  @csrf
-                                  @method('PATCH')
-                                  <button type="submit" class="reject-btn">Reject</button>
-                              </form>
-                              </td>
-                          </tr>
-                      @endforeach
-                  </tbody>
+                 
+                
               </table>
             </div>
 

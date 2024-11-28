@@ -121,7 +121,6 @@ Route::middleware(['auth:visitor'])->group(function () {
     Route::get('/admin/properties/filter', [Property1Controller::class, 'index'])->name('properties.filter');
     Route::get('/admin/property-list', [Property1Controller::class, 'index'])->name('admin.property_list');
     
-    Route::get('/admin/visit-requests', [AdminController::class, 'viewVisitRequests'])->name('admin.visitRequests');
 Route::patch('/admin/visit-requests/{id}/{status}', [AdminController::class, 'updateRequestStatus'])->name('admin.updateRequestStatus');
 Route::patch('/admin/visit-request/{id}/remove', [AdminController::class, 'removeVisitRequest'])->name('admin.removeVisitRequest');
 Route::patch('/admin/visit-request/{id}/change-to-tenant', [AdminController::class, 'changeToTenant'])->name('admin.changeToTenant');
@@ -131,7 +130,10 @@ Route::delete('/admin/service-providers/{id}', [ServiceProviderController::class
   /*   |--------------------------------------------------------------------------
     | Property Routes
     |--------------------------------------------------------------------------
-    */
-    
-    
+    */ 
     Route::get('/properties', [Property1Controller::class, 'index'])->name('properties.index');
+
+    Route::get('/admin/visitor', [AdminController::class, 'viewVisitRequests'])->name('admin.visitor');
+
+    // web.php (or routes file)
+Route::get('/admin/tenant', [AdminController::class, 'showTenant'])->name('admin.tenant');

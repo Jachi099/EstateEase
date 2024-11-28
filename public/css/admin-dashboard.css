@@ -22,7 +22,7 @@ html, body {
 }
 
 
-.admin-dashboard .overlap-group {
+.admin-dashboard .overlap-group1 {
   align-items: center;
   background-color: var(--black);
   display: flex;
@@ -32,25 +32,18 @@ html, body {
   width: 214px;
 }
 
-.admin-dashboard .overlap-group10 {
-  align-items: flex-start;
-  background-color: var(--white);
-  display: flex;
-  height: 77px;
-  margin-top: 84px;
-  min-width: 214px;
-  padding: 26px 45px;
-}
 
 .admin-dashboard .dashboard {
+  left: 45px;
   letter-spacing: 0;
   line-height: normal;
-  min-height: 24px;
-  text-shadow: 0px 4px 4px #c09a7f66;
+  position: absolute;
+  text-shadow: 0px 4px 4px hsla(25, 34%, 63%, 0.4);
+  top: 26px;
   white-space: nowrap;
 }
 
-.admin-dashboard .overlap-group8 {
+.admin-dashboard .overlap-group6 {
   align-items: flex-end;
   background-color: var(--black);
   display: flex;
@@ -59,39 +52,25 @@ html, body {
   padding: 26px 68px;
 }
 
-.admin-dashboard .x-container1 {
+.admin-dashboard .overlap-group8 {
+  align-items: flex-start;
+  
+  display: flex;
   height: 77px;
-  position: relative;
-  width: 214px;
-  background-color: var(--black);
-  border: 2px solid;
-  cursor: pointer;
- 
+  justify-content: flex-end;
+  min-width: 214px;
+  padding: 26px 58px;
 }
-.admin-dashboard .x-container2 {
-  height: 77px;
-  position: absolute;
-  width: 214px;
-  background-color: var(--black);
-  border: 2px solid;
-  cursor: pointer;
- 
-}
+
 .admin-dashboard .property {
   letter-spacing: 0;
   line-height: normal;
+  min-height: 24px;
   text-shadow: 0px 4px 4px #c09a7f66;
-  font-family: 'Montserrat', sans-serif; /* Ensure you have the Montserrat font imported */
-  font-size: 20px; /* Adjust based on your design */
-  font-weight: bolder;
-  cursor: pointer;
-  text-align: center;
-margin-top:20px;
-
+  white-space: nowrap;
 }
 
-
-.admin-dashboard .overlap-group14 {
+.admin-dashboard .overlap-group4 {
   align-items: flex-start;
   background-color: var(--black);
   display: flex;
@@ -118,7 +97,7 @@ margin-top:20px;
   white-space: nowrap;
 }
 
-.admin-dashboard .overlap-group9 {
+.admin-dashboard .overlap-group5 {
   align-items: flex-end;
   background-color: var(--black);
   display: flex;
@@ -128,15 +107,10 @@ margin-top:20px;
 }
 
 .admin-dashboard .service {
-  letter-spacing: 0;
-  line-height: normal;
-  min-height: 24px;
   min-width: 85px;
-  text-shadow: 0px 4px 4px #c09a7f66;
-  white-space: nowrap;
 }
 
-.admin-dashboard .overlap-group6 {
+.admin-dashboard .overlap-group7 {
   align-items: flex-start;
   background-color: var(--black);
   display: flex;
@@ -146,15 +120,7 @@ margin-top:20px;
   padding: 26px 15px;
 }
 
-.admin-dashboard .service-provider {
-  letter-spacing: 0;
-  line-height: normal;
-  min-height: 24px;
-  text-shadow: 0px 4px 4px #c09a7f66;
-  white-space: nowrap;
-}
-
-.admin-dashboard .overlap-group12 {
+.admin-dashboard .overlap-group10 {
   align-items: flex-start;
   background-color: var(--black);
   display: flex;
@@ -164,7 +130,7 @@ margin-top:20px;
   padding: 26px 53px;
 }
 
-.admin-dashboard .overlap-group11 {
+.admin-dashboard .overlap-group12 {
   align-items: flex-end;
   background-color: var(--black);
   display: flex;
@@ -172,7 +138,6 @@ margin-top:20px;
   min-width: 214px;
   padding: 26px 62px;
 }
-
 .admin-dashboard .flex-col {
   flex-direction: column;
   gap: 50px;
