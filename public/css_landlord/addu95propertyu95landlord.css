@@ -1,0 +1,698 @@
+/* screen - addu95propertyu95landlord */
+
+.addu95propertyu95landlord {
+  align-items: flex-start;
+  background-color: var(--white);
+  display: flex;
+  overflow: hidden;
+  width: 1440px;
+}
+
+.addu95propertyu95landlord .overlap-group-container {
+  height: 731px;
+  margin-left: -2px;
+  position: relative;
+  width: 1442px;
+}
+
+.addu95propertyu95landlord .overlap-group {
+  height: 731px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 1442px;
+}
+
+.addu95propertyu95landlord .help_btn-1 {
+  left: 2px;
+  top: 416px;
+}
+
+.addu95propertyu95landlord .rented_btn {
+  background-color: var(--eerie-black);
+  border: 2px solid;
+  border-color: var(--black);
+  height: 53px;
+  left: 0;
+  position: absolute;
+  top: 421px;
+  width: 214px;
+}
+
+.addu95propertyu95landlord .help_btn {
+  left: 1px;
+  top: 469px;
+}
+
+.addu95propertyu95landlord .help_btn-2 {
+  left: 1px;
+  top: 520px;
+}
+
+.addu95propertyu95landlord .add-property {
+  left: 42px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 431px;
+}
+
+.addu95propertyu95landlord .help-center {
+  left: 49px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 484px;
+}
+
+.addu95propertyu95landlord .payment-history {
+  left: 29px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 484px;
+}
+
+.addu95propertyu95landlord .help-center-1 {
+  left: 49px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 535px;
+}
+
+.addu95propertyu95landlord .property-list {
+  left: 45px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 326px;
+}
+
+.addu95propertyu95landlord .feedback_btn {
+  background-color: var(--black);
+  border: 2px solid;
+  height: 53px;
+  left: 2px;
+  position: absolute;
+  top: 363px;
+  width: 214px;
+}
+
+.addu95propertyu95landlord .feedbacks {
+  left: 58px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 379px;
+}
+
+.addu95propertyu95landlord .profile {
+  left: 1155px;
+  top: 33px;
+}
+
+.addu95propertyu95landlord .properties {
+  cursor: pointer;
+  left: 817px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 33px;
+}
+
+.addu95propertyu95landlord .estate-ease_logo {
+  left: 98px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 32px;
+}
+
+.addu95propertyu95landlord .head_pic {
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--beaver);
+  border-radius: 38.5px/36.5px;
+  height: 73px;
+  left: 1334px;
+  position: absolute;
+  top: 7px;
+  width: 77px;
+}
+
+.addu95propertyu95landlord .profile_btn {
+  background-color: var(--black);
+  border: 2px solid;
+  height: 53px;
+  left: 2px;
+  position: absolute;
+  top: 257px;
+  width: 214px;
+}
+
+.addu95propertyu95landlord .profile-1 {
+  left: 73px;
+  top: 273px;
+}
+
+.addu95propertyu95landlord .flex-col {
+  align-items: flex-start;
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--beaver);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  left: 216px;
+  min-height: 644px;
+  padding: 35px 69px;
+  position: absolute;
+  top: 87px;
+  width: 1226px;
+}
+
+.addu95propertyu95landlord .flex-row {
+  align-items: flex-end;
+  display: flex;
+  gap: 5px;
+  height: 280px;
+  min-width: 1076px;
+}
+
+.addu95propertyu95landlord .flex-col-1 {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  gap: 33px;
+  min-height: 280px;
+  width: 624px;
+}
+
+.addu95propertyu95landlord .estate-ease_logo-1 {
+  letter-spacing: 0;
+  line-height: normal;
+  margin-left: 1px;
+  min-height: 31px;
+  width: 623px;
+}
+
+.addu95propertyu95landlord .overlap-group2 {
+  align-items: flex-start;
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--black);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 216px;
+  padding: 2px 0;
+  width: 614px;
+}
+
+.addu95propertyu95landlord .overlap-group10 {
+  align-items: flex-end;
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--black);
+  display: flex;
+  height: 175px;
+  min-width: 614px;
+  padding: 67px 289px;
+}
+
+.addu95propertyu95landlord .add_circle {
+  height: 34px;
+  width: 34px;
+}
+
+.addu95propertyu95landlord .flex-col-2 {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  gap: 21px;
+  min-height: 272px;
+  width: 447px;
+}
+
+.addu95propertyu95landlord .from-container {
+  align-items: center;
+  display: flex;
+  gap: 33px;
+  min-width: 447px;
+}
+
+.addu95propertyu95landlord .available-from {
+  letter-spacing: 0;
+  line-height: normal;
+  margin-bottom: 1.0px;
+  min-height: 20px;
+  min-width: 151px;
+}
+
+.addu95propertyu95landlord .av_from_date {
+  background-color: var(--white);
+  border: 2px solid;
+  border-color: var(--beaver);
+  height: 35px;
+  width: 263px;
+}
+
+.addu95propertyu95landlord .overlap-group7 {
+  height: 216px;
+  position: relative;
+  width: 447px;
+}
+
+.addu95propertyu95landlord .pro-add-info_card {
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--black);
+  height: 216px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 446px;
+}
+
+.addu95propertyu95landlord .div_pro-add-info_card {
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--black);
+  height: 175px;
+  left: 1px;
+  position: absolute;
+  top: 39px;
+  width: 446px;
+}
+
+.addu95propertyu95landlord .line-2 {
+  height: 1px;
+  left: 0;
+  object-fit: cover;
+  position: absolute;
+  top: 38px;
+  width: 446px;
+}
+
+.addu95propertyu95landlord .flex-col-3 {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  min-height: 279px;
+  width: 1076px;
+}
+
+.addu95propertyu95landlord .overlap-group-container-1 {
+  align-items: flex-end;
+  display: flex;
+  height: 219px;
+  min-width: 1076px;
+}
+
+.addu95propertyu95landlord .overlap-group4 {
+  align-items: flex-start;
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--black);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 219px;
+  padding: 1px 0;
+  width: 261px;
+}
+
+.addu95propertyu95landlord .x-information {
+  margin-left: 31px;
+  margin-top: 9px;
+}
+
+.addu95propertyu95landlord .flex-row-1 {
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--black);
+  gap: 17px;
+  height: 179px;
+  min-width: 261px;
+  padding: 13px 21px;
+}
+
+.addu95propertyu95landlord .flex-col-4 {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  margin-top: 1px;
+  min-height: 139px;
+  width: 77px;
+}
+
+.addu95propertyu95landlord .bedroom {
+  letter-spacing: 0;
+  line-height: normal;
+  min-height: 15px;
+}
+
+.addu95propertyu95landlord .bathroom {
+  letter-spacing: 0;
+  line-height: normal;
+  margin-top: 14px;
+  min-height: 15px;
+}
+
+.addu95propertyu95landlord .flex-col-5 {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  min-height: 143px;
+  width: 118px;
+}
+
+.addu95propertyu95landlord .bed {
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--cloud);
+  height: 20px;
+  width: 118px;
+}
+
+.addu95propertyu95landlord .bath {
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--cloud);
+  height: 20px;
+  margin-top: 9px;
+  width: 118px;
+}
+
+.addu95propertyu95landlord .overlap-group3 {
+  align-items: flex-start;
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--black);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-left: 14px;
+  min-height: 219px;
+  padding: 1px 0;
+  width: 339px;
+}
+
+.addu95propertyu95landlord .flex-row-2 {
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--black);
+  gap: 2px;
+  height: 179px;
+  min-width: 339px;
+  padding: 12px 23px;
+}
+
+.addu95propertyu95landlord .flex-col-6 {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  margin-top: 2px;
+  min-height: 141px;
+  width: 83px;
+}
+
+.addu95propertyu95landlord .flex-col-7 {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  min-height: 151px;
+  width: 204px;
+}
+
+.addu95propertyu95landlord .flex-col-item-1 {
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--cloud);
+  height: 20px;
+  margin-top: 10px;
+  width: 204px;
+}
+
+.addu95propertyu95landlord .overlap-group5 {
+  align-items: flex-start;
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--black);
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-left: 15px;
+  min-height: 218px;
+  padding: 1px;
+  width: 447px;
+}
+
+.addu95propertyu95landlord .rent {
+  letter-spacing: 0;
+  line-height: normal;
+  margin-left: 31px;
+  margin-top: 12px;
+  min-height: 22px;
+  width: 225px;
+}
+
+.addu95propertyu95landlord .flex-col-8 {
+  align-items: flex-end;
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--black);
+  display: flex;
+  flex-direction: column;
+  margin-left: 1px;
+  min-height: 179px;
+  padding: 16px 31px;
+  width: 444px;
+}
+
+.addu95propertyu95landlord .flex-col-9 {
+  align-items: flex-start;
+  align-self: flex-start;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-height: 54px;
+  width: 277px;
+}
+
+.addu95propertyu95landlord .rent-container {
+  align-items: flex-start;
+  display: flex;
+  gap: 33px;
+  min-width: 277px;
+}
+
+.addu95propertyu95landlord .rent-1 {
+  letter-spacing: 0;
+  line-height: normal;
+  margin-top: 1px;
+  min-height: 15px;
+  width: 57px;
+}
+
+.addu95propertyu95landlord .rent-2 {
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--cloud);
+  height: 20px;
+  width: 187px;
+}
+
+.addu95propertyu95landlord .rent-includes {
+  letter-spacing: 0;
+  line-height: normal;
+  min-height: 14px;
+  white-space: nowrap;
+}
+
+.addu95propertyu95landlord .flex-row-3 {
+  margin-right: 34px;
+  margin-top: 12px;
+  min-width: 253px;
+}
+
+.addu95propertyu95landlord .electricity {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 17px;
+  justify-content: center;
+  padding: 4px;
+  position: relative;
+  width: 15px;
+}
+
+.addu95propertyu95landlord .state-layer {
+  align-items: center;
+  border-radius: 100px;
+  display: inline-flex;
+  flex: 0 0 auto;
+  justify-content: center;
+  margin-bottom: -15.50px;
+  margin-left: -16.50px;
+  margin-right: -16.50px;
+  margin-top: -15.50px;
+  padding: 11px;
+  position: relative;
+}
+
+.addu95propertyu95landlord .container {
+  border: 2px solid;
+  border-color: var(--gravel);
+  border-radius: 2px;
+  height: 18px;
+  position: relative;
+  width: 18px;
+}
+
+.addu95propertyu95landlord .electricity-bill {
+  letter-spacing: 0;
+  line-height: normal;
+  margin-left: 12px;
+  min-height: 15px;
+  width: 90px;
+}
+
+.addu95propertyu95landlord .water {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 17px;
+  justify-content: center;
+  margin-left: 33px;
+  padding: 4px;
+  position: relative;
+  width: 15px;
+}
+
+.addu95propertyu95landlord .x-bill {
+  margin-left: 14px;
+  width: 74px;
+}
+
+.addu95propertyu95landlord .flex-col-10 {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-right: 34px;
+  margin-top: 13px;
+  min-height: 49px;
+  width: 254px;
+}
+
+.addu95propertyu95landlord .flex-row-4 {
+  margin-left: 1px;
+  min-width: 253px;
+}
+
+.addu95propertyu95landlord .gas {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 17px;
+  justify-content: center;
+  padding: 4px;
+  position: relative;
+  width: 15px;
+}
+
+.addu95propertyu95landlord .gas-bill {
+  letter-spacing: 0;
+  line-height: normal;
+  margin-left: 12px;
+  min-height: 15px;
+  width: 50px;
+}
+
+.addu95propertyu95landlord .security {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 17px;
+  justify-content: center;
+  margin-left: 73px;
+  padding: 4px;
+  position: relative;
+  width: 15px;
+}
+
+.addu95propertyu95landlord .others-container {
+  align-items: flex-start;
+  display: flex;
+  min-width: 254px;
+}
+
+.addu95propertyu95landlord .others {
+  letter-spacing: 0;
+  line-height: normal;
+  margin-top: 1px;
+  min-height: 15px;
+  width: 57px;
+}
+
+.addu95propertyu95landlord .others-1 {
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--cloud);
+  height: 20px;
+  width: 197px;
+}
+
+.addu95propertyu95landlord .overlap-group-container-2 {
+  align-items: flex-start;
+  display: flex;
+  gap: 56px;
+  height: 35px;
+  min-width: 714px;
+}
+
+.addu95propertyu95landlord .overlap-group8 {
+  align-items: flex-start;
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--beaver);
+  border-radius: 10px;
+  box-shadow: 0px 4px 4px #00000040;
+  display: flex;
+  height: 34px;
+  min-width: 329px;
+  padding: 5px 119px;
+}
+
+.addu95propertyu95landlord .overlap-group6 {
+  align-items: flex-start;
+  align-self: flex-end;
+  background-color: var(--mongoose);
+  border-radius: 10px;
+  box-shadow: 0px 4px 4px #00000040;
+  display: flex;
+  height: 34px;
+  min-width: 329px;
+  padding: 6px 88px;
+}
+
+.addu95propertyu95landlord .add-property-1 {
+  letter-spacing: 0;
+  line-height: normal;
+  min-height: 20px;
+  width: 153px;
+}
+
+.addu95propertyu95landlord .flex-row-5 {
+  align-items: flex-start;
+  display: flex;
+}
+
+.addu95propertyu95landlord .x {
+  letter-spacing: 0;
+  line-height: normal;
+  min-height: 15px;
+}
