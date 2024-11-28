@@ -171,26 +171,12 @@
   top: 0;
   width: 1440px;
 }
-
-.visitoru95dashboard .profile_btn {
-  background-color: var(--eerie-black);
-  border: 2px solid;
-  border-color: var(--black);
-  height: 74px;
-  left: 0;
-  position: absolute;
-  top: 235px;
-  width: 214px;
-
-  display: inline-flex; /* Change to inline-flex for centering */
-  align-items: center; /* Center vertically */
-  justify-content: center; /* Center horizontally */
-}
-
 .visitoru95dashboard .visit_btn {
   background-color: var(--black);
   border: 2px solid;
   cursor: pointer;
+  border: 2px solid;
+  border-color: var(--white);
   height: 74px;
   left: 0;
   position: absolute;
@@ -206,6 +192,8 @@
   background-color: var(--black);
   border: 2px solid;
   cursor: pointer;
+  border: 2px solid;
+  border-color: var(--white);
   height: 74px;
   left: 0;
   position: absolute;
@@ -221,51 +209,68 @@
   background-color: var(--black);
   border: 2px solid;
   cursor: pointer;
+  border: 2px solid;
+  border-color: var(--white);
   height: 74px;
   left: 0;
   position: absolute;
   top: 458px;
   width: 214px;
+  color: var(--white);
+  letter-spacing: 0;
+  line-height: normal;
+  text-align: center;
+  font-family: 'Montserrat', sans-serif; /* Ensure you have the Montserrat font imported */
+  font-size: 16px; /* Adjust based on your design */
+  font-weight: bolder;
 
   display: inline-flex; /* Change to inline-flex for centering */
   align-items: center; /* Center vertically */
   justify-content: center; /* Center horizontally */
 }
-.visitoru95dashboard .logout {
-  cursor: pointer;
-  letter-spacing: 0;
-  line-height: normal;
-  text-align: center;
- 
-
-  font-family: 'Montserrat', sans-serif; /* Ensure you have the Montserrat font imported */
-  font-size: 16px; /* Adjust based on your design */
-  font-weight: bolder;
-  color: #FFFFFF; 
-
-}
-
 
 .visitoru95dashboard .visit-requested-properties {
   cursor: pointer;
   letter-spacing: 0;
   line-height: normal;
   text-align: center;
- 
+  color: var(--white);
+
 
   font-family: 'Montserrat', sans-serif; /* Ensure you have the Montserrat font imported */
   font-size: 16px; /* Adjust based on your design */
   font-weight: bolder;
 }
+.visitoru95dashboard .profile_btn {
+  background-color: var(--white);
+  border: 2px solid;
+  border-color: var(--white);
+  height: 74px;
+  left: 0;
+  position: absolute;
+  top: 235px;
+  width: 214px;
 
-.visitoru95dashboard .help-center {
+  display: inline-flex; /* Change to inline-flex for centering */
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+
+
+
   letter-spacing: 0;
   line-height: normal;
+  text-align: center;
+ 
+  color: var(--black);
+  
 
   font-family: 'Montserrat', sans-serif; /* Ensure you have the Montserrat font imported */
   font-size: 16px; /* Adjust based on your design */
   font-weight: bolder;
+
 }
+
+
 
 .visitoru95dashboard .services {
   cursor: pointer;
