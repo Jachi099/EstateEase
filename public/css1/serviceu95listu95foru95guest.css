@@ -1,0 +1,97 @@
+/* screen - serviceu95listu95foru95guest */
+
+.serviceu95listu95foru95guest {
+  align-items: flex-start;
+  background-color: var(--white);
+  display: flex;
+  flex-direction: column;
+  width: 100%;  
+  height: 100%;
+  overflow-y: auto;   /* Allows vertical scrolling */
+  overflow-x: hidden;
+  position: relative;
+  /* Prevents horizontal scrolling */
+}
+
+.serviceu95listu95foru95guest .navbar-link-estate-ease_logo {
+  letter-spacing: 0;
+  line-height: normal;
+  min-height: 22px;
+  min-width: 102px;
+}
+
+.serviceu95listu95foru95guest .navbar-link-place {
+  cursor: pointer;
+  letter-spacing: 0;
+  line-height: normal;
+  margin-left: 327px;
+  margin-top: 1px;
+  min-height: 20px;
+  min-width: 50px;
+}
+
+.serviceu95listu95foru95guest .navbar-link-about {
+  cursor: pointer;
+  letter-spacing: 0;
+  line-height: normal;
+  margin-left: 95px;
+  margin-top: 1px;
+  min-height: 20px;
+  min-width: 50px;
+}
+
+.serviceu95listu95foru95guest .navbar-link-properties {
+  cursor: pointer;
+  letter-spacing: 0;
+  line-height: normal;
+  margin-left: 95px;
+  margin-top: 1px;
+  min-height: 20px;
+  min-width: 83px;
+}
+
+.serviceu95listu95foru95guest .navbar-link-services {
+  letter-spacing: 0;
+  line-height: normal;
+  margin-left: 95px;
+  margin-top: 1px;
+  min-height: 20px;
+  min-width: 66px;
+}
+
+.serviceu95listu95foru95guest .estate-ease_logo {
+  letter-spacing: 0;
+  line-height: normal;
+  margin-left: 65px;
+  margin-top: 35px;
+  min-height: 31px;
+  width: 623px;
+}
+
+.serviceu95listu95foru95guest .flex-row {
+  align-items: center;
+  align-self: flex-end;
+  display: flex;
+  margin-top: 1px;
+  min-width: 621px;
+}
+
+.serviceu95listu95foru95guest .flex-col {
+  align-items: flex-start;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-top: 8px;
+  min-height: 472px;
+  width: 1334px;
+}
+
+.serviceu95listu95foru95guest .overlap-group {
+  background-color: var(--white);
+  border: 3px solid;
+  border-color: var(--black);
+  height: 443px;
+  position: relative;
+  width: 1334px;
+}
