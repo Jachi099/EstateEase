@@ -65,31 +65,33 @@ public function showPropertiesList()
     // Pass properties, tenants, and profile picture to the view
     return view('landlord.property_list_landlord', compact('properties', 'tenants', 'profilePicture'));
 }
-
 public function storeProperty(Request $request)
 {
     // Validation rules
     $request->validate([
-        'st_no' => 'required|string|max:255',
+        'house_no' => 'required|string|max:255',
+        'area' => 'required|string|max:255',
+        'thana' => 'required|string|max:255',
         'city' => 'required|string|max:255',
-        'state' => 'required|string|max:255',
-        'country' => 'required|string|max:255',
         'type' => 'required|string|max:255',
-        'size' => 'required|string|max:255',
-        'amenities' => 'nullable|string',
+        'size' => 'required|numeric',
+        'amenities' => 'nullable|array',
         'num_of_rooms' => 'required|integer',
         'num_of_bathrooms' => 'required|integer',
         'rent' => 'required|numeric',
         'floor' => 'nullable|string|max:255',
         'available_from' => 'nullable|date',
         'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        'images' => 'required|array|max:3',
     ]);
 
     // Debugging: check incoming request data
-    Log::info($request->all());  // Log the incoming request data for debugging
+    Log::info($request->all());
 
     $property = new Property($request->except('images'));
     $property->landlord_id = Auth::guard('landlord')->id();
+    $property->num_of_balcony = $request->input('num_of_balcony');
+    $property->amenities = json_encode($request->input('amenities'));  // Store amenities as JSON
 
     // Handle image uploads
     if ($request->hasFile('images')) {
@@ -114,6 +116,8 @@ public function storeProperty(Request $request)
         return redirect()->back()->with('error', 'Failed to add property.');
     }
 }
+
+
 
 
     public function landlordHome()

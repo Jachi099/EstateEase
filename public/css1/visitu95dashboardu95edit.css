@@ -41,6 +41,33 @@
     margin-bottom: 8px;            /* Space between label and input box */
 }
 
+.checkbox-group {
+  display: flex;
+  justify-content: space-between;
+}
+
+.checkbox-column {
+  width: 45%; /* Adjust as needed */
+}
+
+.checkbox-column div {
+  margin-bottom: 10px;
+}
+
+.checkbox-column input[type="checkbox"] {
+  margin-right: 5px;
+}
+
+label {
+  display: inline-block;
+  margin-bottom: 0;
+  font-size: 16px;               /* Font size 16px */
+  font-family: 'Montserrat', sans-serif; /* Font style Montserrat */
+  font-weight: 600;              /* Bold font */
+  color: #333;                   /* Darker color for better readability */
+}
+
+
 .name_txtbox,
 .form-control {
     width: 100%;                   /* Full width for input fields */

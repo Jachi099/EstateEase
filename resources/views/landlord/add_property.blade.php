@@ -64,36 +64,170 @@
     <div class="form-container">
         <div class="left-side">
             <div class="form-group">
-                <label for="st_no">Street Number</label>
-                <input type="text" name="st_no" class="name_txtbox form-control" id="st_no" required>
+    <label for="house_no">House no</label>
+    <input type="text" name="house_no" class="name_txtbox form-control" id="house_no" required>
+</div>
+
+<div class="form-group">
+    <label for="area">Area</label>
+    <input type="text" name="area" class="name_txtbox form-control" id="area" required>
+</div>
+
+<div class="form-group">
+    <label for="thana">Thana</label>
+    <input type="text" name="thana" class="name_txtbox form-control" id="thana" required>
+</div>
+
+<div class="form-group">
+    <label for="city">City</label>
+    <input type="text" name="city" class="name_txtbox form-control" id="city" required>
+</div>
+
+
+<div class="form-group">
+    <label for="type">Property Type</label>
+    <select name="type" id="type" class="name_txtbox form-control" required>
+        <option value="">Select Property Type</option>
+        <option value="apartment">Apartment</option>
+        <option value="house">House</option>
+        <option value="duplex">Duplex</option>
+        <option value="condo">Condo</option>
+        <option value="villa">Villa</option>
+        <option value="flat">Flat</option>
+        <option value="office_space">Office Space</option>
+    </select>
+</div>
+
+<div class="form-group">
+    <label for="size">Size (in sqft)</label>
+    <input type="number" name="size" id="size" class="name_txtbox form-control" step="0.01" required>
+</div>
+
+
+            <div class="form-group">
+    <label>Amenities</label><br>
+        </div>
+    <div class="form-group1">
+
+    <div class="checkbox-group">
+        <!-- Left Column -->
+        <div class="checkbox-column">
+            <div>
+                <input type="checkbox" name="amenities[]" value="parking" id="parking">
+                <label for="parking">Parking</label>
+            </div>
+            <div>
+                <input type="checkbox" name="amenities[]" value="lift" id="lift">
+                <label for="lift">Lift/Elevator</label>
+            </div>
+            <div>
+                <input type="checkbox" name="amenities[]" value="generator_backup" id="generator_backup">
+                <label for="generator_backup">Generator Backup</label>
+            </div>
+            <div>
+                <input type="checkbox" name="amenities[]" value="security" id="security">
+                <label for="security">Security</label>
+            </div>
+            <div>
+                <input type="checkbox" name="amenities[]" value="gym" id="gym">
+                <label for="gym">Gym/Fitness Center</label>
+            </div>
+            <div>
+                <input type="checkbox" name="amenities[]" value="swimming_pool" id="swimming_pool">
+                <label for="swimming_pool">Swimming Pool</label>
+            </div>
+            <div>
+                <input type="checkbox" name="amenities[]" value="private_pool" id="private_pool">
+                <label for="private_pool">Private Pool (for villas)</label>
+            </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="checkbox-column">
+            <div>
+                <input type="checkbox" name="amenities[]" value="playground" id="playground">
+                <label for="playground">Playground</label>
+            </div>
+            <div>
+                <input type="checkbox" name="amenities[]" value="garden" id="garden">
+                <label for="garden">Garden/Lawn</label>
+            </div>
+            <div>
+                <input type="checkbox" name="amenities[]" value="hot_water" id="hot_water">
+                <label for="hot_water">Hot Water</label>
+            </div>
+            <div>
+                <input type="checkbox" name="amenities[]" value="gated_community" id="gated_community">
+                <label for="gated_community">Gated Community</label>
+            </div>
+            <div>
+                <input type="checkbox" name="amenities[]" value="built_in_wardrobes" id="built_in_wardrobes">
+                <label for="built_in_wardrobes">Built-in Wardrobes</label>
+            </div>
+            <div>
+                <input type="checkbox" name="amenities[]" value="rooftop_access" id="rooftop_access">
+                <label for="rooftop_access">Rooftop Access</label>
+            </div>
+            <div>
+                <input type="checkbox" name="amenities[]" value="pets_allowed" id="pets_allowed">
+                <label for="pets_allowed">Pets Allowed</label>
+            </div>
+           
+        </div>
+    </div>
+</div>
+
+
+
+
+
+        </div>
+
+        <div class="right-side">
+
+        <div class="form-group">
+                <label for="num_of_rooms">Number of Bedrooms</label>
+                <input type="number" name="num_of_rooms" class="name_txtbox form-control" id="num_of_rooms" required>
             </div>
 
             <div class="form-group">
-                <label for="city">City</label>
-                <input type="text" name="city" class="name_txtbox form-control" id="city" required>
+                <label for="num_of_bathrooms">Number of Bathrooms</label>
+                <input type="number" name="num_of_bathrooms" class="name_txtbox form-control" id="num_of_bathrooms" required>
             </div>
 
             <div class="form-group">
-                <label for="state">State</label>
-                <input type="text" name="state" class="name_txtbox form-control" id="state" required>
+    <label for="num_of_balcony">Number of Balcony</label>
+    <input type="number" name="num_of_balcony" class="name_txtbox form-control" id="num_of_balcony" required>
+</div>
+
+
+            <div class="form-group">
+                <label for="floor">Floor</label>
+                <input type="text" name="floor" id="floor" class="name_txtbox form-control">
+            </div>
+
+          
+            <div class="form-group">
+                <label for="rent">Rent</label>
+                <input type="number" name="rent" id="rent" class="name_txtbox form-control" required>
+            </div>
+
+
+            <div class="form-group">
+                <label for="available_from">Available From</label>
+                <input type="date" name="available_from" class="name_txtbox form-control" id="available_from">
             </div>
 
             <div class="form-group">
-                <label for="country">Country</label>
-                <input type="text" name="country" class="name_txtbox form-control" id="country" required>
-            </div>
+    <label for="images">Upload Images</label>
+    <input type="file" name="images[]" id="images" multiple class="form-control" accept="image/*">
+    <small>You can select multiple images by holding the Ctrl (Cmd on Mac) key while selecting files.
+        Limited to 3 pictures only.
+    </small>
+</div>
 
-            <div class="form-group">
-                <label for="type">Property Type</label>
-                <input type="text" name="type" id="type" class="name_txtbox form-control" required>
-            </div>
 
-            <div class="form-group">
-                <label for="size">Size</label>
-                <input type="text" name="size" id="size" class="name_txtbox form-control" required>
-            </div>
-
-            <div class="button-column">
+<div class="button-column">
             <div class="add-button-container">
         <button type="submit" class="add-property-button">Add Property</button>
     </div>
@@ -104,44 +238,6 @@
 </div>
 
 
-
-        </div>
-
-        <div class="right-side">
-        <div class="form-group">
-                <label for="amenities">Amenities</label>
-                <textarea name="amenities" id="amenities" class="name_txtbox form-control"></textarea>
-            </div>
-
-            <div class="form-group">
-                <label for="num_of_rooms">Number of Rooms</label>
-                <input type="number" name="num_of_rooms" class="name_txtbox form-control" id="num_of_rooms" required>
-            </div>
-
-            <div class="form-group">
-                <label for="num_of_bathrooms">Number of Bathrooms</label>
-                <input type="number" name="num_of_bathrooms" class="name_txtbox form-control" id="num_of_bathrooms" required>
-            </div>
-            <div class="form-group">
-                <label for="rent">Rent</label>
-                <input type="number" name="rent" id="rent" class="name_txtbox form-control" required>
-            </div>
-
-            <div class="form-group">
-                <label for="floor">Floor</label>
-                <input type="text" name="floor" id="floor" class="name_txtbox form-control">
-            </div>
-
-            <div class="form-group">
-                <label for="available_from">Available From</label>
-                <input type="date" name="available_from" class="name_txtbox form-control" id="available_from">
-            </div>
-
-            <div class="form-group">
-    <label for="images">Upload Images</label>
-    <input type="file" name="images[]" id="images" multiple class="form-control" accept="image/*">
-    <small>You can select multiple images by holding the Ctrl (Cmd on Mac) key while selecting files.</small>
-</div>
 
         </div>
     </div>
