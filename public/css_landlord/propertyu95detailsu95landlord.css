@@ -1,11 +1,15 @@
-/* screen - propertyu95detailsu95landlord */
+/* screen - oopertyu95detailsu95landlord */
 
 .propertyu95detailsu95landlord {
   align-items: flex-start;
   background-color: var(--white);
   display: flex;
   overflow: hidden;
-  width: 1440px;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  overflow-y: hidden; /* Allows vertical scrolling */
+  overflow-x: hidden; /* Prevents horizontal scrolling */
 }
 
 .propertyu95detailsu95landlord .overlap-group-container {
@@ -130,7 +134,13 @@
   top: 7px;
   width: 77px;
 }
-
+.head_pic img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block; /* Removes potential whitespace */
+  }
 .propertyu95detailsu95landlord .profile_btn {
   background-color: var(--black);
   border: 2px solid;
@@ -280,13 +290,13 @@
   height: 148px;
   margin-bottom: 1.0px;
   position: relative;
-  width: 139px;
+  width: 170px;
 }
 
 .propertyu95detailsu95landlord .pro_pic {
   height: 148px;
   left: 11px;
-  width: 128px;
+  width: 170px;
 }
 
 .propertyu95detailsu95landlord .status {
@@ -595,4 +605,164 @@
   border-radius: 20px 20px 0px 0px;
   left: 0;
   position: absolute;
+}
+
+
+  .propertyu95detailsu95landlord  .help_btn {
+    background-color: var(--black);
+    border: 2px solid;
+    cursor: pointer;
+    border: 2px solid;
+    border-color: var(--white);
+    height: 74px;
+    left: 0;
+    position: absolute;
+    top: 384px;
+    width: 214px;
+
+    display: inline-flex; /* Change to inline-flex for centering */
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
+  }
+
+  .propertyu95detailsu95landlord  .logout_btn {
+    background-color: var(--black);
+    border: 2px solid;
+    cursor: pointer;
+    border: 2px solid;
+    border-color: var(--white);
+    height: 74px;
+    left: 0;
+    position: absolute;
+    top: 458px;
+    width: 214px;
+    color: var(--white);
+    letter-spacing: 0;
+    line-height: normal;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif; /* Ensure you have the Montserrat font imported */
+    font-size: 16px; /* Adjust based on your design */
+    font-weight: bolder;
+
+    display: inline-flex; /* Change to inline-flex for centering */
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
+  }
+
+  .propertyu95detailsu95landlord  .visit-requested-properties {
+    cursor: pointer;
+    letter-spacing: 0;
+    line-height: normal;
+    text-align: center;
+    color: var(--white);
+
+
+    font-family: 'Montserrat', sans-serif; /* Ensure you have the Montserrat font imported */
+    font-size: 16px; /* Adjust based on your design */
+    font-weight: bolder;
+  }
+
+  .propertyu95detailsu95landlord   .visit_btn1 {
+    background-color: var(--white);
+    border: 2px solid;
+    cursor: pointer;
+    border: 2px solid;
+    border-color: var(--white);
+    height: 74px;
+    left: 0;
+    position: absolute;
+    top: 310px;
+    width: 214px;
+
+    display: inline-flex; /* Change to inline-flex for centering */
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
+  }
+  .propertyu95detailsu95landlord    .visit-requested-properties1 {
+    cursor: pointer;
+    letter-spacing: 0;
+    line-height: normal;
+    text-align: center;
+
+    color: var(--black);
+
+
+    font-family: 'Montserrat', sans-serif; /* Ensure you have the Montserrat font imported */
+    font-size: 16px; /* Adjust based on your design */
+    font-weight: bolder;
+  }
+
+  .propertyu95detailsu95landlord   .profile_btn1{
+    background-color: var(--black);
+    border: 2px solid;
+    border-color: var(--white);
+    height: 74px;
+    left: 0;
+    position: absolute;
+    top: 235px;
+    width: 214px;
+    color: var(--white);
+
+
+    letter-spacing: 0;
+    line-height: normal;
+    text-align: center;
+
+
+
+
+    font-family: 'Montserrat', sans-serif; /* Ensure you have the Montserrat font imported */
+    font-size: 16px; /* Adjust based on your design */
+    font-weight: bolder;
+    display: inline-flex; /* Change to inline-flex for centering */
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
+  }
+/* Adjust the checkbox group to be split into three columns */
+.checkbox-group {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+/* Each checkbox column will now take up 30% of the available space */
+.checkbox-column {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Style for each checkbox input */
+.checkbox-column input[type="checkbox"]:disabled {
+    background-color: #000 !important;  /* Dark black background */
+    border: 2px solid #000 !important;  /* Dark black border */
+    color: #000 !important;             /* Dark black checkmark */
+    cursor: not-allowed;     /* Change cursor to indicate it's disabled */
+    opacity: 1;              /* Ensure opacity is not reduced */
+}
+
+/* Ensure the appearance of the checkbox is fully customized */
+.checkbox-column input[type="checkbox"]:disabled:checked {
+    background-color: #000 !important;  /* Dark black when checked */
+    border-color: #000 !important;      /* Dark border when checked */
+    color: #fff !important;             /* White checkmark when checked */
+}
+
+/* Style for label */
+.checkbox-column label {
+    color: #000;             /* Dark black text color for label */
+    font-weight: normal;      /* Adjust label font weight if necessary */
+    font-size: 14px;          /* Adjust label font size */
+}
+
+/* Each checkbox item in the column */
+.checkbox-column div {
+    display: flex;
+    align-items: center;      /* Align items vertically */
+    margin-bottom: 10px;      /* Space between checkboxes */
+}
+
+/* Ensuring checkboxes are spaced out correctly */
+.checkbox-column input[type="checkbox"] {
+    margin-right: 5px; /* Space between checkbox and label */
 }

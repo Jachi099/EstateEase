@@ -12,18 +12,33 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css1/visitu95dashboardu95edit.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('css1/styleguide.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('css1/globals.css') }}" />
+
+    <style>
+    /* Style for the error message container */
+    .alert {
+    color: white;
+    font-weight: bolder;
+    background-color: #cc4b4b; ;
+    border-radius: 5px;
+    width: 100%; /* Ensure it spans across the width */
+}
+
+
+
+
+</style>
   </head>
   <body style="margin: 0; background: #ffffff">
     <input type="hidden" id="anPageName" name="page" value="visitu95dashboardu95edit" />
     <div class="container-center-horizontal">
       <div class="visitu95dashboardu95edit screen">
-     
+
         <div class="navbar-link-container">
             <div class="navbar-link-estate-ease_logo montserrat-semi-bold-beaver-18px">EstateEase</div>
      <a href="{{ route('landlord.user_home') }}"><div class="navbar-link-place navbar-link montserrat-normal-black-16px">Home</div> </a
       ><a href="{{ route('landlord.user_home') }}"><div class="navbar-link-about navbar-link montserrat-normal-black-16px">About</div> </a
-      >   
-      
+      >
+
         <a href="{{ route('landlord.profile') }}"><div class="head_pic">
             @if($profilePicture)
                 <img src="{{ asset('storage/' . $profilePicture) }}" alt="User Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
@@ -31,25 +46,15 @@
                 <img src="path/to/default/image.png" alt="Default Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
             @endif
         </div>
-        
+
     </a>
-   
+
 
         </div>
 
 
         <div class="flex-col flex">
-          <div class="flex-row flex">
-            <div class="flex-col-1 flex-col-7">
-              <div class="flex-row-1">
-                <h1 class="estate-ease_logo lexendzetta-medium-beaver-25px">ADD Property</h1>
-                <img class="trash-2" src="{{ asset('img/trash-2.svg') }}" alt="trash-2" />
-            </div>
-            </div>
-          </div>
-
-
-          @if ($errors->any())
+        @if ($errors->any())
     <div class="alert alert-danger">
         <ul>
             @foreach ($errors->all() as $error)
@@ -58,9 +63,20 @@
         </ul>
     </div>
 @endif
-            <form action="{{ route('landlord.store_property') }}" method="POST" enctype="multipart/form-data">
+          <div class="flex-row flex">
+            <div class="flex-col-1 flex-col-7">
+              <div class="flex-row-1">
+
+
+                <h1 class="estate-ease_logo lexendzetta-medium-beaver-25px">ADD Property</h1>
+            </div>
+            </div>
+          </div>
+
+
+<form action="{{ route('landlord.store_property') }}" method="POST" enctype="multipart/form-data">
     @csrf
-    
+
     <div class="form-container">
         <div class="left-side">
             <div class="form-group">
@@ -172,7 +188,7 @@
                 <input type="checkbox" name="amenities[]" value="pets_allowed" id="pets_allowed">
                 <label for="pets_allowed">Pets Allowed</label>
             </div>
-           
+
         </div>
     </div>
 </div>
@@ -186,55 +202,49 @@
         <div class="right-side">
 
         <div class="form-group">
-                <label for="num_of_rooms">Number of Bedrooms</label>
-                <input type="number" name="num_of_rooms" class="name_txtbox form-control" id="num_of_rooms" required>
-            </div>
-
-            <div class="form-group">
-                <label for="num_of_bathrooms">Number of Bathrooms</label>
-                <input type="number" name="num_of_bathrooms" class="name_txtbox form-control" id="num_of_bathrooms" required>
-            </div>
-
-            <div class="form-group">
-    <label for="num_of_balcony">Number of Balcony</label>
-    <input type="number" name="num_of_balcony" class="name_txtbox form-control" id="num_of_balcony" required>
+    <label for="num_of_rooms">Number of Bedrooms</label>
+    <input type="number" name="num_of_rooms" class="name_txtbox form-control" id="num_of_rooms" required min="0">
 </div>
 
+<div class="form-group">
+    <label for="num_of_bathrooms">Number of Bathrooms</label>
+    <input type="number" name="num_of_bathrooms" class="name_txtbox form-control" id="num_of_bathrooms" required min="0">
+</div>
 
-            <div class="form-group">
-                <label for="floor">Floor</label>
-                <input type="text" name="floor" id="floor" class="name_txtbox form-control">
-            </div>
+<div class="form-group">
+    <label for="num_of_balcony">Number of Balconies</label>
+    <input type="number" name="num_of_balcony" class="name_txtbox form-control" id="num_of_balcony" required min="0">
+</div>
 
-          
-            <div class="form-group">
-                <label for="rent">Rent</label>
-                <input type="number" name="rent" id="rent" class="name_txtbox form-control" required>
-            </div>
+<div class="form-group">
+    <label for="floor">Floor</label>
+    <input type="text" name="floor" id="floor" class="name_txtbox form-control">
+</div>
 
+<div class="form-group">
+    <label for="rent">Rent</label>
+    <input type="number" name="rent" id="rent" class="name_txtbox form-control" required min="0">
+</div>
 
-            <div class="form-group">
-                <label for="available_from">Available From</label>
-                <input type="date" name="available_from" class="name_txtbox form-control" id="available_from">
-            </div>
-
-            <div class="form-group">
+<div class="form-group">
     <label for="images">Upload Images</label>
-    <input type="file" name="images[]" id="images" multiple class="form-control" accept="image/*">
-    <small>You can select multiple images by holding the Ctrl (Cmd on Mac) key while selecting files.
-        Limited to 3 pictures only.
-    </small>
+    <input type="file" name="images[]" id="images" multiple class="form-control" accept="image/*" required>
+    <small>You can select multiple images by holding the Ctrl (Cmd on Mac) key while selecting files. Limited to 3 pictures only.</small>
 </div>
+
+
 
 
 <div class="button-column">
             <div class="add-button-container">
         <button type="submit" class="add-property-button">Add Property</button>
     </div>
+    <a href="{{ route('landlord.properties_list') }}">
     <div class="back-button-container">
-        <button type="button" onclick="window.history.back();" class="back-button">Go Back</button>
+        <button type="button" class="back-button">Go Back</button>
     </div>
-   
+</a>
+
 </div>
 
 
@@ -243,12 +253,68 @@
     </div>
 </form>
 
-                  
-            
-           
-       
+
+
+
+
         </div>
       </div>
     </div>
+
+    <script>
+   // Function to display error messages at the top in a red container
+function showError(message) {
+    // Set the error message
+    document.getElementById('error-text').innerText = message;
+
+    // Show the error container
+    document.getElementById('error-message').style.display = 'block';
+}
+
+// Form validation before submission
+document.getElementById('property_form').addEventListener('submit', function (e) {
+    // Hide error message initially before validation
+    document.getElementById('error-message').style.display = 'none';
+
+    // Check for negative numbers in the form fields
+    let numOfRooms = document.getElementById('num_of_rooms').value;
+    let numOfBathrooms = document.getElementById('num_of_bathrooms').value;
+    let numOfBalcony = document.getElementById('num_of_balcony').value;
+    let rent = document.getElementById('rent').value;
+
+    if (numOfRooms < 0) {
+        showError('Number of rooms cannot be negative.');
+        e.preventDefault();
+        return;
+    }
+    if (numOfBathrooms < 0) {
+        showError('Number of bathrooms cannot be negative.');
+        e.preventDefault();
+        return;
+    }
+    if (numOfBalcony < 0) {
+        showError('Number of balconies cannot be negative.');
+        e.preventDefault();
+        return;
+    }
+    if (rent < 0) {
+        showError('Rent cannot be negative.');
+        e.preventDefault();
+        return;
+    }
+
+    // Check for at least 3 images
+    let images = document.getElementsByName('images[]');
+    if (images.length < 3) {
+        showError('You must upload at least 3 images.');
+        e.preventDefault();
+        return;
+    }
+});
+
+</script>
+
+
+
   </body>
 </html>

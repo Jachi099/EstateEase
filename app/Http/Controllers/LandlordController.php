@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Landlord;
 use App\Models\Tenant;
 use App\Models\Notification;
-
+use App\Models\PropertyImage;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth; // Import Auth facade
 use Illuminate\Validation\Rules\Password;
@@ -15,17 +15,17 @@ use Illuminate\Http\Request;
 
 class LandlordController extends Controller
 {
-  
+
     public function profile()
     {
         // Get the authenticated landlord
         $landlord = Auth::guard('landlord')->user();
-        
+
         // Check if the landlord exists
         if (!$landlord) {
             return redirect()->route('landlord.user_home')->with('error', 'Profile not found.');
         }
-    
+
         // Pass the landlord's information to the profile view
         return view('landlord.profile', [
             'profilePicture' => $landlord->picture ?? null,
@@ -36,20 +36,49 @@ class LandlordController extends Controller
             'account_type' => $landlord->account_type,
         ]);
     }
-    
+
 public function showAddPropertyForm()
 {
     return view('landlord.add_property');
 }
 
 
-public function showPropertiesList()
+public function showPropertiesList(Request $request)
 {
     // Get the authenticated landlord
     $landlord = Auth::guard('landlord')->user();
 
     // Fetch properties added by the landlord
-    $properties = Property::where('landlord_id', $landlord->landlord_id)->get();
+    $properties = Property::where('landlord_id', $landlord->landlord_id);
+
+    // Handle sorting logic based on the selected option
+    if ($request->has('sort')) {
+        $sortOption = $request->input('sort');
+
+        switch ($sortOption) {
+            case 'rent_asc':
+                $properties = $properties->orderBy('rent', 'asc');
+                break;
+            case 'rent_desc':
+                $properties = $properties->orderBy('rent', 'desc');
+                break;
+            case 'type':
+                $properties = $properties->orderBy('type', 'asc');
+                break;
+            case 'availability':
+                $properties = $properties->orderByRaw("IF(tenant_id IS NULL, 0, 1) DESC"); // Available properties first
+                break;
+            default:
+                $properties = $properties->orderBy('created_at', 'desc'); // Default sort by most recent
+                break;
+        }
+    } else {
+        // Default sort by most recent
+        $properties = $properties->orderBy('created_at', 'desc');
+    }
+
+    // Fetch properties based on the sorting
+    $properties = $properties->get();
 
     // Initialize an array to hold tenant information for each property
     $tenants = [];
@@ -65,6 +94,7 @@ public function showPropertiesList()
     // Pass properties, tenants, and profile picture to the view
     return view('landlord.property_list_landlord', compact('properties', 'tenants', 'profilePicture'));
 }
+
 public function storeProperty(Request $request)
 {
     // Validation rules
@@ -76,13 +106,22 @@ public function storeProperty(Request $request)
         'type' => 'required|string|max:255',
         'size' => 'required|numeric',
         'amenities' => 'nullable|array',
-        'num_of_rooms' => 'required|integer',
-        'num_of_bathrooms' => 'required|integer',
-        'rent' => 'required|numeric',
+        'num_of_rooms' => 'required|integer|min:0', // Prevent negative numbers
+        'num_of_bathrooms' => 'required|integer|min:0', // Prevent negative numbers
+        'num_of_balcony' => 'nullable|integer|min:0', // Prevent negative numbers
         'floor' => 'nullable|string|max:255',
+        'rent' => 'required|numeric|min:0', // Prevent negative rent
         'available_from' => 'nullable|date',
+        'images' => 'required|array|min:3|max:15',
         'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-        'images' => 'required|array|max:3',
+    ], [
+        'images.min' => 'You must upload at least 3 images.',
+        'images.max' => 'You can upload a maximum of 15 images only.',
+        'images.required' => 'At least 3 images are required to add a property.',
+        'num_of_rooms.min' => 'Number of rooms cannot be negative.',
+        'num_of_bathrooms.min' => 'Number of bathrooms cannot be negative.',
+        'num_of_balcony.min' => 'Number of balconies cannot be negative.',
+        'rent.min' => 'Rent cannot be negative.',
     ]);
 
     // Debugging: check incoming request data
@@ -90,32 +129,28 @@ public function storeProperty(Request $request)
 
     $property = new Property($request->except('images'));
     $property->landlord_id = Auth::guard('landlord')->id();
-    $property->num_of_balcony = $request->input('num_of_balcony');
-    $property->amenities = json_encode($request->input('amenities'));  // Store amenities as JSON
+    $property->amenities = json_encode($request->input('amenities')); // Store amenities as JSON
+
+    $property->save();
 
     // Handle image uploads
     if ($request->hasFile('images')) {
-        $imageFiles = $request->file('images');
-        foreach ($imageFiles as $index => $image) {
+        foreach ($request->file('images') as $image) {
             $path = $image->store('properties', 'public');
-            // Save image paths in respective columns
-            if ($index == 0) {
-                $property->img1 = $path;
-            } elseif ($index == 1) {
-                $property->img2 = $path;
-            } elseif ($index == 2) {
-                $property->img3 = $path;
-            }
+
+            // Save each image in the property_images table
+            PropertyImage::create([
+                'property_ID' => $property->property_ID,
+                'image_path' => $path,
+            ]);
         }
     }
 
-    // Try saving the property
-    if ($property->save()) {
-        return redirect()->route('landlord.properties_list')->with('success', 'Property added successfully!');
-    } else {
-        return redirect()->back()->with('error', 'Failed to add property.');
-    }
+    return redirect()->route('landlord.properties_list')->with('success', 'Property added successfully!');
 }
+
+
+
 
 
 
@@ -136,7 +171,7 @@ public function addProperty(Request $request)
 {
     // Get the authenticated landlord
     $landlord = Auth::guard('landlord')->user();
-    
+
     // Check if the landlord is a valid instance of the Landlord model
     if (!$landlord instanceof Landlord) {
         return redirect()->route('login')->with('error', 'You must be logged in to add a property.');
@@ -157,11 +192,11 @@ public function showPropertyDetails($id)
     }
 
     $tenant = Tenant::where('property_ID', $id)->first(); // Fetch tenant info if it exists
-    
+
     // Pass tenant profile picture if tenant exists
     $profilePicture = $landlord->picture ?? null; // Assuming `picture` is a field in the landlord table
 
-    return view('landlord.details', compact('property', 'tenant', 'profilePicture'));
+    return view('landlord.property_details', compact('property', 'tenant', 'profilePicture'));
 }
 
 
@@ -187,4 +222,4 @@ public function markAsRead($id)
     return redirect()->back()->with('success', 'Notification marked as read.');
 }
 
-}  
+}
