@@ -125,9 +125,10 @@ Route::middleware(['auth:visitor'])->group(function () {
     Route::get('/admin/properties/filter', [Property1Controller::class, 'index'])->name('properties.filter');
     Route::get('/admin/property-list', [Property1Controller::class, 'index'])->name('admin.property_list');
 
-Route::patch('/admin/visit-requests/{id}/{status}', [AdminController::class, 'updateRequestStatus'])->name('admin.updateRequestStatus');
-Route::patch('/admin/visit-request/{id}/remove', [AdminController::class, 'removeVisitRequest'])->name('admin.removeVisitRequest');
-Route::patch('/admin/visit-request/{id}/change-to-tenant', [AdminController::class, 'changeToTenant'])->name('admin.changeToTenant');
+    Route::patch('admin/visit-requests/{id}/{status}', [AdminController::class, 'updateRequestStatus'])->name('admin.updateRequestStatus');
+    Route::patch('admin/remove-visit-request/{id}', [AdminController::class, 'removeVisitRequest'])->name('admin.removeVisitRequest');
+    Route::patch('admin/change-to-tenant/{id}', [AdminController::class, 'changeToTenant'])->name('admin.changeToTenant');
+
 
    Route::get('/admin/service-providers', [ServiceProviderController::class, 'index'])->name('admin.serviceProviders');
 Route::delete('/admin/service-providers/{id}', [ServiceProviderController::class, 'destroy'])->name('admin.serviceProviders.delete');

@@ -237,7 +237,10 @@ class UserController extends Controller
     public function showLoginForm()
     {
         return view('user.login'); // Return the login view
-    }public function login(Request $request)
+    }
+
+
+    public function login(Request $request)
     {
         $request->validate([
             'email' => 'required|email',
@@ -285,6 +288,9 @@ class UserController extends Controller
                 Log::warning('Tenant login failed: Invalid credentials');
                 return back()->withErrors(['email' => 'Invalid tenant credentials. Please try again.'])->withInput();
             }
+
+
+
         }
 
         Log::warning('No user found for email: ' . $request->email);

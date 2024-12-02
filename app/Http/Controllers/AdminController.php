@@ -8,8 +8,12 @@ use App\Models\Property;
 use App\Models\Landlord;
 use App\Models\Tenant;
 use App\Models\User;
+use Illuminate\Support\Facades\Log;
+
 //use App\Models\ServiceProvider;
 use App\Models\VisitRequest;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 
 class AdminController extends Controller
@@ -64,31 +68,41 @@ class AdminController extends Controller
 
     //VISIT REQUESTS
 
-    public function viewVisitRequests()
-    {
-        // Fetch all visit requests and order them so pending requests are first
-        $visitRequests = VisitRequest::with(['visitor', 'property'])
-            ->orderByRaw("FIELD(status, 'pending') DESC") // Ensure 'pending' status comes first
-            ->get();
+   public function viewVisitRequests()
+{
+    // Fetch all visit requests where status is either 'pending' or 'rejected'
+    $visitRequests = VisitRequest::with(['visitor', 'property'])
+        ->whereIn('status', ['pending', 'rejected']) // Only fetch 'pending' and 'rejected'
+        ->orderByRaw("FIELD(status, 'pending') DESC") // Ensure 'pending' status comes first
+        ->get();
 
-        // Fetch accepted requests (no need to order, as they are already filtered)
-        $acceptedRequests = VisitRequest::with(['visitor', 'property'])
-            ->where('status', 'accepted') // Fetch only accepted requests
-            ->get();
+    // Fetch all accepted visit requests
+    $acceptedRequests = VisitRequest::with(['visitor', 'property'])
+        ->where('status', 'accepted') // Only fetch 'accepted' requests
+        ->get();
 
-        return view('admin.visitor', compact('visitRequests', 'acceptedRequests'));
+    // Return the view with the filtered visit requests
+    return view('admin.visitor', compact('visitRequests', 'acceptedRequests'));
+}
+
+
+
+public function updateRequestStatus($id, $status)
+{
+    // Validate that the status is either 'accepted' or 'rejected'
+    if (!in_array($status, ['accepted', 'rejected'])) {
+        return redirect()->back()->with('error', 'Invalid status.');
     }
 
+    // Find the visit request and update the status
+    $visitRequest = VisitRequest::findOrFail($id);
+    $visitRequest->status = $status;
+    $visitRequest->save();
 
-    public function updateRequestStatus($id, $status)
-    {
-        // Find the visit request and update the status
-        $visitRequest = VisitRequest::findOrFail($id);
-        $visitRequest->status = $status;
-        $visitRequest->save();
+    // After updating, redirect back with a success message
+    return redirect()->back()->with('success', 'Visit request ' . $status . ' successfully.');
+}
 
-        return redirect()->back()->with('success', 'Visit request ' . $status . ' successfully.');
-    }
 
     public function removeVisitRequest($id)
     {
@@ -101,47 +115,46 @@ class AdminController extends Controller
         return redirect()->back()->with('success', 'Visit request removed successfully.');
     }
 
-    public function changeToTenant($id)
-    {
-        // Find the visit request
-        $visitRequest = VisitRequest::find($id);
 
-       if ($visitRequest) {
-    // Find the visitor who made the visit request
+    public function changeToTenant($id)
+{
+    // Find the accepted visit request
+    $visitRequest = VisitRequest::findOrFail($id);
+
+    // Check if the visitor exists
     $visitor = $visitRequest->visitor;
 
+    if ($visitor) {
+        // Create a new tenant entry based on the visitor's information
+        $tenant = new Tenant([
+            'full_name' => $visitor->full_name,
+            'email' => $visitor->email,
+            'password' => $visitor->password, // Copy the password as-is
+            'current_address' => $visitor->current_address,
+            'phone_number' => $visitor->phone_number,
+            'account_type' => 'tenant', // Set the account type to 'tenant'
+            'property_ID' => $visitRequest->property_id,
+            'rental_start_date' => now(), // Set rental start date
+        ]);
 
-        if ($visitor) {
-            // Create a new tenant entry in the tenants table
-            Tenant::create([
-                'id' => $visitor->id,
-                'property_ID' => $visitRequest->property_id,
-                'rental_start_date' => now(), // or any other start date
-                'full_name' => $visitor->full_name,
-                'email'=> $visitor->email,
-                'password'=> $visitor->password,
-                'current_address'=> $visitor->current_address,
-                'phone_number'=> $visitor->phone_number,
-              // Add any additional fields that are required in the tenants table
-            ]);
+        // Temporarily disable password hashing by using a closure to avoid hashing password
+        $tenant->setDisablePasswordHashing(true);
 
-            // Optionally, update the visitor's account type in the users table if needed
-            $visitor->delete();
-        }
+        // Save the tenant without hashing the password
+        $tenant->save();
 
+        // Optionally, delete the visitor from the users table
 
+        // After converting to tenant, remove the visit request
+        $visitRequest->delete();
 
-        // Optionally, update the visitor's account type in the users table if needed
-
-
-
-
-            // Delete the visit request
-            $visitRequest->delete();
-        }
-
-        return redirect()->back()->with('success', 'Visitor changed to tenant.');
+        // Redirect back with success message
+        return redirect()->back()->with('success', 'Visitor changed to tenant successfully.');
     }
+
+    // If no visitor is found, redirect back with error
+    return redirect()->back()->with('error', 'No visitor found.');
+}
 
 
 
