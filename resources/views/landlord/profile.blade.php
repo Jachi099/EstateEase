@@ -24,17 +24,24 @@
 <!-- Logout Button -->
 <form id="logout-form" action="{{ route('user.logout') }}" method="POST" style="display: inline;">
     @csrf
-    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="logout_btn" style="cursor: pointer;">
+    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" 
+    class="logout_btn" style="cursor: pointer;">
         LOGOUT
     </a>
 </form>
+<a href="{{ route('landlord.profile') }}">
+            <div class="profile_btn">
+           PROFILE
+            </div>
+            </a>
 
-            <div class="profile_btn"></div>
-            <a href="{{ route('landlord.properties_list') }}">  <!-- Link to the property list page -->
-    <div class="visit_btn">
-        <div class="add-property">PROPERTY LIST</div>  <!-- Updated text -->
-    </div>
-</a>
+            <a href="{{ route('landlord.properties_list') }}">
+                <div class="visit_btn">
+                    <div class="visit-requested-properties">PROPERTY LIST</div>
+                </div>
+            </a>
+           
+
 
 
 <a href="{{ route('landlord.notifications') }}">
@@ -62,7 +69,6 @@
               
           </a>
             <div class="estate-ease_logo-1 estate-ease_logo-4 lexendzetta-extra-bold-white-15px">LANDLORD DASHBOARD</div>
-            <div class="profile montserrat-medium-white-16px">PROFILE</div>
           </div>
           <div class="flex-col">
             <div class="flex-row">

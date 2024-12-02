@@ -9,7 +9,7 @@ use App\Models\Landlord;
 use App\Models\Tenant;
 use App\Models\User;
 //use App\Models\ServiceProvider;
-use App\Models\VisitRequest; 
+use App\Models\VisitRequest;
 
 
 class AdminController extends Controller
@@ -53,7 +53,7 @@ class AdminController extends Controller
         $totalLandlords = Landlord::count();
         $totalTenants = Tenant::count();
         //$totalServiceProviders = ServiceProvider::count();
-    
+
         // Pass data to the view
         return view('admin.dashboard', compact('totalProperties', 'totalLandlords', 'totalTenants'));
 
@@ -62,20 +62,23 @@ class AdminController extends Controller
 
 
 
-
     //VISIT REQUESTS
 
     public function viewVisitRequests()
     {
-        // Fetch pending visit requests with related visitor and property data
-        $visitRequests = VisitRequest::with(['visitor', 'property']) ->get();
+        // Fetch all visit requests and order them so pending requests are first
+        $visitRequests = VisitRequest::with(['visitor', 'property'])
+            ->orderByRaw("FIELD(status, 'pending') DESC") // Ensure 'pending' status comes first
+            ->get();
 
+        // Fetch accepted requests (no need to order, as they are already filtered)
         $acceptedRequests = VisitRequest::with(['visitor', 'property'])
-        ->where('status', 'accepted') // Fetch only accepted requests
-        ->get();
+            ->where('status', 'accepted') // Fetch only accepted requests
+            ->get();
 
-        return view('admin.visit_requests', compact('visitRequests', 'acceptedRequests'));
+        return view('admin.visitor', compact('visitRequests', 'acceptedRequests'));
     }
+
 
     public function updateRequestStatus($id, $status)
     {
@@ -121,15 +124,15 @@ class AdminController extends Controller
                 'phone_number'=> $visitor->phone_number,
               // Add any additional fields that are required in the tenants table
             ]);
-    
+
             // Optionally, update the visitor's account type in the users table if needed
             $visitor->delete();
         }
-    
-    
+
+
 
         // Optionally, update the visitor's account type in the users table if needed
-     
+
 
 
 
@@ -154,6 +157,21 @@ class AdminController extends Controller
     {
         return view('admin.property_list'); // Adjust path if needed
     }
+
+
+// AdminController.php
+public function showTenant()
+{
+    $visitRequests = VisitRequest::with(['visitor', 'property']) ->get();
+
+    $acceptedRequests = VisitRequest::with(['visitor', 'property'])
+    ->where('status', 'accepted') // Fetch only accepted requests
+    ->get();
+
+    return view('admin.tenant', compact('visitRequests', 'acceptedRequests'));
+}
+
+
 
 
 }

@@ -21,16 +21,21 @@
         <div class="overlap-group-container">
           <div class="overlap-group2">
             <div class="side_div"></div>
-<!-- Logout Button -->
-<form id="logout-form" action="{{ route('user.logout') }}" method="POST" style="display: inline;">
+
+            <form id="logout-form" action="{{ route('user.logout') }}" method="POST" style="display: inline;">
     @csrf
-    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="logout_btn" style="cursor: pointer;">
+    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" 
+    class="logout_btn" style="cursor: pointer;">
         LOGOUT
     </a>
 </form>
+<a href="{{ route('visitor.profile') }}">
+            <div class="profile_btn">
+           PROFILE
+            </div>
+            </a>
 
-            <div class="profile_btn"></div>
-            <a href="{{ route('visitor.visit.requested.properties') }}">
+            <a href="{{ route('visitor.visit_req_list') }}">
                 <div class="visit_btn">
                     <div class="visit-requested-properties">VISIT REQUESTED PROPERTIES</div>
                 </div>
@@ -56,7 +61,6 @@
               
           </a>
             <div class="estate-ease_logo-1 estate-ease_logo-4 lexendzetta-extra-bold-white-15px">VISITOR DASHBOARD</div>
-            <div class="profile montserrat-medium-white-16px">PROFILE</div>
           </div>
           <div class="flex-col">
             <div class="flex-row">

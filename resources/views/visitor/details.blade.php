@@ -8,7 +8,7 @@
     <meta name="og:type" content="website" />
     <meta name="twitter:card" content="photo" />
 
- 
+
     <link rel="stylesheet" type="text/css" href="{{ asset('css1/visit-request.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('css1/styleguide.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('css1/globals.css') }}" />
@@ -50,6 +50,13 @@
 }
 
     </style>
+
+    <!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Bootstrap JS (including Popper.js) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+
   </head>
   <body style="margin: 0; background: #ffffff">
     <input type="hidden" id="anPageName" name="page" value="propertyu95details" />
@@ -63,11 +70,11 @@
             ><a href="{{ route('visitor.user_home') }}">
               <div class="navbar-link-about navbar-link montserrat-normal-black-16px">About</div>
             </a>
-           
+
             <a href="{{ route('visitor.property_list') }}"><div class="navbar-link-properties navbar-link montserrat-normal-black-16px">Properties</div>
             </a>
-                
-         
+
+
             <a href="{{ route('visitor.profile') }}">
                 <div class="head_pic">
                     @if(isset($profilePicture) && $profilePicture)
@@ -77,21 +84,42 @@
                     @endif
                 </div>
             </a>
+
           </div>
+
+
           <h1 class="estate-ease_logo lexendzetta-medium-beaver-25px">PROPERTY DETAILS</h1>
           <div class="navbar-1 navbar-2 montserrat-bold-black-12px">
             <div class="navbar-link-property-id">PROPERTY ID:</div>
-            <div class="pro_id"></div>
-            <div class="navbar-link-rent navbar-link">RENT:</div>
-            <div class="rent"></div>
+            <div class="pro_id">
+        {{ $property->property_ID }}
+    </div>
+                <div class="navbar-link-rent navbar-link">RENT:</div>
+            <div class="rent">
+        {{ $property->rent }} tk
+    </div>
+
             <div class="navbar-link-payment-status">PAYMENT STATUS:</div>
-            <div class="overlap-group10">
-              <div class="pro_detail_btn"></div>
-              <div class="unpaid">UNPAID</div>
-              <div class="paid">PAID</div>
-            </div>
+
+            <div class="overlap-group10 {{ $paymentStatus == 'paid' ? 'paid-status' : 'unpaid-status' }}">
+    <div class="pro_detail_btn {{ $paymentStatus == 'paid' ? 'btn-paid' : 'btn-unpaid' }}"></div>
+    <div class="unpaid montserrat-normal-white-11px {{ $paymentStatus == 'paid' ? '' : 'unpaid-active' }}">
+        UNPAID
+    </div>
+    <div class="paid montserrat-normal-mongoose-11px {{ $paymentStatus == 'paid' ? 'paid-active' : '' }}">
+        PAID
+    </div>
+</div>
+
             <div class="navbar-link-rented-date">RENTED DATE:</div>
-            <div class="rent_date"></div>
+            <div class="rent_date">
+
+@if ($tenant && $tenant->rental_start_date)
+    {{ $tenant->rental_start_date }}
+@else
+    <span>Not Rented</span>
+@endif
+</div>
           </div>
           <div class="overlap-group-container montserrat-bold-black-12px">
             <div class="overlap-group7">
@@ -108,85 +136,219 @@
         </div>
         <div class="flex-row">
           <div class="flex-col-1 flex-col-6">
-            <div class="overlap-group">
-              <div class="pro_pic"></div>
-            </div>
+
+          <div class="overlap-group-container-12">
+
+@php
+    $propertyImages = \App\Models\PropertyImage::where('property_ID', $property->property_ID)->limit(15)->get();
+@endphp
+
+@if($propertyImages->isNotEmpty())
+    @foreach($propertyImages as $image)
+        <div class="pic">
+            <img src="{{ asset('storage/' . $image->image_path) }}" alt="Property Image" class="pro_pic1 pro_pic-12">
+        </div>
+    @endforeach
+@else
+    <p>No images available for this property.</p>
+@endif
+</div>
+
             <div class="overlap-group-container-1 overlap-group-container-3 montserrat-bold-black-12px">
               <div class="overlap-group2">
                 <div class="x-information">BASIC INFORMATION</div>
                 <img class="line-2 line" src="img/line-2.svg" alt="Line 2" />
                 <div class="flex-row-1">
                   <div class="bedroom montserrat-normal-black-12px">BEDROOM:</div>
-                  <div class="bed_count"></div>
+                  <div class="bed_count">  {{ $property->num_of_rooms ?? 'N/A' }}</div>
                 </div>
                 <div class="bath-container">
                   <div class="bathroom montserrat-normal-black-12px">BATHROOM:</div>
-                  <div class="bath_count"></div>
+                  <div class="bath_count">    {{ $property->num_of_bathrooms ?? 'N/A' }}
+                  </div>
                 </div>
                 <div class="balcony-container">
                   <div class="balcony montserrat-normal-black-12px">BALCONY:</div>
-                  <div class="balcony_count"></div>
+                  <div class="balcony_count">    {{ $property->num_of_balcony ?? 'N/A' }}
+                  </div>
                 </div>
                 <div class="floor-container">
                   <div class="floor-no montserrat-normal-black-12px">FLOOR NO.:</div>
-                  <div class="floor_count"></div>
+                  <div class="floor_count">    {{ $property->floor ?? 'N/A' }}
+                  </div>
                 </div>
                 <div class="size-container">
                   <div class="size-sq-ft montserrat-normal-black-12px">SIZE (sq ft).:</div>
-                  <div class="size"></div>
+                  <div class="size">    {{ $property->size ?? 'N/A' }} m²
+                  </div>
                 </div>
               </div>
               <div class="overlap-group3">
                 <div class="x-information">LOCATION INFORMATION</div>
                 <img class="line-4 line" src="img/line-1-1.svg" alt="Line 4" />
                 <div class="division-container">
-                  <div class="division montserrat-normal-black-12px">DIVISION:</div>
-                  <div class="division-1"></div>
+                  <div class="division montserrat-normal-black-12px">HOUSE NO.:</div>
+                  <div class="division-1">    {{ $property->house_no ?? 'N/A' }}
+                  </div>
                 </div>
                 <div class="district-container">
-                  <div class="district montserrat-normal-black-12px">DISTRICT:</div>
-                  <div class="district-1"></div>
+                  <div class="district montserrat-normal-black-12px">AREA:</div>
+                  <div class="district-1">   {{ $property->area ?? 'N/A' }}
+                  </div>
                 </div>
                 <div class="area-container">
-                  <div class="area montserrat-normal-black-12px">AREA:</div>
-                  <div class="area-1"></div>
+                  <div class="area montserrat-normal-black-12px">THANA:</div>
+                  <div class="area-1">{{ $property->thana ?? 'N/A' }}
+                  </div>
                 </div>
                 <div class="flex-row-2">
-                  <div class="surname surname-2 montserrat-normal-black-12px">HOUSE NO.:</div>
-                  <div class="house_no"></div>
+                  <div class="surname surname-2 montserrat-normal-black-12px">CITY:</div>
+                  <div class="house_no">{{ $property->city ?? 'N/A' }}
+                  </div>
                 </div>
                 <div class="flex-row-3">
                   <div class="surname-1 surname-2 montserrat-normal-black-12px">SHORT ADDRESS:</div>
-                  <div class="short_add"></div>
+                  <div class="short_add"> {{ $property->house_no ? $property->house_no . ', ' : '' }}
+    {{ $property->area ? $property->area . ', ' : '' }}
+    {{ $property->thana ? $property->thana . ', ' : '' }}
+    {{ $property->city ?? 'N/A' }}
+    {{ $property->postal_code ? ' - ' . $property->postal_code : '' }}</div>
                 </div>
               </div>
             </div>
           </div>
           <div class="flex-col-2 flex-col-6">
-            <div class="add_info"></div>
+
+    <div class="checkbox-group">
+        <!-- First Column -->
+        <div class="checkbox-column">
+            <div>
+                <input type="checkbox" name="amenities[]" value="parking" id="parking"
+                    @if(in_array('parking', json_decode($property->amenities))) checked @endif disabled>
+                <label for="parking">Parking</label>
+            </div>
+            <div>
+                <input type="checkbox" name="amenities[]" value="lift" id="lift"
+                    @if(in_array('lift', json_decode($property->amenities))) checked @endif disabled>
+                <label for="lift">Lift/Elevator</label>
+            </div>
+            <div>
+                <input type="checkbox" name="amenities[]" value="generator_backup" id="generator_backup"
+                    @if(in_array('generator_backup', json_decode($property->amenities))) checked @endif disabled>
+                <label for="generator_backup">Generator Backup</label>
+            </div>
+            <div>
+                <input type="checkbox" name="amenities[]" value="security" id="security"
+                    @if(in_array('security', json_decode($property->amenities))) checked @endif disabled>
+                <label for="security">Security</label>
+            </div>
+            <div>
+                <input type="checkbox" name="amenities[]" value="gym" id="gym"
+                    @if(in_array('gym', json_decode($property->amenities))) checked @endif disabled>
+                <label for="gym">Gym</label>
+            </div>
+        </div>
+
+        <!-- Second Column -->
+        <div class="checkbox-column">
+            <div>
+                <input type="checkbox" name="amenities[]" value="swimming_pool" id="swimming_pool"
+                    @if(in_array('swimming_pool', json_decode($property->amenities))) checked @endif disabled>
+                <label for="swimming_pool">Swimming Pool</label>
+            </div>
+            <div>
+                <input type="checkbox" name="amenities[]" value="private_pool" id="private_pool"
+                    @if(in_array('private_pool', json_decode($property->amenities))) checked @endif disabled>
+                <label for="private_pool">Private Pool (for villas)</label>
+            </div>
+            <div>
+                <input type="checkbox" name="amenities[]" value="playground" id="playground"
+                    @if(in_array('playground', json_decode($property->amenities))) checked @endif disabled>
+                <label for="playground">Playground</label>
+            </div>
+            <div>
+                <input type="checkbox" name="amenities[]" value="garden" id="garden"
+                    @if(in_array('garden', json_decode($property->amenities))) checked @endif disabled>
+                <label for="garden">Garden/Lawn</label>
+            </div>
+
+        </div>
+
+        <!-- Third Column -->
+        <div class="checkbox-column">
+        <div>
+                <input type="checkbox" name="amenities[]" value="hot_water" id="hot_water"
+                    @if(in_array('hot_water', json_decode($property->amenities))) checked @endif disabled>
+                <label for="hot_water">Hot Water</label>
+            </div>
+            <div>
+                <input type="checkbox" name="amenities[]" value="gated_community" id="gated_community"
+                    @if(in_array('gated_community', json_decode($property->amenities))) checked @endif disabled>
+                <label for="gated_community">Gated Community</label>
+            </div>
+            <div>
+                <input type="checkbox" name="amenities[]" value="built_in_wardrobes" id="built_in_wardrobes"
+                    @if(in_array('built_in_wardrobes', json_decode($property->amenities))) checked @endif disabled>
+                <label for="built_in_wardrobes">Built-in Wardrobes</label>
+            </div>
+            <div>
+                <input type="checkbox" name="amenities[]" value="rooftop_access" id="rooftop_access"
+                    @if(in_array('rooftop_access', json_decode($property->amenities))) checked @endif disabled>
+                <label for="rooftop_access">Rooftop Access</label>
+            </div>
+            <div>
+                <input type="checkbox" name="amenities[]" value="pets_allowed" id="pets_allowed"
+                    @if(in_array('pets_allowed', json_decode($property->amenities))) checked @endif disabled>
+                <label for="pets_allowed">Pets Allowed</label>
+            </div>
+        </div>
+    </div>
+
             <div class="flex-col-3 flex-col-6">
               <div class="flex-col-4 flex-col-6">
                 <div class="tenant-information montserrat-bold-black-12px">TENANT INFORMATION</div>
                 <img class="line-1 line" src="img/line-1-3.svg" alt="Line 1" />
               </div>
               <div class="flex-row-4">
-                <div class="tenant_pic"></div>
+                <div class="tenant_pic">
+    @if($tenant && $tenant->picture)
+        <img src="{{ asset('storage/' . $tenant->picture) }}" alt="Tenant Picture" class="tenant-pic">
+    @else
+        <span>No picture available</span> <!-- Optional message if no picture -->
+    @endif
+</div>
                 <div class="flex-col-5 flex-col-6">
                   <div class="name-container">
                     <div class="name montserrat-normal-black-12px">NAME:</div>
-                    <div class="tenant"></div>
+                    <div class="tenant"> @if($property->tenant)
+        <span>{{ $property->tenant->full_name }}</span>
+    @else
+        <span>No tenant yet</span>
+    @endif</div>
                   </div>
                   <div class="flex-row-5">
                     <div class="phone montserrat-normal-black-12px">PHONE:</div>
-                    <div class="tenant"></div>
+                    <div class="tenant">@if($property->tenant)
+        <span>{{ $property->tenant->phone_number }}</span>
+    @else
+        <span>N/A</span>
+    @endif</div>
                   </div>
                   <div class="email-container">
                     <div class="email montserrat-normal-black-12px">EMAIL:</div>
-                    <div class="tenant"></div>
+                    <div class="tenant">  @if($property->tenant)
+        <span>{{ $property->tenant->email }}</span>
+    @else
+        <span>N/A</span>
+    @endif</div>
                   </div>
                   <div class="flex-row-6">
                     <div class="permanent-address montserrat-normal-black-12px">PERMANENT ADDRESS:</div>
-                    <div class="tenant_add"></div>
+                    <div class="tenant_add"> @if($property->tenant)
+        <span>{{ $property->tenant->current_address }}</span>
+    @else
+        <span>N/A</span>
+    @endif</div>
                   </div>
                 </div>
               </div>
@@ -200,58 +362,43 @@
             ></a>
             <div class="go-back montserrat-black-beaver-16px">GO BACK</div>
           </div>
-          <div class="visit-container">
-            <a onclick="ShowOverlay('visit-request', 'animate-appear');"> <div class="visit_req_btn"></div></a>
-            <div class="visit-request montserrat-black-white-16px">VISIT REQUEST</div>
-          </div>
 
-        
+            <a onclick="ShowOverlay('visit-request', 'animate-appear');">
+            <div class="visit-container montserrat-black-white-16px">VISIT REQUEST</div>
+            </a>
+
+
 
 
         </div>
       </div>
-    </div>
-    <div id="overlay-visit-request" class="overlay-base">
-      <div class="visit-request screen">
-        <div class="visit-request-1">
-          <div class="estate-ease_logo">PROPERTY VISIT REQUEST FORM</div>
-          <div class="flex-row">
-            <div class="flex-col montserrat-medium-black-16px">
-              <div class="full-name">FULL NAME</div>
-              <div class="name_txtbox"></div>
-              <div class="email">EMAIL</div>
-              <div class="email_txtbox"></div>
-              <div class="phone-number">PHONE NUMBER</div>
-              <div class="phn_txtbox"></div>
-              <div class="available-date-slot">AVAILABLE DATE SLOT</div>
-              <div class="date"></div>
-            </div>
-            <div class="overlap-group-container">
-              <div class="overlap-group1">
-                <div class="visit-request-2 montserrat-black-white-16px">VISIT REQUEST</div>
-              </div>
-              <div class="back-container">
-                <a href="propertyu95details.html"> <div class="go_back"></div></a>
-                <div class="go-back montserrat-black-beaver-16px">GO BACK</div>
-              </div>
-            </div>
-          </div>
+
+      <!-- Modal for displaying the zoomed image -->
+<div id="imageModal" class="modal" tabindex="-1" aria-hidden="true">
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
-      </div>
+        <div class="modal-body">
+            <img id="zoomedImage" src="" alt="Zoomed Image" class="img-fluid" />
+        </div>
     </div>
-
-
-
-
-
-
-
-    
-    <div class="visit-container">
-    <a onclick="ShowOverlay('visit-request');">
-        <div class="visit_req_btn">Request Visit</div>
-    </a>
 </div>
+</div>
+    </div>
+
+
+
+
+
+
+
+
+
+
 
 <!-- Overlay for the visit request -->
 <div id="visit-request" class="overlay" style="display: none;">
@@ -350,6 +497,44 @@
             alert('Please select both date and time.');
         }
     });
+
+
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+    // Select all zoomable images
+    const images = document.querySelectorAll('.zoomable-image');
+    const zoomedImage = document.getElementById('zoomedImage');
+    const imageModal = new bootstrap.Modal(document.getElementById('imageModal'));
+
+    // Add click event listener to each image
+    images.forEach(image => {
+        image.addEventListener('click', function () {
+            // Set the source of the modal's image
+            zoomedImage.src = this.src;
+
+            // Show the modal
+            imageModal.show();
+        });
+    });
+});
+
+
+
+
+        // Close the modal when the close button is clicked
+        document.querySelector('.modal .close').addEventListener('click', function() {
+            document.getElementById('imageModal').style.display = 'none';
+        });
+
+        // Close the modal when clicking outside the modal
+        window.addEventListener('click', function(event) {
+            if (event.target === document.getElementById('imageModal')) {
+                document.getElementById('imageModal').style.display = 'none';
+            }
+        });
+
+
 </script>
 
 

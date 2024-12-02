@@ -10,7 +10,7 @@
     <meta name="twitter:card" content="photo" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
     <script src="https://animaapp.s3.amazonaws.com/launchpad-static/launchpad.js"></script>
-  
+
     <link rel="stylesheet" type="text/css" href="{{ asset('css1/homepageu95loggedu95in.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('css1/styleguide.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('css1/globals.css') }}" />
@@ -29,12 +29,8 @@
           ><a href="{{ route('visitor.property_list') }}">
             <div class="navbar-link-properties montserrat-normal-black-16px">Properties</div>
         </a>
-        
-          
-             <a href="{{ route(auth()->user()->account_type . '.profile') }}">
-    <div class="head_pic">
-      
-    <a href="{{ route('visitor.profile') }}"><div class="head_pic">
+
+        <a href="{{ route('visitor.profile') }}"><div class="head_pic">
                   @if($profilePicture)
                       <img src="{{ asset('storage/' . $profilePicture) }}" alt="User Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
                   @else
@@ -44,11 +40,7 @@
              </a>
 
 
-    </div>
-</a>
 
-
-          
 
 
 
@@ -74,7 +66,7 @@
           </p>
           <img class="banner-1" src="{{ asset('img/banner-1.png') }}" alt="Banner 1" />
           <img class="x497656952-1" src="{{ asset('img/497656952-1.png') }}" alt="497656952 1" />
-          
+
         </div>
         <div class="overlap-group">
           <div class="services lexendzetta-bold-mongoose-30px">SERVICES</div>
@@ -110,7 +102,7 @@
             </div>
           </div>
         </div>
-       
+
       </div>
     </div>
   </body>

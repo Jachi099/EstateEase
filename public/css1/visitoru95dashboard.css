@@ -3,9 +3,9 @@
   align-items: flex-start;
   background-color: var(--white);
   display: flex;
-  width: 100%;  
+  width: 100%;
   height: 100%;
-  min-height: 100vh; 
+  min-height: 100vh;
   overflow-y: hidden; /* Allows vertical scrolling */
   overflow-x: hidden; /* Prevents horizontal scrolling */
 }
@@ -34,18 +34,6 @@
 
 }
 
-.add-property-btn {
-  background-color: var(--beaver); /* Green background */
-  color: white;
-  padding: 10px 20px;
-  text-align: center;
-  border-radius: 5px;
-  text-decoration: none;
-  display: inline-block;
-  margin-top: 50px;
-  font-weight: bolder;
-
-}
 
 .property-card {
   width: 250px; /* Fixed width for property card */
@@ -57,7 +45,7 @@
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   overflow: hidden; /* Prevent overflow of content */
   position: relative; /* For tooltip positioning */
-  
+
 }
 
 .property-image-link {
@@ -171,26 +159,12 @@
   top: 0;
   width: 1440px;
 }
-
-.visitoru95dashboard .profile_btn {
-  background-color: var(--eerie-black);
-  border: 2px solid;
-  border-color: var(--black);
-  height: 74px;
-  left: 0;
-  position: absolute;
-  top: 235px;
-  width: 214px;
-
-  display: inline-flex; /* Change to inline-flex for centering */
-  align-items: center; /* Center vertically */
-  justify-content: center; /* Center horizontally */
-}
-
 .visitoru95dashboard .visit_btn {
   background-color: var(--black);
   border: 2px solid;
   cursor: pointer;
+  border: 2px solid;
+  border-color: var(--white);
   height: 74px;
   left: 0;
   position: absolute;
@@ -206,6 +180,8 @@
   background-color: var(--black);
   border: 2px solid;
   cursor: pointer;
+  border: 2px solid;
+  border-color: var(--white);
   height: 74px;
   left: 0;
   position: absolute;
@@ -221,51 +197,68 @@
   background-color: var(--black);
   border: 2px solid;
   cursor: pointer;
+  border: 2px solid;
+  border-color: var(--white);
   height: 74px;
   left: 0;
   position: absolute;
   top: 458px;
   width: 214px;
+  color: var(--white);
+  letter-spacing: 0;
+  line-height: normal;
+  text-align: center;
+  font-family: 'Montserrat', sans-serif; /* Ensure you have the Montserrat font imported */
+  font-size: 16px; /* Adjust based on your design */
+  font-weight: bolder;
 
   display: inline-flex; /* Change to inline-flex for centering */
   align-items: center; /* Center vertically */
   justify-content: center; /* Center horizontally */
 }
-.visitoru95dashboard .logout {
-  cursor: pointer;
-  letter-spacing: 0;
-  line-height: normal;
-  text-align: center;
- 
-
-  font-family: 'Montserrat', sans-serif; /* Ensure you have the Montserrat font imported */
-  font-size: 16px; /* Adjust based on your design */
-  font-weight: bolder;
-  color: #FFFFFF; 
-
-}
-
 
 .visitoru95dashboard .visit-requested-properties {
   cursor: pointer;
   letter-spacing: 0;
   line-height: normal;
   text-align: center;
- 
+  color: var(--white);
+
 
   font-family: 'Montserrat', sans-serif; /* Ensure you have the Montserrat font imported */
   font-size: 16px; /* Adjust based on your design */
   font-weight: bolder;
 }
+.visitoru95dashboard .profile_btn {
+  background-color: var(--white);
+  border: 2px solid;
+  border-color: var(--white);
+  height: 74px;
+  left: 0;
+  position: absolute;
+  top: 235px;
+  width: 214px;
 
-.visitoru95dashboard .help-center {
+  display: inline-flex; /* Change to inline-flex for centering */
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+
+
+
   letter-spacing: 0;
   line-height: normal;
+  text-align: center;
+
+  color: var(--black);
+
 
   font-family: 'Montserrat', sans-serif; /* Ensure you have the Montserrat font imported */
   font-size: 16px; /* Adjust based on your design */
   font-weight: bolder;
+
 }
+
+
 
 .visitoru95dashboard .services {
   cursor: pointer;
@@ -689,4 +682,169 @@
 
 .table tbody tr:last-child td {
   border-bottom: none; /* Remove bottom border for the last row */
+}
+
+
+.visitoru95dashboard  .visit_btn1 {
+  background-color: var(--white);
+  border: 2px solid;
+  cursor: pointer;
+  border: 2px solid;
+  border-color: var(--white);
+  height: 74px;
+  left: 0;
+  position: absolute;
+  top: 310px;
+  width: 214px;
+
+  display: inline-flex; /* Change to inline-flex for centering */
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+}
+.visitoru95dashboard   .visit-requested-properties1 {
+  cursor: pointer;
+  letter-spacing: 0;
+  line-height: normal;
+  text-align: center;
+
+  color: var(--black);
+
+
+  font-family: 'Montserrat', sans-serif; /* Ensure you have the Montserrat font imported */
+  font-size: 16px; /* Adjust based on your design */
+  font-weight: bolder;
+}
+
+.visitoru95dashboard   .profile_btn1{
+  background-color: var(--black);
+  border: 2px solid;
+  border-color: var(--white);
+  height: 74px;
+  left: 0;
+  position: absolute;
+  top: 235px;
+  width: 214px;
+  color: var(--white);
+
+
+  letter-spacing: 0;
+  line-height: normal;
+  text-align: center;
+
+
+
+
+  font-family: 'Montserrat', sans-serif; /* Ensure you have the Montserrat font imported */
+  font-size: 16px; /* Adjust based on your design */
+  font-weight: bolder;
+  display: inline-flex; /* Change to inline-flex for centering */
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+}
+
+.container1 {
+  width: 100%;
+  margin: 5px auto;
+  padding: 1rem;
+  border: 2px solid black; /* Black border */
+  border-radius: 10px;
+  height: 380px; /* Set fixed height for the container */
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* Display 4 items per row */
+  gap: 1rem;
+}
+
+.property-card1 {
+  border: 1px solid #ddd; /* Add a border to each property card */
+  padding: 10px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column; /* Arrange content vertically */
+}
+
+.property-details1 {
+  display: flex;
+  flex-wrap: wrap; /* Allow items to wrap if necessary */
+  gap: 10px; /* Space between items */
+  font-size: 14px;
+}
+
+.detail-item1 {
+  flex: 1 1 calc(50% - 10px); /* Display two items side by side, adjusting for gaps */
+  display: flex;
+  justify-content: space-between; /* Align label and value to ends */
+}
+
+.detail-item1 strong {
+  font-weight: bold;
+}
+.property-header1 {
+  display: flex;
+  justify-content: center; /* Centers horizontally */
+  align-items: center; /* Centers vertically */
+  gap: 10px; /* Space between title and status */
+  margin-top: 10px; /* Adds space above */
+  margin-bottom: 20px; /* Adds space below */
+}
+
+.property-title1 {
+  font-size: 20px; /* Title font size */
+  font-weight: bold; /* Makes the title bold */
+  margin: 0; /* Removes default margin */
+  text-align: center; /* Centers the title text */
+}
+
+/* Available - Green */
+.tenant-info-available {
+  color: #28a745; /* Bright green */
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 5px; /* Space for icon if used */
+}
+
+/* Rented - Gray */
+.tenant-info-rented {
+  color: #6c757d; /* Neutral gray */
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 5px; /* Space for icon if used */
+}
+.sort-container {
+  display: flex; /* Use flexbox to align the items side by side */
+  justify-content: flex-end; /* Align the items to the right side */
+  gap: 10px; /* Adds space between the items, adjust as needed */
+  margin-left: 800px; /* Moves the container to the right */
+  margin-top: -70px; /* Adjust this value to move it up */
+}
+
+.sort {
+  background-color: var(--white);
+  border: 2px solid;
+  border-color: var(--beaver);
+  height: 35px;
+  width: 200px; /* Reduced width to fit side by side */
+}
+
+.sort-by {
+  height: 35px;
+  width: auto; /* Allow width to adjust based on content */
+  line-height: 35px; /* Vertically center the text */
+}
+
+
+
+.add-property-btn {
+  background-color: var(--beaver); /* Green background */
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  border-radius: 5px;
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 50px;
+  font-weight: bolder;
+
 }

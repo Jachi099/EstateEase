@@ -31,25 +31,47 @@
           <div class="div_pic"></div>
           <div class="middle_box"></div>
 
-
-
-    @if (session('error'))
-    <div class="alert alert-danger">{{ session('error') }}</div>
-@endif
-
-<form action="{{ route('user.login.submit') }}" method="POST">
+          <form action="{{ route('user.login.submit') }}" method="POST">
     @csrf
     <div class="mb-3">
         <div class="email montserrat-medium-black-16px">EMAIL</div>
-        <input type="email" class="email_txtbox" name="email" id="email" required class="form-control" />
+        <input type="email" class="email_txtbox" name="email" id="email" required class="form-control" value="{{ old('email') }}" />
+        
+        <!-- Display Email Error -->
+        @error('email')
+            <div class="text-danger">{{ $message }}</div>
+        @enderror
     </div>
+
     <div class="mb-3">
         <div class="password montserrat-medium-black-16px">PASSWORD</div>
         <input type="password" class="pass_txtbox" name="password" id="password" required class="form-control" />
+        
+        <!-- Display Password Error -->
+        @error('password')
+            <div class="text-danger">{{ $message }}</div>
+        @enderror
     </div>
-    <button type="submit" class="login_btn"><div class="log-in">LOG IN</div></button>
-    <a href="{{ route('user.signup') }}" class="sign_up_btn"><div class="sign-up">SIGN UP</div></a>
+
+    <!-- Display General Error Message -->
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    <button type="submit" class="login_btn">
+        <div class="log-in">LOG IN</div>
+    </button>
+    <a href="{{ route('user.signup') }}" class="sign_up_btn">
+        <div class="sign-up">SIGN UP</div>
+    </a>
 </form>
+
 
           <div class="forgot-password">Forgot password?</div>
           <h1 class="estate-ease_logo">LOG IN</h1>

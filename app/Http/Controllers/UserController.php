@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Log;
 use App\Models\Landlord;
 use App\Models\Tenant;
 use App\Models\Property;
-
+use GuzzleHttp\Client;
 
 
 class UserController extends Controller
@@ -27,29 +27,29 @@ class UserController extends Controller
  {
      // Get the authenticated user
      $user = Auth::user();
- 
+
      // Prepare the data to pass to the view
      $profilePicture = $user->picture; // Adjust this according to your user model's attribute
- 
+
      // You can also fetch other properties as needed
      // $requestedProperties = ...; // Logic to get requested properties
- 
-     return view('visitor.visit_requested_list', compact('profilePicture')); // Pass the profile picture to the view
+
+     return view('visitor.visit_req_list', compact('profilePicture')); // Pass the profile picture to the view
  }
- 
- 
- 
- 
- 
-    
+
+
+
+
+
+
     public function profile()
     {
         // Get the authenticated user
         $user = Auth::user();
-        
+
         // Initialize an array to hold the profile data
         $profileData = null;
-    
+
         // Determine the user's account type and retrieve the relevant information
         if ($user->account_type === 'landlord') {
             $profileData = Landlord::where('email', $user->email)->first(['name', 'email', 'phone', 'picture']);
@@ -58,12 +58,12 @@ class UserController extends Controller
         } else { // Assuming visitor is the default case
             $profileData = User::where('email', $user->email)->first(['full_name', 'email', 'current_address', 'phone_number', 'picture']);
         }
-    
+
         // Check if profile data is retrieved
         if (!$profileData) {
             return redirect()->route('visitor.user_home')->with('error', 'Profile not found.');
         }
-    
+
         // Pass the user's information to the profile view
         return view('visitor.profile', [
             'profilePicture' => $profileData->picture ?? null,
@@ -74,25 +74,25 @@ class UserController extends Controller
             'account_type' => $user->account_type,
         ]);
     }
-    
+
 
     public function editProfile(Request $request)
     {
         // Get the authenticated user
         $user = Auth::user();
-    
+
         // Check if the user is a valid instance of the User model
         if (!$user instanceof User) {
             return redirect()->route('visitor.profile')->with('error', 'User not found.');
         }
-    
+
         // Prepare the profile picture path
         $profilePicture = $user->picture; // Adjust according to your User model's picture attribute
-    
+
         // Return the edit profile view with the user data and profile picture
         return view('user.edit_profile', compact('user', 'profilePicture'));
     }
-    
+
     public function updateProfile(Request $request)
 {
     // Validate request data
@@ -143,7 +143,7 @@ class UserController extends Controller
 }
 
 
-    
+
     // Method to display the properties page
     public function properties()
     {
@@ -161,102 +161,106 @@ class UserController extends Controller
     {
         return view('user.signup'); // Ensure this path matches your view file
     }
-
-    // Method to handle the signup form submission
     public function signupSubmit(Request $request)
-{
-    // Log the incoming request
-    Log::info('Signup form submitted', $request->all());
-
-    // Validate the input data
-    $validatedData = $request->validate([
-        'full_name' => 'required|string|max:255',
-        'current_address' => 'required|string|max:255',
-        'phone_number' => 'required|numeric|digits_between:10,15',
-        'account_type' => 'required|in:landlord,visitor',
-        'email' => 'required|email|unique:users,email|unique:landlord,email',
-        'password' => [
-            'required',
-            'confirmed',
-            Password::min(8)
-                ->mixedCase()
-                ->letters()
-                ->numbers()
-                ->symbols()
-        ],
-        'picture' => 'required|image|mimes:jpeg,png,jpg|max:2048'
-    ]);
-
-    // Store profile picture
-    $picturePath = $request->file('picture')->store('profile_pictures', 'public');
-
-    // Check if account type is landlord or visitor
-    if ($validatedData['account_type'] === 'landlord') {
-        // Create a new landlord record in the landlord table
-        $landlord = Landlord::create([
-            'name' => $validatedData['full_name'],
-            'email' => $validatedData['email'],
-            'phone' => $validatedData['phone_number'],
-            'password' => Hash::make($validatedData['password']),
-            'picture' => $picturePath,
-            'account_type' => 'landlord'
+    {
+        // Validate the input data
+        $validatedData = $request->validate([
+            'full_name' => 'required|string|max:255',
+            'current_address' => 'required|string|max:255',
+            'phone_number' => 'required|numeric|digits_between:10,15',
+            'account_type' => 'required|in:landlord,visitor',
+            'email' => 'required|email|unique:users,email|unique:landlord,email',
+            'password' => [
+                'required',
+                'confirmed',
+                Password::min(8)
+                    ->mixedCase()
+                    ->letters()
+                    ->numbers()
+                    ->symbols()
+            ],
+            'picture' => 'required|image|mimes:jpeg,png,jpg|max:2048'
         ]);
 
-        // Log the landlord in (optional: you may use a different method if landlord login differs)
-        Auth::login($landlord);
+        // Get the email address from the validated data
+        $email = $validatedData['email'];
 
-        // Redirect to the landlord dashboard or homepage
-        return redirect()->route('landlord.user_home')->with('success', 'Registration successful!');
-    } else {
-        // Create a new user record in the users table for visitors
-        $user = User::create([
-            'full_name' => $validatedData['full_name'],
-            'current_address' => $validatedData['current_address'],
-            'phone_number' => $validatedData['phone_number'],
-            'account_type' => 'visitor',
-            'email' => $validatedData['email'],
-            'password' => Hash::make($validatedData['password']),
-            'picture' => $picturePath
-        ]);
+        // Abstract API validation code...
 
-        // Log the visitor in
-        Auth::login($user);
+        // Store the profile picture
+        $picturePath = $request->file('picture')->store('profile_pictures', 'public');
 
-        // Redirect to the visitor's homepage or user home
-        return redirect()->route('visitor.user_home')->with('success', 'Registration successful!');
+        // Handle account creation based on account type (landlord or visitor)
+        if ($validatedData['account_type'] === 'landlord') {
+            $landlord = Landlord::create([
+                'name' => $validatedData['full_name'],
+                'current_address' => $validatedData['current_address'],
+
+                'email' => $validatedData['email'],
+                'phone' => $validatedData['phone_number'],
+                'password' => Hash::make($validatedData['password']),
+                'picture' => $picturePath,
+                'account_type' => 'landlord'
+            ]);
+
+            // Log the landlord in using the default web guard
+            Auth::guard('landlord')->login($landlord); // For landlords
+
+            // Debugging: Log the authentication session
+            Log::info('Landlord logged in successfully', ['landlord_id' => $landlord->id]);
+
+            // Redirect to the landlord's homepage
+            return redirect()->route('landlord.user_home')->with('success', 'Registration successful!');
+        } else {
+            $user = User::create([
+                'full_name' => $validatedData['full_name'],
+                'current_address' => $validatedData['current_address'],
+                'phone_number' => $validatedData['phone_number'],
+                'account_type' => 'visitor',
+                'email' => $validatedData['email'],
+                'password' => Hash::make($validatedData['password']),
+                'picture' => $picturePath
+            ]);
+
+            // Log the user in using the default web guard
+            Auth::guard('visitor')->login($user); // For visitors
+
+            // Debugging: Log the authentication session
+            Log::info('Visitor logged in successfully', ['user_id' => $user->id]);
+
+            // Redirect to the visitor's homepage
+            return redirect()->route('visitor.user_home')->with('success', 'Registration successful!');
+        }
     }
-}
-
-
 
     // UserController.php
     public function showLoginForm()
     {
         return view('user.login'); // Return the login view
-    }
-    public function login(Request $request)
+    }public function login(Request $request)
     {
         $request->validate([
             'email' => 'required|email',
             'password' => 'required|string',
         ]);
-    
+
         Log::info('Login attempt for email: ' . $request->email);
-    
-        // Attempt to find a landlord first
+
+        // Attempt to find a landlord
         $landlord = Landlord::where('email', $request->email)->first();
         if ($landlord) {
             Log::info('Landlord found: ' . $landlord->email);
-    
+
             if (Auth::guard('landlord')->attempt($request->only('email', 'password'))) {
                 Log::info('Landlord login successful: ' . $landlord->email);
                 return redirect()->route('landlord.user_home')->with('success', 'Logged in successfully as landlord!');
             } else {
                 Log::warning('Landlord login failed: Invalid credentials');
+                return back()->withErrors(['email' => 'Invalid landlord credentials. Please try again.'])->withInput();
             }
         }
-    
-        // Attempt to find a visitor if landlord not found
+
+        // Attempt to find a visitor
         $visitor = User::where('email', $request->email)->first();
         if ($visitor) {
             Log::info('Visitor found: ' . $visitor->email);
@@ -265,29 +269,29 @@ class UserController extends Controller
                 return redirect()->route('visitor.user_home')->with('success', 'Logged in successfully as visitor!');
             } else {
                 Log::warning('Visitor login failed: Invalid credentials');
+                return back()->withErrors(['email' => 'Invalid visitor credentials. Please try again.'])->withInput();
             }
         }
-    
-        // Attempt to find a tenant if neither landlord nor visitor is found
+
+        // Attempt to find a tenant
         $tenant = Tenant::where('email', $request->email)->first();
         if ($tenant) {
             Log::info('Tenant found: ' . $tenant->email);
-    
+
             if (Auth::guard('tenant')->attempt($request->only('email', 'password'))) {
                 Log::info('Tenant login successful: ' . $tenant->email);
                 return redirect()->route('tenant.user_home')->with('success', 'Logged in successfully as tenant!');
             } else {
                 Log::warning('Tenant login failed: Invalid credentials');
+                return back()->withErrors(['email' => 'Invalid tenant credentials. Please try again.'])->withInput();
             }
         }
-    
+
         Log::warning('No user found for email: ' . $request->email);
-        
-        // If no login attempts were successful, return back with an error message
-        return back()->with('error', 'Invalid credentials. Please try again.');
+
+        // If no user is found
+        return back()->withErrors(['email' => 'No user found with that email. Please check your credentials and try again.'])->withInput();
     }
-    
-    
 
 public function logout(Request $request)
 {
@@ -358,53 +362,115 @@ public function requestVisit(Request $request)
     return response()->json(['success' => 'Visit request submitted successfully!']);
 }
 
-public function showProperties()
-    {
-        // Retrieve properties with the necessary details
-        $properties = Property::select(
-                'property_ID', 'status', 'img1', 'num_of_rooms', 'num_of_bathrooms',
-                'floor', 'city', 'state', 'rent', 'available_from'
-            )
-            ->get();
-    
-        // Get the authenticated user's profile picture
-        $user = Auth::user();
-        $profilePicture = $user->picture;
-    
-        return view('visitor.property_list', compact('properties', 'profilePicture'));
+public function showProperties(Request $request)
+{
+    // Start the query to retrieve properties
+    $properties = Property::select(
+            'property_ID', 'status', 'num_of_rooms', 'num_of_bathrooms',
+            'floor', 'city', 'thana', 'house_no', 'area', 'rent', 'available_from', 'type'
+        )
+        ->with(['propertyImages' => function($query) {
+            // Fetch the first image for each property
+            $query->limit(1);
+        }]);
+
+    // Check if a sort option is provided in the request
+    if ($request->has('sort')) {
+        $sortOption = $request->input('sort');
+
+        // Apply sorting based on the sort option
+        switch ($sortOption) {
+            case 'rent_asc':
+                $properties = $properties->orderBy('rent', 'asc');
+                break;
+            case 'rent_desc':
+                $properties = $properties->orderBy('rent', 'desc');
+                break;
+            case 'type':
+                $properties = $properties->orderBy('type', 'asc');
+                break;
+            case 'availability':
+                // For availability, order properties based on whether they are rented or not
+                $properties = $properties->orderByRaw("IF(tenant_id IS NULL, 0, 1) DESC"); // Available properties first
+                break;
+            default:
+                // Default sort by most recent
+                $properties = $properties->orderBy('created_at', 'desc');
+                break;
+        }
+    } else {
+        // Default sort by most recent if no sort option is selected
+        $properties = $properties->orderBy('created_at', 'desc');
     }
 
+    // Retrieve the properties based on the applied sorting
+    $properties = $properties->get();
+
+    // Get the authenticated user's profile picture
+    $user = Auth::user();
+    $profilePicture = $user->picture;
+
+    // Return the view with the properties and profile picture
+    return view('visitor.property_list', compact('properties', 'profilePicture'));
+}
 
     public function filterProperties(Request $request)
     {
         $location = $request->input('location');
         $rentRange = $request->input('rent_range');  // Format: "min-max"
-    
+
         $query = Property::query();
-    
+
         if ($location) {
             $query->where('city', 'LIKE', "%{$location}%");
         }
-    
+
         if ($rentRange) {
             [$minRent, $maxRent] = explode('-', $rentRange);
             $query->whereBetween('rent', [(float)$minRent, (float)$maxRent]);
         }
-    
+
         $properties = $query->get();
-    
+
         $user = Auth::user();
         $profilePicture = $user->picture;
-    
+
         return view('visitor.property_list', compact('properties', 'profilePicture'));
     }
-    
+
     // In PropertyController.php
     public function showPropertyDetails($id)
     {
+        // Fetch the property by its ID or fail with a 404 error if not found
         $property = Property::findOrFail($id);
-        return view('visitor.details', compact('property'));
-    }
-    
 
-}  
+        // Get the authenticated user's profile picture (for the visitor)
+        $user = Auth::user();
+        $profilePicture = $user ? $user->picture : null; // Check if a user is authenticated
+
+        // Fetch tenant details for the given property ID
+        $tenant = Tenant::where('property_ID', $id)->first();
+
+        // Determine the payment status
+        if ($tenant) {
+            // Fetch the latest payment for the tenant
+            $latestPayment = $tenant->payments()->latest()->first();
+
+            // Set the payment status to 'paid' or 'unpaid' based on the latest payment status
+            $paymentStatus = $latestPayment && $latestPayment->status == 'paid' ? 'paid' : 'unpaid';
+
+            // Get the tenant's profile picture
+            $tenantProfilePicture = $tenant->picture ?? null;
+        } else {
+            // If no tenant exists, set payment status to 'unpaid' by default
+            $paymentStatus = 'unpaid';
+            $tenantProfilePicture = null;
+        }
+
+        // Pass the property, payment status, and profile pictures to the view
+        return view('visitor.details', compact('property', 'profilePicture', 'paymentStatus', 'tenantProfilePicture', 'tenant'));
+    }
+
+
+
+}

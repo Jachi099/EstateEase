@@ -5,10 +5,10 @@
   background-color: var(--white);
   display: flex;
   flex-direction: column;
-  width: 100%;  
+  width: 100%;
   height: 100%;
   /* Use 100% to prevent horizontal scroll issues */
-  min-height: 100vh; 
+  min-height: 100vh;
   overflow-y: auto;   /* Allows vertical scrolling */
   overflow-x: hidden; /* Prevents horizontal scrolling */
 }
@@ -191,7 +191,7 @@
   line-height: normal;
   font-family: 'Montserrat', sans-serif; /* Ensure you have the Montserrat font imported */
   font-size: 16px; /* Adjust based on your design */
-  color: #FFFFFF; 
+  color: #FFFFFF;
   font-weight: bolder;
   cursor: pointer;
 }
@@ -339,7 +339,7 @@
   line-height: normal;
   font-family: 'Montserrat', sans-serif; /* Ensure you have the Montserrat font imported */
   font-size: 16px; /* Adjust based on your design */
-  color: var(--mongoose); 
+  color: var(--mongoose);
   font-weight: bolder;
   cursor: pointer;
 
@@ -361,7 +361,7 @@
   cursor: pointer;
   display: inline-flex; /* Change to inline-flex for centering */
   align-items: center; /* Center vertically */
-  justify-content: center; 
+  justify-content: center;
   margin-top: 70px;/* Center horizontally */
 }
 .propertyu95listu95foru95visitor .floor {
@@ -412,3 +412,112 @@
   border: 1px solid;
   border-color: var(--cloud);
 }
+.container1 {
+    width: 1334px;
+    margin: 5px auto;
+    padding: 1rem;
+    border: 2px solid black; /* Black border */
+    border-radius: 10px;
+    height: 380px; /* Set fixed height for the container */
+    overflow-y: auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Display 4 items per row */
+    gap: 1rem;
+  }
+
+  .property-card {
+    width: 250px; /* Fixed width for property card */
+    height: 340px; /* Set height for the property card */
+    border: 1px solid #000; /* Black border for property card */
+    border-radius: 5px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* Prevent overflow of content */
+    position: relative; /* For tooltip positioning */
+
+  }
+
+  .property-details1 {
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap if necessary */
+    gap: 10px; /* Space between items */
+    font-size: 14px;
+  }
+
+  .detail-item1 {
+    flex: 1 1 calc(50% - 10px); /* Display two items side by side, adjusting for gaps */
+    display: flex;
+    justify-content: space-between; /* Align label and value to ends */
+  }
+
+  .detail-item1 strong {
+    font-weight: bold;
+  }
+  .property-header1 {
+    display: flex;
+    justify-content: center; /* Centers horizontally */
+    align-items: center; /* Centers vertically */
+    gap: 10px; /* Space between title and status */
+    margin-top: 10px; /* Adds space above */
+    margin-bottom: 20px; /* Adds space below */
+  }
+
+  .property-title1 {
+    font-size: 20px; /* Title font size */
+    font-weight: bold; /* Makes the title bold */
+    margin: 0; /* Removes default margin */
+    text-align: center; /* Centers the title text */
+  }
+
+  /* Available - Green */
+  .tenant-info-available {
+    color: #28a745; /* Bright green */
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Space for icon if used */
+  }
+
+  /* Rented - Gray */
+  .tenant-info-rented {
+    color: #6c757d; /* Neutral gray */
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Space for icon if used */
+  }
+  .property-image-link {
+    position: relative; /* For tooltip positioning */
+    display: block; /* Ensure the link takes up full space */
+  }
+
+  .property-image {
+    width: 100%; /* Make image responsive */
+    height: 150px; /* Fixed height for the image */
+    object-fit: cover; /* Cover to maintain aspect ratio */
+    transition: filter 0.3s ease; /* Smooth transition for grey effect */
+  }
+
+  .property-image-link:hover .property-image {
+    filter: grayscale(80%); /* Apply grey effect on hover */
+  }
+
+  .property-image-link:hover .tooltip {
+    display: block; /* Show tooltip on hover */
+  }
+
+  .tooltip {
+    display: none; /* Hidden by default */
+    position: absolute; /* Position relative to parent */
+    top: 30%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Adjust position */
+    background-color: rgba(0, 0, 0, 0.7); /* Black background with transparency */
+    color: white; /* White text */
+    padding: 5px;
+    border-radius: 5px;
+    font-family: 'Montserrat', sans-serif; /* Font style */
+    font-size: 14px; /* Font size for tooltip */
+    z-index: 10; /* Ensure it's above other elements */
+  }
