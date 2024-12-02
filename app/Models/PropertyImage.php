@@ -15,6 +15,7 @@ class PropertyImage extends Model
     // Disable automatic timestamps if not used in the table
     public $timestamps = false;
 
+
     // Relationship to the Property model
     public function property()
     {

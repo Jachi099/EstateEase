@@ -11,7 +11,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css1/propertyu95listu95foru95visitor.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('css1/styleguide.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('css1/globals.css') }}" />
-  
+
   </head>
   <body style="margin: 0; background: #ffffff">
     <input type="hidden" id="anPageName" name="page" value="propertyu95listu95foru95visitor" />
@@ -23,11 +23,11 @@
             <a href="{{ route('visitor.user_home') }}"><div class="navbar-link-place navbar-link montserrat-normal-black-16px">Home</div> </a
             > <a href="{{ route('visitor.user_home') }}"><div class="navbar-link-about navbar-link montserrat-normal-black-16px">About</div> </a
             >
-           
+
             <a href="{{ route('visitor.property_list') }}"><div class="navbar-link-properties navbar-link montserrat-normal-black-16px">Properties</div>
             </a>
-               
-         
+
+
             <a href="{{ route('visitor.profile') }}">
                 <div class="head_pic">
                     @if(isset($profilePicture) && $profilePicture)
@@ -47,7 +47,18 @@
           <div class="flex-row flex">
             <h1 class="estate-ease_logo lexendzetta-medium-beaver-25px">PROPERTIES</h1>
             <div class="sort montserrat-medium-black-16px">SORT:</div>
-            <div class="sort-1"></div>
+
+
+
+              <!-- Sort controls on the right -->
+        <select id="sort-options" class="sort-1" onchange="sortProperties()">
+            <option value="rent_asc">Rent (Low to High)</option>
+            <option value="rent_desc">Rent (High to Low)</option>
+            <option value="type">Property Type</option>
+            <option value="availability">Availability</option>
+        </select>
+
+
           </div>
         </div>
         <form action="{{ route('properties.filter') }}" method="GET">
@@ -79,25 +90,79 @@
         </form>
 
 
-      <div class="overlap-group1">
-    @foreach($properties as $property)
-        <div class="rented_list_box">
 
-                <img src="{{ asset('storage/' . $property->img1) }}" alt="Property Image" class="pro_pic">
+        <div class="container1">
 
-                            
-                <div class="status">{{ $property->status }}</div>
-                <div class="bedroom montserrat-normal-black-12px">BEDROOM: {{ $property->num_of_rooms }}</div>
-                <div class="bathroom montserrat-normal-black-12px">BATHROOM: {{ $property->num_of_bathrooms }}</div>
-                <div class="location-1 location-2 montserrat-normal-black-12px">LOCATION: {{ $property->city }}, {{ $property->state }}</div>
-                <div class="rent rent-1 montserrat-normal-black-12px">RENT: {{ number_format($property->rent, 2) }}</div>
-                <div class="floor montserrat-normal-black-12px">FLOOR: {{ $property->floor }}</div>
-                <div class="available-from montserrat-normal-black-12px">AVAILABLE FROM: {{ \Carbon\Carbon::parse($property->available_from)->format('M d, Y') }}</div>
-               <a href="{{ route('visitor.details', ['id' => $property->property_ID]) }}" class="update_btn-1 update_btn-2">
-                <div class="more-details">MORE DETAILS</div></a> 
-        </div>
-    @endforeach
+
+            @foreach ($properties as $property)
+            <div class="property-card">
+
+            @php
+    $propertyImage = \App\Models\PropertyImage::where('property_ID', $property->property_ID)->first();
+@endphp
+
+@if ($propertyImage)
+    <!-- Display the first image from PropertyImage model -->
+    <a href="{{ route('visitor.details', $property->property_ID) }}" class="property-image-link">
+        <img src="{{ asset('storage/' . $propertyImage->image_path) }}" alt="Property Image" class="property-image">
+        <span class="tooltip">More Details</span>
+    </a>
+@else
+    <!-- Fallback to default image if no property images exist -->
+    <a href="{{ route('visitor.details', $property->property_ID) }}" class="property-image-link">
+        <img src="{{ asset('path/to/default/image.png') }}" alt="Default Property Image" class="property-image">
+        <span class="tooltip">More Details</span>
+    </a>
+@endif
+
+
+    <div class="property-header1">
+
+    <h2 class="property-title1">{{ strtoupper($property->type) }}</h2>
+    @php
+        // Get the tenant info for the current property
+        $tenant = isset($tenants[$property->property_ID]) ? $tenants[$property->property_ID] : null;
+    @endphp
+
+    <div class="tenant-info-item1 normal-text {{ $tenant ? 'tenant-info-rented' : 'tenant-info-available' }}">
+        {{ $tenant ? 'Rented' : 'Available' }}
+    </div>
 </div>
+
+
+
+    <div class="property-details1">
+    <div class="detail-item1">
+        <strong>Rent:</strong> <span>{{ $property->rent }}tk</span>
+    </div>
+
+    <div class="detail-item1">
+        <strong>Size:</strong> <span>{{ $property->size }} sq ft</span>
+    </div>
+    <div class="detail-item1">
+        <strong>Floor:</strong> <span>{{ $property->floor }}</span>
+    </div>
+    <div class="detail-item1">
+        <strong>Bedrooms:</strong> <span>{{ $property->num_of_rooms }}</span>
+    </div>
+
+    <div class="detail-item1">
+    <strong>Address:</strong>
+    <span>
+        {{ $property->house_no }}, {{ $property->area }}, {{ $property->thana }},
+        {{ $property->city }} - {{ $property->postal_code }}
+    </span>
+</div>
+
+    <div class="detail-item1">
+        <strong>Available From:</strong> <span>{{ $property->available_from }}</span>
+    </div>
+
+</div>
+</div>
+            @endforeach
+        </div>
+
 
     </div>
   </body>

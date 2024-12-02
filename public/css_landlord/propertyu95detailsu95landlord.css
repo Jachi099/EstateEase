@@ -275,23 +275,39 @@
 }
 
 .propertyu95detailsu95landlord .overlap-group-container-1 {
-  align-items: center;
-  background-color: var(--white);
-  border: 1px solid;
-  border-color: var(--black);
-  display: flex;
-  gap: 24px;
-  height: 175px;
-  min-width: 614px;
-  padding: 0 10.1px;
+    align-items: center;
+    background-color: var(--white);
+    border: 1px solid;
+    border-color: var(--black);
+    display: flex;
+    height: 175px;
+    width: 614px; /* Fixed width for the container */
+    padding: 0 10.1px;
+    overflow-x: auto; /* Allow horizontal scrolling */
+    white-space: nowrap; /* Prevent line breaks */
+    gap: 10px; /* Adjust this value to control the gap between images */
 }
 
 .propertyu95detailsu95landlord .overlap-group1 {
-  height: 148px;
-  margin-bottom: 1.0px;
-  position: relative;
-  width: 170px;
+    height: 148px;
+    margin-bottom: 1.0px;
+    position: relative;
+    width: 170px; /* Set fixed width for each image wrapper */
+    display: inline-block;
+    border-color: var(--black);
+    border: 1px solid;
+    cursor: pointer; /* Change the cursor to pointer to indicate it's clickable */
+
+
+
 }
+
+.propertyu95detailsu95landlord .pro_pic-2 {
+    width: 100%; /* Ensure images fill the container's width */
+    height: auto; /* Maintain aspect ratio */
+}
+
+
 
 .propertyu95detailsu95landlord .pro_pic {
   height: 148px;
@@ -590,13 +606,6 @@
   height: 179px;
 }
 
-.propertyu95detailsu95landlord .pro_pic-2 {
-  background-color: var(--white);
-  border: 2px solid;
-  border-color: var(--beaver);
-  position: absolute;
-  top: 0;
-}
 
 .propertyu95detailsu95landlord .status-2 {
   background-color: var(--white);
@@ -765,4 +774,93 @@
 /* Ensuring checkboxes are spaced out correctly */
 .checkbox-column input[type="checkbox"] {
     margin-right: 5px; /* Space between checkbox and label */
+}
+
+
+
+/* Modal styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-dialog {
+    max-width: 90%;
+    max-height: 90%;
+    margin: auto;
+}
+
+.modal-content {
+    background-color: #fff;
+    border-radius: 8px;
+    position: relative;
+}
+
+.modal-header .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 2rem;
+    background: none;
+    border: none;
+    color: #333;
+    cursor: pointer;
+}
+
+.modal-body {
+    text-align: center;
+    padding: 0; /* Remove padding to make image fit */
+}
+
+.modal-body img {
+    width: 100%;  /* Make the image fill the container */
+    height: 100%; /* Make the image fill the container */
+    object-fit: cover; /* Ensure the image fills the space */
+}
+/* Default styles */
+.overlap-group16 {
+    transition: background-color 0.3s ease;
+}
+
+.pro_detail_btn {
+    transition: background-color 0.3s ease;
+}
+
+.unpaid,
+.paid {
+    transition: color 0.3s ease;
+}
+
+/* Paid status */
+.paid-status {
+    background-color: var(--mongoose);
+}
+
+.btn-paid {
+    background-color: white;
+}
+
+.paid-active {
+    color: white;
+}
+
+.unpaid-status {
+    background-color: transparent;
+}
+
+.btn-unpaid {
+    background-color: var(--mongoose);
+}
+
+.unpaid-active {
+    background-color: var(--mongoose);
+    color: white;
 }

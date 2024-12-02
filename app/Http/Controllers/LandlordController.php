@@ -189,19 +189,36 @@ public function addProperty(Request $request)
 
 public function showPropertyDetails($id)
 {
+    // Fetch the property by its ID
     $property = Property::find($id);
+
+    // If the property doesn't exist, return a 404 error
     if (!$property) {
         abort(404);
     }
 
-    $tenant = Tenant::where('property_ID', $id)->first(); // Fetch tenant info if it exists
+    // Fetch tenant information for the given property ID (if a tenant exists)
+    $tenant = Tenant::where('property_ID', $id)->first();
 
-    // Pass tenant profile picture if tenant exists
-    $profilePicture = $landlord->picture ?? null; // Assuming `picture` is a field in the landlord table
+    // Determine the payment status
+    if ($tenant) {
+        // Fetch the latest payment for the tenant
+        $latestPayment = $tenant->payments()->latest()->first();
 
-    return view('landlord.property_details', compact('property', 'tenant', 'profilePicture'));
+        // Set the payment status to 'paid' or 'unpaid' based on the latest payment status
+        $paymentStatus = $latestPayment && $latestPayment->status == 'paid' ? 'paid' : 'unpaid';
+
+        // Get the tenant's profile picture
+        $profilePicture = $tenant->picture ?? null;
+    } else {
+        // If no tenant exists, set payment status to 'unpaid' by default
+        $paymentStatus = 'unpaid';
+        $profilePicture = null;
+    }
+
+    // Pass the property, tenant, profile picture, and payment status to the view
+    return view('landlord.property_details', compact('property', 'tenant', 'profilePicture', 'paymentStatus'));
 }
-
 
 
 public function showNotifications()

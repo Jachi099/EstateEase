@@ -38,10 +38,21 @@ class Property extends Model
     {
         return $this->belongsTo(Landlord::class, 'landlord_id');
     }
+    public function propertyImages()
+{
+    return $this->hasMany(PropertyImage::class, 'property_ID', 'property_ID');
+}
+
 
     // Relationship to the PropertyImage model
     public function images()
     {
         return $this->hasMany(PropertyImage::class, 'property_ID');
     }
+    // In Property.php (Property Model)
+public function tenant()
+{
+    return $this->hasOne(Tenant::class, 'property_ID', 'property_ID');
+}
+
 }

@@ -123,6 +123,7 @@
 
 
     <div class="property-header1">
+
     <h2 class="property-title1">{{ strtoupper($property->type) }}</h2>
     @php
         // Get the tenant info for the current property
@@ -130,7 +131,7 @@
     @endphp
 
     <div class="tenant-info-item1 normal-text {{ $tenant ? 'tenant-info-rented' : 'tenant-info-available' }}">
-        {{ $tenant ? '- Rented' : '- Available' }}
+        {{ $tenant ? 'Rented' : 'Available' }}
     </div>
 </div>
 
@@ -152,12 +153,13 @@
     </div>
 
     <div class="detail-item1">
-    <strong>Address:</strong>  <span>
+    <strong>Address:</strong>
+    <span>
         {{ $property->house_no }}, {{ $property->area }}, {{ $property->thana }},
-        {{ $property->city }}
+        {{ $property->city }} - {{ $property->postal_code }}
     </span>
-
 </div>
+
     <div class="detail-item1">
         <strong>Available From:</strong> <span>{{ $property->available_from }}</span>
     </div>

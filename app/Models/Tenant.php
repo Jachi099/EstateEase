@@ -1,19 +1,16 @@
 <?php
-
 namespace App\Models;
 
-
-
-use Illuminate\Foundation\Auth\User as Authenticatable; // Update to use Authenticatable
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Tenant extends Authenticatable // Extend Authenticatable for authentication
+class Tenant extends Authenticatable
 {
-    use HasFactory, Notifiable; // Include Notifiable trait for notifications
+    use HasFactory, Notifiable;
 
-    protected $table = 'tenants'; // Make sure this matches your actual table name
-    protected $primaryKey = 'id'; // Set this to your primary key field
+    protected $table = 'tenants';
+    protected $primaryKey = 'id';
 
     protected $fillable = [
         'full_name',
@@ -24,9 +21,9 @@ class Tenant extends Authenticatable // Extend Authenticatable for authenticatio
         'account_type',
         'picture',
         'property_ID',
-        'rental_start_date', // Add this line
+        'rental_start_date',
     ];
-    
+
     // Hash the password when creating or updating the tenant
     protected static function boot()
     {
@@ -49,5 +46,11 @@ class Tenant extends Authenticatable // Extend Authenticatable for authenticatio
     public function property()
     {
         return $this->belongsTo(Property::class, 'property_ID', 'property_ID');
+    }
+
+    // Define relationship to Payments
+    public function payments()
+    {
+        return $this->hasMany(Payment::class, 'tenant_id');
     }
 }

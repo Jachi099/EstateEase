@@ -255,10 +255,9 @@
 
 
 <div class="button-column">
-            <div class="add-button-container">
-        <button type="submit" class="add-property-button">Add Property</button>
-    </div>
-    <a href="{{ route('landlord.properties_list') }}">
+        <button type="submit" class="add-button-container">Add Property</button>
+
+        <a href="{{ route('landlord.properties_list') }}">
     <div class="back-button-container">
         <button type="button" class="back-button">Go Back</button>
     </div>

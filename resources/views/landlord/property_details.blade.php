@@ -80,11 +80,22 @@
         {{ $property->rent }} tk
     </div>
                     <div class="navbar-link-payment-status">PAYMENT STATUS:</div>
-                <div class="overlap-group16">
-                  <div class="pro_detail_btn"></div>
-                  <div class="unpaid montserrat-normal-white-11px">UNPAID</div>
-                  <div class="paid montserrat-normal-mongoose-11px">PAID</div>
-                </div>
+
+
+                    <div class="overlap-group16 {{ $paymentStatus == 'paid' ? 'paid-status' : 'unpaid-status' }}">
+    <div class="pro_detail_btn {{ $paymentStatus == 'paid' ? 'btn-paid' : 'btn-unpaid' }}"></div>
+    <div class="unpaid montserrat-normal-white-11px {{ $paymentStatus == 'paid' ? '' : 'unpaid-active' }}">
+        UNPAID
+    </div>
+    <div class="paid montserrat-normal-mongoose-11px {{ $paymentStatus == 'paid' ? 'paid-active' : '' }}">
+        PAID
+    </div>
+</div>
+
+
+
+
+
                 <div class="navbar-link-rented-date">RENTED DATE:</div>
  <!-- Date Rented -->
  <div class="rented_date">
@@ -103,24 +114,23 @@
             <div class="flex-row flex">
               <div class="flex-col-2">
                 <div class="overlap-group7">
-                  <div class="images montserrat-bold-black-12px">IMAGES</div>
+                  <div class="images montserrat-bold-black-12px">IMAGES (click to view)</div>
 
-                  <div class="overlap-group-container-1" style="overflow-x: auto; white-space: nowrap;">
+                  <div class="overlap-group-container-1">
     @php
         $propertyImages = \App\Models\PropertyImage::where('property_ID', $property->property_ID)->limit(15)->get();
     @endphp
 
     @if($propertyImages->isNotEmpty())
         @foreach($propertyImages as $image)
-            <div class="overlap-group1" style="display: inline-block; margin-right: 10px;">
-                <img src="{{ asset('storage/' . $image->image_path) }}" alt="Property Image" class="pro_pic pro_pic-2" style="max-width: 200px; height: auto;">
+            <div class="overlap-group1">
+                <img src="{{ asset('storage/' . $image->image_path) }}" alt="Property Image" class="pro_pic pro_pic-2">
             </div>
         @endforeach
     @else
         <p>No images available for this property.</p>
     @endif
 </div>
-
 
 
                 </div>
@@ -163,27 +173,27 @@
                     <div class="x-information montserrat-bold-black-12px">LOCATION INFORMATION</div>
                     <div class="flex-row-2 flex-row-3">
                       <div class="flex-col-5 montserrat-normal-black-12px">
-                        <div class="division">THANA:</div>
-                        <div class="district">CITY:</div>
-                        <div class="area">AREA:</div>
-                        <div class="surname surname-2">HOUSE NO.:</div>
+                        <div class="division">HOUSE NO.:</div>
+                        <div class="district">AREA: </div>
+                        <div class="area">THANA:</div>
+                        <div class="surname surname-2">CITY:</div>
                         <div class="surname-1 surname-2">SHORT ADDRESS:</div>
                       </div>
                       <div class="flex-col-6">
                       <div class="division-1">
-    {{ $property->thana ?? 'N/A' }}
+    {{ $property->house_no ?? 'N/A' }}
 </div>
 
 <div class="flex-col-item-1 flex-col-item-3">
-    {{ $property->city ?? 'N/A' }}
+   {{ $property->area ?? 'N/A' }}
 </div>
 
 <div class="flex-col-item-1 flex-col-item-3">
-    {{ $property->area ?? 'N/A' }}
+{{ $property->thana ?? 'N/A' }}
 </div>
 
 <div class="house_no">
-    {{ $property->house_no ?? 'N/A' }}
+{{ $property->city ?? 'N/A' }}
 </div>
 
 <div class="srt_add">
@@ -191,7 +201,9 @@
     {{ $property->area ? $property->area . ', ' : '' }}
     {{ $property->thana ? $property->thana . ', ' : '' }}
     {{ $property->city ?? 'N/A' }}
+    {{ $property->postal_code ? ' - ' . $property->postal_code : '' }} <!-- Postal code part -->
 </div>
+
 
                       </div>
                     </div>
@@ -296,7 +308,15 @@
                   <div class="tenant-information montserrat-bold-black-12px">TENANT INFORMATION</div>
                   <div class="overlap-group15">
                     <div class="overlap-group10">
-                      <div class="pro_pic-1 pro_pic-2"></div>
+                     <!-- Tenant Profile Picture -->
+<div class="pro_pic-1 pro_pic-2">
+    @if($tenant && $tenant->picture)
+        <img src="{{ asset('storage/' . $tenant->picture) }}" alt="Tenant Picture" class="tenant-pic">
+    @else
+        <span>No picture available</span> <!-- Optional message if no picture -->
+    @endif
+</div>
+
                     </div>
                     <div class="flex-col-7 montserrat-normal-black-12px">
                       <div class="name">NAME:</div>
@@ -305,22 +325,112 @@
                       <div class="permanent-address">PERMANENT ADDRESS:</div>
                     </div>
                     <div class="flex-col-8">
-                      <div class="name-1"></div>
-                      <div class="flex-col-item-2 flex-col-item-3"></div>
-                      <div class="flex-col-item-2 flex-col-item-3"></div>
-                      <div class="per_add"></div>
+                    <div class="name-1">
+    @if($property->tenant)
+        <span>{{ $property->tenant->full_name }}</span>
+    @else
+        <span>No tenant yet</span>
+    @endif
+</div>
+
+<div class="flex-col-item-2 flex-col-item-3">
+    @if($property->tenant)
+        <span>{{ $property->tenant->phone_number }}</span>
+    @else
+        <span>N/A</span>
+    @endif
+</div>
+
+<div class="flex-col-item-2 flex-col-item-3">
+    @if($property->tenant)
+        <span>{{ $property->tenant->email }}</span>
+    @else
+        <span>N/A</span>
+    @endif
+</div>
+
+<div class="per_add">
+    @if($property->tenant)
+        <span>{{ $property->tenant->current_address }}</span>
+    @else
+        <span>N/A</span>
+    @endif
+</div>
+
                     </div>
                   </div>
                 </div>
               </div>
             </div>
             <div class="overlap-group-container-4">
-              <div class="overlap-group5"><div class="go-back montserrat-black-beaver-16px">GO BACK</div></div>
+            <a href="{{ route('landlord.properties_list') }}">
+            <div class="overlap-group5"><div class="go-back montserrat-black-beaver-16px">GO BACK</div></div>
+
+</a>
               <div class="overlap-group9"><div class="update montserrat-black-white-16px">UPDATE</div></div>
             </div>
+
+<!-- Modal for displaying the zoomed image -->
+<div id="imageModal" class="modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img id="zoomedImage" src="" alt="Zoomed Image" class="img-fluid" />
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
           </div>
         </div>
       </div>
     </div>
+
+
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get all property images
+        const images = document.querySelectorAll('.pro_pic-2');
+
+        // Add click event listener to each image
+        images.forEach(image => {
+            image.addEventListener('click', function() {
+                // Get the source of the clicked image
+                const imageSrc = this.src;
+
+                // Set the source of the modal's image
+                document.getElementById('zoomedImage').src = imageSrc;
+
+                // Show the modal
+                document.getElementById('imageModal').style.display = 'block';
+            });
+        });
+
+        // Close the modal when the close button is clicked
+        document.querySelector('.modal .close').addEventListener('click', function() {
+            document.getElementById('imageModal').style.display = 'none';
+        });
+
+        // Close the modal when clicking outside the modal
+        window.addEventListener('click', function(event) {
+            if (event.target === document.getElementById('imageModal')) {
+                document.getElementById('imageModal').style.display = 'none';
+            }
+        });
+    });
+</script>
+
   </body>
 </html>
