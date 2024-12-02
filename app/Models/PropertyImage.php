@@ -9,16 +9,18 @@ class PropertyImage extends Model
 {
     use HasFactory;
 
-    protected $table = 'property_images'; // Table name
-    protected $fillable = ['property_ID', 'image_path'];
+    protected $table = 'property_images'; // Adjust if the table name is different
+    protected $primaryKey = 'id'; // Adjust if the primary key is different
+    public $timestamps = true; // Set to false if the table doesn't have timestamps
 
-    // Disable automatic timestamps if not used in the table
-    public $timestamps = false;
+    protected $fillable = [
+        'property_ID',
+        'image_path',
+    ];
 
-
-    // Relationship to the Property model
+    // Define relationship with Property model (if applicable)
     public function property()
     {
-        return $this->belongsTo(Property::class, 'property_ID');
+        return $this->belongsTo(Property::class, 'property_ID', 'property_ID');
     }
 }

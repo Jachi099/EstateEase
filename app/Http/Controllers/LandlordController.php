@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Landlord;
 use App\Models\Tenant;
 use App\Models\Notification;
-use App\Models\PropertyImage;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth; // Import Auth facade
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Log;
 use App\Models\Property; // Import the Property model
 use Illuminate\Http\Request;
+use App\Models\PropertyImage;
+
 
 class LandlordController extends Controller
 {
@@ -132,10 +133,12 @@ public function storeProperty(Request $request)
     // Debugging: check incoming request data
     Log::info($request->all());
 
+    // Create the property using the validated request data
     $property = new Property($request->except('images'));
     $property->landlord_id = Auth::guard('landlord')->id();
     $property->amenities = json_encode($request->input('amenities')); // Store amenities as JSON
 
+    // Save the property
     $property->save();
 
     // Handle image uploads
@@ -151,6 +154,7 @@ public function storeProperty(Request $request)
         }
     }
 
+    // Redirect back to the properties list with a success message
     return redirect()->route('landlord.properties_list')->with('success', 'Property added successfully!');
 }
 

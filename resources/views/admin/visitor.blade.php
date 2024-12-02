@@ -10,7 +10,7 @@
     <meta name="twitter:card" content="photo" />
 
     <link rel="stylesheet" type="text/css" href="{{ asset('css/visitor.css') }}" />
-    
+
     <link rel="stylesheet" type="text/css" href="{{ asset('css/styleguide.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('css/globals.css') }}" />
   </head>
@@ -48,7 +48,7 @@
             <div class="head_pic"></div>
           </div>
           <div class="overlap-group1">
-            
+
           <a href="{{ route('admin.tenant') }}">
     <div class="tenant_btn">
         <div class="tenant tenant-1">TENANT</div>
@@ -56,62 +56,66 @@
 </a>
 
             <div class="visitor_btn"></div>
-           
+
             <div class="visitor-1">VISITOR</div>
           </div>
 
           <div class="flex-row-2 montserrat-medium-black-16px">
-                    <div class="total-properties">TOTAL VISIT REQUESTS:</div>
-                    <div class="total">{{ $visitRequests->count() }}</div>
-                    
-                  </div>
-                  
+    <div class="total-properties">PENDING VISIT REQUESTS:</div>
+    <div class="total">{{ $visitRequests->where('status', 'pending')->count() }}</div>
+</div>
+
+
           <div class="list-of-visit-requests montserrat-semi-bold-black-20px">LIST OF VISIT REQUESTS</div>
           <div class="overlap-group3">
 
           <table class="visit_req_table">
+    <thead>
+        <tr class="visit_req_list_heading">
+            <th>Visitor Name</th>
+            <th>Phone</th>
+            <th>Property Address</th>
+            <th>Visit Date</th>
+            <th>Visit Time</th>
+            <th>Status</th>
+            <th>Accept Request</th>
+            <th>Decline Request</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach($visitRequests as $request)
+            <tr>
+                <td>{{ $request->visitor->full_name ?? 'N/A' }}</td>
+                <td>{{ $request->visitor->phone_number ?? 'N/A' }}</td>
+                <td>{{ $request->property->property_ID ?? 'N/A' }}</td>
+                <td>{{ $request->visit_date }}</td>
+                <td>{{ $request->visit_time }}</td>
+                <td>{{ ucfirst($request->status) }}</td>
 
-             <thead>
-                      <tr class="visit_req_list_heading">
-                          <th>Visitor Name</th>
-                          <th>Phone</th>
-                          <th>Property Address</th>
-                          <th>Visit Date</th>
-                          <th>Visit Time</th>
-                          <th>Status</th>
-                          <th>Accept Request</th>
-                          <th>Decline Request</th>
-                      </tr>
-                  </thead>
-          <tbody>
-                      @foreach($visitRequests as $request)
-                          <tr>
-                              <td>{{ $request->visitor->full_name ?? 'N/A' }}</td>
-                              <td>{{ $request->visitor->phone_number ?? 'N/A' }}</td>
-                              <td>{{ $request->property->property_ID ?? 'N/A' }}</td>
-                              <td>{{ $request->visit_date }}</td>
-                              <td>{{ $request->visit_time }}</td>
-                              <td>{{ ucfirst($request->status) }}</td>
-                              
-                              <td>
-                                  <form action="{{ route('admin.updateRequestStatus', [$request->id, 'accepted']) }}" method="POST" class="action-form">
-                                      @csrf
-                                      @method('PATCH')
-                                      <button type="submit" class="accept-btn">Accept</button>
-                                  </form>
-                                  
-                              </td>
-                              <td>
-                                <form action="{{ route('admin.updateRequestStatus', [$request->id, 'rejected']) }}" method="POST" class="action-form">
-                                  @csrf
-                                  @method('PATCH')
-                                  <button type="submit" class="reject-btn">Reject</button>
-                              </form>
-                              </td>
-                          </tr>
-                      @endforeach
-                  </tbody>
-                  </table>
+                <td>
+                    @if($request->status !== 'rejected') <!-- Only show the Accept button if the request is not rejected -->
+                        <form action="{{ route('admin.updateRequestStatus', [$request->id, 'accepted']) }}" method="POST" class="action-form">
+                            @csrf
+                            @method('PATCH')
+                            <button type="submit" class="accept-btn">Accept</button>
+                        </form>
+                    @endif
+                </td>
+
+                <td>
+                    @if($request->status !== 'rejected') <!-- Only show the Reject button if the request is not rejected -->
+                        <form action="{{ route('admin.updateRequestStatus', [$request->id, 'rejected']) }}" method="POST" class="action-form">
+                            @csrf
+                            @method('PATCH')
+                            <button type="submit" class="reject-btn">Reject</button>
+                        </form>
+                    @endif
+                </td>
+            </tr>
+        @endforeach
+    </tbody>
+</table>
+
 
                   </div>
           <div class="list-of-potential-tenants montserrat-semi-bold-black-20px">LIST OF POTENTIAL TENANTS</div>
@@ -145,10 +149,10 @@
                                       @method('PATCH')
                                       <button type="submit" class="remove-btn">Remove</button>
                                   </form>
-                                 
+
                               </td>
                               <td>
-                                
+
                                 <!-- Change to Tenant Button -->
                                 <form action="{{ route('admin.changeToTenant', $request->id) }}" method="POST" class="action-form" style="display: inline;">
                                     @csrf

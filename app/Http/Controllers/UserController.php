@@ -441,9 +441,36 @@ public function showProperties(Request $request)
     // In PropertyController.php
     public function showPropertyDetails($id)
     {
+        // Fetch the property by its ID or fail with a 404 error if not found
         $property = Property::findOrFail($id);
-        return view('visitor.details', compact('property'));
+
+        // Get the authenticated user's profile picture (for the visitor)
+        $user = Auth::user();
+        $profilePicture = $user ? $user->picture : null; // Check if a user is authenticated
+
+        // Fetch tenant details for the given property ID
+        $tenant = Tenant::where('property_ID', $id)->first();
+
+        // Determine the payment status
+        if ($tenant) {
+            // Fetch the latest payment for the tenant
+            $latestPayment = $tenant->payments()->latest()->first();
+
+            // Set the payment status to 'paid' or 'unpaid' based on the latest payment status
+            $paymentStatus = $latestPayment && $latestPayment->status == 'paid' ? 'paid' : 'unpaid';
+
+            // Get the tenant's profile picture
+            $tenantProfilePicture = $tenant->picture ?? null;
+        } else {
+            // If no tenant exists, set payment status to 'unpaid' by default
+            $paymentStatus = 'unpaid';
+            $tenantProfilePicture = null;
+        }
+
+        // Pass the property, payment status, and profile pictures to the view
+        return view('visitor.details', compact('property', 'profilePicture', 'paymentStatus', 'tenantProfilePicture', 'tenant'));
     }
+
 
 
 }

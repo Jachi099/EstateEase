@@ -7,7 +7,10 @@
   gap: 88px;
   width: 100%;         /* Use 100% to prevent horizontal scroll issues */
   min-height: 100vh;   /* Minimum height to cover the viewport */
-  position: relative; 
+  position: relative;
+}
+.total-properties {
+    margin-right: 20px; /* Add space between the text and the count */
 }
 
 .visitor .overlap-group {
@@ -299,6 +302,8 @@
   display: flex;
   margin-top: 20px;
   min-width: 1130px;
+  margin-left: 800px;
+  font-weight: bolder;
 }
 .visitor .overlap-group2 {
   align-items: flex-start;

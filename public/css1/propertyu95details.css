@@ -5,9 +5,9 @@
   background-color: var(--white);
   display: flex;
   flex-direction: column;
-  width: 100%;  
+  width: 100%;
   height: 100%;
-  min-height: 100vh; 
+  min-height: 100vh;
   overflow-y: auto;   /* Allows vertical scrolling */
   overflow-x: hidden; /* Prevents horizontal scrolling */
 }
@@ -140,8 +140,36 @@
 .propertyu95details .overlap-group7 {
   height: 34px;
   position: relative;
-  width: 614px;
+  width: 614px; /* Fixed width for the container */
+
 }
+
+.propertyu95details .pic {
+    height: 148px;
+    margin-bottom: 1.0px;
+    position: relative;
+    width: 170px; /* Set fixed width for each image wrapper */
+    display: inline-block;
+    border-color: var(--black);
+    border: 1px solid;
+    cursor: pointer; /* Change the cursor to pointer to indicate it's clickable */
+
+
+
+}
+.propertyu95details .pro_pic-12 {
+    width: 100%; /* Ensure images fill the container's width */
+    height: auto; /* Maintain aspect ratio */
+}
+
+
+
+.propertyu95details .pro_pic1 {
+  height: 148px;
+  left: 11px;
+  width: 170px;
+}
+
 
 .propertyu95details .overlap-group4 {
   height: 34px;
@@ -181,6 +209,22 @@
   min-width: 614px;
   padding: 12px 20px;
 }
+.propertyu95details .overlap-group-container-12
+{
+    align-items: flex-start;
+    background-color: var(--white);
+    border: 1px solid;
+    border-color: var(--black);
+    display: flex;
+    height: 177px;
+    padding: 12px 20px;
+
+    align-items: center;
+    width: 614px; /* Fixed width for the container */
+    overflow-x: auto; /* Allow horizontal scrolling */
+    white-space: nowrap; /* Prevent line breaks */
+    gap: 10px;
+  }
 
 .propertyu95details .pro_pic {
   background-color: var(--white);
@@ -260,7 +304,7 @@
   border: 1px solid;
   border-color: var(--black);
   gap: 27px;
-  min-height: 259px;
+ height: 190px;
   padding: 14px 0;
   width: 447px;
 }
@@ -297,13 +341,13 @@
   border: 2px solid;
   border-color: var(--beaver);
   height: 100px;
-  margin-top: 8px;
+  margin-top: -20px;
   width: 87px;
 }
 
 .propertyu95details .flex-col-5 {
   align-items: flex-start;
-  min-height: 158px;
+  height: 100px;
   width: 277px;
 }
 
@@ -311,6 +355,8 @@
   align-items: flex-start;
   display: flex;
   gap: 33px;
+  margin-top: -20px;
+
   min-width: 277px;
 }
 
@@ -334,7 +380,7 @@
   align-items: flex-start;
   display: flex;
   gap: 34px;
-  margin-top: 19px;
+  margin-top: 10px;
   min-width: 277px;
 }
 
@@ -350,7 +396,7 @@
   align-items: center;
   display: flex;
   gap: 45px;
-  margin-top: 19px;
+  margin-top: 10px;
   min-width: 277px;
 }
 
@@ -366,7 +412,7 @@
   align-items: flex-start;
   display: flex;
   gap: 7px;
-  margin-top: 20px;
+  margin-top: 10px;
   min-width: 277px;
 }
 
@@ -424,33 +470,29 @@
 }
 
 .propertyu95details .visit-container {
-  align-self: flex-end;
-  border-radius: 10px;
-  height: 34px;
-  position: relative;
-  width: 329px;
-}
+    align-self: flex-end;
+    border-radius: 10px;
+    height: 34px;
+    width: 329px;
 
-.propertyu95details .visit_req_btn {
-  background-color: var(--mongoose);
-  border-radius: 10px;
-  box-shadow: 0px 4px 4px #00000040;
-  cursor: pointer;
-  height: 34px;
-  left: 0;
-  position: absolute;
-  top: 0;
-  width: 329px;
-}
+    background-color: var(--mongoose);
+    box-shadow: 0px 4px 4px #00000040;
+    cursor: pointer;
 
-.propertyu95details .visit-request {
-  left: 102px;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  top: 4px;
-  width: 153px;
-}
+    display: flex; /* Enable flexbox */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+
+    font-family: "Montserrat", sans-serif; /* Ensure font matches */
+    font-weight: 900; /* Match "black" weight */
+    font-size: 16px;
+    color: var(--white); /* Assuming text is white */
+    text-transform: uppercase; /* Ensures "VISIT REQUEST" is in uppercase */
+  }
+
+
+
+
 
 .propertyu95details .flex-col-6 {
   display: flex;
@@ -465,4 +507,151 @@
 .propertyu95details .overlap-group-container-3 {
   align-items: flex-start;
   display: flex;
+}
+
+.checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Adds spacing between columns */
+    padding: 10px; /* Adds inner spacing for the group */
+    background-color: var(--white);
+    border: 1px solid var(--black);
+    box-sizing: border-box; /* Ensures padding is included in total width/height */
+}
+
+/* Ensure each column evenly divides the available space */
+.checkbox-column {
+    width: calc(100% / 3 - 10px); /* Create 3 equal columns, subtracting the gap for spacing */
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box; /* Include padding and border in the size */
+}
+
+/* Each checkbox item in the column */
+.checkbox-column div {
+    display: flex;
+    align-items: center; /* Align items vertically */
+    margin-bottom: 8px; /* Space between checkboxes */
+    overflow: hidden; /* Prevent overflowing content */
+    text-overflow: ellipsis; /* Show ellipsis for long text */
+}
+
+/* Style for checkbox input */
+.checkbox-column input[type="checkbox"] {
+    margin-right: 5px; /* Space between checkbox and label */
+    flex-shrink: 0; /* Prevent checkbox from shrinking */
+}
+
+/* Disabled checkbox styles */
+.checkbox-column input[type="checkbox"]:disabled {
+    background-color: #000 !important; /* Dark black background */
+    border: 2px solid #000 !important; /* Dark black border */
+    color: #fff !important; /* White text (checkmark) */
+    cursor: not-allowed;
+    opacity: 1;
+}
+
+/* Disabled checkbox when checked */
+.checkbox-column input[type="checkbox"]:disabled:checked {
+    background-color: #000 !important; /* Dark black when checked */
+    border-color: #000 !important; /* Dark border when checked */
+    color: #fff !important; /* White checkmark */
+}
+
+/* Style for labels */
+.checkbox-column label {
+    color: #000; /* Dark black text color */
+    font-size: 14px; /* Adjust label font size */
+    font-weight: normal; /* Adjust font weight */
+    flex-grow: 1; /* Allow labels to grow if needed */
+    overflow: hidden; /* Prevent text overflow */
+    white-space: nowrap; /* Prevent labels from wrapping */
+    text-overflow: ellipsis; /* Show ellipsis for overflowing text */
+}
+
+/* Modal styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-dialog {
+    max-width: 90%;
+    max-height: 90%;
+    margin: auto;
+}
+
+.modal-content {
+    background-color: #fff;
+    border-radius: 8px;
+    position: relative;
+}
+
+.modal-header .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 2rem;
+    background: none;
+    border: none;
+    color: #333;
+    cursor: pointer;
+}
+
+.modal-body {
+    text-align: center;
+    padding: 0; /* Remove padding to make image fit */
+}
+
+.modal-body img {
+    width: 100%;  /* Make the image fill the container */
+    height: 100%; /* Make the image fill the container */
+    object-fit: cover; /* Ensure the image fills the space */
+}
+/* Default styles */
+.overlap-group16 {
+    transition: background-color 0.3s ease;
+}
+
+.pro_detail_btn {
+    transition: background-color 0.3s ease;
+}
+
+.unpaid,
+.paid {
+    transition: color 0.3s ease;
+}
+
+/* Paid status */
+.paid-status {
+    background-color: var(--mongoose);
+}
+
+.btn-paid {
+    background-color: white;
+}
+
+.paid-active {
+    color: white;
+}
+
+.unpaid-status {
+    background-color: transparent;
+}
+
+.btn-unpaid {
+    background-color: var(--mongoose);
+}
+
+.unpaid-active {
+    background-color: var(--mongoose);
+    color: white;
 }

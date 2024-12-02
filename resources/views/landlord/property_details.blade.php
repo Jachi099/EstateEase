@@ -105,7 +105,8 @@
         @else
             <span>Not Rented</span>
         @endif
-    </div>                <div class="property-details-page">
+    </div>
+    <div class="property-details-page">
 
 </div>
 
