@@ -103,15 +103,16 @@ public function storeProperty(Request $request)
         'area' => 'required|string|max:255',
         'thana' => 'required|string|max:255',
         'city' => 'required|string|max:255',
+        'postal_code' => 'required|string|max:10', // Validate postal code
         'type' => 'required|string|max:255',
-        'size' => 'required|numeric',
+        'size' => 'required|numeric|min:0', // Prevent negative sizes
         'amenities' => 'nullable|array',
         'num_of_rooms' => 'required|integer|min:0', // Prevent negative numbers
         'num_of_bathrooms' => 'required|integer|min:0', // Prevent negative numbers
         'num_of_balcony' => 'nullable|integer|min:0', // Prevent negative numbers
         'floor' => 'nullable|string|max:255',
         'rent' => 'required|numeric|min:0', // Prevent negative rent
-        'available_from' => 'nullable|date',
+        'available_from' => 'nullable|date|after:today', // Ensure it's a future date if provided
         'images' => 'required|array|min:3|max:15',
         'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
     ], [
@@ -122,6 +123,10 @@ public function storeProperty(Request $request)
         'num_of_bathrooms.min' => 'Number of bathrooms cannot be negative.',
         'num_of_balcony.min' => 'Number of balconies cannot be negative.',
         'rent.min' => 'Rent cannot be negative.',
+        'size.min' => 'Size cannot be negative.',
+        'postal_code.required' => 'Postal code is required.',
+        'postal_code.max' => 'Postal code cannot exceed 10 characters.',
+        'available_from.after' => 'The available date must be a future date.',
     ]);
 
     // Debugging: check incoming request data
@@ -148,8 +153,6 @@ public function storeProperty(Request $request)
 
     return redirect()->route('landlord.properties_list')->with('success', 'Property added successfully!');
 }
-
-
 
 
 

@@ -68,61 +68,73 @@
               <div class="flex-row-1">
 
 
-                <h1 class="estate-ease_logo lexendzetta-medium-beaver-25px">ADD Property</h1>
+                <h1 class="estate-ease_logo lexendzetta-medium-beaver-25px">ADD PROPERTY</h1>
             </div>
             </div>
           </div>
 
-
-<form action="{{ route('landlord.store_property') }}" method="POST" enctype="multipart/form-data">
+          <form action="{{ route('landlord.store_property') }}" method="POST" enctype="multipart/form-data">
     @csrf
 
     <div class="form-container">
         <div class="left-side">
             <div class="form-group">
-    <label for="house_no">House no</label>
-    <input type="text" name="house_no" class="name_txtbox form-control" id="house_no" required>
-</div>
-
-<div class="form-group">
-    <label for="area">Area</label>
-    <input type="text" name="area" class="name_txtbox form-control" id="area" required>
-</div>
-
-<div class="form-group">
-    <label for="thana">Thana</label>
-    <input type="text" name="thana" class="name_txtbox form-control" id="thana" required>
-</div>
-
-<div class="form-group">
-    <label for="city">City</label>
-    <input type="text" name="city" class="name_txtbox form-control" id="city" required>
-</div>
-
-
-<div class="form-group">
-    <label for="type">Property Type</label>
-    <select name="type" id="type" class="name_txtbox form-control" required>
-        <option value="">Select Property Type</option>
-        <option value="apartment">Apartment</option>
-        <option value="house">House</option>
-        <option value="duplex">Duplex</option>
-        <option value="condo">Condo</option>
-        <option value="villa">Villa</option>
-        <option value="flat">Flat</option>
-        <option value="office_space">Office Space</option>
-    </select>
-</div>
-
-<div class="form-group">
-    <label for="size">Size (in sqft)</label>
-    <input type="number" name="size" id="size" class="name_txtbox form-control" step="0.01" required>
-</div>
-
+                <label for="house_no">House No</label>
+                <input type="text" name="house_no" class="name_txtbox form-control" id="house_no"
+                       placeholder="e.g., KA-50/8C" required>
+            </div>
 
             <div class="form-group">
-    <label>Amenities</label><br>
-        </div>
+                <label for="area">Area</label>
+                <input type="text" name="area" class="name_txtbox form-control" id="area"
+                       placeholder="e.g., Kalachandpur" required>
+            </div>
+
+            <div class="form-group">
+                <label for="thana">Thana</label>
+                <input type="text" name="thana" class="name_txtbox form-control" id="thana"
+                       placeholder="e.g., Gulshan" required>
+            </div>
+
+            <div class="form-group">
+                <label for="city">City</label>
+                <input type="text" name="city" class="name_txtbox form-control" id="city"
+                       placeholder="e.g., Dhaka" required>
+            </div>
+
+            <div class="form-group">
+                <label for="postal_code">Postal Code</label>
+                <input type="text" name="postal_code" class="name_txtbox form-control" id="postal_code"
+                       pattern="\d{4}" title="Please enter a valid 4-digit postal code"
+                       placeholder="e.g., 1212" required>
+            </div>
+
+            <div class="form-group">
+                <label for="type">Property Type</label>
+                <select name="type" id="type" class="name_txtbox form-control" required>
+                    <option value="" disabled selected>Select Property Type</option>
+                    <option value="apartment">Apartment</option>
+                    <option value="house">House</option>
+                    <option value="duplex">Duplex</option>
+                    <option value="condo">Condo</option>
+                    <option value="villa">Villa</option>
+                    <option value="flat">Flat</option>
+                    <option value="office_space">Office Space</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="size">Size (in sqft)</label>
+                <input type="number" name="size" id="size" class="name_txtbox form-control"
+                       placeholder="e.g., 1000" step="0.01" min="0" required>
+            </div>
+
+            <div class="form-group">
+                <label>Amenities</label><br>
+                <small>Select applicable amenities for the property.</small>
+            </div>
+
+
     <div class="form-group1">
 
     <div class="checkbox-group">
@@ -192,44 +204,51 @@
         </div>
     </div>
 </div>
-
-
-
-
-
         </div>
 
         <div class="right-side">
 
-        <div class="form-group">
-    <label for="num_of_rooms">Number of Bedrooms</label>
-    <input type="number" name="num_of_rooms" class="name_txtbox form-control" id="num_of_rooms" required min="0">
+
+            <div class="form-group">
+                <label for="num_of_rooms">Number of Bedrooms</label>
+                <input type="number" name="num_of_rooms" class="name_txtbox form-control"
+                       id="num_of_rooms" placeholder="e.g., 2" required min="0">
+            </div>
+
+            <div class="form-group">
+                <label for="num_of_bathrooms">Number of Bathrooms</label>
+                <input type="number" name="num_of_bathrooms" class="name_txtbox form-control"
+                       id="num_of_bathrooms" placeholder="e.g., 2" required min="0">
+            </div>
+
+            <div class="form-group">
+                <label for="num_of_balcony">Number of Balconies</label>
+                <input type="number" name="num_of_balcony" class="name_txtbox form-control"
+                       id="num_of_balcony" placeholder="e.g., 2" required min="0">
+            </div>
+
+            <div class="form-group">
+                <label for="floor">Floor</label>
+                <input type="text" name="floor" id="floor" class="name_txtbox form-control"
+                       placeholder="e.g., 4">
+            </div>
+
+            <div class="form-group">
+                <label for="rent">Rent</label>
+                <input type="number" name="rent" id="rent" class="name_txtbox form-control"
+                       placeholder="e.g., 20000" required min="0">
+            </div>
+            <div class="form-group">
+    <label for="available_from">Available From</label>
+    <input type="date" name="available_from" id="available_from" class="name_txtbox form-control"
+           placeholder="Select a date" min="{{ \Carbon\Carbon::tomorrow()->toDateString() }}">
 </div>
 
-<div class="form-group">
-    <label for="num_of_bathrooms">Number of Bathrooms</label>
-    <input type="number" name="num_of_bathrooms" class="name_txtbox form-control" id="num_of_bathrooms" required min="0">
-</div>
-
-<div class="form-group">
-    <label for="num_of_balcony">Number of Balconies</label>
-    <input type="number" name="num_of_balcony" class="name_txtbox form-control" id="num_of_balcony" required min="0">
-</div>
-
-<div class="form-group">
-    <label for="floor">Floor</label>
-    <input type="text" name="floor" id="floor" class="name_txtbox form-control">
-</div>
-
-<div class="form-group">
-    <label for="rent">Rent</label>
-    <input type="number" name="rent" id="rent" class="name_txtbox form-control" required min="0">
-</div>
-
-<div class="form-group">
-    <label for="images">Upload Images</label>
-    <input type="file" name="images[]" id="images" multiple class="form-control" accept="image/*" required>
-    <small>You can select multiple images by holding the Ctrl (Cmd on Mac) key while selecting files. Limited to 3 pictures only.</small>
+            <div class="form-group">
+                <label for="images">Upload Images(Minimum 3)</label>
+                <input type="file" name="images[]" id="images" multiple class="form-control"
+                       accept="image/*" required>
+                <small>You can select multiple images by holding the Ctrl (Cmd on Mac) key while selecting files.</small>
 </div>
 
 

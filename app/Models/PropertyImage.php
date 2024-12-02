@@ -12,6 +12,9 @@ class PropertyImage extends Model
     protected $table = 'property_images'; // Table name
     protected $fillable = ['property_ID', 'image_path'];
 
+    // Disable automatic timestamps if not used in the table
+    public $timestamps = false;
+
     // Relationship to the Property model
     public function property()
     {

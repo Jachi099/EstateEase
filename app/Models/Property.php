@@ -12,13 +12,14 @@ class Property extends Model
     protected $table = 'property';
     protected $primaryKey = 'property_ID';
 
-    public $timestamps = false;
+    public $timestamps = false; // Disable automatic timestamps
 
     protected $fillable = [
         'house_no',
         'area',
         'thana',
         'city',
+        'postal_code', // Add postal_code
         'type',
         'size',
         'amenities',
@@ -29,7 +30,7 @@ class Property extends Model
         'landlord_id',
         'floor',
         'available_from',
-        'num_of_balcony'
+        'num_of_balcony',
     ];
 
     // Relationship to the Landlord model
