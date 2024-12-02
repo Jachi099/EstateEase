@@ -24,19 +24,30 @@ class Tenant extends Authenticatable
         'rental_start_date',
     ];
 
+    // Disable password hashing logic using an internal flag (without it being a database column)
+    private $disablePasswordHashing = false;
+
+    // Accessor to set disablePasswordHashing dynamically (not a database field)
+    public function setDisablePasswordHashing($value)
+    {
+        $this->disablePasswordHashing = $value;
+    }
+
     // Hash the password when creating or updating the tenant
     protected static function boot()
     {
         parent::boot();
 
         static::creating(function ($tenant) {
-            if ($tenant->isDirty('password')) {
+            // Only hash password if flag is not set
+            if (!$tenant->disablePasswordHashing && $tenant->isDirty('password')) {
                 $tenant->password = bcrypt($tenant->password);
             }
         });
 
         static::updating(function ($tenant) {
-            if ($tenant->isDirty('password')) {
+            // Only hash password if flag is not set
+            if (!$tenant->disablePasswordHashing && $tenant->isDirty('password')) {
                 $tenant->password = bcrypt($tenant->password);
             }
         });
