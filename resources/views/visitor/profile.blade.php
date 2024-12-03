@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css1/visitoru95dashboard.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('css1/styleguide.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('css1/globals.css') }}" />
-   
+
   </head>
   <body style="margin: 0; background: #ffffff">
     <input type="hidden" id="anPageName" name="page" value="visitoru95dashboard" />
@@ -24,7 +24,7 @@
 
             <form id="logout-form" action="{{ route('user.logout') }}" method="POST" style="display: inline;">
     @csrf
-    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" 
+    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
     class="logout_btn" style="cursor: pointer;">
         LOGOUT
     </a>
@@ -40,17 +40,17 @@
                     <div class="visit-requested-properties">VISIT REQUESTED PROPERTIES</div>
                 </div>
             </a>
-           
-        
-   
+
+
+
                 <div class="navbar-link-container">
                   <div class="navbar-link-estate-ease_logo montserrat-semi-bold-beaver-18px">EstateEase</div>
                   <a href="{{ route('visitor.user_home') }}"><div class="navbar-link-place navbar-link montserrat-normal-black-16px">Home</div> </a
             > <a href="{{ route('visitor.user_home') }}"><div class="navbar-link-about navbar-link montserrat-normal-black-16px">About</div> </a
             >  <a href="{{ route('visitor.property_list') }}"><div class="navbar-link-properties montserrat-normal-black-16px">Properties</div> </a
-              > 
-            
-            
+              >
+
+
               <a href="{{ route('visitor.profile') }}"><div class="head_pic">
                   @if($profilePicture)
                       <img src="{{ asset('storage/' . $profilePicture) }}" alt="User Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
@@ -58,7 +58,7 @@
                       <img src="path/to/default/image.png" alt="Default Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
                   @endif
               </div>
-              
+
           </a>
             <div class="estate-ease_logo-1 estate-ease_logo-4 lexendzetta-extra-bold-white-15px">VISITOR DASHBOARD</div>
           </div>
@@ -68,7 +68,7 @@
               <a href="{{ route('visitor.edit_profile') }}">
                 <img class="edit" src="{{ asset('img/edit.svg') }}" alt="edit" />
             </a>
-            
+
             <img class="trash-2" src="{{ asset('img/trash-2.svg') }}" alt="trash-2" />
 
             </div>

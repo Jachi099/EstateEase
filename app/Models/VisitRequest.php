@@ -5,8 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use Carbon\Carbon;
+
+
 class VisitRequest extends Model
 {
+    protected $casts = [
+        'visit_date' => 'date', // This will automatically cast 'visit_date' to a Carbon instance
+    ];
+
     protected $fillable = [
         'user_id',
         'property_id',

@@ -175,14 +175,42 @@
   padding: 1rem;
   overflow-y: auto;
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* Display 4 items per row */
+  grid-template-columns: repeat(3, 1fr); /* Display 4 items per row */
   gap: 1rem;
 }
 
-.status {
-    margin-top: 10px;
-    font-weight: bold;
+.pro_card1 {
+  background-color: var(--white);
+  border: 3px solid;
+  border-color: var(--mongoose);
+  height: 177px;
+  left: 15px;
+  position: absolute;
+  top: 13px;
+  width: 312px;
 }
+
+.status {
+    background-color: var(--white);
+    border: 2px solid;
+    border-color: var(--mongoose);
+    border-radius: 20px 20px 0px 0px;
+    height: 20px;
+    left: 15px;
+    position: absolute;
+    top: 35px;
+    transform: rotate(-40.48deg);
+    width: 100px;
+    margin-top: -20px;
+    margin-left: -35px;
+    font-weight: bold;
+    font-size: 20px;
+    display: flex;                /* Enable flexbox */
+    justify-content: center;      /* Horizontal centering */
+    align-items: center;          /* Vertical centering */
+    text-align: center;           /* Ensure text is centered */
+}
+
 
 .status-accepted {
     color: green;
@@ -197,31 +225,54 @@
 }
 
 .visitu95property .visit-requested-date {
-  left: 161px;
-  top: 88px;
+  left: 151px;
+  top: 90px;
+  font-weight: bolder;
+  color: var(--mongoose);
+
+
 }
 
+.visitu95property .property-address {
+    left: 151px;
+    top: 15px;
+    font-weight: bolder;
+    color: var(--mongoose);
+  }
 .visitu95property .pro_pic {
   background-color: var(--white);
   border: 2px solid;
   border-color: var(--beaver);
   height: 148px;
-  left: 26px;
+  left: 10px;
   position: absolute;
-  top: 26px;
+  top: 10px;
   width: 128px;
 }
+
+.visitu95property .visit_date {
+    background-color: var(--white);
+    border: 1px solid;
+    border-color: var(--cloud);
+    height: px;
+    left: 150px;
+    position: absolute;
+    top: 115px;
+    width: 153px;
+  }
+
 
 .visitu95property .pro_add {
   background-color: var(--white);
   border: 1px solid;
   border-color: var(--cloud);
-  height: 37px;
-  left: 163px;
+  height: 50px;
+  left: 150px;
   position: absolute;
-  top: 45px;
+  top: 35px;
   width: 153px;
 }
+
 
 .visitu95property .pro_detail_btn {
   background-color: var(--mongoose);
@@ -229,10 +280,21 @@
   box-shadow: 0px 4px 4px #00000040;
   cursor: pointer;
   height: 21px;
-  left: 163px;
+  left: 153px;
   position: absolute;
   top: 145px;
-  width: 153px;
+  width: 145px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--white);
+  font-family: var(--font-family-montserrat);
+  font-size: var(--font-size-xs);
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: normal;
+  white-space: nowrap;
+  font-weight: bolder;
 }
 
 .visitu95property .estate-ease_logo-3 {

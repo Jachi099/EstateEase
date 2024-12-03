@@ -29,6 +29,12 @@ Route::post('/signup', [UserController::class, 'signupSubmit'])->name('user.sign
 Route::get('/login', [UserController::class, 'showLoginForm'])->name('user.login');
 Route::post('/login', [UserController::class, 'login'])->name('user.login.submit');
 
+
+Route::get('/user/properties', [UserController::class, 'properties'])->name('user.properties');
+Route::get('/user/service', [UserController::class, 'service'])->name('user.service');
+
+Route::get('/user/properties/filter', [UserController::class, 'filterPropertiesUser'])->name('user.filter');
+Route::get('/user/properties/details/{id}', [UserController::class, 'showPropertyDetailsUser'])->name('user.details');
 // Protected Routes for All Authenticated Users
 Route::middleware(['auth:landlord'])->group(function () {
     Route::get('/landlord/home', [UserController::class, 'landlordHome'])->name('landlord.user_home');
@@ -85,8 +91,10 @@ Route::middleware(['auth:visitor'])->group(function () {
     Route::get('/visitor/edit-profile', [UserController::class, 'editProfile'])->name('visitor.edit_profile');
     Route::post('/visit-requests', [VisitRequestController::class, 'store'])->middleware('auth'); // Ensure only authenticated users can book visits
     Route::post('/visit/request', [UserController::class, 'requestVisit'])->name('visit.request');
-    Route::get('/visit-requests/booked-dates/{propertyId}', [VisitRequestController::class, 'getBookedDates']);
+// web.php (routes file)
+Route::get('/booked-property-details/{property_id}', [UserController::class, 'showBookedPropertyDetails'])->name('visitor.bookedproperty_details');
 
+Route::post('/visit-request/cancel/{property_id}', [UserController::class, 'cancelVisitRequest'])->name('visitor.cancelVisitRequest');
 
 
     Route::get('/visitor/properties', [UserController::class, 'showProperties'])->name('visitor.property_list');
@@ -119,8 +127,7 @@ Route::middleware(['auth:visitor'])->group(function () {
 
 
     });
-        Route::get('/user/properties', [UserController::class, 'properties'])->name('user.properties');
-        Route::get('/user/service', [UserController::class, 'service'])->name('user.service');
+
 
 
     // Property-related routes

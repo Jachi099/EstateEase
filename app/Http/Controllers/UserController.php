@@ -132,10 +132,40 @@ class UserController extends Controller
 
 
     // Method to display the properties page
-    public function properties()
-    {
-        return view('user.properties'); // Ensure this path matches your view file
+    public function properties(Request $request)
+{
+    $query = Property::query(); // Start with the Property model
+
+    // Handle filtering by location
+    if ($request->has('location') && $request->location != '') {
+        $query->where('thana', $request->location);
     }
+
+    // Handle filtering by rent range
+    if ($request->has('rent_range') && $request->rent_range != '') {
+        $rentRange = explode('-', $request->rent_range);
+        $query->whereBetween('rent', $rentRange);
+    }
+
+    // Handle sorting
+    if ($request->has('sort')) {
+        $sort = $request->sort;
+        if ($sort == 'rent_asc') {
+            $query->orderBy('rent', 'asc');
+        } elseif ($sort == 'rent_desc') {
+            $query->orderBy('rent', 'desc');
+        } elseif ($sort == 'type') {
+            $query->orderBy('type', 'asc');
+        } elseif ($sort == 'availability') {
+            $query->orderBy('available_from', 'asc');
+        }
+    }
+
+    // Fetch the properties based on the query
+    $properties = $query->get();
+
+    return view('user.properties', compact('properties'));
+}
 
     // Method to display the service page
     public function service()
@@ -472,15 +502,15 @@ public function filterProperties(Request $request)
     }
 
 
-
     public function visitRequestedProperties(Request $request)
     {
         // Get the authenticated user
         $user = Auth::user();
 
-        // Fetch properties where the visitor has requested a visit
+        // Fetch properties where the visitor has requested a visit, sorted by the latest visit date
         $properties = Property::whereHas('visitRequests', function ($query) use ($request) {
-            $query->where('user_id', $request->user()->id); // Use 'user_id' instead of 'visitor_id'
+            $query->where('user_id', $request->user()->id)  // Use 'user_id' instead of 'visitor_id'
+                  ->orderBy('visit_date', 'desc'); // Sort visit requests by the latest visit date
         })
         ->with('visitRequests') // Include visitRequests to get the date and other related data
         ->get();
@@ -493,11 +523,66 @@ public function filterProperties(Request $request)
 
 
 
+// UserController.php
+public function showBookedPropertyDetails($property_id)
+{
+    $user = Auth::user();
+
+    // Fetch the property with the provided property ID
+    $property = Property::findOrFail($property_id); // Fetch property
+
+    // Fetch the visit request for this property and the current authenticated user
+    $visitRequest = $property->visitRequests()->where('user_id', $user->id)->first();
+
+    // Initialize tenant as null
+    $tenant = Tenant::where('property_ID', $property_id)->first();
+
+    // Determine the payment status
+    if ($tenant) {
+        // Fetch the latest payment for the tenant
+        $latestPayment = $tenant->payments()->latest()->first();
+
+        // Set the payment status to 'paid' or 'unpaid' based on the latest payment status
+        $paymentStatus = $latestPayment && $latestPayment->status == 'paid' ? 'paid' : 'unpaid';
+
+        // Get the tenant's profile picture
+        $profilePicture = $user->picture ?? null;
+    } else {
+        // If no tenant exists, set payment status to 'unpaid' by default
+        $paymentStatus = 'unpaid';
+        $profilePicture = null;
+    }
+
+    // Pass the property, visitRequest, tenant, profile picture, and payment status to the view
+    return view('visitor.bookedproperty_details', compact('property', 'visitRequest', 'profilePicture', 'paymentStatus', 'tenant'));
+}
 
 
 
+public function cancelVisitRequest($property_id)
+{
+    $user = Auth::user();
 
+    // Fetch the property with the provided property ID
+    $property = Property::findOrFail($property_id);
 
+    // Fetch the visit request for this property and the current authenticated user
+    $visitRequest = $property->visitRequests()->where('user_id', $user->id)->first();
+
+    // Check if the visit request exists and its status is 'pending'
+    if ($visitRequest && $visitRequest->status == 'pending') {
+        // Update the status to 'canceled'
+        $visitRequest->update(['status' => 'canceled']);
+
+        // Optionally, you can redirect with a success message
+        return redirect()->route('visitor.bookedproperty_details', $property_id)
+                         ->with('success', 'Visit request has been canceled.');
+    }
+
+    // If the request is not pending, redirect with an error message
+    return redirect()->route('visitor.bookedproperty_details', $property_id)
+                     ->with('error', 'You can only cancel a pending visit request.');
+}
 
 
 

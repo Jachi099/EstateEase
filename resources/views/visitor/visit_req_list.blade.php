@@ -66,22 +66,31 @@
               <h1 class="estate-ease_logo-2 estate-ease_logo-3 lexendzetta-medium-beaver-25px">
                 VISIT REQUESTED PROPERTIES STATUS
               </h1>
-              <div class="sort-by montserrat-medium-black-16px">SORT BY</div>
-              <div class="sort"></div>
+             <!--  <div class="sort-by montserrat-medium-black-16px">SORT BY</div>
+              <div class="sort"></div> -->
             </div>
             @foreach ($properties as $property)
     <div class="overlap-group2">
         <!-- Property Card -->
-        <div class="pro_card">
+        <div class="pro_card1">
             <!-- Property Picture -->
-            <div class="pro_pic">
-                <!-- Assuming the property has images associated with it -->
-                @if($property->propertyImages->isNotEmpty())
-                    <img src="{{ asset('storage/property_images/' . $property->propertyImages->first()->image_path) }}" alt="Property Image" class="property-image">
-                @else
-                    <img src="{{ asset('images/default-property.jpg') }}" alt="No Image" class="property-image">
-                @endif
-            </div>
+            @php
+    $propertyImage = \App\Models\PropertyImage::where('property_ID', $property->property_ID)->first();
+@endphp
+
+@if ($propertyImage)
+    <!-- Display the first image from PropertyImage model -->
+
+        <img src="{{ asset('storage/' . $propertyImage->image_path) }}" alt="Property Image" class="pro_pic">
+
+@else
+    <!-- Fallback to default image if no property images exist -->
+
+        <img src="{{ asset('path/to/default/image.png') }}" alt="Default Property Image" class="pro_pic">
+
+@endif
+
+
             <div class="visit_date">
                 @foreach ($property->visitRequests as $visitRequest)
                     @if ($visitRequest->user_id == auth()->user()->id)
@@ -110,7 +119,7 @@
                     @if ($visitRequest->user_id == auth()->user()->id)
                         <div class="visit-status {{ $visitRequest->status }}">
                             <!-- Display status: Accepted, Rejected, or Pending -->
-                            Status:
+
                             @if($visitRequest->status == 'accepted')
                                 <span class="status-accepted">Accepted</span>
                             @elseif($visitRequest->status == 'rejected')
@@ -125,10 +134,11 @@
 
             <!-- View Details Button -->
             <a href="{{ route('visitor.bookedproperty_details', ['property_id' => $property->property_ID]) }}">
-                <div class="pro_detail_btn">
-                    <div class="details">DETAILS</div>
-                </div>
-            </a>
+    <div class="pro_detail_btn">
+        DETAILS
+    </div>
+</a>
+
         </div>
     </div>
 @endforeach
