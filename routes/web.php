@@ -10,6 +10,7 @@ use App\Http\Controllers\VisitRequestController;
 use App\Http\Controllers\ServiceProviderController;
 use App\Http\Controllers\TenantController;
 use App\Http\Controllers\PaymentController;
+use App\Models\Tenant; // Ensure you have created this model
 
 
 /*
@@ -59,6 +60,10 @@ Route::middleware(['auth:tenant'])->group(function () {
     Route::get('/tenant/rented-properties', [TenantController::class, 'showPropertiesList'])->name('tenant.rented_properties_list');
     Route::get('/tenant/service', [TenantController::class, 'showServiceRequests'])->name('tenant.service');
 
+    Route::get('/check-tenant/{propertyId}', function ($propertyId) {
+        $hasTenant = Tenant::where('property_ID', $propertyId)->exists();
+        return response()->json(['hasTenant' => $hasTenant]);
+    });
 
     // Store payment for a tenant
 Route::post('/tenant/{tenantId}/payment', [PaymentController::class, 'storePayment'])->name('payment.store');
@@ -76,8 +81,8 @@ Route::get('/tenant/{tenantId}/payments', [PaymentController::class, 'showPaymen
 
 Route::middleware(['auth:visitor'])->group(function () {
     Route::get('/visitor/home', [UserController::class, 'visitorHome'])->name('visitor.user_home');
-    Route::get('/user/profile', [UserController::class, 'profile'])->name('visitor.profile');
-    Route::get('/user/edit-profile', [UserController::class, 'editProfile'])->name('visitor.edit_profile');
+    Route::get('/visitor/profile', [UserController::class, 'profile'])->name('visitor.profile');
+    Route::get('/visitor/edit-profile', [UserController::class, 'editProfile'])->name('visitor.edit_profile');
     Route::post('/visit-requests', [VisitRequestController::class, 'store'])->middleware('auth'); // Ensure only authenticated users can book visits
     Route::post('/visit/request', [UserController::class, 'requestVisit'])->name('visit.request');
     Route::get('/visit-requests/booked-dates/{propertyId}', [VisitRequestController::class, 'getBookedDates']);
@@ -89,10 +94,30 @@ Route::middleware(['auth:visitor'])->group(function () {
         Route::get('/visitor/properties/filter', [UserController::class, 'filterProperties'])->name('visitor.filter');
         Route::get('/visitor/properties/details/{id}', [UserController::class, 'showPropertyDetails'])->name('visitor.details');
         Route::get('/visitor/home/visit-requested-properties', [UserController::class, 'visitRequestedProperties'])->name('visitor.visit_req_list');
+        Route::get('/visitor/property/{property_id}', [UserController::class, 'showBookedPropertyDetails'])->name('visitor.bookedproperty_details');
+
+
+
+
+
+
+
+
+
+
+
 
         Route::post('/logout', [UserController::class, 'logout'])->name('user.logout');
         Route::get('/user/profile/edit', [UserController::class, 'editProfile'])->name('visitor.edit_profile');
         Route::post('/user/profile/update', [UserController::class, 'updateProfile'])->name('user.profile.update');
+
+
+
+
+
+
+
+
     });
         Route::get('/user/properties', [UserController::class, 'properties'])->name('user.properties');
         Route::get('/user/service', [UserController::class, 'service'])->name('user.service');
@@ -122,7 +147,6 @@ Route::middleware(['auth:visitor'])->group(function () {
 
     // Route for the admin to view all properties
     Route::get('/admin/properties', [Property1Controller::class, 'index'])->name('admin.properties.index');
-    Route::get('/admin/properties/filter', [Property1Controller::class, 'index'])->name('properties.filter');
     Route::get('/admin/property-list', [Property1Controller::class, 'index'])->name('admin.property_list');
 
     Route::patch('admin/visit-requests/{id}/{status}', [AdminController::class, 'updateRequestStatus'])->name('admin.updateRequestStatus');

@@ -23,19 +23,6 @@ class UserController extends Controller
         return view('user.home'); // Updated to match the new view file name
     }
 
- public function visitRequestedProperties()
- {
-     // Get the authenticated user
-     $user = Auth::user();
-
-     // Prepare the data to pass to the view
-     $profilePicture = $user->picture; // Adjust this according to your user model's attribute
-
-     // You can also fetch other properties as needed
-     // $requestedProperties = ...; // Logic to get requested properties
-
-     return view('visitor.visit_req_list', compact('profilePicture')); // Pass the profile picture to the view
- }
 
 
 
@@ -90,7 +77,7 @@ class UserController extends Controller
         $profilePicture = $user->picture; // Adjust according to your User model's picture attribute
 
         // Return the edit profile view with the user data and profile picture
-        return view('user.edit_profile', compact('user', 'profilePicture'));
+        return view('visitor.edit_profile', compact('user', 'profilePicture'));
     }
 
     public function updateProfile(Request $request)
@@ -368,81 +355,88 @@ public function requestVisit(Request $request)
     return response()->json(['success' => 'Visit request submitted successfully!']);
 }
 
+
 public function showProperties(Request $request)
 {
     // Start the query to retrieve properties
     $properties = Property::select(
-            'property_ID', 'status', 'num_of_rooms', 'num_of_bathrooms',
-            'floor', 'city', 'thana', 'house_no', 'area', 'rent', 'available_from', 'type'
+            'property.property_ID', 'property.status', 'property.num_of_rooms', 'property.num_of_bathrooms',
+            'property.floor', 'property.city', 'property.thana', 'property.house_no', 'property.area', 'property.rent', 'property.available_from', 'property.type'
         )
         ->with(['propertyImages' => function($query) {
-            // Fetch the first image for each property
             $query->limit(1);
-        }]);
+        }])
+        ->with('tenant'); // Include tenant data for each property
 
-    // Check if a sort option is provided in the request
+    // Apply sorting as per the request
     if ($request->has('sort')) {
         $sortOption = $request->input('sort');
-
-        // Apply sorting based on the sort option
         switch ($sortOption) {
             case 'rent_asc':
-                $properties = $properties->orderBy('rent', 'asc');
+                $properties = $properties->orderBy('property.rent', 'asc');
                 break;
             case 'rent_desc':
-                $properties = $properties->orderBy('rent', 'desc');
+                $properties = $properties->orderBy('property.rent', 'desc');
                 break;
             case 'type':
-                $properties = $properties->orderBy('type', 'asc');
+                $properties = $properties->orderBy('property.type', 'asc');
                 break;
             case 'availability':
-                // For availability, order properties based on whether they are rented or not
-                $properties = $properties->orderByRaw("IF(tenant_id IS NULL, 0, 1) DESC"); // Available properties first
+                // Sort by availability: available properties first (tenant_id is NULL)
+                $properties = $properties->leftJoin('tenants', 'property.property_ID', '=', 'tenants.property_ID')
+                                          ->orderByRaw("IF(tenants.id IS NULL, 1, 0) DESC");
+                break;
+            case 'available_date':
+                // Sort by available date (ascending)
+                $properties = $properties->orderBy('property.available_from', 'asc');
                 break;
             default:
-                // Default sort by most recent
-                $properties = $properties->orderBy('created_at', 'desc');
+                $properties = $properties->orderBy('property.created_at', 'desc');
                 break;
         }
     } else {
-        // Default sort by most recent if no sort option is selected
-        $properties = $properties->orderBy('created_at', 'desc');
+        // Default sort: Available properties come first
+        $properties = $properties->leftJoin('tenants', 'property.property_ID', '=', 'tenants.property_ID')
+                                  ->orderByRaw("IF(tenants.id IS NULL, 1, 0) DESC")
+                                  ->orderBy('property.created_at', 'desc'); // Add fallback sort
     }
-
-    // Retrieve the properties based on the applied sorting
     $properties = $properties->get();
 
-    // Get the authenticated user's profile picture
+    // Retrieve authenticated user and profile picture
     $user = Auth::user();
     $profilePicture = $user->picture;
 
-    // Return the view with the properties and profile picture
     return view('visitor.property_list', compact('properties', 'profilePicture'));
 }
 
-    public function filterProperties(Request $request)
-    {
-        $location = $request->input('location');
-        $rentRange = $request->input('rent_range');  // Format: "min-max"
 
-        $query = Property::query();
+public function filterProperties(Request $request)
+{
+    $location = $request->input('location'); // Location input corresponds to the 'thana' column in DB
+    $rentRange = $request->input('rent_range'); // Format: "min-max"
 
-        if ($location) {
-            $query->where('city', 'LIKE', "%{$location}%");
-        }
+    $query = Property::query();
 
-        if ($rentRange) {
-            [$minRent, $maxRent] = explode('-', $rentRange);
-            $query->whereBetween('rent', [(float)$minRent, (float)$maxRent]);
-        }
-
-        $properties = $query->get();
-
-        $user = Auth::user();
-        $profilePicture = $user->picture;
-
-        return view('visitor.property_list', compact('properties', 'profilePicture'));
+    // Filter by thana (location)
+    if ($location) {
+        $query->where('thana', 'LIKE', "%{$location}%");
     }
+
+    // Filter by rent range
+    if ($rentRange) {
+        [$minRent, $maxRent] = explode('-', $rentRange);
+        $query->whereBetween('rent', [(float)$minRent, (float)$maxRent]);
+    }
+
+    $properties = $query->get();
+
+    // Retrieve the user's profile picture
+    $user = Auth::user();
+    $profilePicture = $user->picture;
+
+    return view('visitor.property_list', compact('properties', 'profilePicture'));
+}
+
 
     // In PropertyController.php
     public function showPropertyDetails($id)
@@ -476,6 +470,34 @@ public function showProperties(Request $request)
         // Pass the property, payment status, and profile pictures to the view
         return view('visitor.details', compact('property', 'profilePicture', 'paymentStatus', 'tenantProfilePicture', 'tenant'));
     }
+
+
+
+    public function visitRequestedProperties(Request $request)
+    {
+        // Get the authenticated user
+        $user = Auth::user();
+
+        // Fetch properties where the visitor has requested a visit
+        $properties = Property::whereHas('visitRequests', function ($query) use ($request) {
+            $query->where('user_id', $request->user()->id); // Use 'user_id' instead of 'visitor_id'
+        })
+        ->with('visitRequests') // Include visitRequests to get the date and other related data
+        ->get();
+
+        // Prepare the data to pass to the view
+        $profilePicture = $user->picture; // Assuming 'picture' is the attribute for the user's profile picture
+
+        return view('visitor.visit_req_list', compact('properties', 'profilePicture'));
+    }
+
+
+
+
+
+
+
+
 
 
 

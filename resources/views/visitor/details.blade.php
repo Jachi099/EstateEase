@@ -49,6 +49,7 @@
     color: #888; /* Gray out the text */
 }
 
+
     </style>
 
     <!-- Bootstrap CSS -->
@@ -247,10 +248,6 @@
                     @if(in_array('gym', json_decode($property->amenities))) checked @endif disabled>
                 <label for="gym">Gym</label>
             </div>
-        </div>
-
-        <!-- Second Column -->
-        <div class="checkbox-column">
             <div>
                 <input type="checkbox" name="amenities[]" value="swimming_pool" id="swimming_pool"
                     @if(in_array('swimming_pool', json_decode($property->amenities))) checked @endif disabled>
@@ -261,6 +258,11 @@
                     @if(in_array('private_pool', json_decode($property->amenities))) checked @endif disabled>
                 <label for="private_pool">Private Pool (for villas)</label>
             </div>
+        </div>
+
+        <!-- Second Column -->
+        <div class="checkbox-column">
+
             <div>
                 <input type="checkbox" name="amenities[]" value="playground" id="playground"
                     @if(in_array('playground', json_decode($property->amenities))) checked @endif disabled>
@@ -271,11 +273,6 @@
                     @if(in_array('garden', json_decode($property->amenities))) checked @endif disabled>
                 <label for="garden">Garden/Lawn</label>
             </div>
-
-        </div>
-
-        <!-- Third Column -->
-        <div class="checkbox-column">
         <div>
                 <input type="checkbox" name="amenities[]" value="hot_water" id="hot_water"
                     @if(in_array('hot_water', json_decode($property->amenities))) checked @endif disabled>
@@ -301,58 +298,10 @@
                     @if(in_array('pets_allowed', json_decode($property->amenities))) checked @endif disabled>
                 <label for="pets_allowed">Pets Allowed</label>
             </div>
-        </div>
+    </div>
     </div>
 
-            <div class="flex-col-3 flex-col-6">
-              <div class="flex-col-4 flex-col-6">
-                <div class="tenant-information montserrat-bold-black-12px">TENANT INFORMATION</div>
-                <img class="line-1 line" src="img/line-1-3.svg" alt="Line 1" />
-              </div>
-              <div class="flex-row-4">
-                <div class="tenant_pic">
-    @if($tenant && $tenant->picture)
-        <img src="{{ asset('storage/' . $tenant->picture) }}" alt="Tenant Picture" class="tenant-pic">
-    @else
-        <span>No picture available</span> <!-- Optional message if no picture -->
-    @endif
-</div>
-                <div class="flex-col-5 flex-col-6">
-                  <div class="name-container">
-                    <div class="name montserrat-normal-black-12px">NAME:</div>
-                    <div class="tenant"> @if($property->tenant)
-        <span>{{ $property->tenant->full_name }}</span>
-    @else
-        <span>No tenant yet</span>
-    @endif</div>
-                  </div>
-                  <div class="flex-row-5">
-                    <div class="phone montserrat-normal-black-12px">PHONE:</div>
-                    <div class="tenant">@if($property->tenant)
-        <span>{{ $property->tenant->phone_number }}</span>
-    @else
-        <span>N/A</span>
-    @endif</div>
-                  </div>
-                  <div class="email-container">
-                    <div class="email montserrat-normal-black-12px">EMAIL:</div>
-                    <div class="tenant">  @if($property->tenant)
-        <span>{{ $property->tenant->email }}</span>
-    @else
-        <span>N/A</span>
-    @endif</div>
-                  </div>
-                  <div class="flex-row-6">
-                    <div class="permanent-address montserrat-normal-black-12px">PERMANENT ADDRESS:</div>
-                    <div class="tenant_add"> @if($property->tenant)
-        <span>{{ $property->tenant->current_address }}</span>
-    @else
-        <span>N/A</span>
-    @endif</div>
-                  </div>
-                </div>
-              </div>
-            </div>
+
           </div>
         </div>
         <div class="overlap-group-container-2 overlap-group-container-3">
@@ -363,9 +312,26 @@
             <div class="go-back montserrat-black-beaver-16px">GO BACK</div>
           </div>
 
-            <a onclick="ShowOverlay('visit-request', 'animate-appear');">
-            <div class="visit-container montserrat-black-white-16px">VISIT REQUEST</div>
-            </a>
+<!-- Example Blade Template -->
+@php
+    // Check if the property has a tenant or if it's coming soon
+    $isComingSoon = $property->available_from > now();
+@endphp
+
+@if($property->tenant || $isComingSoon)
+    <div class="visit-container montserrat-black-white-16px disabled">
+        @if($property->tenant)
+            VISIT REQUEST (Rented)
+        @else
+            VISIT REQUEST (Coming Soon)
+        @endif
+    </div>
+@else
+    <a onclick="ShowOverlay('visit-request', 'animate-appear');">
+        <div class="visit-container montserrat-black-white-16px">VISIT REQUEST</div>
+    </a>
+@endif
+
 
 
 
@@ -400,67 +366,94 @@
 
 
 
-<!-- Overlay for the visit request -->
-<div id="visit-request" class="overlay" style="display: none;">
-    <div class="overlay-content">
-        <span class="close" onclick="ShowOverlay('visit-request');">&times;</span>
-        <h2>Select Visit Date and Time</h2>
-        <label for="visit-date">Visit Date:</label>
-        <input type="date" id="visit-date" class="form-control">
-        <label for="visit-time" style="margin-top: 10px;">Visit Time:</label>
-        <input type="time" id="visit-time" class="form-control">
-        <input type="hidden" id="property-id" value="{{ $property->property_ID }}"> <!-- Hidden input for property ID -->
-        <button id="submit-visit" class="btn btn-primary" style="margin-top: 10px;">Submit</button>
+    <div id="visit-request" class="overlay" style="display: none;">
+        <div class="overlay-content">
+            <span class="close" onclick="ShowOverlay('visit-request');">&times;</span>
+            <h2>Select Visit Date and Time</h2>
+
+            <label for="visit-date">Visit Date:</label>
+            <input
+                type="date"
+                id="visit-date"
+                class="form-control"
+                min="{{ now()->format('Y-m-d') }}"
+                max="{{ now()->addWeek()->format('Y-m-d') }}">
+
+            <label for="visit-time" style="margin-top: 10px;">Visit Time:</label>
+            <input
+                type="time"
+                id="visit-time"
+                class="form-control">
+
+            <input
+                type="hidden"
+                id="property-id"
+                value="{{ $property->property_ID }}"> <!-- Hidden input for property ID -->
+
+            <button id="submit-visit" class="btn btn-primary" style="margin-top: 10px;">Submit</button>
+        </div>
     </div>
-</div>
 
-<!-- JavaScript -->
-<script>
-    // Show or hide the overlay
-    function ShowOverlay(overlayId) {
-        const overlay = document.getElementById(overlayId);
-        overlay.style.display = overlay.style.display === 'none' || overlay.style.display === '' ? 'flex' : 'none';
+    <!-- JavaScript -->
+    <script>
+        // Show or hide the overlay
+        function ShowOverlay(overlayId) {
+            const overlay = document.getElementById(overlayId);
+            overlay.style.display = overlay.style.display === 'none' || overlay.style.display === '' ? 'flex' : 'none';
 
-        // Only fetch booked dates if the overlay is being shown
-        if (overlay.style.display === 'flex') {
-            const propertyId = document.getElementById('property-id').value;
-            fetchBookedDates(propertyId);
+            // Only fetch booked dates if the overlay is being shown
+            if (overlay.style.display === 'flex') {
+                const propertyId = document.getElementById('property-id').value;
+                fetchBookedDates(propertyId);
+            }
         }
-    }
 
-    // Fetch booked dates for the selected property
-    function fetchBookedDates(propertyId) {
-        fetch(`/visit-requests/booked-dates/${propertyId}`)
-            .then(response => response.json())
-            .then(data => {
-                const bookedDates = data.map(visit => visit.visit_date); // Extract booked dates
-                // Disable booked dates in the date input
-                updateDateInput(bookedDates);
-            })
-            .catch(error => {
-                console.error('Error fetching booked dates:', error);
+        // Fetch booked dates for the selected property
+        function fetchBookedDates(propertyId) {
+            fetch(`/visit-requests/booked-dates/${propertyId}`)
+                .then(response => response.json())
+                .then(data => {
+                    const bookedDates = data.map(visit => visit.visit_date); // Extract booked dates
+                    updateDateInput(bookedDates);
+                })
+                .catch(error => {
+                    console.error('Error fetching booked dates:', error);
+                });
+        }
+
+        // Disable booked dates and set min/max limits
+        function updateDateInput(bookedDates) {
+            const dateInput = document.getElementById('visit-date');
+            const today = new Date();
+            const maxDate = new Date(today);
+            maxDate.setDate(maxDate.getDate() + 7);
+
+            // Set min and max attributes for the input
+            dateInput.min = today.toISOString().split('T')[0];
+            dateInput.max = maxDate.toISOString().split('T')[0];
+
+            // Disable booked dates
+            bookedDates.forEach(date => {
+                const option = Array.from(options).find(opt => opt.value === date);
+                if (option) {
+                    option.disabled = true;
+                }
             });
-    }
+        }
 
-    // Disable booked dates in the date input
-    function updateDateInput(bookedDates) {
-        const dateInput = document.getElementById('visit-date');
-        const options = dateInput.querySelectorAll('option');
+        // Validate visit time input
+        document.getElementById('visit-time').addEventListener('input', function () {
+            const time = this.value;
+            const [hour, minute] = time.split(':').map(Number);
 
-        // Clear previous options
-        options.forEach(option => option.disabled = false);
-
-        // Disable booked dates
-        bookedDates.forEach(date => {
-            const option = Array.from(options).find(opt => opt.value === date);
-            if (option) {
-                option.disabled = true; // Disable the option
+            if (hour < 9 || (hour >= 20 && minute > 0)) {
+                alert('Visit times must be between 9:00 AM and 8:00 PM.');
+                this.value = ''; // Reset invalid time
             }
         });
-    }
 
-    // Handle the submit button click
-    document.getElementById('submit-visit').addEventListener('click', function() {
+        // Handle the submit button click
+        document.getElementById('submit-visit').addEventListener('click', function() {
         const date = document.getElementById('visit-date').value;
         const time = document.getElementById('visit-time').value;
         const propertyId = document.getElementById('property-id').value; // Get the property ID
@@ -500,7 +493,6 @@
 
 
 
-
     document.addEventListener('DOMContentLoaded', function () {
     // Select all zoomable images
     const images = document.querySelectorAll('.zoomable-image');
@@ -533,6 +525,17 @@
                 document.getElementById('imageModal').style.display = 'none';
             }
         });
+
+        function checkTenantStatus(propertyId) {
+    fetch(`/api/check-tenant/${propertyId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.hasTenant) {
+                document.querySelector('.visit-container').classList.add('disabled');
+                document.querySelector('.visit-container').innerText = 'VISIT REQUEST (Unavailable)';
+            }
+        });
+}
 
 
 </script>

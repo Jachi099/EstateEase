@@ -11,7 +11,7 @@ class PropertyImage extends Model
 
     protected $table = 'property_images'; // Adjust if the table name is different
     protected $primaryKey = 'id'; // Adjust if the primary key is different
-    public $timestamps = true; // Set to false if the table doesn't have timestamps
+    public $timestamps = false; // Set to false if the table doesn't have timestamps
 
     protected $fillable = [
         'property_ID',

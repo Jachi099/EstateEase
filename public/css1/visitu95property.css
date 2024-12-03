@@ -4,9 +4,9 @@
   align-items: flex-start;
   background-color: var(--white);
   display: flex;
-  width: 100%;  
+  width: 100%;
   height: 100%;
-  min-height: 100vh; 
+  min-height: 100vh;
   overflow-y: hidden; /* Allows vertical scrolling */
   overflow-x: hidden;
 }
@@ -171,6 +171,29 @@
   margin-left: 3px;
   position: relative;
   width: 1045px;
+  margin: 5px auto;
+  padding: 1rem;
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* Display 4 items per row */
+  gap: 1rem;
+}
+
+.status {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.status-accepted {
+    color: green;
+}
+
+.status-rejected {
+    color: red;
+}
+
+.status-pending {
+    color: orange;
 }
 
 .visitu95property .visit-requested-date {
@@ -304,7 +327,7 @@
   position: absolute;
   top: 235px;
   width: 214px;
-  
+
   display: inline-flex; /* Change to inline-flex for centering */
   align-items: center; /* Center vertically */
   justify-content: center; /* Center horizontally */
@@ -315,9 +338,9 @@
   letter-spacing: 0;
   line-height: normal;
   text-align: center;
- 
+
   color: var(--white);
-  
+
 
   font-family: 'Montserrat', sans-serif; /* Ensure you have the Montserrat font imported */
   font-size: 16px; /* Adjust based on your design */

@@ -508,7 +508,6 @@
   align-items: flex-start;
   display: flex;
 }
-
 .checkbox-group {
     display: flex;
     flex-wrap: wrap;
@@ -517,11 +516,14 @@
     background-color: var(--white);
     border: 1px solid var(--black);
     box-sizing: border-box; /* Ensures padding is included in total width/height */
+    min-height: 401px; /* Ensures a taller default height */
+    min-width: 446px; /* Ensures a taller default height */
+
 }
 
-/* Ensure each column evenly divides the available space */
+/* Ensure each column evenly divides the available space (2 columns) */
 .checkbox-column {
-    width: calc(100% / 3 - 10px); /* Create 3 equal columns, subtracting the gap for spacing */
+    width: calc(50% - 10px); /* Create 2 equal columns, subtracting the gap for spacing */
     display: flex;
     flex-direction: column;
     box-sizing: border-box; /* Include padding and border in the size */
@@ -654,4 +656,9 @@
 .unpaid-active {
     background-color: var(--mongoose);
     color: white;
+}
+.visit-container.disabled {
+    background-color: gray;
+    cursor: not-allowed;
+    pointer-events: none;
 }

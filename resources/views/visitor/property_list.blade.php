@@ -50,44 +50,49 @@
 
 
 
-              <!-- Sort controls on the right -->
-        <select id="sort-options" class="sort-1" onchange="sortProperties()">
-            <option value="rent_asc">Rent (Low to High)</option>
-            <option value="rent_desc">Rent (High to Low)</option>
-            <option value="type">Property Type</option>
-            <option value="availability">Availability</option>
-        </select>
+            <select id="sort-options" class="sort-1" onchange="sortProperties()">
+    <option value="rent_asc" {{ request('sort') == 'rent_asc' ? 'selected' : '' }}>Rent (Low to High)</option>
+    <option value="rent_desc" {{ request('sort') == 'rent_desc' ? 'selected' : '' }}>Rent (High to Low)</option>
+    <option value="type" {{ request('sort') == 'type' ? 'selected' : '' }}>Property Type</option>
+    <option value="availability" {{ request('sort') == 'availability' ? 'selected' : '' }}>Availability</option>
+</select>
+
+
 
 
           </div>
         </div>
-        <form action="{{ route('properties.filter') }}" method="GET">
+        <form action="{{ route('visitor.filter') }}" method="GET">
 
-        <div class="flex-row-1">
-          <div class="location location-2 montserrat-medium-black-16px">LOCATION:</div>
+<div class="flex-row-1">
+    <div class="location location-2 montserrat-medium-black-16px">LOCATION:</div>
 
-         <select name="location" id="location" class="sort-2">
-          <option value="">All Locations</option>
-          <!-- Add location options here -->
-          <option value="City1">DHAKA</option>
-          <option value="City2">CA</option>
-      </select>
-          <div class="rent-range rent-1 montserrat-medium-black-16px">RENT RANGE:</div>
+    <select name="location" id="location" class="sort-2">
+        <option value="">All Locations</option>
+        <!-- Ensure these match the `thana` values in your database -->
+        <option value="Gulshan" {{ request('location') == 'Gulshan' ? 'selected' : '' }}>Gulshan</option>
+        <option value="Mohummadpur" {{ request('location') == 'Mohummadpur' ? 'selected' : '' }}>Mohummadpur</option>
+    </select>
+
+    <div class="rent-range rent-1 montserrat-medium-black-16px">RENT RANGE:</div>
     <select name="rent_range" class="sort-3">
-      <option value="">Select Rent Range</option>
-      <option value="0-1000" {{ request('rent_range') == '0-1000' ? 'selected' : '' }}>Under $1000</option>
-      <option value="1000-2000" {{ request('rent_range') == '1000-2000' ? 'selected' : '' }}>$1000 - $2000</option>
-      <option value="2000-3000" {{ request('rent_range') == '2000-3000' ? 'selected' : '' }}>$2000 - $3000</option>
-      <option value="3000-4000" {{ request('rent_range') == '3000-4000' ? 'selected' : '' }}>$3000 - $4000</option>
-      <option value="4000-100000" {{ request('rent_range') == '4000-100000' ? 'selected' : '' }}>Above $4000</option>
-  </select>
+        <option value="">Select Rent Range</option>
+        <!-- Updated rent ranges to start from more than 10,000 BDT -->
+        <option value="10000-20000" {{ request('rent_range') == '10000-20000' ? 'selected' : '' }}>Above 10,000 BDT - 20,000 BDT</option>
+        <option value="20000-30000" {{ request('rent_range') == '20000-30000' ? 'selected' : '' }}>20,000 BDT - 30,000 BDT</option>
+        <option value="30000-40000" {{ request('rent_range') == '30000-40000' ? 'selected' : '' }}>30,000 BDT - 40,000 BDT</option>
+        <option value="40000-50000" {{ request('rent_range') == '40000-50000' ? 'selected' : '' }}>40,000 BDT - 50,000 BDT</option>
+        <option value="50000-100000" {{ request('rent_range') == '50000-100000' ? 'selected' : '' }}>Above 50,000 BDT</option>
+    </select>
 
+    <div class="overlap-group2">
+        <button type="submit" class="update_btn update_btn-2">
+            <div class="filter">FILTER</div>
+        </button>
+    </div>
+</div>
+</form>
 
-          <div class="overlap-group2">
-            <button type="submit" class="update_btn update_btn-2"><div class="filter">FILTER</div></button>
-        </div>
-          </div>
-        </form>
 
 
 
@@ -116,18 +121,37 @@
 @endif
 
 
-    <div class="property-header1">
 
+<div class="property-header1">
     <h2 class="property-title1">{{ strtoupper($property->type) }}</h2>
     @php
-        // Get the tenant info for the current property
-        $tenant = isset($tenants[$property->property_ID]) ? $tenants[$property->property_ID] : null;
+        // Get the tenant and available_from date
+        $tenant = $property->tenant; // Use the `tenant` relationship loaded earlier
+        $availableFrom = \Carbon\Carbon::parse($property->available_from); // Convert available_from to a Carbon instance
+        $currentDate = \Carbon\Carbon::now(); // Get the current date
     @endphp
 
-    <div class="tenant-info-item1 normal-text {{ $tenant ? 'tenant-info-rented' : 'tenant-info-available' }}">
-        {{ $tenant ? 'Rented' : 'Available' }}
+    <div class="tenant-info-item1 normal-text
+        @if($tenant)
+            tenant-info-rented
+        @elseif($availableFrom->isFuture())
+            tenant-info-coming-soon
+        @else
+            tenant-info-available
+        @endif">
+
+        @if($tenant)
+            Rented
+        @elseif($availableFrom->isFuture())
+            Coming Soon
+        @else
+            Available
+        @endif
     </div>
 </div>
+
+
+
 
 
 
@@ -165,5 +189,18 @@
 
 
     </div>
+
+    <script>
+function sortProperties() {
+    const sortOption = document.getElementById('sort-options').value;
+
+    // Append the sort query parameter to the URL and reload the page
+    const url = new URL(window.location.href);
+    url.searchParams.set('sort', sortOption);  // Set the sort parameter
+    window.location.href = url.toString();  // Reload the page with updated sort parameter
+}
+
+
+</script>
   </body>
 </html>

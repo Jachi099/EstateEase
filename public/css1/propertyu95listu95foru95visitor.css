@@ -412,6 +412,8 @@
   border: 1px solid;
   border-color: var(--cloud);
 }
+
+
 .container1 {
     width: 1334px;
     margin: 5px auto;
@@ -421,9 +423,9 @@
     height: 380px; /* Set fixed height for the container */
     overflow-y: auto;
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* Display 4 items per row */
-    gap: 1rem;
-  }
+    grid-template-columns: repeat(5, 1fr); /* Display 4 items per row */
+}
+
 
   .property-card {
     width: 250px; /* Fixed width for property card */

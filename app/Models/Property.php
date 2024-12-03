@@ -43,6 +43,13 @@ class Property extends Model
     return $this->hasMany(PropertyImage::class, 'property_ID', 'property_ID');
 }
 
+// In Property.php model
+
+public function visitRequests()
+{
+    return $this->hasMany(VisitRequest::class, 'property_id', 'property_ID');
+}
+
 
     // Relationship to the PropertyImage model
     public function images()
