@@ -299,35 +299,65 @@
                 </div>
                 <div class="overlap-group2">
                   <div class="tenant-information montserrat-bold-black-12px">TENANT INFORMATION</div>
-                  <div class="overlap-group15">
+                  <div class="overlap-group151">
 
-                    <div class="flex-col-7 montserrat-normal-black-12px">
-                      <div class="name">VISIT REQUESTED DATE:</div>
-                      <div class="phone">STATUS:</div>
-                    </div>
-                    <div class="flex-col-8">
-                    <div class="name-12">
-    <!-- Display the visit requested date -->
-    @if ($visitRequest)
-        <span>{{ $visitRequest->visit_date->format('d M, Y') }}</span> <!-- Format as desired -->
-    @else
-        <span>No visit requested.</span>
-    @endif
+<!-- Left Column -->
+<div class="flex-col-71 montserrat-normal-black-12px">
+    <div class="name12">VISIT REQUESTED DATE:</div>
+    <div class="phone12">STATUS:</div>
+    <div class="email12">CHOOSE PAYMENT METHOD:</div>
+    <label id="payment-label" class="cardorphninfo">CARD NUMBER/PHONE:</label>
+    <div class="permanent-address12">RENT AMOUNT:</div>
 </div>
 
-<div class="name-13">
-    <!-- Display the status (pending, accepted, rejected) -->
-    @if ($visitRequest)
-        <span>{{ ucfirst($visitRequest->status) }}</span> <!-- Capitalize first letter of the status -->
-    @else
-        <span>N/A</span>
-    @endif
+<!-- Right Column -->
+<div class="flex-col-812">
+    <div class="name-12">
+        <!-- Display the visit requested date -->
+        @if ($visitRequest)
+            <span>{{ $visitRequest->visit_date->format('d M, Y') }}</span> <!-- Format as desired -->
+        @else
+            <span>No visit requested.</span>
+        @endif
+    </div>
+
+    <div class="name-13">
+        <!-- Display the status (pending, accepted, rejected) -->
+        @if ($visitRequest)
+            <span>{{ ucfirst($visitRequest->status) }}</span> <!-- Capitalize first letter of the status -->
+        @else
+            <span>N/A</span>
+        @endif
+    </div>
+
+    <!-- Display payment options -->
+    <select class="name-14" id="payment-method" required>
+            <option value="" disabled selected>Select Payment Method</option>
+            <option value="nagad">Nagad</option>
+            <option value="bkash">bKash</option>
+            <option value="debit">Debit Card</option>
+            <option value="credit">Credit Card</option>
+        </select>
+
+        <!-- Input for payment details (required) -->
+        <input type="text" class="name-16" id="payment-input" placeholder="Enter payment details" required />
+
+    <div class="name-15">
+        <!-- Display rent amount automatically -->
+        <span>
+            @if ($property->rent)
+                {{ $property->rent}} <!-- Assuming 'rent_amount' is a column in the 'properties' table -->
+            @else
+                N/A
+            @endif
+        </span>
+    </div>
+
+    <button id="pay_btn" class="pay-btn" onclick="simulatePayment()">Pay Now</button>
 </div>
 
+</div>
 
-
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
@@ -406,6 +436,26 @@
                 document.getElementById('imageModal').style.display = 'none';
             }
         });
+
+
+        document.getElementById('payment-method').addEventListener('change', function() {
+    var paymentMethod = this.value;
+    var label = document.getElementById('payment-label');
+    var input = document.getElementById('payment-input');
+
+    // Change the label and placeholder text based on the selected payment method
+    if (paymentMethod === 'bkash') {
+        label.textContent = 'bKash Number:';
+        input.setAttribute('placeholder', 'Enter bKash Number');
+    } else if (paymentMethod === 'nagad') {
+        label.textContent = 'Nagad Number:';
+        input.setAttribute('placeholder', 'Enter Nagad Number');
+    } else if (paymentMethod === 'debit' || paymentMethod === 'credit') {
+        label.textContent = 'CARD Number:';
+        input.setAttribute('placeholder', 'Enter Card Number');
+    }
+});
+
     });
 </script>
 

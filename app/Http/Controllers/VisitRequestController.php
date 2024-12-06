@@ -95,6 +95,17 @@ class VisitRequestController extends Controller
                 'error' => 'A visit has already been requested for this date.'
             ], 400);
         }
+        $existingRequest = VisitRequest::where('property_id', $request->property_id)
+        ->whereIn('status', ['pending', 'approved'])
+        ->exists();
+
+        if ($existingRequest) {
+            Log::info('Another visitor has a pending or approved request for this property.');
+            return response()->json([
+                'error' => 'This property already has a pending or approved visit request. Please wait until it is completed or rejected.'
+            ], 400);
+        }
+
 
         try {
             VisitRequest::create([

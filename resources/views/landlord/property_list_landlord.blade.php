@@ -122,18 +122,34 @@
 @endif
 
 
-    <div class="property-header1">
-
+<div class="property-header1">
     <h2 class="property-title1">{{ strtoupper($property->type) }}</h2>
     @php
-        // Get the tenant info for the current property
-        $tenant = isset($tenants[$property->property_ID]) ? $tenants[$property->property_ID] : null;
+        // Get the tenant and available_from date
+        $tenant = $property->tenant; // Use the `tenant` relationship loaded earlier
+        $availableFrom = \Carbon\Carbon::parse($property->available_from); // Convert available_from to a Carbon instance
+        $currentDate = \Carbon\Carbon::now(); // Get the current date
     @endphp
 
-    <div class="tenant-info-item1 normal-text {{ $tenant ? 'tenant-info-rented' : 'tenant-info-available' }}">
-        {{ $tenant ? 'Rented' : 'Available' }}
+    <div class="tenant-info-item1 normal-text
+        @if($tenant)
+            tenant-info-rented
+        @elseif($availableFrom->isFuture())
+            tenant-info-coming-soon
+        @else
+            tenant-info-available
+        @endif">
+
+        @if($tenant)
+            Rented
+        @elseif($availableFrom->isFuture())
+            Coming Soon
+        @else
+            Available
+        @endif
     </div>
 </div>
+
 
 
 
@@ -152,7 +168,7 @@
         <strong>Bedrooms:</strong> <span>{{ $property->num_of_rooms }}</span>
     </div>
 
-    <div class="detail-item1">
+    <div class="detail-item12">
     <strong>Address:</strong>
     <span>
         {{ $property->house_no }}, {{ $property->area }}, {{ $property->thana }},
@@ -160,7 +176,7 @@
     </span>
 </div>
 
-    <div class="detail-item1">
+    <div class="detail-item12">
         <strong>Available From:</strong> <span>{{ $property->available_from }}</span>
     </div>
 

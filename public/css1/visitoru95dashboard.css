@@ -776,9 +776,19 @@
   justify-content: space-between; /* Align label and value to ends */
 }
 
+.detail-item12 {
+    flex: calc(50%); /* Display two items side by side, adjusting for gaps */
+    display: flex;
+    justify-content: space-between; /* Align label and value to ends */
+
+  }
+
 .detail-item1 strong {
   font-weight: bold;
 }
+.detail-item12 strong {
+    font-weight: bold;
+  }
 .property-header1 {
   display: flex;
   justify-content: center; /* Centers horizontally */
