@@ -1,55 +1,80 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Payment;
-use App\Models\Tenant;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class PaymentController extends Controller
 {
-    // Store a new payment
-    public function storePayment(Request $request, $tenantId)
+    public function showPaymentPage($visitor_id)
     {
-        // Find the tenant by ID
-        $tenant = Tenant::find($tenantId);
-        if (!$tenant) {
-            return redirect()->back()->with('error', 'Tenant not found.');
-        }
+        $visitor = User::find($visitor_id);
+        // Calculate total amount (rent + service charge)
+        $rent = $visitor->property->rent;  // Assuming you have property data
+        $service_charge = $rent * 0.05;    // 5% service charge
 
-        // Validate the payment data
-        $request->validate([
-            'amount' => 'required|numeric',
-            'payment_date' => 'required|date',
-        ]);
+        $total_amount = $rent + $service_charge;
 
-        // Create the payment record
-        $payment = new Payment();
-        $payment->tenant_id = $tenantId;
-        $payment->amount = $request->amount;
-        $payment->payment_date = $request->payment_date;
-        $payment->status = 'paid'; // Assuming payment is confirmed as paid immediately
-        $payment->save();
-
-        // Optionally update tenant's payment status or rental status
-        // $tenant->rental_status = 'paid';
-        // $tenant->save();
-
-        // Redirect back with success message
-        return redirect()->route('tenant.show', ['tenant' => $tenantId])->with('success', 'Payment recorded successfully.');
+        return view('payment.page', compact('visitor', 'total_amount', 'service_charge'));
     }
 
-    // Show payment history for a tenant (optional)
-    public function showPayments($tenantId)
+    public function processPayment(Request $request, $visitor_id)
     {
-        $tenant = Tenant::find($tenantId);
-        if (!$tenant) {
-            return redirect()->back()->with('error', 'Tenant not found.');
+        // Validate the payment details
+        $request->validate([
+            'payment_method' => 'required|string',
+            'payment_details' => 'required|string',  // e.g., phone number or card number
+        ]);
+
+        // Calculate the rent and service charge
+        $visitor = User::find($visitor_id);
+        $rent = $visitor->property->rent;
+        $service_charge = $rent * 0.05;    // 5% service charge
+        $total_amount = $rent + $service_charge;
+
+        // Simulate a payment (you can add actual API calls for each payment method here)
+        $payment_status = $this->simulateTransaction($request->payment_method);
+
+        // Save payment data
+        $payment = Payment::create([
+            'visitor_id' => $visitor_id,
+            'payment_date' => Carbon::now(),
+            'amount' => $total_amount,
+            'service_charge' => $service_charge,
+            'status' => $payment_status,
+            'payment_method' => $request->payment_method,
+        ]);
+
+        // Redirect based on payment status
+        if ($payment_status == 'completed') {
+            // After payment completion, update visitor account to tenant
+            // Update user role or status here if needed
+            // Example: $visitor->update(['role' => 'tenant']);
+
+            return redirect()->route('payment.success', ['payment' => $payment]);
+        } else {
+            return redirect()->route('payment.failed', ['payment' => $payment]);
         }
+    }
 
-        // Get all payments for the tenant
-        $payments = $tenant->payments;
-
-        return view('tenant.payments', compact('tenant', 'payments'));
+    private function simulateTransaction($payment_method)
+    {
+        // Simulating different payment methods (this can be replaced with real payment gateway integration)
+        switch ($payment_method) {
+            case 'bkash':
+                // Simulate bKash transaction success
+                return 'completed';
+            case 'nogod':
+                // Simulate Nogod transaction success
+                return 'completed';
+            case 'debit':
+            case 'credit':
+                // Simulate card transaction success
+                return 'completed';
+            default:
+                return 'failed';
+        }
     }
 }

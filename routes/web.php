@@ -105,7 +105,19 @@ Route::post('/visit-request/cancel/{property_id}', [UserController::class, 'canc
         Route::get('/visitor/property/{property_id}', [UserController::class, 'showBookedPropertyDetails'])->name('visitor.bookedproperty_details');
 
 
+        Route::get('/payment/{visitor_id}', [PaymentController::class, 'showPaymentPage'])->name('payment.page');
 
+        // Route to process the payment
+        Route::post('/payment/{visitor_id}', [PaymentController::class, 'processPayment'])->name('payment.process');
+
+        // Route to show payment success or failure
+        Route::get('/payment/success/{payment}', function ($payment) {
+            return view('payment.success', compact('payment'));
+        })->name('payment.success');
+
+        Route::get('/payment/failed/{payment}', function ($payment) {
+            return view('payment.failed', compact('payment'));
+        })->name('payment.failed');
 
 
 

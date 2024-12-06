@@ -9,13 +9,26 @@ class Payment extends Model
 {
     use HasFactory;
 
+    // The fields that are mass assignable
     protected $fillable = [
-        'tenant_id', 'amount', 'payment_date', 'status',
+        'visitor_id', 'payment_date', 'amount', 'service_charge', 'status', 'payment_method'
     ];
 
-    // Define the relationship back to Tenant
-    public function tenant()
+    // Define the relationship back to Visitor (not Tenant anymore)
+    public function visitor()
     {
-        return $this->belongsTo(Tenant::class, 'tenant_id');
+        return $this->belongsTo(User::class, 'visitor_id');  // Assuming `User` is the model for visitors
+    }
+
+    // Optionally, define accessor for formatted amount if needed
+    public function getFormattedAmountAttribute()
+    {
+        return '৳' . number_format($this->amount, 2);  // For example, formatted as Bangladeshi currency
+    }
+
+    // Optionally, define an accessor for service charge if needed
+    public function getFormattedServiceChargeAttribute()
+    {
+        return '৳' . number_format($this->service_charge, 2);
     }
 }

@@ -341,17 +341,22 @@
 
         <!-- Input for payment details (required) -->
         <input type="text" class="name-16" id="payment-input" placeholder="Enter payment details" required />
+        <div class="name-15">
+    <!-- Display total rent amount including service charge -->
+    <span>
+        @if ($property->rent)
+            <!-- Calculate service charge (e.g., 5%) -->
+            @php
+                $serviceCharge = ($property->rent * 5) / 100; // Example: 5% service charge
+                $totalRent = $property->rent + $serviceCharge;
+            @endphp
+            ৳ {{ number_format($totalRent, 2) }} <!-- Total Rent + Service Charge -->
+        @else
+            N/A
+        @endif
+    </span>
+</div>
 
-    <div class="name-15">
-        <!-- Display rent amount automatically -->
-        <span>
-            @if ($property->rent)
-                {{ $property->rent}} <!-- Assuming 'rent_amount' is a column in the 'properties' table -->
-            @else
-                N/A
-            @endif
-        </span>
-    </div>
 
     <button id="pay_btn" class="pay-btn" onclick="simulatePayment()">Pay Now</button>
 </div>
