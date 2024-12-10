@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -8,6 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Payment extends Model
 {
     use HasFactory;
+
+    // The table associated with the model
+    protected $table = 'payments';
+
+    // Disable Laravel's default timestamp columns if you're not using them
+    public $timestamps = false;  // Only if you don't want created_at/updated_at columns, otherwise remove this line
 
     // The fields that are mass assignable
     protected $fillable = [
@@ -20,7 +25,7 @@ class Payment extends Model
         return $this->belongsTo(User::class, 'visitor_id');  // Assuming `User` is the model for visitors
     }
 
-    // Optionally, define accessor for formatted amount if needed
+    // Optionally, define an accessor for formatted amount if needed
     public function getFormattedAmountAttribute()
     {
         return '৳' . number_format($this->amount, 2);  // For example, formatted as Bangladeshi currency

@@ -1,80 +1,74 @@
 <?php
+
 namespace App\Http\Controllers;
 
-use App\Models\Payment;
-use App\Models\User;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
+use Stripe\Stripe;
+use Stripe\PaymentIntent;
+use App\Models\Payment;
+use Illuminate\Support\Facades\Log;
 
 class PaymentController extends Controller
 {
-    public function showPaymentPage($visitor_id)
+    public function processPayment(Request $request)
     {
-        $visitor = User::find($visitor_id);
-        // Calculate total amount (rent + service charge)
-        $rent = $visitor->property->rent;  // Assuming you have property data
-        $service_charge = $rent * 0.05;    // 5% service charge
+        Stripe::setApiKey(env('STRIPE_SECRET'));
 
-        $total_amount = $rent + $service_charge;
+        try {
+            $request->validate([
+                'token' => 'nullable|string',
+                'payment_method' => 'required|string',
+                'amount' => 'required|numeric',
+                'visitor_id' => 'required|integer',
+            ]);
 
-        return view('payment.page', compact('visitor', 'total_amount', 'service_charge'));
-    }
+            // Check if the visitor has already made a payment
+            $existingPayment = Payment::where('visitor_id', $request->visitor_id)
+                                      ->where('status', 'confirmed')
+                                      ->first();
 
-    public function processPayment(Request $request, $visitor_id)
-    {
-        // Validate the payment details
-        $request->validate([
-            'payment_method' => 'required|string',
-            'payment_details' => 'required|string',  // e.g., phone number or card number
-        ]);
+            // If a payment already exists, prevent further payments
+            if ($existingPayment) {
+                return response()->json(['error' => 'You have already paid for this month.']);
+            }
 
-        // Calculate the rent and service charge
-        $visitor = User::find($visitor_id);
-        $rent = $visitor->property->rent;
-        $service_charge = $rent * 0.05;    // 5% service charge
-        $total_amount = $rent + $service_charge;
+            // Calculate service charge (5% of the amount)
+            $serviceCharge = ($request->amount * 5) / 100;
 
-        // Simulate a payment (you can add actual API calls for each payment method here)
-        $payment_status = $this->simulateTransaction($request->payment_method);
+            // Handle payment methods
+            if ($request->payment_method === 'debit' || $request->payment_method === 'credit') {
+                // Create a PaymentIntent for card payments
+                $paymentIntent = PaymentIntent::create([
+                    'amount' => $request->amount * 100,  // Amount in cents
+                    'currency' => 'BDT',
+                    'payment_method_types' => ['card'],
+                    'description' => 'Property Rent Payment',
+                ]);
 
-        // Save payment data
-        $payment = Payment::create([
-            'visitor_id' => $visitor_id,
-            'payment_date' => Carbon::now(),
-            'amount' => $total_amount,
-            'service_charge' => $service_charge,
-            'status' => $payment_status,
-            'payment_method' => $request->payment_method,
-        ]);
+                Payment::create([
+                    'visitor_id'     => $request->visitor_id,
+                    'amount'         => $request->amount,
+                    'service_charge' => $serviceCharge,
+                    'status'         => 'confirmed',  // Mark as 'confirmed'
+                    'payment_method' => $request->payment_method,
+                ]);
 
-        // Redirect based on payment status
-        if ($payment_status == 'completed') {
-            // After payment completion, update visitor account to tenant
-            // Update user role or status here if needed
-            // Example: $visitor->update(['role' => 'tenant']);
+                return response()->json(['success' => true]);
+            } else {
+                // Handle other payment methods (bKash/Nagad)
+                Payment::create([
+                    'visitor_id'     => $request->visitor_id,
+                    'amount'         => $request->amount,
+                    'service_charge' => $serviceCharge,
+                    'status'         => 'confirmed',  // Mark as 'confirmed'
+                    'payment_method' => $request->payment_method,
+                ]);
 
-            return redirect()->route('payment.success', ['payment' => $payment]);
-        } else {
-            return redirect()->route('payment.failed', ['payment' => $payment]);
-        }
-    }
-
-    private function simulateTransaction($payment_method)
-    {
-        // Simulating different payment methods (this can be replaced with real payment gateway integration)
-        switch ($payment_method) {
-            case 'bkash':
-                // Simulate bKash transaction success
-                return 'completed';
-            case 'nogod':
-                // Simulate Nogod transaction success
-                return 'completed';
-            case 'debit':
-            case 'credit':
-                // Simulate card transaction success
-                return 'completed';
-            default:
-                return 'failed';
+                return response()->json(['success' => true]);
+            }
+        } catch (\Exception $e) {
+            Log::error('Payment failed:', ['error' => $e->getMessage()]);
+            return response()->json(['error' => 'Payment failed: ' . $e->getMessage()]);
         }
     }
 }

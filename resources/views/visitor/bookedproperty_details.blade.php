@@ -11,7 +11,42 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css_landlord/propertyu95detailsu95landlord.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('css_landlord/styleguide.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('css_landlord/globals.css') }}" />
-  </head>
+    <style>
+    #confirmation-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+#confirmation-popup button {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#confirmation-popup button:hover {
+    background-color: #ddd;
+}
+
+</style>
+
+    <script src="https://js.stripe.com/v3/"></script>
+
+</head>
   <body style="margin: 0; background: #ffffff">
     <input type="hidden" id="anPageName" name="page" value="propertyu95detailsu95landlord" />
     <div class="container-center-horizontal">
@@ -84,7 +119,6 @@
         PAID
     </div>
 </div>
-
 
 
 
@@ -330,37 +364,68 @@
         @endif
     </div>
 
-    <!-- Display payment options -->
-    <select class="name-14" id="payment-method" required>
-            <option value="" disabled selected>Select Payment Method</option>
-            <option value="nagad">Nagad</option>
-            <option value="bkash">bKash</option>
-            <option value="debit">Debit Card</option>
-            <option value="credit">Credit Card</option>
-        </select>
 
-        <!-- Input for payment details (required) -->
-        <input type="text" class="name-16" id="payment-input" placeholder="Enter payment details" required />
-        <div class="name-15">
-    <!-- Display total rent amount including service charge -->
-    <span>
-        @if ($property->rent)
-            <!-- Calculate service charge (e.g., 5%) -->
-            @php
-                $serviceCharge = ($property->rent * 5) / 100; // Example: 5% service charge
-                $totalRent = $property->rent + $serviceCharge;
-            @endphp
-            ৳ {{ number_format($totalRent, 2) }} <!-- Total Rent + Service Charge -->
-        @else
-            N/A
-        @endif
-    </span>
+   <!-- The Form -->
+<form id="payment-form" action="{{ route('payment.process', ['visitor_id' => auth()->user()->id]) }}" method="POST" onsubmit="submitPayment(event)">
+    @csrf
+    <!-- Payment Method Selection -->
+    <select class="name-14" name="payment_method" id="payment-method" required>
+        <option value="" disabled selected>Select Payment Method</option>
+        <option value="nagad">Nagad</option>
+        <option value="bkash">bKash</option>
+        <option value="debit">Debit Card</option>
+        <option value="credit">Credit Card</option>
+    </select>
+
+    <!-- Input for Credit/Debit Card -->
+    <div id="card-input-container" style="display:none;">
+        <div id="card-element" class="name-16"></div> <!-- Stripe Card input element -->
+        <div id="card-errors" role="alert"></div> <!-- Error messages -->
+    </div>
+
+    <!-- Payment Method Details for bKash, Nagad -->
+    <div id="payment-method-details" style="display:none;">
+        <label for="payment-details" id="payment-label"></label>
+        <input type="text" id="payment-input" name="payment_details" placeholder="Enter Payment Details" />
+    </div>
+
+    <!-- Display Total Rent with Service Charge -->
+    <div class="name-15">
+        <span id="total-rent">
+            @if ($property->rent)
+                @php
+                    $serviceCharge = ($property->rent * 5) / 100; // 5% service charge
+                    $totalRent = $property->rent + $serviceCharge;
+                @endphp
+                <input type="hidden" name="amount" value="{{ $totalRent }}"> <!-- Hidden amount input -->
+                ৳ {{ number_format($totalRent, 2) }} <!-- Total Rent + Service Charge -->
+            @else
+                N/A
+            @endif
+        </span>
+    </div>
+
+    <!-- Hidden Fields for User Data -->
+    <input type="hidden" name="name" value="{{ auth()->user()->full_name }}" />
+    <input type="hidden" name="email" value="{{ auth()->user()->email }}" />
+    <input type="hidden" name="phone" value="{{ auth()->user()->phone_number }}" />
+    <input type="hidden" name="address" value="{{ auth()->user()->current_address }}" />
+    <input type="hidden" name="property_id" value="{{ $property->property_ID }}">
+    <input type="hidden" name="visitor_id" value="{{ auth()->user()->id }}" />
+
+    <button id="pay-btn" class="pay-btn" type="button">Pay Now</button> <!-- Change to type="button" -->
+</form>
+
+
 </div>
 
-
-    <button id="pay_btn" class="pay-btn" onclick="simulatePayment()">Pay Now</button>
 </div>
 
+<div id="popup" class="popup" style="display: none;">
+    <div id="popup-content">
+        <p id="popup-message"></p>
+        <button id="close-popup">Close</button>
+    </div>
 </div>
 
                 </div>
@@ -382,22 +447,6 @@
 
             </div>
 
-<!-- Modal for displaying the zoomed image -->
-<div id="imageModal" class="modal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <img id="zoomedImage" src="" alt="Zoomed Image" class="img-fluid" />
-            </div>
-        </div>
-    </div>
-</div>
-
 
 
 
@@ -408,39 +457,108 @@
         </div>
       </div>
     </div>
-
-
-
+    <div id="confirmation-popup" style="display:none;">
+    <div class="popup-content">
+        <h2>Are you sure you want to pay?</h2>
+        <button id="confirm-payment">Yes, Pay Now</button>
+        <button id="cancel-payment">Cancel</button>
+    </div>
+</div>
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Get all property images
-        const images = document.querySelectorAll('.pro_pic-2');
+// Initialize Stripe
+var stripe = Stripe('pk_test_51QUU8KP2zO95Ub2TwNeybmjvtzavKiZPXeD2n7c5CdoWvwKDSdVtIf8W7C2sqoGdAHsk2PfkEwV1WOpiTjmsvAnr00VCJSHnh2');
+var elements = stripe.elements();
+var card = elements.create('card');
 
-        // Add click event listener to each image
-        images.forEach(image => {
-            image.addEventListener('click', function() {
-                // Get the source of the clicked image
-                const imageSrc = this.src;
+// Handle Payment Method Selection
+document.getElementById('payment-method').addEventListener('change', function () {
+    var paymentMethod = this.value;
+    var cardInputContainer = document.getElementById('card-input-container');
+    var paymentDetails = document.getElementById('payment-method-details');
+    var paymentLabel = document.getElementById('payment-label');
+    var paymentInput = document.getElementById('payment-input');
 
-                // Set the source of the modal's image
-                document.getElementById('zoomedImage').src = imageSrc;
+    if (paymentMethod === 'debit' || paymentMethod === 'credit') {
+        card.mount('#card-element');  // Mount Stripe card only once
+        cardInputContainer.style.display = 'block';
+        paymentDetails.style.display = 'none';
+    } else {
+        cardInputContainer.style.display = 'none';
+        paymentDetails.style.display = 'block';
 
-                // Show the modal
-                document.getElementById('imageModal').style.display = 'block';
-            });
-        });
+        if (paymentMethod === 'bkash') {
+            paymentLabel.textContent = 'bKash Number:';
+            paymentInput.setAttribute('placeholder', 'Enter bKash Number');
+        } else if (paymentMethod === 'nagad') {
+            paymentLabel.textContent = 'Nagad Number:';
+            paymentInput.setAttribute('placeholder', 'Enter Nagad Number');
+        }
+    }
+});
+// Show confirmation popup when 'Pay Now' is clicked
+document.getElementById('pay-btn').addEventListener('click', function() {
+    document.getElementById('confirmation-popup').style.display = 'flex';
+});
 
-        // Close the modal when the close button is clicked
-        document.querySelector('.modal .close').addEventListener('click', function() {
-            document.getElementById('imageModal').style.display = 'none';
-        });
+// Close the confirmation popup when 'Cancel' is clicked
+document.getElementById('cancel-payment').addEventListener('click', function() {
+    document.getElementById('confirmation-popup').style.display = 'none';
+});
 
-        // Close the modal when clicking outside the modal
-        window.addEventListener('click', function(event) {
-            if (event.target === document.getElementById('imageModal')) {
-                document.getElementById('imageModal').style.display = 'none';
+// Proceed with payment when 'Confirm' is clicked
+document.getElementById('confirm-payment').addEventListener('click', function() {
+    document.getElementById('confirmation-popup').style.display = 'none';
+    submitPayment(event); // Call the submitPayment function
+});
+
+// Function to handle payment submission
+function submitPayment(event) {
+    event.preventDefault();
+
+    var paymentMethod = document.getElementById('payment-method').value;
+    var visitorId = document.querySelector('input[name="visitor_id"]').value;
+
+    if (paymentMethod === 'debit' || paymentMethod === 'credit') {
+        stripe.createToken(card).then(function(result) {
+            if (result.error) {
+                showPopup('Payment failed: ' + result.error.message);
+            } else {
+                processPayment(result.token.id);
             }
         });
+    } else {
+        // Submit form for bKash or Nagad
+        event.target.submit();
+    }
+}
+
+// Process Payment (AJAX)
+function processPayment(token) {
+    var formData = new FormData(document.getElementById('payment-form'));
+    formData.append('token', token);
+
+    fetch("{{ route('payment.process', ['visitor_id' => auth()->user()->id]) }}", {
+        method: "POST",
+        body: formData,
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showPopup('Payment successful!');
+        } else if (data.error) {
+            showPopup(data.error);  // Show error message (e.g., "You have already paid for this month.")
+        }
+    })
+    .catch(error => {
+        showPopup('Payment failed: ' + error.message);
+    });
+}
+
+// Show Popup Message
+function showPopup(message) {
+    alert(message);  // Replace with custom popup logic if needed
+}
+
 
 
         document.getElementById('payment-method').addEventListener('change', function() {
@@ -461,7 +579,10 @@
     }
 });
 
-    });
+
+
+
+
 </script>
 
   </body>

@@ -1004,7 +1004,7 @@
     cursor: pointer; /* Pointer cursor on hover */
     transition: background-color 0.3s ease; /* Smooth transition for hover effect */
     font-weight: bolder;
-    margin-top: 10px;
+    margin-top: 30px;
     height: 25px; /* Adjusted height */
     width: 100px; /* Adjusted width */
     text-align: center; /* Center text horizontally */
@@ -1013,4 +1013,14 @@
 
 .pay-btn:hover {
     background-color: #333333; /* Darker shade on hover */
+}
+#payment-status-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    display: none;
 }
