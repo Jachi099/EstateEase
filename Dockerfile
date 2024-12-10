@@ -28,9 +28,8 @@ COPY . /var/www
 
 # Step 8: Set the correct permissions
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
+# Step 9: Expose the correct port that the app will run on
+EXPOSE 8080
 
-# Step 9: Expose the port (Render expects the app to listen to the $PORT environment variable)
-EXPOSE 10000
-
-# Step 10: Use the PORT environment variable provided by Render
-CMD ["php", "-S", "0.0.0.0:${PORT}", "-t", "public"]
+# Step 10: Define the start command to run Laravel with PHP built-in server
+CMD ["php", "-S", "0.0.0.0:8080", "-t", "public"]
