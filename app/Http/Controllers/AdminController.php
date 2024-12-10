@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Property;
 use App\Models\Landlord;
 use App\Models\Tenant;
+use App\Models\Payment;
+
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
 
@@ -115,46 +117,58 @@ public function updateRequestStatus($id, $status)
         return redirect()->back()->with('success', 'Visit request removed successfully.');
     }
 
-
     public function changeToTenant($id)
-{
-    // Find the accepted visit request
-    $visitRequest = VisitRequest::findOrFail($id);
+    {
+        // Find the accepted visit request
+        $visitRequest = VisitRequest::findOrFail($id);
 
-    // Check if the visitor exists
-    $visitor = $visitRequest->visitor;
+        // Check if the visitor exists
+        $visitor = $visitRequest->visitor;
 
-    if ($visitor) {
-        // Create a new tenant entry based on the visitor's information
-        $tenant = new Tenant([
-            'full_name' => $visitor->full_name,
-            'email' => $visitor->email,
-            'password' => $visitor->password, // Copy the password as-is
-            'current_address' => $visitor->current_address,
-            'phone_number' => $visitor->phone_number,
-            'account_type' => 'tenant', // Set the account type to 'tenant'
-            'property_ID' => $visitRequest->property_id,
-            'rental_start_date' => now(), // Set rental start date
-        ]);
+        if ($visitor) {
+            // Retrieve the rent value (assuming it's in the payments table, related to the visitor)
+            $payment = Payment::where('visitor_id', $visitor->id)
+                              ->where('status', 'confirmed') // Ensure payment is confirmed
+                              ->first();
 
-        // Temporarily disable password hashing by using a closure to avoid hashing password
-        $tenant->setDisablePasswordHashing(true);
+            // If payment exists, retrieve rent from it or assign a default value
+            $rent = $payment ? $payment->amount : 0; // Default to 0 if no payment is found
 
-        // Save the tenant without hashing the password
-        $tenant->save();
+            // Debugging: Log the rent value
+            Log::info('Rent value: ' . $rent);
 
-        // Optionally, delete the visitor from the users table
+            // Create a new tenant entry based on the visitor's information
+            $tenant = new Tenant([
+                'full_name' => $visitor->full_name,
+                'email' => $visitor->email,
+                'password' => $visitor->password, // Copy the password as-is
+                'current_address' => $visitor->current_address,
+                'phone_number' => $visitor->phone_number,
+                'account_type' => 'tenant', // Set the account type to 'tenant'
+                'property_ID' => $visitRequest->property_id,
+                'rental_start_date' => now(), // Set rental start date
+                'rent' => $rent, // Assign the rent value
+            ]);
 
-        // After converting to tenant, remove the visit request
-        $visitRequest->delete();
+            // Temporarily disable password hashing by using a closure to avoid hashing password
+            $tenant->setDisablePasswordHashing(true);
 
-        // Redirect back with success message
-        return redirect()->back()->with('success', 'Visitor changed to tenant successfully.');
+            // Save the tenant without hashing the password
+            $tenant->save();
+
+            // Delete the visitor from the users table (since the visitor is now a tenant)
+            $visitor->delete();
+
+            // After converting to tenant, remove the visit request
+            $visitRequest->delete();
+
+            // Redirect back with success message
+            return redirect()->back()->with('success', 'Visitor changed to tenant successfully.');
+        }
+
+        // If no visitor is found, redirect back with error
+        return redirect()->back()->with('error', 'No visitor found.');
     }
-
-    // If no visitor is found, redirect back with error
-    return redirect()->back()->with('error', 'No visitor found.');
-}
 
 
 

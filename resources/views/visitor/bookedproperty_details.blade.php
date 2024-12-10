@@ -85,15 +85,17 @@
             <a href="{{ route('visitor.property_list') }}"><div class="navbar-link-properties montserrat-normal-black-16px">Properties</div> </a
             >
 
-              <a href="{{ route('visitor.profile') }}"><div class="head_pic">
-                  @if($profilePicture)
-                      <img src="{{ asset('storage/' . $profilePicture) }}" alt="User Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
-                  @else
-                      <img src="path/to/default/image.png" alt="Default Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
-                  @endif
-              </div>
+            <a href="{{ route('visitor.profile') }}">
+                <div class="head_pic">
+                    @if(isset($profilePicture) && $profilePicture)
+                        <img src="{{ asset('storage/' . $profilePicture) }}" alt="User Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
+                    @else
+                        <img src="path/to/default/image.png" alt="Default Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
+                    @endif
+                </div>
+            </a>
 
-          </a>
+
           <div class="flex-col flex">
             <div class="flex-col-1">
               <h1 class="estate-ease_logo-1 lexendzetta-medium-beaver-25px">PROPERTY DETAILS</h1>
@@ -386,7 +388,7 @@
     <!-- Payment Method Details for bKash, Nagad -->
     <div id="payment-method-details" style="display:none;">
         <label for="payment-details" id="payment-label"></label>
-        <input type="text" id="payment-input" name="payment_details" placeholder="Enter Payment Details" />
+        <input type="text" class="name-16" id="payment-input" name="payment_details" placeholder="Enter Payment Details" />
     </div>
 
     <!-- Display Total Rent with Service Charge -->

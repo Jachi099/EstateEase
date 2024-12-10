@@ -1004,7 +1004,7 @@
     cursor: pointer; /* Pointer cursor on hover */
     transition: background-color 0.3s ease; /* Smooth transition for hover effect */
     font-weight: bolder;
-    margin-top: 30px;
+    margin-top: 10px;
     height: 25px; /* Adjusted height */
     width: 100px; /* Adjusted width */
     text-align: center; /* Center text horizontally */
@@ -1024,3 +1024,30 @@
     border: 1px solid #ccc;
     display: none;
 }
+.propertyu95detailsu95landlord .navbar-link-estate-ease_logo {
+    letter-spacing: 0;
+    line-height: normal;
+    margin-bottom: 7.0px;
+    min-height: 22px;
+    min-width: 102px;
+  }
+
+  .propertyu95detailsu95landlord .navbar-link-place {
+    cursor: pointer;
+    margin-bottom: 7.0px;
+    margin-left: 327px;
+    min-width: 50px;
+  }
+
+  .propertyu95detailsu95landlord .navbar-link-about {
+    cursor: pointer;
+    margin-bottom: 7.0px;
+    margin-left: 95px;
+    min-width: 50px;
+  }
+
+  .propertyu95detailsu95landlord .navbar-link-properties {
+    margin-bottom: 7.0px;
+    margin-left: 95px;
+    min-width: 83px;
+  }

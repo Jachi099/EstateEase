@@ -156,10 +156,11 @@
                 <td>
                     <!-- Change to Tenant Button -->
                     <form action="{{ route('admin.changeToTenant', $request->id) }}" method="POST" class="action-form" style="display: inline;">
-                        @csrf
-                        @method('PATCH')  <!-- Use PATCH method to change to tenant -->
-                        <button type="submit" class="tenant-btn">Change to Tenant</button>
-                    </form>
+    @csrf
+    @method('PATCH')  <!-- This tells Laravel to treat this as a PATCH request -->
+    <button type="submit" class="tenant-btn">Change to Tenant</button>
+</form>
+
                 </td>
             </tr>
         @endforeach
@@ -167,6 +168,25 @@
 </table>
 
 </div>
+@if (session('success'))
+    <div class="alert alert-success">{{ session('success') }}</div>
+@endif
+
+@if (session('error'))
+    <div class="alert alert-danger" id="payment-error">{{ session('error') }}</div>
+@endif
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Check if there's an error message in the session
+        var errorMessage = document.getElementById('payment-error');
+
+        if (errorMessage) {
+            // Show a confirmation window with the error message
+            alert(errorMessage.innerText);
+        }
+    });
+</script>
 
         </div>
       </div>

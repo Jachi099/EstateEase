@@ -12,17 +12,13 @@ class Tenant extends Authenticatable
     protected $table = 'tenants';
     protected $primaryKey = 'id';
 
-    protected $fillable = [
-        'full_name',
-        'email',
-        'password',
-        'current_address',
-        'phone_number',
-        'account_type',
-        'picture',
-        'property_ID',
-        'rental_start_date',
-    ];
+
+        protected $fillable = [
+            'full_name', 'email', 'password', 'current_address', 'phone_number', 'account_type',
+            'property_ID', 'rental_start_date', 'rent',
+        ];
+
+
 
     // Disable password hashing logic using an internal flag (without it being a database column)
     private $disablePasswordHashing = false;

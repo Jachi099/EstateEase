@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css1/visitoru95dashboard.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('css1/styleguide.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('css1/globals.css') }}" />
-   
+
   </head>
   <body style="margin: 0; background: #ffffff">
     <input type="hidden" id="anPageName" name="page" value="visitoru95dashboard" />
@@ -43,24 +43,27 @@
     </div>
 </a>
 
-   
+
                 <div class="navbar-link-container">
                   <div class="navbar-link-estate-ease_logo montserrat-semi-bold-beaver-18px">EstateEase</div>
                   <a href="{{ route('tenant.user_home') }}"><div class="navbar-link-place navbar-link montserrat-normal-black-16px">Home</div> </a
             > <a href="{{ route('tenant.user_home') }}"><div class="navbar-link-about navbar-link montserrat-normal-black-16px">About</div> </a
             >  <a href="{{ route('tenant.property_list') }}">
             <div class="navbar-link-properties montserrat-normal-black-16px">Properties</div>
-        </a> 
-            
-            
-              <a href="{{ route('tenant.profile') }}"><div class="head_pic">
-                  @if($profilePicture)
-                      <img src="{{ asset('storage/' . $profilePicture) }}" alt="User Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
-                  @else
-                      <img src="path/to/default/image.png" alt="Default Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
-                  @endif
-              </div>
-              
+        </a>
+
+
+        <a href="{{ route('tenant.profile') }}">
+    <div class="head_pic">
+        @if($profilePicture)
+            <img src="{{ asset('storage/' . $profilePicture) }}" alt="User Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
+        @else
+            <img src="{{ asset('path/to/default/image.png') }}" alt="Default Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
+        @endif
+    </div>
+</a>
+
+
           </a>
             <div class="estate-ease_logo-1 estate-ease_logo-4 lexendzetta-extra-bold-white-15px">TENANT DASHBOARD</div>
             <div class="profile montserrat-medium-white-16px">PROFILE</div>
@@ -71,7 +74,7 @@
               <a href="{{ route('tenant.edit_profile') }}">
                 <img class="edit" src="{{ asset('img/edit.svg') }}" alt="edit" />
             </a>
-            
+
             <img class="trash-2" src="{{ asset('img/trash-2.svg') }}" alt="trash-2" />
 
             </div>
