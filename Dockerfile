@@ -1,34 +1,26 @@
-# Use an official PHP image with Apache and Composer
-FROM php:8.1-apache
+# Use an official PHP runtime as a parent image
+FROM php:8.1-fpm
 
-# Install dependencies for Laravel (extensions and Composer)
-RUN apt-get update && apt-get install -y \
-    libpng-dev \
-    libjpeg-dev \
-    libfreetype6-dev \
-    libzip-dev \
-    unzip \
-    curl \
+# Set the working directory inside the container
+WORKDIR /var/www
+
+# Install system dependencies and PHP extensions
+RUN apt-get update && apt-get install -y libpng-dev libjpeg-dev libfreetype6-dev zip git unzip \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd zip pdo pdo_mysql
+    && docker-php-ext-install gd pdo pdo_mysql \
+    && apt-get clean
 
-# Install Composer globally
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+# Install Composer
+COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
-# Enable Apache mod_rewrite (required for Laravel)
-RUN a2enmod rewrite
-
-# Set the working directory to /var/www/html
-WORKDIR /var/www/html
-
-# Copy the application files into the container
+# Copy the current directory contents into the container
 COPY . .
 
 # Install Laravel dependencies
 RUN composer install --optimize-autoloader --no-dev
 
-# Expose port 80 to the outside world
-EXPOSE 80
+# Expose the port the app will run on
+EXPOSE 9000
 
-# Start Apache service
-CMD ["apache2-foreground"]
+# Start PHP-FPM server
+CMD ["php-fpm"]
