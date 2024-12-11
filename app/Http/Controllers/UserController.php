@@ -133,39 +133,44 @@ class UserController extends Controller
 
     // Method to display the properties page
     public function properties(Request $request)
-{
-    $query = Property::query(); // Start with the Property model
+    {
+        $query = Property::query();
 
-    // Handle filtering by location
-    if ($request->has('location') && $request->location != '') {
-        $query->where('thana', $request->location);
-    }
-
-    // Handle filtering by rent range
-    if ($request->has('rent_range') && $request->rent_range != '') {
-        $rentRange = explode('-', $request->rent_range);
-        $query->whereBetween('rent', $rentRange);
-    }
-
-    // Handle sorting
-    if ($request->has('sort')) {
-        $sort = $request->sort;
-        if ($sort == 'rent_asc') {
-            $query->orderBy('rent', 'asc');
-        } elseif ($sort == 'rent_desc') {
-            $query->orderBy('rent', 'desc');
-        } elseif ($sort == 'type') {
-            $query->orderBy('type', 'asc');
-        } elseif ($sort == 'availability') {
-            $query->orderBy('available_from', 'asc');
+        if ($request->filled('location')) {
+            $query->where('thana', $request->location);
         }
+
+        if ($request->filled('rent_range')) {
+            [$minRent, $maxRent] = explode('-', $request->rent_range);
+            $query->whereBetween('rent', [(int)$minRent, (int)$maxRent]);
+        }
+
+        if ($request->filled('sort')) {
+            switch ($request->sort) {
+                case 'rent_asc':
+                    $query->orderBy('rent', 'asc');
+                    break;
+                case 'rent_desc':
+                    $query->orderBy('rent', 'desc');
+                    break;
+                case 'type':
+                    $query->orderBy('type', 'asc');
+                    break;
+                    case 'availability':
+                        // Join with the tenant table to check for tenants
+                        $query->leftJoin('tenants', 'property.property_ID', '=', 'tenants.property_ID')
+                              ->select('property.*')
+                              ->orderByRaw("CASE WHEN tenants.property_ID IS NULL THEN 0 ELSE 1 END ASC")
+                              ->orderBy('available_from', 'asc');
+                        break;
+
+            }
+        }
+
+        $properties = $query->get();
+        return view('user.properties', compact('properties'));
     }
 
-    // Fetch the properties based on the query
-    $properties = $query->get();
-
-    return view('user.properties', compact('properties'));
-}
 
     // Method to display the service page
     public function service()

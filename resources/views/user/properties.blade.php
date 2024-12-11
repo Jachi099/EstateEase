@@ -65,17 +65,49 @@
 
           </div>
         </div>
-        <form action="{{ route('user.filter') }}" method="GET">
+        <form method="GET" action="{{ route('user.properties') }}">
 
 <div class="flex-row-1">
     <div class="location location-2 montserrat-medium-black-16px">LOCATION:</div>
 
-    <select name="location" id="location" class="sort-2">
-        <option value="">All Locations</option>
-        <!-- Ensure these match the `thana` values in your database -->
-        <option value="Gulshan" {{ request('location') == 'Gulshan' ? 'selected' : '' }}>Gulshan</option>
-        <option value="Mohummadpur" {{ request('location') == 'Mohummadpur' ? 'selected' : '' }}>Mohummadpur</option>
-    </select>
+     <input list="locations" name="location" id="location" class="sort-2" value="{{ request('location') }}" placeholder="Type location...">
+<datalist id="locations">
+    <option value="Adabor"></option>
+    <option value="Badda"></option>
+    <option value="Banani"></option>
+    <option value="Bangshal"></option>
+    <option value="Bhashantek"></option>
+    <option value="Cantonment"></option>
+    <option value="Chawkbazar"></option>
+    <option value="Darus Salam"></option>
+    <option value="Dhanmondi"></option>
+    <option value="Gendaria"></option>
+    <option value="Gulshan"></option>
+    <option value="Hazaribagh"></option>
+    <option value="Jatrabari"></option>
+    <option value="Kalabagan"></option>
+    <option value="Kadamtali"></option>
+    <option value="Kafrul"></option>
+    <option value="Kamrangirchar"></option>
+    <option value="Kotwali"></option>
+    <option value="Lalbagh"></option>
+    <option value="Mirpur"></option>
+    <option value="Mohammadpur"></option>
+    <option value="Motijheel"></option>
+    <option value="New Market"></option>
+    <option value="Pallabi"></option>
+    <option value="Paltan"></option>
+    <option value="Ramna"></option>
+    <option value="Rampura"></option>
+    <option value="Sabujbagh"></option>
+    <option value="Shah Ali"></option>
+    <option value="Shahbagh"></option>
+    <option value="Shyampur"></option>
+    <option value="Sutrapur"></option>
+    <option value="Tejgaon"></option>
+    <option value="Uttara"></option>
+    <option value="Wari"></option>
+</datalist>
 
     <div class="rent-range rent-1 montserrat-medium-black-16px">RENT RANGE:</div>
     <select name="rent_range" class="sort-3">
@@ -173,7 +205,7 @@
         <strong>Bedrooms:</strong> <span>{{ $property->num_of_rooms }}</span>
     </div>
 
-    <div class="detail-item1">
+    <div class="detail-item12">
     <strong>Address:</strong>
     <span>
         {{ $property->house_no }}, {{ $property->area }}, {{ $property->thana }},
@@ -181,7 +213,7 @@
     </span>
 </div>
 
-    <div class="detail-item1">
+    <div class="detail-item12">
         <strong>Available From:</strong> <span>{{ $property->available_from }}</span>
     </div>
 

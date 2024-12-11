@@ -30,7 +30,7 @@ Route::get('/login', [UserController::class, 'showLoginForm'])->name('user.login
 Route::post('/login', [UserController::class, 'login'])->name('user.login.submit');
 
 
-Route::get('/user/properties', [UserController::class, 'properties'])->name('user.properties');
+Route::get('user/properties', [UserController::class, 'properties'])->name('user.properties');
 Route::get('/user/service', [UserController::class, 'service'])->name('user.service');
 
 Route::get('/user/properties/filter', [UserController::class, 'filterPropertiesUser'])->name('user.filter');
