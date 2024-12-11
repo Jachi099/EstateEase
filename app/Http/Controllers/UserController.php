@@ -12,6 +12,8 @@ use App\Models\Landlord;
 use App\Models\Tenant;
 use App\Models\Property;
 use GuzzleHttp\Client;
+use App\Models\Service;
+
 
 
 class UserController extends Controller
@@ -202,11 +204,28 @@ class UserController extends Controller
     }
 
 
-    // Method to display the service page
-    public function service()
+    public function service(Request $request)
     {
-        return view('user.service'); // Ensure this path matches your view file
+        // Check if there is a search query
+        $query = $request->get('query', '');
+
+        // If there is a search query, filter services
+        if ($query) {
+            $services = Service::where('type', 'LIKE', '%' . $query . '%')
+                               ->orWhere('description', 'LIKE', '%' . $query . '%')
+                               ->get();
+        } else {
+            // If no search query, get all services
+            $services = Service::all();
+        }
+
+        // Get the service count
+        $serviceCount = $services->count();
+
+        // Pass the services and service count to the view
+        return view('user.service', compact('services', 'serviceCount'));
     }
+
 
     // Method to display the signup page
     public function signup()

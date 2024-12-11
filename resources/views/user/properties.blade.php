@@ -67,8 +67,8 @@
         </div>
         <form method="GET" action="{{ route('user.properties') }}">
 
-<div class="flex-row-1">
-    <div class="location location-2 montserrat-medium-black-16px">LOCATION:</div>
+        <div class="flex-row-1">
+        <div class="location location-2 montserrat-medium-black-16px">LOCATION:</div>
 
      <input list="locations" name="location" id="location" class="sort-2" value="{{ request('location') }}" placeholder="Type location...">
 <datalist id="locations">
