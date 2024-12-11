@@ -9,45 +9,84 @@
     <meta name="twitter:card" content="photo" />
 
 
-    <link rel="stylesheet" type="text/css" href="{{ asset('css1/visit-request.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('css1/styleguide.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('css1/globals.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('css1/propertyu95details.css') }}" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.7);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            display: none; /* Initially hidden */
-        }
-
-        .overlay-content {
-            background: #fff;
-            padding: 20px;
-            border-radius: 5px;
-            width: 80%;
-            max-width: 600px;
-        }
-
-        .close {
-            cursor: pointer;
-            float: right;
-            font-size: 20px;
-        }
-
-        input[type="date"].booked {
-    background-color: #ffcccc; /* Light red for booked dates */
-    pointer-events: none; /* Prevent selection */
-    color: #888; /* Gray out the text */
+       /* Make sure the overlay is hidden by default */
+       .hidden {
+    display: none;
 }
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* Ensure it overlays the content */
+}
+.popup-actions {
+    display: flex; /* Use flexbox to align the buttons */
+    flex-direction: column; /* Stack the buttons vertically */
+    align-items: center; /* Center the buttons horizontally */
+    gap: 5px; /* Add space between the buttons */
+    margin-top: 20px; /* Margin to separate from other elements */
+}
+
+.popup {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 600px;
+    text-align: center;
+}
+.btn12 {
+    margin: 5px;
+    text-decoration: none;
+    height: 34px;
+    width: 329px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); /* Soft shadow */
+    cursor: pointer;
+
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+
+    font-family: "Montserrat", sans-serif; /* Ensure font matches */
+    font-weight: 900; /* Black font weight */
+    font-size: 16px; /* Font size */
+    text-transform: uppercase; /* Uppercase text */
+}
+.btn112 {
+    background-color: white;
+    color: var(--mongoose);
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+.btn212 {
+    background-color: var(--mongoose);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+.close-btn12 {
+    color: var(--mongoose);
+    font-family: "Montserrat", sans-serif; /* Ensure font matches */
+    font-weight: 900; /* Match "black" weight */
+    font-size: 16px;
+    border-color: #ffffff;
+    background-color: #ffffff;
+    margin-top: 10px; /* Add space between the buttons */
+    height: 34px;
+    width: 329px;
+}
+
 
 
     </style>
@@ -64,27 +103,28 @@
     <div class="container-center-horizontal">
       <div class="propertyu95details screen">
         <div class="flex-col">
-          <div class="navbar navbar-2">
+        <div class="navbar">
             <div class="navbar-link-estate-ease_logo montserrat-semi-bold-beaver-18px">EstateEase</div>
-            <a href="{{ route('visitor.user_home') }}">
-              <div class="navbar-link-place navbar-link montserrat-normal-black-16px">Home</div> </a
-            ><a href="{{ route('visitor.user_home') }}">
-              <div class="navbar-link-about navbar-link montserrat-normal-black-16px">About</div>
+            <a href="{{ route('public.home') }}">
+            <div class="navbar-link-place montserrat-normal-black-16px">Home</div>
+        </a>
+        <a href="{{ route('public.home') }}">
+            <div class="navbar-link-about montserrat-normal-black-16px">About</div>
+        </a>
+
+            <a href="{{ route('user.properties') }}">
+                <div class="navbar-link-properties montserrat-normal-black-16px">Properties</div>
+            </a>
+            <a href="{{ route('user.service') }}">
+                <div class="navbar-link-services montserrat-normal-black-16px">Services</div>
             </a>
 
-            <a href="{{ route('visitor.property_list') }}"><div class="navbar-link-properties navbar-link montserrat-normal-black-16px">Properties</div>
-            </a>
+        <a href="{{ route('admin.login') }}">
+            <div class="navbar-link-sign-up montserrat-normal-black-16px">ADMIN</div>
+        </a>
 
 
-            <a href="{{ route('visitor.profile') }}">
-                <div class="head_pic">
-                    @if(isset($profilePicture) && $profilePicture)
-                        <img src="{{ asset('storage/' . $profilePicture) }}" alt="User Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
-                    @else
-                        <img src="path/to/default/image.png" alt="Default Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
-                    @endif
-                </div>
-            </a>
+
 
           </div>
 
@@ -312,8 +352,7 @@
             <div class="go-back montserrat-black-beaver-16px">GO BACK</div>
           </div>
 
-<!-- Example Blade Template -->
-@php
+          @php
     // Check if the property has a tenant or if it's coming soon
     $isComingSoon = $property->available_from > now();
 @endphp
@@ -327,13 +366,57 @@
         @endif
     </div>
 @else
-    <a onclick="ShowOverlay('visit-request', 'animate-appear');">
-        <div class="visit-container montserrat-black-white-16px">VISIT REQUEST</div>
-    </a>
+    @auth
+        <!-- If logged in, allow visit request -->
+        <a onclick="ShowOverlay('visit-request', 'animate-appear');">
+            <div class="visit-container montserrat-black-white-16px">VISIT REQUEST</div>
+        </a>
+    @else
+        <!-- If not logged in, show sign-up/login prompt -->
+        <a onclick="ShowOverlay('login-prompt', 'animate-appear');">
+            <div class="visit-container montserrat-black-white-16px">VISIT REQUEST</div>
+        </a>
+    @endauth
 @endif
 
+<!-- Pop-up for Sign-up/Login Prompt -->
+<div id="login-prompt" class="overlay hidden">
+    <div class="popup">
+        <h2>You need to sign up or log in first</h2>
+        <p>Please create an account or log in to request a visit.</p>
+        <div class="popup-actions">
+        <a href="{{ route('user.signup') }}" > <button class="btn12 btn212">Sign Up</button></a>
+
+    <a href="{{ route('user.login') }}" > <button class="btn12 btn112">Log In</button></a>
+</div>
 
 
+        <button class="close-btn12" onclick="HideOverlay('login-prompt');">Close</button>
+    </div>
+</div>
+
+
+<script>
+
+    // Function to show the overlay
+function ShowOverlay(id, animation) {
+    const overlay = document.getElementById(id);
+    if (overlay) {
+        overlay.classList.remove('hidden');  // Remove hidden class to show overlay
+        overlay.classList.add(animation);    // Add animation for showing overlay
+    }
+}
+
+// Function to hide the overlay
+function HideOverlay(id) {
+    const overlay = document.getElementById(id);
+    if (overlay) {
+        overlay.classList.add('hidden');     // Add hidden class to hide overlay
+        overlay.classList.remove('animate-appear');  // Remove animation class
+    }
+}
+
+    </script>
 
 
         </div>

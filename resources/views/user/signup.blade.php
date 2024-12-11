@@ -32,13 +32,13 @@
           <img class="all-room-header-1" src="img/all-room-header-1-1.png" alt="All-Room-Header 1" />
           <div class="div_pic"></div>
 
-    
+
           <div class="middle_box"></div>
-        
-          
+
+
           <div class="already-have-an-account">ALREADY HAVE AN ACCOUNT?</div>
-          <div class="login montserrat-bold-black-12px">LOGIN</div>
-        
+          <a href="{{ route('user.login') }}" > <div class="login montserrat-bold-black-12px">LOGIN</div>
+          </a>
           <h1 class="estate-ease_logo">SIGN UP</h1>
           <p class="you-will-become-ten">*You will become tenant only if the admin approves.</p>
 
@@ -51,31 +51,31 @@
               </ul>
           </div>
       @endif
-      
-      
-   
+
+
+
 
       <form action="{{ route('user.signup.submit') }}" method="POST" enctype="multipart/form-data">
     @csrf
 
     <!-- Full Name -->
     <div class="full-name montserrat-medium-black-16px">FULL NAME</div>
-    <input type="text" id="full_name" class="name_txtbox" 
-           name="full_name" value="{{ old('full_name') }}" 
+    <input type="text" id="full_name" class="name_txtbox"
+           name="full_name" value="{{ old('full_name') }}"
            title="Enter your full name" required>
     @error('full_name')<span>{{ $message }}</span>@enderror
 
     <!-- Current Address -->
     <div class="current-address montserrat-medium-black-16px">CURRENT ADDRESS</div>
-    <input type="text" id="current_address" class="address_txtbox" 
-           name="current_address" value="{{ old('current_address') }}" 
+    <input type="text" id="current_address" class="address_txtbox"
+           name="current_address" value="{{ old('current_address') }}"
            title="Enter your current address" required>
     @error('current_address')<span>{{ $message }}</span>@enderror
 
     <!-- Phone Number -->
     <div class="phone-number montserrat-medium-black-16px">PHONE NUMBER</div>
-    <input type="tel" id="phone_number" class="phn_txtbox" 
-           name="phone_number" value="{{ old('phone_number') }}" 
+    <input type="tel" id="phone_number" class="phn_txtbox"
+           name="phone_number" value="{{ old('phone_number') }}"
            title="Enter a valid phone number (e.g., +123456789)" required>
     @error('phone_number')<span>{{ $message }}</span>@enderror
 
@@ -89,25 +89,25 @@
 
     <!-- Email -->
     <div class="email montserrat-medium-black-16px">EMAIL</div>
-    <input type="email" id="email" class="email_txtbox" 
-           name="email" value="{{ old('email') }}" 
+    <input type="email" id="email" class="email_txtbox"
+           name="email" value="{{ old('email') }}"
            title="Enter a valid email address (e.g., user@example.com)" required>
     @error('email')<span>{{ $message }}</span>@enderror
 
     <!-- Password -->
     <div class="password-1 password-2 montserrat-medium-black-16px">PASSWORD</div>
-    <input type="password" class="pass_txtbox-1 pass_txtbox-3" id="password" 
+    <input type="password" class="pass_txtbox-1 pass_txtbox-3" id="password"
            name="password" title="Must include: 1 capital letter, 1 special character, 1 number, and be at least 8 characters long" required>
     @error('password')<span>{{ $message }}</span>@enderror
 
     <!-- Confirm Password -->
     <div class="re-type-password montserrat-medium-black-16px">RE-TYPE PASSWORD</div>
-    <input type="password" id="password_confirmation" class="pass_txtbox-2 pass_txtbox-3" 
+    <input type="password" id="password_confirmation" class="pass_txtbox-2 pass_txtbox-3"
            name="password_confirmation" title="Re-enter the same password" required>
 
     <!-- Profile Picture -->
     <div class="add-picture montserrat-medium-black-16px">ADD PICTURE</div>
-    <input type="file" id="picture" class="upload_pic" name="picture" 
+    <input type="file" id="picture" class="upload_pic" name="picture"
            accept="image/*" title="Upload your profile picture (jpeg,png,jpg|max:2048)" required>
     @error('picture')<span>{{ $message }}</span>@enderror
 

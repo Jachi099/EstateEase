@@ -8,6 +8,7 @@ use App\Models\Property;
 use App\Models\Landlord;
 use App\Models\Tenant;
 use App\Models\Payment;
+use App\Models\TenantPayment;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
@@ -155,6 +156,18 @@ public function updateRequestStatus($id, $status)
 
             // Save the tenant without hashing the password
             $tenant->save();
+
+            // Transfer the payment to tenant_payments table
+            if ($payment) {
+                // Create a new payment entry in the tenant_payments table
+                TenantPayment::create([
+                    'tenant_id' => $tenant->id, // Link the new tenant ID
+                    'amount' => $payment->amount,
+                    'status' => $payment->status,
+                    'payment_method' => $payment->payment_method,
+                    'payment_date' => $payment->payment_date, // Use the original payment date
+                ]);
+            }
 
             // Delete the visitor from the users table (since the visitor is now a tenant)
             $visitor->delete();

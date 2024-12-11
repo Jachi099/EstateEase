@@ -48,6 +48,11 @@ class Tenant extends Authenticatable
             }
         });
     }
+// In Tenant Model
+public function tenantPayments()
+{
+    return $this->hasMany(TenantPayment::class, 'tenant_id');  // Assuming 'tenant_id' is the foreign key in tenant_payments table
+}
 
     // Define relationship to Property if needed
     public function property()

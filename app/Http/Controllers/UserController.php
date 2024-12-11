@@ -172,6 +172,36 @@ class UserController extends Controller
     }
 
 
+    public function showPropertyDetailsForPublic($id)
+    {
+        // Fetch the property by its ID or fail with a 404 error if not found
+        $property = Property::findOrFail($id);
+
+        // Check if the property has a tenant
+        $tenant = Tenant::where('property_ID', $id)->first();
+
+        // Default payment status
+        $paymentStatus = 'unpaid';
+        $tenantProfilePicture = null;
+
+        if ($tenant) {
+            // Fetch the latest payment for the tenant from tenant_payments table
+            $latestPayment = $tenant->tenantPayments()->latest()->first();
+
+            // Set payment status based on the latest payment
+            if ($latestPayment && $latestPayment->status == 'paid') {
+                $paymentStatus = 'paid';
+            }
+
+            // Get the tenant's profile picture if available
+            $tenantProfilePicture = $tenant->picture ?? null;
+        }
+
+        // Pass data to the view
+        return view('user.details', compact('property', 'paymentStatus', 'tenantProfilePicture', 'tenant'));
+    }
+
+
     // Method to display the service page
     public function service()
     {
