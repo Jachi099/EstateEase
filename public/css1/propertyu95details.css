@@ -627,38 +627,64 @@
     transition: background-color 0.3s ease;
 }
 
+.visit-container.disabled {
+    background-color: gray;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+/* Common transitions for color change */
 .unpaid,
 .paid {
     transition: color 0.3s ease;
 }
 
-/* Paid status */
+/* Styles for the "PAID" status */
 .paid-status {
-    background-color: var(--mongoose);
+    background-color: var(--mongoose); /* Color for paid status background */
 }
 
 .btn-paid {
-    background-color: white;
+    background-color: var(--mongoose);
+     /* Button background for paid */
 }
 
 .paid-active {
-    color: white;
+    color: white; /* Text color for paid status */
 }
 
+/* Styles for the "UNPAID" status */
 .unpaid-status {
-    background-color: transparent;
+    background-color: transparent; /* Transparent background for unpaid */
 }
 
 .btn-unpaid {
-    background-color: var(--mongoose);
+    background-color: white; /* Button background for unpaid */
 }
 
 .unpaid-active {
-    background-color: var(--mongoose);
-    color: white;
+    background-color: var(--mongoose); /* Active background for unpaid */
+    color: white; /* Text color for unpaid status */
 }
-.visit-container.disabled {
-    background-color: gray;
-    cursor: not-allowed;
-    pointer-events: none;
+
+/* Default background and styling for the button container */
+.propertyu95details .overlap-group1012 {
+    background-color: var(--white); /* Default background */
+    border: 2px solid;
+    border-color: var(--beaver);
+    border-radius: 10px;
+    height: 24px;
+    margin-left: 6px;
+    position: relative;
+    width: 137px;
+}
+
+/* Button style inside the container */
+.propertyu95details .pro_detail_btn12 {
+    background-color: var(--mongoose); /* Default background */
+    border-radius: 10px;
+    height: 21px;
+    left: 62px;
+    position: absolute;
+    top: 0;
+    width: 73px;
 }

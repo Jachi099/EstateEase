@@ -537,8 +537,8 @@ public function filterProperties(Request $request)
 
         // Determine the payment status
         if ($tenant) {
-            // Fetch the latest payment for the tenant
-            $latestPayment = $tenant->payments()->latest()->first();
+            // Fetch the latest payment for the tenant from the tenant_payments table
+            $latestPayment = $tenant->tenantPayments()->latest()->first();
 
             // Set the payment status to 'paid' or 'unpaid' based on the latest payment status
             $paymentStatus = $latestPayment && $latestPayment->status == 'paid' ? 'paid' : 'unpaid';
@@ -554,6 +554,7 @@ public function filterProperties(Request $request)
         // Pass the property, payment status, and profile pictures to the view
         return view('visitor.details', compact('property', 'profilePicture', 'paymentStatus', 'tenantProfilePicture', 'tenant'));
     }
+
 
 
     public function visitRequestedProperties(Request $request)

@@ -42,6 +42,27 @@
     background-color: #ddd;
 }
 
+
+.text-warning {
+    color: orange;
+}
+
+.text-success {
+    color: green;
+}
+
+.text-danger {
+    color: red;
+}
+
+.text-cancelled {
+    color: purple;
+}
+
+.text-muted {
+    color: gray;
+}
+
 </style>
 
     <script src="https://js.stripe.com/v3/"></script>
@@ -358,13 +379,23 @@
     </div>
 
     <div class="name-13">
-        <!-- Display the status (pending, accepted, rejected) -->
-        @if ($visitRequest)
-            <span>{{ ucfirst($visitRequest->status) }}</span> <!-- Capitalize first letter of the status -->
-        @else
-            <span>N/A</span>
-        @endif
-    </div>
+    <!-- Display the status with conditional colors -->
+    @if ($visitRequest)
+        <span class="
+            @if ($visitRequest->status == 'pending') text-warning
+            @elseif ($visitRequest->status == 'accepted') text-success
+            @elseif ($visitRequest->status == 'rejected') text-danger
+            @elseif ($visitRequest->status == 'canceled') text-cancelled
+            @endif
+        ">
+            {{ ucfirst($visitRequest->status) }}
+        </span>
+    @else
+        <span class="text-muted">N/A</span>
+    @endif
+</div>
+
+
 
 
    <!-- The Form -->
@@ -415,7 +446,10 @@
     <input type="hidden" name="property_id" value="{{ $property->property_ID }}">
     <input type="hidden" name="visitor_id" value="{{ auth()->user()->id }}" />
 
-    <button id="pay-btn" class="pay-btn" type="button">Pay Now</button> <!-- Change to type="button" -->
+    @if ($visitRequest && $visitRequest->status == 'accepted')
+    <!-- Show the Pay Now button only when the status is accepted -->
+    <button id="pay-btn" class="pay-btn" type="button">Pay Now</button>
+@endif
 </form>
 
 

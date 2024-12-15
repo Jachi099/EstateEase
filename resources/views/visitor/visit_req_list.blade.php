@@ -124,6 +124,8 @@
                                 <span class="status-accepted">Accepted</span>
                             @elseif($visitRequest->status == 'rejected')
                                 <span class="status-rejected">Rejected</span>
+                            @elseif($visitRequest->status == 'canceled')
+                                <span class="status-rejected">Canceled</span>
                             @else
                                 <span class="status-pending">Pending</span>
                             @endif

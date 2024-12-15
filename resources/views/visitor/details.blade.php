@@ -102,15 +102,21 @@
 
             <div class="navbar-link-payment-status">PAYMENT STATUS:</div>
 
-            <div class="overlap-group10 {{ $paymentStatus == 'paid' ? 'paid-status' : 'unpaid-status' }}">
-    <div class="pro_detail_btn {{ $paymentStatus == 'paid' ? 'btn-paid' : 'btn-unpaid' }}"></div>
-    <div class="unpaid montserrat-normal-white-11px {{ $paymentStatus == 'paid' ? '' : 'unpaid-active' }}">
+            <div class="overlap-group1012 {{ $paymentStatus == 'paid' ? 'paid-status' : 'unpaid-status' }}">
+    <div class="pro_detail_btn12 {{ $paymentStatus == 'paid' ? 'btn-paid' : 'btn-unpaid' }}"></div>
+
+    <!-- Display "UNPAID" only if the payment status is not "paid" -->
+    <div class="unpaid montserrat-normal-white-11px {{ $paymentStatus == 'unpaid' ? 'unpaid-active' : '' }}">
         UNPAID
     </div>
+
+    <!-- Display "PAID" only if the payment status is "paid" -->
     <div class="paid montserrat-normal-mongoose-11px {{ $paymentStatus == 'paid' ? 'paid-active' : '' }}">
         PAID
     </div>
 </div>
+
+
 
             <div class="navbar-link-rented-date">RENTED DATE:</div>
             <div class="rent_date">
@@ -306,10 +312,11 @@
         </div>
         <div class="overlap-group-container-2 overlap-group-container-3">
           <div class="back-container">
-            <a href="propertyu95detailsu95guest.html#propertyu95listu95foru95visitor" data-turbolinks="false">
-              <div class="go_back"></div
-            ></a>
-            <div class="go-back montserrat-black-beaver-16px">GO BACK</div>
+            <a href="{{ route('visitor.property_list') }}" data-turbolinks="false">
+              <div class="go_back"> <div class="go-back montserrat-black-beaver-16px">GO BACK</div></div
+            >
+
+            </a>
           </div>
 
 <!-- Example Blade Template -->

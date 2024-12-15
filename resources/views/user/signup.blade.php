@@ -2,6 +2,9 @@
 <html>
   <head>
     <meta charset="utf-8" />
+    <title>EstateEase - SignUp</title> <!-- Website's Name in the Tab -->
+    <link rel="icon" href="{{ asset('storage/favicon.ico') }}" type="image/x-icon">
+
     <!--<meta name=description content="This site was generated with Anima. www.animaapp.com"/>-->
     <!-- <link rel="shortcut icon" type=image/png href="https://animaproject.s3.amazonaws.com/home/favicon.png" /> -->
     <meta name="viewport" content="width=1440, maximum-scale=1.0" />

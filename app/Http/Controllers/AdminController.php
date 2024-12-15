@@ -9,6 +9,8 @@ use App\Models\Landlord;
 use App\Models\Tenant;
 use App\Models\Payment;
 use App\Models\TenantPayment;
+use App\Notifications\TenantAssignedNotification;
+use App\Models\Notification;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
@@ -109,15 +111,16 @@ public function updateRequestStatus($id, $status)
 
     public function removeVisitRequest($id)
     {
-        // Find and delete the visit request
-        $visitRequest = VisitRequest::find($id);
-        if ($visitRequest) {
-            $visitRequest->delete();
-        }
+         // Find the visit request by its ID
+    $visitRequest = VisitRequest::findOrFail($id);
 
-        return redirect()->back()->with('success', 'Visit request removed successfully.');
+    // Update the status to 'canceled'
+    $visitRequest->status = 'canceled';
+    $visitRequest->save(); // Save the updated status
+
+    // Redirect back with a success message
+    return redirect()->back()->with('success', 'Visit request has been canceled.');
     }
-
     public function changeToTenant($id)
     {
         // Find the accepted visit request
@@ -127,64 +130,74 @@ public function updateRequestStatus($id, $status)
         $visitor = $visitRequest->visitor;
 
         if ($visitor) {
-            // Retrieve the rent value (assuming it's in the payments table, related to the visitor)
-            $payment = Payment::where('visitor_id', $visitor->id)
-                              ->where('status', 'confirmed') // Ensure payment is confirmed
+            // Retrieve the payment for the visitor from the payments table
+            $payment = Payment::join('visit_requests', 'visit_requests.user_id', '=', 'payments.visitor_id')
+                              ->where('payments.status', 'confirmed') // Ensure payment is confirmed
+                              ->where('visit_requests.property_id', $visitRequest->property_id) // Check if the payment is for the same property
+                              ->where('payments.visitor_id', $visitor->id) // Make sure it's the correct visitor
                               ->first();
 
-            // If payment exists, retrieve rent from it or assign a default value
-            $rent = $payment ? $payment->amount : 0; // Default to 0 if no payment is found
+            // Check if payment is confirmed and associated with the correct property
+            if (!$payment) {
+                return redirect()->back()->with('error', 'The visitor must have a confirmed payment for the property to be changed to a tenant.');
+            }
 
-            // Debugging: Log the rent value
-            Log::info('Rent value: ' . $rent);
+            // If payment exists, retrieve rent from it or assign a default value
+            $rent = $payment ? $payment->amount : 0;
 
             // Create a new tenant entry based on the visitor's information
             $tenant = new Tenant([
                 'full_name' => $visitor->full_name,
                 'email' => $visitor->email,
-                'password' => $visitor->password, // Copy the password as-is
+                'password' => $visitor->password,
                 'current_address' => $visitor->current_address,
                 'phone_number' => $visitor->phone_number,
-                'account_type' => 'tenant', // Set the account type to 'tenant'
+                'account_type' => 'tenant',
                 'property_ID' => $visitRequest->property_id,
-                'rental_start_date' => now(), // Set rental start date
-                'rent' => $rent, // Assign the rent value
+                'rental_start_date' => now(),
+                'rent' => $rent,
             ]);
 
             // Temporarily disable password hashing by using a closure to avoid hashing password
             $tenant->setDisablePasswordHashing(true);
-
-            // Save the tenant without hashing the password
             $tenant->save();
 
-            // Transfer the payment to tenant_payments table
-            if ($payment) {
-                // Create a new payment entry in the tenant_payments table
-                TenantPayment::create([
-                    'tenant_id' => $tenant->id, // Link the new tenant ID
-                    'amount' => $payment->amount,
-                    'status' => $payment->status,
-                    'payment_method' => $payment->payment_method,
-                    'payment_date' => $payment->payment_date, // Use the original payment date
-                ]);
-            }
+            // Transfer the payment to the tenant_payments table with the correct status
+            TenantPayment::create([
+                'tenant_id' => $tenant->id,
+                'amount' => $payment->amount,
+                'status' => 'paid',
+                'payment_method' => $payment->payment_method,
+                'payment_date' => $payment->payment_date,
+            ]);
 
-            // Delete the visitor from the users table (since the visitor is now a tenant)
-            $visitor->delete();
-
-            // After converting to tenant, remove the visit request
+            // Delete the visitor and visit request
+            //$visitor->delete();
             $visitRequest->delete();
+
+            // Now, send the notification to the landlord (property owner)
+
+            // Send notification to the landlord (property owner)
+
+// Find the landlord associated with the property
+$landlord = Property::find($visitRequest->property_id)->landlord;
+
+if ($landlord) {
+    // Create the notification for the landlord
+    Notification::create([
+        'landlord_id' => $landlord->landlord_id, // Ensure landlord_id is set correctly
+        'message' => "Your property has been assigned a new tenant: {$payment->amount} TK",
+        'status' => 'unread', // Initially mark as unread
+    ]);
+}
+
 
             // Redirect back with success message
             return redirect()->back()->with('success', 'Visitor changed to tenant successfully.');
         }
 
-        // If no visitor is found, redirect back with error
         return redirect()->back()->with('error', 'No visitor found.');
     }
-
-
-
 
 
     // Logout the admin

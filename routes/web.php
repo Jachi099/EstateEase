@@ -10,6 +10,8 @@ use App\Http\Controllers\VisitRequestController;
 use App\Http\Controllers\ServiceProviderController;
 use App\Http\Controllers\TenantController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\NotificationController;
+
 use App\Models\Tenant; // Ensure you have created this model
 
 
@@ -42,9 +44,8 @@ Route::middleware(['auth:landlord'])->group(function () {
     Route::get('/landlord/edit-profile', [LandlordController::class, 'editProfile'])->name('landlord.edit_profile');
     Route::post('/landlord/store-property', [LandlordController::class, 'storeProperty'])->name('landlord.store_property');
     Route::get('/landlord/property/{id}', [LandlordController::class, 'showPropertyDetails'])->name('landlord.property_details');
-    Route::get('/landlord/notifications', [LandlordController::class, 'showNotifications'])->name('landlord.notifications');
-    Route::post('/notifications/{id}/read', [LandlordController::class, 'markAsRead'])->name('notifications.markAsRead');
-
+    Route::get('landlord/notifications', [NotificationController::class, 'index'])->name('landlord.notifications');
+Route::post('notifications/{id}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
 // Add this route for the property list
 Route::get('/landlord/properties', [LandlordController::class, 'showPropertiesList'])->name('landlord.properties_list');
 
