@@ -15,7 +15,7 @@ class Tenant extends Authenticatable
 
         protected $fillable = [
             'full_name', 'email', 'password', 'current_address', 'phone_number', 'account_type',
-            'property_ID', 'rental_start_date', 'rent',
+            'property_ID', 'rental_start_date', 'rent', 'picture'
         ];
 
 
@@ -54,15 +54,13 @@ public function tenantPayments()
     return $this->hasMany(TenantPayment::class, 'tenant_id');  // Assuming 'tenant_id' is the foreign key in tenant_payments table
 }
 
+
+
     // Define relationship to Property if needed
     public function property()
     {
         return $this->belongsTo(Property::class, 'property_ID', 'property_ID');
     }
 
-    // Define relationship to Payments
-    public function payments()
-    {
-        return $this->hasMany(Payment::class, 'tenant_id');
-    }
+
 }

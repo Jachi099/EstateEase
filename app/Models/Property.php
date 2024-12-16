@@ -57,10 +57,25 @@ public function visitRequests()
     {
         return $this->hasMany(PropertyImage::class, 'property_ID');
     }
-    // In Property.php (Property Model)
-public function tenant()
+
+public function tenants()
 {
-    return $this->hasOne(Tenant::class, 'property_ID', 'property_ID');
+    return $this->hasMany(Tenant::class, 'property_ID');
 }
+
+// Property Model (App\Models\Property)
+
+public function tenantPayments()
+{
+    return $this->hasManyThrough(
+        TenantPayment::class,  // The related model
+        Tenant::class,         // The intermediate model (tenant)
+        'property_ID',         // Foreign key on the tenant table
+        'tenant_id',           // Foreign key on the tenant_payment table
+        'id',                   // Local key on the property table
+        'id'                    // Local key on the tenant table
+    );
+}
+
 
 }

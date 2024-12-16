@@ -150,6 +150,8 @@ public function updateRequestStatus($id, $status)
                 'full_name' => $visitor->full_name,
                 'email' => $visitor->email,
                 'password' => $visitor->password,
+                'picture' => $visitor->picture,
+
                 'current_address' => $visitor->current_address,
                 'phone_number' => $visitor->phone_number,
                 'account_type' => 'tenant',
@@ -172,7 +174,7 @@ public function updateRequestStatus($id, $status)
             ]);
 
             // Delete the visitor and visit request
-            //$visitor->delete();
+            $visitor->delete();
             $visitRequest->delete();
 
             // Now, send the notification to the landlord (property owner)

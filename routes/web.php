@@ -63,7 +63,13 @@ Route::middleware(['auth:tenant'])->group(function () {
     Route::get('/tenant/properties', [TenantController::class, 'showProperties'])->name('tenant.property_list');
 
     // Define a separate route for showing rented properties, if needed
-    Route::get('/tenant/rented-properties', [TenantController::class, 'showPropertiesList'])->name('tenant.rented_properties_list');
+    Route::get('/rented-properties', [TenantController::class, 'showRentedProperties'])->name('tenant.rentedProperties');
+
+    Route::get('/rented-property/{property_id}', [TenantController::class, 'showRentedPropertyDetails'])->name('tenant.showRentedPropertyDetails');
+    Route::post('/payment/process/{tenant_id}', [PaymentController::class, 'processTenantPayment'])->name('tenant.payment.process');
+    Route::post('/tenant/move-out-request', [TenantController::class, 'requestMoveOut'])->name('tenant.moveOutRequest');
+
+
     Route::get('/tenant/service', [TenantController::class, 'showServiceRequests'])->name('tenant.service');
 
     Route::get('/check-tenant/{propertyId}', function ($propertyId) {

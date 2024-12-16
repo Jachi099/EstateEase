@@ -3,13 +3,18 @@
 
 
 namespace App\Http\Controllers;
+
+use App\Models\Admin;
 use App\Models\Notification;
+use App\Models\MoveOutRequest;
+
 use Illuminate\Http\Request;
 use App\Models\Tenant; // Import the Tenant model
 use Illuminate\Support\Facades\Auth;
 use App\Models\Property; // Import the Property model
 use Illuminate\Support\Facades\Log;
 use App\Models\ServiceRequest; // Import the Property model
+use App\Models\TenantPayment; // Import the Property model
 
 use App\Models\Service; // Import the Property model
 
@@ -23,25 +28,25 @@ class TenantController extends Controller
                 'floor', 'city', 'state', 'rent', 'available_from'
             )
             ->get();
-    
+
         // Get the authenticated user's profile picture
         $user = Auth::user();
         $profilePicture = $user->picture;
-    
+
         return view('tenant.property_list', compact('properties', 'profilePicture'));
     }
-    
+
 
     public function profile()
     {
         // Get the authenticated landlord
         $tenant = Auth::guard('tenant')->user();
-        
+
         // Check if the landlord exists
         if (!$tenant) {
             return redirect()->route('tenant.user_home')->with('error', 'Profile not found.');
         }
-    
+
         // Pass the landlord's information to the profile view
         return view('tenant.profile', [
             'profilePicture' => $tenant->picture ?? null,
@@ -82,44 +87,120 @@ class TenantController extends Controller
         return redirect()->route('tenant.profile')->with('success', 'Profile updated successfully!');
     }
 
-    
 
 
-    public function showPropertiesList()
-    {
-        // Retrieve the authenticated tenant
-        $tenant = Auth::guard('tenant')->user();
-        
-        // Retrieve the property the tenant has rented along with rental_start_date
-        $properties = Property::where('property_ID', $tenant->property_ID)
-            ->select('property_ID', 'type', 'img1', 'rent', 'size', 'floor', 'state', 'available_from')
-            ->get();
-        
-        // Include the rental_start_date in the tenant's data
-        $rentalStartDate = $tenant->rental_start_date;
-    
-        // Get the authenticated tenant's profile picture
-        $profilePicture = $tenant->picture;
-    
-        return view('tenant.rented_property_list', compact('properties', 'profilePicture', 'rentalStartDate'));
-    }
-    
+ // In your Controller
+ public function showRentedProperties()
+ {
+     // Get the authenticated tenant
+     $tenant = Auth::guard('tenant')->user();
 
-    public function showPropertyDetails($id)
+     if (!$tenant) {
+         return redirect()->back()->with('error', 'Tenant not found.');
+     }
+
+     // Get the current date and calculate the deadline for payment (10th of the current month)
+     $currentDate = now();
+     $paymentDeadline = now()->startOfMonth()->addDays(10); // 10th of the current month
+
+     // Fetch the properties where the tenant has rented, and check payment status
+     $properties = Property::where('property_ID', $tenant->property_ID)
+         ->with(['tenantPayments' => function ($query) use ($currentDate, $paymentDeadline) {
+             $query->where('payment_date', '>=', $paymentDeadline)
+                 ->orWhere('payment_date', null); // Null payment_date means unpaid
+         }])
+         ->get()
+         ->sortByDesc(function ($property) {
+             // Check if any tenant has unpaid status
+             $isOverdue = $property->tenantPayments->isEmpty() || $property->tenantPayments->last()->status != 'paid';
+             return $isOverdue ? 1 : 0; // Sort overdue properties first
+         });
+
+     // Get the tenant's profile picture
+     $profilePicture = $tenant->picture;
+
+     return view('tenant.rented_property_list', compact('properties', 'profilePicture'));
+ }
+
+ public function showRentedPropertyDetails($property_id)
 {
-    $property = Property::find($id);
-    if (!$property) {
-        abort(404);
+    // Get the authenticated tenant
+    $tenant = Auth::guard('tenant')->user(); // Ensure the tenant is authenticated
+
+    if (!$tenant) {
+        return redirect()->route('tenant.login')->with('error', 'You must be logged in to view this property.');
     }
 
-    $tenant = Tenant::where('property_ID', $id)->first(); // Fetch tenant info if it exists
-    
-    // Pass tenant profile picture if tenant exists
-    $profilePicture = $tenant->picture ?? null; // Assuming `picture` is a field in the landlord table
+    // Fetch the property with the provided property ID
+    $property = Property::findOrFail($property_id);
 
-    return view('tenant.details', compact('property', 'tenant', 'profilePicture'));
+    // Fetch the tenant associated with the property
+    $tenantForProperty = Tenant::where('property_ID', $property_id)
+                               ->where('id', $tenant->id) // Ensure this tenant is the one who rented the property
+                               ->first();
+
+    if (!$tenantForProperty) {
+        return redirect()->back()->with('error', 'You are not renting this property.');
+    }
+
+    // Get the tenant's profile picture
+    $profilePicture = $tenant->picture ?? null;
+
+    // Fetch the latest payment for this tenant
+    $latestPayment = $tenantForProperty->tenantPayments()->latest()->first();
+
+    // Determine the payment status (paid or overdue)
+    if ($latestPayment) {
+        $paymentStatus = ($latestPayment->status == 'paid') ? 'Paid' : 'Overdue';
+    } else {
+        $paymentStatus = 'Overdue'; // No payment found, marked as overdue
+    }
+
+    // Use the authenticated tenant's ID to check for payment status
+    $tenantPayment = TenantPayment::where('tenant_id', $tenant->id) // Use $tenant->id instead of $tenantId
+                                  ->whereMonth('payment_date', now()->month)
+                                  ->first();
+
+    // Check if the tenant has paid for the current month
+    $hasPaid = $tenantPayment ? true : false;
+
+    // Pass the property, tenant details, payment status, and profile picture to the view
+    return view('tenant.renteddetails', compact('hasPaid', 'property', 'paymentStatus', 'profilePicture', 'tenant', 'tenantForProperty'));
 }
 
+
+
+public function requestMoveOut(Request $request)
+{
+    // Validate the form data
+    $request->validate([
+        'move_out_month' => 'required|date|after_or_equal:'.now()->addMonth()->toDateString(),
+        'tenant_id' => 'required|exists:tenants,id', // Ensure tenant exists
+    ]);
+
+    // Fetch tenant information
+    $tenant = Tenant::findOrFail($request->tenant_id);
+
+    // Create the move-out request
+    $moveOutRequest = new MoveOutRequest();
+    $moveOutRequest->tenant_id = $tenant->id;
+    $moveOutRequest->move_out_month = $request->move_out_month;
+    $moveOutRequest->status = 'pending'; // Initial status, pending admin approval
+    $moveOutRequest->save();
+
+    // Notify the admin
+    $admin = Admin::where('role', 'admin')->first(); // Assuming you have an admin role
+    if ($admin) {
+        Notification::create([
+            'message' => 'Tenant ' . $tenant->full_name . ' has requested to move out of property ID ' . $tenant->property_id . ' for ' . $moveOutRequest->move_out_month,
+            'user_id' => $admin->id, // Assuming the admin's user ID is stored in the `user_id` field of the notification
+            'status' => 'unread',
+        ]);
+    }
+
+    // Redirect back with a success message
+    return redirect()->route('tenant.rentedProperties')->with('success', 'Move-out request has been sent to the admin.');
+}
 
 
 public function showServiceRequests()
@@ -144,11 +225,11 @@ public function showServiceRequests()
 public function cancelServiceRequest($id)
 {
     $serviceRequest = ServiceRequest::find($id);
-    
+
     if ($serviceRequest) {
         $serviceRequest->status = 'canceled';
         $serviceRequest->save();
-        
+
         session()->flash('success', 'Service request canceled successfully.');
     } else {
         session()->flash('error', 'Service request not found.');

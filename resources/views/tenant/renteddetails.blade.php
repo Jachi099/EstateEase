@@ -63,6 +63,56 @@
     color: gray;
 }
 
+
+/* Overlay Background */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none; /* Initially hidden */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure it's above other content */
+}
+
+/* Overlay Content */
+.overlay-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+}
+
+/* Close Button */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+}
+
+/* Submit Button */
+.submit-btn {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.submit-btn:hover {
+    background-color: #45a049;
+}
+
 </style>
 
     <script src="https://js.stripe.com/v3/"></script>
@@ -83,15 +133,15 @@
         LOGOUT
     </a>
 </form>
-<a href="{{ route('visitor.profile') }}">
+<a href="{{ route('tenant.profile') }}">
             <div class="profile_btn1">
            PROFILE
             </div>
             </a>
 
-            <a href="{{ route('visitor.visit_req_list') }}">
+            <a href="{{ route('tenant.rentedProperties') }}">
                 <div class="visit_btn1">
-                    <div class="visit-requested-properties1">VISIT REQUESTED PROPERTIES</div>
+                    <div class="visit-requested-properties1">RENTED PROPERTIES</div>
                 </div>
             </a>
 
@@ -101,12 +151,12 @@
             <div class="about montserrat-normal-black-16px">Notifications</div>
 
             <div class="estate-ease_logo montserrat-semi-bold-beaver-18px">EstateEase</div>
-                  <a href="{{ route('visitor.user_home') }}"><div class="place montserrat-normal-black-16px">Home</div> </a
+                  <a href="{{ route('tenant.user_home') }}"><div class="place montserrat-normal-black-16px">Home</div> </a
             >
-            <a href="{{ route('visitor.property_list') }}"><div class="navbar-link-properties montserrat-normal-black-16px">Properties</div> </a
+            <a href="{{ route('tenant.property_list') }}"><div class="navbar-link-properties montserrat-normal-black-16px">Properties</div> </a
             >
 
-            <a href="{{ route('visitor.profile') }}">
+            <a href="{{ route('tenant.profile') }}">
                 <div class="head_pic">
                     @if(isset($profilePicture) && $profilePicture)
                         <img src="{{ asset('storage/' . $profilePicture) }}" alt="User Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
@@ -131,17 +181,6 @@
     <div class="pro_rent">
         {{ $property->rent }} tk
     </div>
-                    <div class="navbar-link-payment-status">PAYMENT STATUS:</div>
-
-                    <div class="overlap-group16 {{ $paymentStatus == 'paid' ? 'paid-status' : 'unpaid-status' }}">
-    <div class="pro_detail_btn {{ $paymentStatus == 'paid' ? 'btn-paid' : 'btn-unpaid' }}"></div>
-    <div class="unpaid montserrat-normal-white-11px {{ $paymentStatus == 'paid' ? '' : 'unpaid-active' }}">
-        UNPAID
-    </div>
-    <div class="paid montserrat-normal-mongoose-11px {{ $paymentStatus == 'paid' ? 'paid-active' : '' }}">
-        PAID
-    </div>
-</div>
 
 
 
@@ -360,7 +399,7 @@
 
 <!-- Left Column -->
 <div class="flex-col-71 montserrat-normal-black-12px">
-    <div class="name12">VISIT REQUESTED DATE:</div>
+    <div class="name12">LAST DATE TO PAY:</div>
     <div class="phone12">STATUS:</div>
     <div class="email12">CHOOSE PAYMENT METHOD:</div>
     <label id="payment-label" class="cardorphninfo">CARD NUMBER/PHONE:</label>
@@ -370,36 +409,51 @@
 <!-- Right Column -->
 <div class="flex-col-812">
     <div class="name-12">
-        <!-- Display the visit requested date -->
-        @if ($visitRequest)
-            <span>{{ $visitRequest->visit_date->format('d M, Y') }}</span> <!-- Format as desired -->
-        @else
-            <span>No visit requested.</span>
-        @endif
+        <!-- Display the last date to pay the rent (10th of the current month) -->
+        @php
+            $lastPaymentDate = \Carbon\Carbon::now()->setDay(10); // Set the date to the 10th of the current month
+        @endphp
+
+        <span>{{ $lastPaymentDate->format('d M, Y') }}</span>
     </div>
 
-    <div class="name-13">
-    <!-- Display the status with conditional colors -->
-    @if ($visitRequest)
+<div class="name-13">
+    <!-- Display the payment status with conditional colors -->
+    @php
+        // Get the current date and set the 10th day of the month
+        $currentDate = \Carbon\Carbon::now();
+        $lastPaymentDate = $currentDate->setDay(10); // The last date to pay rent is the 10th of the month
+
+        // Fetch the latest payment for the tenant, assuming 'tenant_id' is related to the tenant
+        $latestPayment = $tenant->tenantPayments()->latest()->first();
+    @endphp
+
+    @if ($latestPayment)
+        @php
+            // Check if payment is overdue (status 'unpaid' and date is past the 10th)
+            $paymentStatus = $latestPayment->status == 'paid'
+                             ? 'paid'
+                             : ($latestPayment->payment_date && \Carbon\Carbon::parse($latestPayment->payment_date)->lessThan($lastPaymentDate) ? 'overdue' : 'unpaid');
+        @endphp
+
         <span class="
-            @if ($visitRequest->status == 'pending') text-warning
-            @elseif ($visitRequest->status == 'accepted') text-success
-            @elseif ($visitRequest->status == 'rejected') text-danger
-            @elseif ($visitRequest->status == 'canceled') text-cancelled
+            @if ($paymentStatus == 'paid') text-success
+            @elseif ($paymentStatus == 'overdue') text-danger
+            @else text-warning
             @endif
         ">
-            {{ ucfirst($visitRequest->status) }}
+            {{ ucfirst($paymentStatus) }}
         </span>
     @else
-        <span class="text-muted">N/A</span>
+        <span class="text-muted">No payment record</span>
     @endif
 </div>
 
 
 
 
-   <!-- The Form -->
-<form id="payment-form" action="{{ route('payment.process', ['visitor_id' => auth()->user()->id]) }}" method="POST" onsubmit="submitPayment(event)">
+  <!-- The Form -->
+<form id="payment-form" action="{{ route('tenant.payment.process', ['tenant_id' => auth()->user()->id]) }}" method="POST" onsubmit="submitPayment(event)">
     @csrf
     <!-- Payment Method Selection -->
     <select class="name-14" name="payment_method" id="payment-method" required>
@@ -444,14 +498,17 @@
     <input type="hidden" name="phone" value="{{ auth()->user()->phone_number }}" />
     <input type="hidden" name="address" value="{{ auth()->user()->current_address }}" />
     <input type="hidden" name="property_id" value="{{ $property->property_ID }}">
-    <input type="hidden" name="visitor_id" value="{{ auth()->user()->id }}" />
+    <input type="hidden" name="tenant_id" value="{{ auth()->user()->id }}" />
 
-    @if ($visitRequest && $visitRequest->status == 'accepted')
     <!-- Show the Pay Now button only when the status is accepted -->
+<!-- Check if the tenant has already paid for the month -->
+@if (!$hasPaid)
+    <!-- Only show the Pay Now button if the tenant has not paid for the current month -->
     <button id="pay-btn" class="pay-btn" type="button">Pay Now</button>
+@else
+    <p>You have already paid for this month.</p> <!-- Optional message -->
 @endif
 </form>
-
 
 </div>
 
@@ -463,22 +520,51 @@
         <button id="close-popup">Close</button>
     </div>
 </div>
-
-                </div>
+              </div>
               </div>
             </div>
             <div class="overlap-group-container-4">
-            <a href="{{ route('visitor.visit_req_list') }}">
+            <a href="{{ route('tenant.rentedProperties') }}">
             <div class="overlap-group5"><div class="go-back montserrat-black-beaver-16px">GO BACK</div></div>
 
 </a>
-    @if ($visitRequest && $visitRequest->status == 'pending')
-        <!-- Only show this button if the status is 'pending' -->
-        <form action="{{ route('visitor.cancelVisitRequest', $property->property_ID) }}" method="POST">
+
+<!-- CANCEL RENTING PROPERTY Button -->
+<button type="button" class="overlap-group9" id="cancel-rent-btn">CANCEL RENTING PROPERTY</button>
+
+<!-- The Overlay (hidden initially) -->
+<div id="move-out-overlay" class="overlay">
+    <div class="overlay-content">
+        <!-- Close Button -->
+        <button type="button" id="close-overlay" class="close-btn">X</button>
+
+        <!-- Move-out Request Form -->
+        <h2>Request to Move Out</h2>
+        <form id="move-out-form" action="{{ route('tenant.moveOutRequest') }}" method="POST">
             @csrf
-            <button type="submit" class="overlap-group9">CANCEL REQUEST</button>
+            <!-- Month selection for move-out (ensure it's at least one month away) -->
+            <label for="move-out-month">Choose your move-out month:</label>
+            <select name="move_out_month" id="move-out-month" required>
+                @php
+                    $currentMonth = \Carbon\Carbon::now();
+                    $months = [];
+                    for ($i = 1; $i <= 12; $i++) {
+                        $nextMonth = $currentMonth->copy()->addMonths($i);
+                        $months[] = $nextMonth;
+                    }
+                @endphp
+                @foreach($months as $month)
+                    <option value="{{ $month->format('Y-m') }}">{{ $month->format('F Y') }}</option>
+                @endforeach
+            </select>
+
+            <!-- Hidden tenant ID field -->
+            <input type="hidden" name="tenant_id" value="{{ auth()->user()->id }}">
+
+            <button type="submit" class="submit-btn">Submit Request</button>
         </form>
-    @endif
+    </div>
+</div>
 
 
             </div>
@@ -489,7 +575,7 @@
 
 
 
-          </div>
+</div>
         </div>
       </div>
     </div>
@@ -502,6 +588,36 @@
 </div>
     </div>
     <script>
+
+// Get references to the overlay, buttons, and form
+const cancelRentButton = document.getElementById('cancel-rent-btn');
+const overlay = document.getElementById('move-out-overlay');
+const closeButton = document.getElementById('close-overlay');
+
+// Show the overlay when the button is clicked
+cancelRentButton.addEventListener('click', () => {
+    overlay.style.display = 'flex'; // Show the overlay
+});
+
+// Hide the overlay when the close button is clicked
+closeButton.addEventListener('click', () => {
+    overlay.style.display = 'none'; // Hide the overlay
+});
+
+// Optionally, hide the overlay if the user clicks outside the content area
+overlay.addEventListener('click', (event) => {
+    if (event.target === overlay) {
+        overlay.style.display = 'none'; // Hide the overlay
+    }
+});
+
+
+
+
+
+
+
+
 // Initialize Stripe
 var stripe = Stripe('pk_test_51QUU8KP2zO95Ub2TwNeybmjvtzavKiZPXeD2n7c5CdoWvwKDSdVtIf8W7C2sqoGdAHsk2PfkEwV1WOpiTjmsvAnr00VCJSHnh2');
 var elements = stripe.elements();
@@ -532,6 +648,7 @@ document.getElementById('payment-method').addEventListener('change', function ()
         }
     }
 });
+
 // Show confirmation popup when 'Pay Now' is clicked
 document.getElementById('pay-btn').addEventListener('click', function() {
     document.getElementById('confirmation-popup').style.display = 'flex';
@@ -553,14 +670,14 @@ function submitPayment(event) {
     event.preventDefault();
 
     var paymentMethod = document.getElementById('payment-method').value;
-    var visitorId = document.querySelector('input[name="visitor_id"]').value;
+    var tenantId = document.querySelector('input[name="tenant_id"]').value;
 
     if (paymentMethod === 'debit' || paymentMethod === 'credit') {
         stripe.createToken(card).then(function(result) {
             if (result.error) {
                 showPopup('Payment failed: ' + result.error.message);
             } else {
-                processPayment(result.token.id);
+                processTenantPayment(result.token.id); // Call the new processTenantPayment method
             }
         });
     } else {
@@ -569,12 +686,12 @@ function submitPayment(event) {
     }
 }
 
-// Process Payment (AJAX)
-function processPayment(token) {
+// Process Tenant Payment (AJAX)
+function processTenantPayment(token) {
     var formData = new FormData(document.getElementById('payment-form'));
     formData.append('token', token);
 
-    fetch("{{ route('payment.process', ['visitor_id' => auth()->user()->id]) }}", {
+    fetch("{{ route('tenant.payment.process', ['tenant_id' => auth()->user()->id]) }}", {
         method: "POST",
         body: formData,
     })
@@ -595,26 +712,6 @@ function processPayment(token) {
 function showPopup(message) {
     alert(message);  // Replace with custom popup logic if needed
 }
-
-
-
-        document.getElementById('payment-method').addEventListener('change', function() {
-    var paymentMethod = this.value;
-    var label = document.getElementById('payment-label');
-    var input = document.getElementById('payment-input');
-
-    // Change the label and placeholder text based on the selected payment method
-    if (paymentMethod === 'bkash') {
-        label.textContent = 'bKash Number:';
-        input.setAttribute('placeholder', 'Enter bKash Number');
-    } else if (paymentMethod === 'nagad') {
-        label.textContent = 'Nagad Number:';
-        input.setAttribute('placeholder', 'Enter Nagad Number');
-    } else if (paymentMethod === 'debit' || paymentMethod === 'credit') {
-        label.textContent = 'CARD Number:';
-        input.setAttribute('placeholder', 'Enter Card Number');
-    }
-});
 
 
 
