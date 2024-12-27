@@ -1,0 +1,333 @@
+/* screen - serviceu95provideru95admin */
+
+.serviceu95provideru95admin {
+  align-items: flex-start;
+  background-color: var(--white);
+  display: flex;
+  gap: 50px;
+  height: 1024px;
+  width: 1440px;
+}
+
+.serviceu95provideru95admin .overlap-group {
+  align-items: center;
+  background-color: var(--black);
+  display: flex;
+  flex-direction: column;
+  min-height: 1024px;
+  padding: 80px 0;
+  width: 214px;
+}
+
+.serviceu95provideru95admin .overlap-group7 {
+  align-items: flex-start;
+  background-color: var(--black);
+  display: flex;
+  height: 77px;
+  margin-top: 84px;
+  min-width: 214px;
+  padding: 26px 45px;
+}
+
+.serviceu95provideru95admin .profile {
+  left: 68px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-shadow: 0px 4px 4px #c09a7f66;
+  top: 27px;
+  white-space: nowrap;
+}
+
+.serviceu95provideru95admin .overlap-group9 {
+  align-items: flex-start;
+  background-color: var(--black);
+  display: flex;
+  height: 77px;
+  justify-content: flex-end;
+  min-width: 214px;
+  padding: 26px 58px;
+}
+
+.serviceu95provideru95admin .overlap-group11 {
+  align-items: flex-start;
+  background-color: var(--black);
+  display: flex;
+  height: 77px;
+  min-width: 214px;
+  padding: 26px 59px;
+}
+
+.serviceu95provideru95admin .overlap-group6 {
+  align-items: flex-end;
+  background-color: var(--black);
+  display: flex;
+  height: 77px;
+  min-width: 214px;
+  padding: 26px 18px;
+}
+
+.serviceu95provideru95admin .tenant-visitor {
+  letter-spacing: 0;
+  line-height: normal;
+  min-height: 24px;
+  min-width: 171px;
+  text-shadow: 0px 4px 4px #c09a7f66;
+  white-space: nowrap;
+}
+
+.serviceu95provideru95admin .service {
+  left: 64px;
+  position: absolute;
+  text-shadow: 0px 4px 4px #c09a7f66;
+  top: 27px;
+  white-space: nowrap;
+}
+
+.serviceu95provideru95admin .overlap-group5 {
+  align-items: flex-start;
+  background-color: var(--white);
+  display: flex;
+  height: 77px;
+  justify-content: flex-end;
+  min-width: 214px;
+  padding: 26px 15px;
+}
+
+.serviceu95provideru95admin .service-provider {
+  min-height: 24px;
+  text-shadow: 0px 4px 4px #c09a7f66;
+  white-space: nowrap;
+}
+
+.serviceu95provideru95admin .feedback {
+  left: 56px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-shadow: 0px 4px 4px #c09a7f66;
+  top: 26px;
+  white-space: nowrap;
+}
+
+.serviceu95provideru95admin .overlap-group4 {
+  align-items: flex-end;
+  background-color: var(--black);
+  display: flex;
+  height: 77px;
+  min-width: 214px;
+  padding: 26px 62px;
+}
+
+.serviceu95provideru95admin .flex-col {
+  flex-direction: column;
+  gap: 47px;
+  margin-top: 33px;
+  min-height: 963px;
+  width: 1134px;
+}
+
+.serviceu95provideru95admin .flex-row {
+  gap: 40px;
+  height: 290px;
+  min-width: 1134px;
+}
+
+.serviceu95provideru95admin .flex-col-1 {
+  align-items: flex-start;
+  align-self: flex-end;
+  min-height: 247px;
+  width: 901px;
+}
+
+.serviceu95provideru95admin .estate-ease_logo {
+  margin-left: 3px;
+  min-height: 31px;
+  width: 584px;
+}
+
+.serviceu95provideru95admin .add-service-provider {
+  cursor: pointer;
+  letter-spacing: 0;
+  line-height: normal;
+  margin-left: 49px;
+  margin-top: 100px;
+  min-height: 24px;
+  white-space: nowrap;
+}
+
+.serviceu95provideru95admin .flex-row-1 {
+  align-items: center;
+  display: flex;
+  margin-top: 57px;
+  min-width: 901px;
+}
+
+.serviceu95provideru95admin .location {
+  letter-spacing: 0;
+  line-height: normal;
+  margin-bottom: 1.0px;
+  min-height: 20px;
+  min-width: 90px;
+}
+
+.serviceu95provideru95admin .location_opt {
+  background-color: var(--white);
+  border: 2px solid;
+  border-color: var(--beaver);
+  height: 35px;
+  margin-left: 4px;
+  width: 309px;
+}
+
+.serviceu95provideru95admin .service-type {
+  margin-bottom: 7.0px;
+  margin-left: 40px;
+  min-height: 20px;
+  min-width: 121px;
+}
+
+.serviceu95provideru95admin .servicetype_opt {
+  background-color: var(--white);
+  border: 2px solid;
+  border-color: var(--beaver);
+  height: 35px;
+  margin-left: 9px;
+  width: 328px;
+}
+
+.serviceu95provideru95admin .flex-col-2 {
+  align-items: flex-start;
+  gap: 182px;
+  min-height: 289px;
+  width: 193px;
+}
+
+.serviceu95provideru95admin .head_pic {
+  align-self: flex-end;
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--beaver);
+  border-radius: 38.5px/36.5px;
+  cursor: pointer;
+  height: 73px;
+  width: 77px;
+}
+
+.serviceu95provideru95admin .overlap-group2 {
+  align-items: center;
+  background-color: var(--mongoose);
+  border-radius: 10px;
+  box-shadow: 0px 4px 4px #00000040;
+  display: flex;
+  height: 34px;
+  justify-content: flex-end;
+  min-width: 172px;
+  padding: 0 29px;
+}
+
+.serviceu95provideru95admin .filter {
+  letter-spacing: 0;
+  line-height: normal;
+  min-height: 20px;
+  width: 87px;
+}
+
+.serviceu95provideru95admin .flex-col-3 {
+  align-items: flex-end;
+  min-height: 626px;
+  width: 1128px;
+}
+
+.serviceu95provideru95admin .sort-container {
+  align-items: center;
+  display: flex;
+  gap: 11px;
+  min-width: 303px;
+}
+
+.serviceu95provideru95admin .sort {
+  letter-spacing: 0;
+  line-height: normal;
+  margin-bottom: 1.0px;
+  min-height: 20px;
+  min-width: 48px;
+}
+
+.serviceu95provideru95admin .sort-1 {
+  background-color: var(--white);
+  border: 2px solid;
+  border-color: var(--beaver);
+  height: 27px;
+  width: 244px;
+}
+
+.serviceu95provideru95admin .flex-row-2 {
+  align-items: flex-start;
+  display: flex;
+  height: 31px;
+  margin-top: 22px;
+  min-width: 1128px;
+}
+
+.serviceu95provideru95admin .list-of-services-providers {
+  letter-spacing: 0;
+  line-height: normal;
+  min-height: 31px;
+  width: 335px;
+}
+
+.serviceu95provideru95admin .total-service-providers {
+  letter-spacing: 0;
+  line-height: normal;
+  margin-left: 471px;
+  margin-top: 2px;
+  min-height: 20px;
+  min-width: 238px;
+}
+
+.serviceu95provideru95admin .total {
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--mongoose-2);
+  height: 22px;
+  margin-left: 4px;
+  margin-top: 1px;
+  width: 80px;
+}
+
+.serviceu95provideru95admin .overlap-group1 {
+  align-items: flex-start;
+  background-color: var(--white);
+  border: 2px solid;
+  border-color: var(--black);
+  display: flex;
+  height: 545px;
+  margin-top: 1px;
+  min-width: 1128px;
+}
+
+.serviceu95provideru95admin .servicepro_heading {
+  background-color: var(--white);
+  border: 3px solid;
+  border-color: var(--black);
+  height: 46px;
+  margin-left: -2px;
+  margin-top: -2px;
+  width: 1128px;
+}
+
+.serviceu95provideru95admin .flex {
+  align-items: flex-start;
+  display: flex;
+}
+
+.serviceu95provideru95admin .flex-col-4 {
+  display: flex;
+  flex-direction: column;
+}
+
+.serviceu95provideru95admin .service-1 {
+  letter-spacing: 0;
+  line-height: normal;
+}

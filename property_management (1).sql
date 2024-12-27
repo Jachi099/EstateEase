@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 09, 2024 at 11:43 AM
+-- Generation Time: Dec 27, 2024 at 10:23 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -110,6 +110,22 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `move_out_requests`
+--
+
+CREATE TABLE `move_out_requests` (
+  `id` int(11) NOT NULL,
+  `tenant_id` int(11) NOT NULL,
+  `property_id` int(11) NOT NULL,
+  `move_out_month` date NOT NULL,
+  `status` enum('pending','approved','rejected') DEFAULT 'pending',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `notifications`
 --
 
@@ -121,6 +137,14 @@ CREATE TABLE `notifications` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `notifications`
+--
+
+INSERT INTO `notifications` (`id`, `landlord_id`, `message`, `status`, `created_at`, `updated_at`) VALUES
+(3, 17, 'Your property has been assigned a new tenant: 73500.00 TK', 'unread', '2024-12-15 23:55:39', '2024-12-15 23:55:39'),
+(4, 17, 'Your property has been assigned a new tenant: 73500.00 TK', 'unread', '2024-12-16 00:02:53', '2024-12-16 00:02:53');
 
 -- --------------------------------------------------------
 
@@ -142,6 +166,7 @@ CREATE TABLE `password_resets` (
 
 CREATE TABLE `payments` (
   `id` bigint(20) NOT NULL,
+  `tran_id` varchar(255) DEFAULT NULL,
   `visitor_id` bigint(20) UNSIGNED DEFAULT NULL,
   `payment_date` timestamp NOT NULL DEFAULT current_timestamp(),
   `amount` decimal(10,2) NOT NULL,
@@ -262,16 +287,24 @@ CREATE TABLE `services` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `services`
+-- Table structure for table `service_providers`
 --
 
-INSERT INTO `services` (`id`, `picture`, `type`, `cost`, `description`, `created_at`, `updated_at`) VALUES
-(1, 'images/plumbing_service.jpg', 'Plumbing', 75.00, 'Leak repair and pipe replacement.', '2024-11-03 16:37:05', '2024-11-03 16:37:05'),
-(2, 'images/electrical_service.jpg', 'Electrical', 100.00, 'Wiring installation and electrical repairs.', '2024-11-03 16:37:05', '2024-11-03 16:37:05'),
-(3, 'images/carpentry_service.jpg', 'Carpentry', 85.00, 'Furniture assembly and woodwork.', '2024-11-03 16:37:05', '2024-11-03 16:37:05'),
-(4, 'images/cleaning_service.jpg', 'Cleaning', 50.00, 'House cleaning and maintenance services.', '2024-11-03 16:37:05', '2024-11-03 16:37:05'),
-(5, 'images/hvac_service.jpg', 'HVAC', 120.00, 'Heating and cooling system maintenance.', '2024-11-03 16:37:05', '2024-11-03 16:37:05');
+CREATE TABLE `service_providers` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `phone_number` varchar(15) NOT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `address` text NOT NULL,
+  `specialization` varchar(255) NOT NULL,
+  `hourly_rate` decimal(10,2) NOT NULL,
+  `availability_status` enum('available','unavailable') DEFAULT 'available',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -282,14 +315,17 @@ INSERT INTO `services` (`id`, `picture`, `type`, `cost`, `description`, `created
 CREATE TABLE `service_requests` (
   `id` int(11) NOT NULL,
   `tenant_id` int(11) NOT NULL,
-  `property_ID` int(11) NOT NULL,
-  `service_type` varchar(255) NOT NULL,
-  `service_date` date NOT NULL,
-  `service_time` time NOT NULL,
-  `description` text DEFAULT NULL,
-  `status` enum('pending','ongoing','completed','canceled') DEFAULT 'pending',
+  `service_id` int(11) NOT NULL,
+  `service_provider_id` int(11) DEFAULT NULL,
+  `status` enum('pending','accepted','rejected','completed') DEFAULT 'pending',
+  `requested_date` date NOT NULL,
+  `scheduled_date` date NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `total_cost` decimal(10,2) DEFAULT NULL,
+  `labor_cost` decimal(10,2) DEFAULT NULL,
+  `urgency_fee` decimal(10,2) DEFAULT NULL,
+  `platform_fee` decimal(10,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -314,6 +350,36 @@ CREATE TABLE `tenants` (
   `rent` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `tenants`
+--
+
+INSERT INTO `tenants` (`id`, `full_name`, `email`, `password`, `picture`, `current_address`, `phone_number`, `account_type`, `created_at`, `updated_at`, `property_ID`, `rental_start_date`, `rent`) VALUES
+(20, 'Jachi Sangma', 'jessisangma7@gmail.com', '$2y$10$bV3Ts3EEgq3pmpHsRrKMouii3ZahNJk2B/XDMjs0b0QzFeFCMcjvi', 'profile_pictures/ygRNisurERo803PThgAE196cNnLaUFKt4kUJ2KmW.png', 'ka-50/8c, kalachandpur, gulshan, dhaka', '01785546431', 'tenant', '2024-12-16 00:02:53', '2024-12-16 00:02:53', 19, '2024-12-16', 73500.00);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tenant_payments`
+--
+
+CREATE TABLE `tenant_payments` (
+  `id` int(11) NOT NULL,
+  `tenant_id` int(11) NOT NULL,
+  `amount` decimal(10,2) NOT NULL,
+  `status` enum('paid','unpaid') NOT NULL,
+  `payment_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tenant_payments`
+--
+
+INSERT INTO `tenant_payments` (`id`, `tenant_id`, `amount`, `status`, `payment_date`, `created_at`, `updated_at`) VALUES
+(6, 20, 73500.00, 'paid', '2024-12-16 06:02:48', '2024-12-16 00:02:53', '2024-12-16 00:02:53');
+
 -- --------------------------------------------------------
 
 --
@@ -333,14 +399,6 @@ CREATE TABLE `users` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `users`
---
-
-INSERT INTO `users` (`id`, `full_name`, `current_address`, `phone_number`, `account_type`, `email`, `password`, `picture`, `created_at`, `updated_at`) VALUES
-(22, 'Jachi Sangma', 'ka-50/8c, kalachandpur, gulshan, dhaka', '01785546431', 'visitor', 'jsangma09@gmail.com', '$2y$10$lXo19J8sQSjZOOHJYYF56.HtJB9Hq.AH1aaPOyCuV7D0VcofLAJAG', 'profile_pictures/ZhEIuMFA6mvNyLgmywwqUjTDY9aqdGrFI38YvRyz.jpg', '2024-12-04 05:53:44', '2024-12-04 05:53:44'),
-(23, 'Jachi Sangma', 'kalachandpur, gulshan,dhaka-1212', '01785546431', 'visitor', 'jessisangma7@gmail.com', '$2y$10$J83Cdbx3cCquAt.FQLqWTO.Z.h/BgQzEuyEPKFzRjt2UMmdBIfW.a', 'profile_pictures/OHb8BFamkqCzbHnUi8udVUJXG6fcCT9GpHG2albO.png', '2024-12-06 04:49:12', '2024-12-06 04:49:12');
-
 -- --------------------------------------------------------
 
 --
@@ -355,16 +413,8 @@ CREATE TABLE `visit_requests` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `property_id` int(11) NOT NULL,
-  `status` enum('pending','accepted','rejected') DEFAULT NULL
+  `status` enum('pending','accepted','rejected','canceled') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `visit_requests`
---
-
-INSERT INTO `visit_requests` (`id`, `user_id`, `visit_date`, `visit_time`, `created_at`, `updated_at`, `property_id`, `status`) VALUES
-(17, 22, '2024-12-09', '19:51:00', '2024-12-06 04:48:17', '2024-12-06 04:59:46', 17, 'accepted'),
-(20, 23, '2024-12-12', '19:51:00', '2024-12-06 05:00:17', '2024-12-06 05:00:17', 17, 'pending');
 
 --
 -- Indexes for dumped tables
@@ -398,6 +448,14 @@ ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `move_out_requests`
+--
+ALTER TABLE `move_out_requests`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `tenant_id` (`tenant_id`),
+  ADD KEY `property_id` (`property_id`);
+
+--
 -- Indexes for table `notifications`
 --
 ALTER TABLE `notifications`
@@ -415,6 +473,7 @@ ALTER TABLE `password_resets`
 --
 ALTER TABLE `payments`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `tran_id` (`tran_id`),
   ADD KEY `fk_payments_visitor_id` (`visitor_id`);
 
 --
@@ -446,12 +505,21 @@ ALTER TABLE `services`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `service_providers`
+--
+ALTER TABLE `service_providers`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `phone_number` (`phone_number`),
+  ADD UNIQUE KEY `email` (`email`);
+
+--
 -- Indexes for table `service_requests`
 --
 ALTER TABLE `service_requests`
   ADD PRIMARY KEY (`id`),
   ADD KEY `tenant_id` (`tenant_id`),
-  ADD KEY `property_ID` (`property_ID`);
+  ADD KEY `service_id` (`service_id`),
+  ADD KEY `service_provider_id` (`service_provider_id`);
 
 --
 -- Indexes for table `tenants`
@@ -460,6 +528,13 @@ ALTER TABLE `tenants`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `email` (`email`),
   ADD KEY `fk_property` (`property_ID`);
+
+--
+-- Indexes for table `tenant_payments`
+--
+ALTER TABLE `tenant_payments`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `tenant_id` (`tenant_id`);
 
 --
 -- Indexes for table `users`
@@ -505,16 +580,22 @@ ALTER TABLE `migrations`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
+-- AUTO_INCREMENT for table `move_out_requests`
+--
+ALTER TABLE `move_out_requests`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -541,32 +622,51 @@ ALTER TABLE `services`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT for table `service_providers`
+--
+ALTER TABLE `service_providers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `service_requests`
 --
 ALTER TABLE `service_requests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tenants`
 --
 ALTER TABLE `tenants`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+
+--
+-- AUTO_INCREMENT for table `tenant_payments`
+--
+ALTER TABLE `tenant_payments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `visit_requests`
 --
 ALTER TABLE `visit_requests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `move_out_requests`
+--
+ALTER TABLE `move_out_requests`
+  ADD CONSTRAINT `move_out_requests_ibfk_1` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`),
+  ADD CONSTRAINT `move_out_requests_ibfk_2` FOREIGN KEY (`property_id`) REFERENCES `property` (`property_ID`);
 
 --
 -- Constraints for table `notifications`
@@ -596,14 +696,21 @@ ALTER TABLE `property_images`
 -- Constraints for table `service_requests`
 --
 ALTER TABLE `service_requests`
-  ADD CONSTRAINT `service_requests_ibfk_1` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`),
-  ADD CONSTRAINT `service_requests_ibfk_2` FOREIGN KEY (`property_ID`) REFERENCES `property` (`property_ID`);
+  ADD CONSTRAINT `service_requests_ibfk_1` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `service_requests_ibfk_2` FOREIGN KEY (`service_id`) REFERENCES `services` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `service_requests_ibfk_3` FOREIGN KEY (`service_provider_id`) REFERENCES `service_providers` (`id`);
 
 --
 -- Constraints for table `tenants`
 --
 ALTER TABLE `tenants`
   ADD CONSTRAINT `fk_property` FOREIGN KEY (`property_ID`) REFERENCES `property` (`property_ID`);
+
+--
+-- Constraints for table `tenant_payments`
+--
+ALTER TABLE `tenant_payments`
+  ADD CONSTRAINT `tenant_payments_ibfk_1` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `visit_requests`

@@ -70,7 +70,18 @@ Route::middleware(['auth:tenant'])->group(function () {
     Route::post('/tenant/move-out-request', [TenantController::class, 'requestMoveOut'])->name('tenant.moveOutRequest');
 
 
-    Route::get('/tenant/service', [TenantController::class, 'showServiceRequests'])->name('tenant.service');
+    Route::get('/service-requests', [TenantController::class, 'viewServiceRequests'])->name('tenant.serviceRlist');
+    Route::delete('/service-requests/{id}/cancel', [TenantController::class, 'cancelServiceRequest'])->name('tenant.cancelServiceRequest');
+
+    // Show the service request form
+Route::get('/tenant/service-request-form', [TenantController::class, 'showServiceRequestForm'])->name('tenant.serviceRequestT');
+
+// Submit the service request
+Route::post('/tenant/service-request-form', [TenantController::class, 'createServiceRequest'])->name('tenant.serviceRequests');
+
+
+
+
 
     Route::get('/check-tenant/{propertyId}', function ($propertyId) {
         $hasTenant = Tenant::where('property_ID', $propertyId)->exists();
@@ -83,11 +94,7 @@ Route::post('/tenant/{tenantId}/payment', [PaymentController::class, 'storePayme
 // Show payment history for a tenant
 Route::get('/tenant/{tenantId}/payments', [PaymentController::class, 'showPayments'])->name('payment.history');
 
-    // Cancel a service request
-    Route::post('/tenant/service/cancel/{id}', [TenantController::class, 'cancelServiceRequest'])->name('tenant.service.cancel');
-    Route::get('/tenant/service/request', [TenantController::class, 'showServiceRequestForm'])->name('tenant.service.request.form');
-    Route::post('/tenant/service/request', [TenantController::class, 'storeServiceRequest'])->name('tenant.service.request');
-    Route::get('/tenant/property/{id}', [TenantController::class, 'showPropertyDetails'])->name('tenant.property_details');
+
 });
 
 
@@ -177,3 +184,17 @@ Route::delete('/admin/service-providers/{id}', [ServiceProviderController::class
 
     // web.php (or routes file)
 Route::get('/admin/tenant', [AdminController::class, 'showTenant'])->name('admin.tenant');
+
+
+
+
+// Admin Services
+Route::get('/admin/services', [AdminController::class, 'showServices'])->name('admin.services');
+Route::get('/admin/services/{id}/edit', [AdminController::class, 'editService'])->name('admin.services.edit');
+Route::delete('/admin/services/{id}', [AdminController::class, 'deleteService'])->name('admin.services.destroy');
+
+
+Route::get('/admin/services/create', [AdminController::class, 'create'])->name('admin.add_service');
+
+// Store the new service
+Route::post('/admin/services', [AdminController::class, 'store'])->name('admin.services.store');

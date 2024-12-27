@@ -41,6 +41,11 @@
                 </div>
             </a>
 
+            <a href="{{ route('tenant.serviceRlist') }}">
+                <div class="help_btn">
+                   REQUEST SERVICES</div>
+                </div>
+            </a>
 
 
                 <div class="navbar-link-container">

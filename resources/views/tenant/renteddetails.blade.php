@@ -529,8 +529,8 @@
 
 </a>
 
-<!-- CANCEL RENTING PROPERTY Button -->
-<button type="button" class="overlap-group9" id="cancel-rent-btn">CANCEL RENTING PROPERTY</button>
+<!-- CANCEL RENTING PROPERTY Button
+<button type="button" class="overlap-group9" id="cancel-rent-btn">CANCEL RENTING PROPERTY</button> -->
 
 <!-- The Overlay (hidden initially) -->
 <div id="move-out-overlay" class="overlay">

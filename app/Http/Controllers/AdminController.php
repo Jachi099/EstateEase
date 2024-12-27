@@ -11,6 +11,8 @@ use App\Models\Payment;
 use App\Models\TenantPayment;
 use App\Notifications\TenantAssignedNotification;
 use App\Models\Notification;
+use App\Models\Service;
+use App\Models\ServiceProvider;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
@@ -227,6 +229,60 @@ public function showTenant()
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+public function showServices()
+{
+    // Fetch all services
+    $services = Service::all();
+
+    // Pass the services to the view
+    return view('admin.service', compact('services'));
+}
+
+
+
+public function create()
+{
+    $services = Service::all();
+
+    return view('admin.add_service', compact('services')); // Path to your Blade file
+}
+
+// Handle the form submission and store the service in the database
+public function store(Request $request)
+{
+    // Validate the input data
+    $request->validate([
+        'type' => 'required|string|max:255',
+        'picture' => 'required|image|mimes:jpg,png,jpeg,gif|max:2048',
+        'cost' => 'required|numeric|min:0',
+        'description' => 'required|string',
+    ]);
+
+    // Handle the file upload
+    $picturePath = $request->file('picture')->store('services', 'public');
+
+    // Create the service in the database
+    Service::create([
+        'type' => $request->input('type'),
+        'picture' => $picturePath,
+        'cost' => $request->input('cost'),
+        'description' => $request->input('description'),
+    ]);
+
+    // Redirect back with a success message
+    return redirect()->route('admin.add_service')->with('success', 'Service added successfully!');
+}
 
 
 }

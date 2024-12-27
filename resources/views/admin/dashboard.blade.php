@@ -9,7 +9,7 @@
     <meta name="og:type" content="website" />
     <meta name="twitter:card" content="photo" />
     <link rel="stylesheet" type="text/css" href="{{ asset('css/admin-dashboard.css') }}" />
-    
+
     <link rel="stylesheet" type="text/css" href="{{ asset('css/styleguide.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('css/globals.css') }}" />
 
@@ -21,7 +21,7 @@
       <div class="overlap-group1">
             <div class="estate-ease estate lexendzetta-black-mongoose-20px">EstateEase</div>
 
-            
+
 
             <div class="dashb-container">
               <a href="{{ route('admin.dashboard') }}">
@@ -31,13 +31,13 @@
           </div>
 
             <div class="overlap-group6"><div class="profile montserrat-extra-bold-mongoose-20px">Profile</div></div>
-            
+
             <div class="overlap-group8">
               <a href="{{ route('admin.property_list') }}">
                 <div class="link"></div>
             </a>
               <div class="property montserrat-extra-bold-beaver-20px">Property</div>
-          
+
           </div>
 
             <div class="overlap-group4"><div class="landlord montserrat-extra-bold-mongoose-20px">Landlord</div></div>
@@ -45,9 +45,10 @@
               <a href="{{ route('admin.visitor') }}"> <div class="link"></div></a>
               <div class="tenant-visitor montserrat-extra-bold-mongoose-20px">Tenant &amp; Visitor</div>
             </div>
+            <a href="{{ route('admin.services') }}">
             <div class="overlap-group5">
               <div class="service service-1 montserrat-extra-bold-mongoose-20px">Service</div>
-            </div>
+            </div></a>
             <div class="overlap-group7">
               <div class="service-1 montserrat-extra-bold-mongoose-20px">Service Provider</div>
             </div>
@@ -55,7 +56,7 @@
             <div class="overlap-group12"><div class="log-out montserrat-extra-bold-mongoose-20px">Log out</div></div>
 
 
-            
+
           </div>
         <div class="flex-col flex">
           <h1 class="estate-ease_logo estate lexendzetta-medium-beaver-25px">ADMIN DASHBOARD</h1>
