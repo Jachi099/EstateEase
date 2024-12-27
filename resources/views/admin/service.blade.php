@@ -32,7 +32,7 @@
           </div>
           <div class="overlap-group5"><div class="service montserrat-extra-bold-beaver-20px">Service</div></div>
           <div class="overlap-group-item">
-            <a href="serviceu95provideru95admin.html"> <div class="link"></div></a>
+            <a href="{{ route('admin.serviceProvider') }}"> <div class="link"></div></a>
             <div class="service-provider montserrat-extra-bold-mongoose-20px">Service Provider</div>
           </div>
           <div class="overlap-group-item">

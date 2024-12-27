@@ -172,8 +172,16 @@ Route::post('/payment/update-status', [PaymentController::class, 'updatePaymentS
     Route::patch('admin/change-to-tenant/{id}', [AdminController::class, 'changeToTenant'])->name('admin.changeToTenant');
 
 
-   Route::get('/admin/service-providers', [ServiceProviderController::class, 'index'])->name('admin.serviceProviders');
+   Route::get('/admin/service-providers', [ServiceProviderController::class, 'index'])->name('admin.serviceProvider');
 Route::delete('/admin/service-providers/{id}', [ServiceProviderController::class, 'destroy'])->name('admin.serviceProviders.delete');
+
+
+// Route to display the form for adding a new service provider
+Route::get('admin/add-provider', [ServiceProviderController::class, 'create'])->name('admin.addProvider');
+
+// Route to handle the form submission and store the new provider
+Route::post('admin/add-provider', [ServiceProviderController::class, 'store'])->name('admin.storeProvider');
+
   /*   |--------------------------------------------------------------------------
     | Property Routes
     |--------------------------------------------------------------------------
