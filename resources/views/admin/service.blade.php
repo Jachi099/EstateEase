@@ -55,22 +55,27 @@
               <div class="list-of-services montserrat-semi-bold-black-20px">LIST OF SERVICES</div>
             </div>
             <div class="flex-row-1">
-              <div class="total-properties montserrat-medium-black-16px">TOTAL PROPERTIES :</div>
+              <div class="total-properties montserrat-medium-black-16px">TOTAL SERVICES :</div>
               <div class="flex-col-2 flex-col-3">
                 <a href="profileu95admin.html" class="align-self-flex-end"> <div class="head_pic"></div></a>
-                <div class="total"></div>
+                <div class="total">
+    {{ count($services) }}
+</div>
               </div>
             </div>
           </div>
-    <!-- Table with Services -->
-    <table class="overlap-group122">
+ <!-- Scrollable Table with Services -->
+<div class="table-container">
+    <table class="basic-table">
         <thead>
-            <tr class="table-heading">
+            <tr>
                 <th>ID</th>
                 <th>Picture</th>
                 <th>Type</th>
                 <th>Cost (৳)</th>
                 <th>Description</th>
+                <th>Action</th>
+
             </tr>
         </thead>
 
@@ -79,11 +84,25 @@
             <tr>
                 <td>{{ $service->id }}</td>
                 <td>
-                    <img src="{{ asset('path/to/service/images/' . $service->picture) }}" alt="{{ $service->type }}" width="50">
+                <img src="{{ asset('storage/' . $service->picture) }}" alt="{{ $service->type }}" class="service-img" />
                 </td>
                 <td>{{ $service->type }}</td>
                 <td>৳{{ number_format($service->cost, 2) }}</td>
                 <td>{{ $service->description }}</td>
+                <td>
+                    <!-- Edit button -->
+                    <a href="" class="action-button">
+                        <img src="{{ asset('img/edit.svg') }}" alt="Edit" class="icon" />
+                    </a>
+
+                    <!-- Delete button -->
+                    <form action="" method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+
+                            <img src="{{ asset('img/trash-2.svg') }}" alt="Delete" class="icon" />
+                    </form>
+                </td>
             </tr>
             @endforeach
         </tbody>

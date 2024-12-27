@@ -376,78 +376,50 @@
 .pic img.show {
     display: block; /* Show image when selected */
 }
-/* Table Container */
-table {
-    width: 1200px; /* Fixed table width */
-    height: 300px; /* Fixed table height */
-    border-collapse: collapse; /* Collapse table borders */
-    table-layout: fixed; /* Ensures columns have consistent width */
-    margin: 0 auto; /* Center the table */
-    overflow: hidden; /* Prevent overflow for better control */
+
+
+
+
+/* Scrollable container styling */
+.table-container {
+    height: 350px; /* Fixed maximum height */
+    border: 2px solid #ddd; /* Visible border around the container */
+    overflow-y: auto; /* Show scrollbar only if content overflows */
+    border-color: #333;
 }
 
-/* Table Heading */
-thead {
-    background-color: var(--white);
-    border: 2px solid var(--black);
-    text-align: center;
-    width: 100%; /* Ensure heading takes up the full width of the table */
-}
-
-thead th {
-    padding: 10px;
-    border: 1px solid var(--black);
-    font-weight: bold;
-    text-align: center;
-}
-
-/* Table Body */
-tbody {
-    display: table-row-group; /* Normal display for tbody */
-    max-height: 280px; /* Max height for the body, leaving space for the heading */
-    overflow-y: auto; /* Enable vertical scroll for the body */
+/* Basic table styling */
+table.basic-table {
     width: 100%;
-    height: auto; /* Let the tbody expand to fit its content */
+    border-collapse: collapse;
+    font-family: var(--font-family-montserrat), sans-serif;
 }
 
-/* Table Rows */
-tbody tr {
-    height: 50px; /* Fixed row height */
-    line-height: 50px; /* Vertically center the text in the row */
-    text-align: center;
-}
-
-/* Table Cells */
-tbody td {
+table.basic-table th,
+table.basic-table td {
     padding: 10px;
-    border: 1px solid var(--black);
-    vertical-align: middle; /* Vertically center content */
-    height: 50px; /* Fixed height */
-    line-height: 50px; /* Ensure text is centered vertically */
+    text-align: center; /* Center text horizontally */
+    vertical-align: middle; /* Center text vertically */
+    border: 2px solid #333; /* Thicker borders */
 }
 
-/* Image Styling */
-tbody img {
-    display: block;
-    max-width: 50px; /* Constrain images to a uniform size */
-    max-height: 50px;
-    margin: 0 auto; /* Center the image in the cell */
+table.basic-table th {
+    background-color: #f4f4f4;
+    color: #333;
+    font-weight: bold;
 }
 
-/* Button and Link Styling */
-a {
-    color: blue;
-    text-decoration: underline;
+table.basic-table tr:nth-child(even) {
+    background-color: #f9f9f9;
 }
 
-button {
-    background-color: red;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
+table.basic-table tr:hover {
+    background-color: #e9e9e9;
 }
 
-button:hover {
-    background-color: darkred;
+/* Image styling */
+table.basic-table img.service-img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
 }

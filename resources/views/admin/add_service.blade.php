@@ -105,7 +105,7 @@
                 </form>
 
               <div class="back-container">
-                <a href="serviceu95admin.html"> <div class="goback_btn">                GO BACK
+                <a href="{{ route('admin.services') }}"> <div class="goback_btn">                GO BACK
                 </div></a>
               </div>
 
@@ -114,32 +114,52 @@
 
 
             <div class="list-of-services montserrat-semi-bold-black-20px">LIST OF SERVICES</div>
-        <!-- Table with Services -->
-<table>
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Picture</th>
-            <th>Type</th>
-            <th>Cost (৳)</th>
-            <th>Description</th>
-        </tr>
-    </thead>
+<!-- Scrollable Table with Services -->
+<div class="table-container">
+    <table class="basic-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Picture</th>
+                <th>Type</th>
+                <th>Cost (৳)</th>
+                <th>Description</th>
+                <th>Action</th>
 
-    <tbody>
-        @foreach ($services as $service)
-        <tr>
-            <td>{{ $service->id }}</td>
-            <td>
-                <img src="{{ asset('storage/services/' . $service->picture) }}" alt="{{ $service->type }}" />
-            </td>
-            <td>{{ $service->type }}</td>
-            <td>৳{{ number_format($service->cost, 2) }}</td>
-            <td>{{ $service->description }}</td>
-        </tr>
-        @endforeach
-    </tbody>
-</table>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach ($services as $service)
+            <tr>
+                <td>{{ $service->id }}</td>
+                <td>
+                <img src="{{ asset('storage/' . $service->picture) }}" alt="{{ $service->type }}" class="service-img" />
+                </td>
+                <td>{{ $service->type }}</td>
+                <td>৳{{ number_format($service->cost, 2) }}</td>
+                <td>{{ $service->description }}</td>
+                <td>
+                    <!-- Edit button -->
+                    <a href="" class="action-button">
+                        <img src="{{ asset('img/edit.svg') }}" alt="Edit" class="icon" />
+                    </a>
+
+                    <!-- Delete button -->
+                    <form action="" method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+
+                            <img src="{{ asset('img/trash-2.svg') }}" alt="Delete" class="icon" />
+                    </form>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
+
+
 
 
           </div>
