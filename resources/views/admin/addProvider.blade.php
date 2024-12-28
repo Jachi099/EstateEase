@@ -52,42 +52,102 @@
             </h1>
             <a href="profileu95admin.html"> <div class="head_pic"></div></a>
           </div>
-          <div class="flex-row-1 flex-row-3">
-            <div class="pic"></div>
-            <div class="flex-col-1">
-              <div class="full-name montserrat-medium-black-16px">FULL NAME</div>
-              <div class="name_txtbox"></div>
-              <div class="service-type service-1 montserrat-medium-black-16px">SERVICE TYPE</div>
-              <div class="sertype_txtbox"></div>
-              <div class="email-container">
+          @if (session('success'))
+    <div id="successModal" class="modal" style="display: block;">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>{{ session('success') }}</h2>
+        </div>
+    </div>
+@endif
+          <form action="{{ route('admin.storeProvider') }}" method="POST" enctype="multipart/form-data">
+    @csrf
+
+
+    <div class="flex-row-1 flex-row-3">
+        <!-- Picture Preview -->
+            <img src="#" alt="Profile Picture" id="profilePic" class="pic" />
+
+        <!-- Form Fields -->
+        <div class="flex-col-1">
+            <!-- Full Name -->
+            <div class="full-name montserrat-medium-black-16px">FULL NAME</div>
+            <input type="text" class="name_txtbox" name="name" placeholder="Enter full name" required />
+
+            <!-- Service Type -->
+            <div class="service-type service-1 montserrat-medium-black-16px">SERVICE TYPE</div>
+            <select class="sertype_txtbox" name="specialization" required>
+                <option value="" disabled selected>Select service type</option>
+                @foreach ($services as $service)
+                    <option value="{{ $service->type }}">{{ $service->type }}</option>
+                @endforeach
+            </select>
+
+            <!-- Email -->
+            <div class="email-container">
                 <div class="email montserrat-medium-black-16px">EMAIL</div>
-                <div class="email_txtbox"></div>
-              </div>
-              <div class="overlap-group5">
+                <input type="email" class="email_txtbox" name="email" placeholder="Enter email (optional)" />
+            </div>
+
+            <!-- Phone Number -->
+            <div class="overlap-group5">
                 <div class="phone-number montserrat-medium-black-16px">PHONE NUMBER</div>
-                <div class="_txtbox"></div>
-              </div>
-              <div class="overlap-group">
+                <input type="text" class="_txtbox" name="phone_number" placeholder="Enter phone number" required />
+            </div>
+
+            <!-- Service Area -->
+            <div class="overlap-group">
                 <div class="service-area service-1 montserrat-medium-black-16px">SERVICE AREA</div>
-                <div class="_txtbox"></div>
-              </div>
-              <div class="overlap-group3">
+                <input type="text" class="_txtbox" name="address" placeholder="Enter service area" required />
+            </div>
+
+            <!-- Hourly Rate -->
+            <div class="overlap-group3">
                 <div class="experience montserrat-medium-black-16px">HOURLY RATE</div>
-                <div class="_txtbox"></div>
-              </div>
-              <div class="flex-row-2 flex-row-3">
-                <div class="add-picture montserrat-medium-black-16px">AVAILABILITY STATUS</div>
-                <div class="upload_pic"></div>
-              </div>
-              <div class="overlap-group1">
-                <div class="update-profile montserrat-black-white-16px">ADD SERVICE PROVIDER</div>
-              </div>
-              <div class="overlap-group6">
-                <a href="serviceu95provideru95admin.html"> <div class="delete_btn"></div></a>
+                <input type="number" class="_txtbox" name="hourly_rate" placeholder="Enter hourly rate" required min="0" />
+            </div>
+
+            <!-- Picture Upload -->
+            <div class="flex-row-2 flex-row-3">
+                <div class="add-picture montserrat-medium-black-16px">Add Picture</div>
+                <input type="file" class="upload_pic" name="picture" accept="image/*" onchange="previewImage(event)" />
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="overlap-group1">ADD SERVICE PROVIDER</button>
+
+            <div class="overlap-group6">
+                <a href="{{ route('admin.serviceProvider') }}"> <div class="delete_btn"></div></a>
                 <div class="go-back montserrat-black-beaver-16px">GO BACK</div>
               </div>
-            </div>
-          </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    function previewImage(event) {
+        const img = document.getElementById('profilePic');
+        img.src = URL.createObjectURL(event.target.files[0]);
+        img.onload = () => URL.revokeObjectURL(img.src); // Free memory
+    }
+
+    var modal = document.getElementById('successModal');
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName('close-btn')[0];
+
+// Close the modal when the user clicks on <span> (x)
+span.onclick = function() {
+    modal.style.display = "none";
+}
+
+// Close the modal after 5 seconds
+setTimeout(function() {
+    modal.style.display = "none";
+}, 5000);  // Close after 5 seconds
+</script>
+
+
         </div>
       </div>
     </div>

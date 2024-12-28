@@ -101,12 +101,12 @@
                 <td>{{ $provider->availability_status }}</td>
                 <td>
                     <!-- Edit button -->
-                    <a href="{{ route('serviceProvider.edit', $provider->id) }}" class="action-button">
+                    <a href=" " class="action-button">
                         <img src="{{ asset('img/edit.svg') }}" alt="Edit" class="icon" />
                     </a>
 
                     <!-- Delete button -->
-                    <form action="{{ route('serviceProvider.destroy', $provider->id) }}" method="POST" style="display:inline;">
+                    <form action="" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="delete-button" onclick="return confirm('Are you sure you want to delete this provider?')">

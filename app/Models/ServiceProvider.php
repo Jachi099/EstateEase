@@ -13,6 +13,14 @@ class ServiceProvider extends Model
 
     // Specify the columns that can be mass-assigned
     protected $fillable = [
-        'name', 'phone', 'service',
+        'name',
+        'phone_number',
+        'email',
+        'address',
+        'specialization',
+        'hourly_rate',
+        'availability_status',
+        'picture', // Make sure 'picture' is included
     ];
+
 }
