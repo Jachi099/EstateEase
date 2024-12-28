@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 27, 2024 at 10:23 AM
+-- Generation Time: Dec 28, 2024 at 01:45 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -287,6 +287,15 @@ CREATE TABLE `services` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `services`
+--
+
+INSERT INTO `services` (`id`, `picture`, `type`, `cost`, `description`, `created_at`, `updated_at`) VALUES
+(6, 'services/xaNNmDbN2vzWpHWmpjcjnO7XQLBvSJlhATAux3OM.png', 'Cleaning', 1500.00, 'Deep cleaning service for residential properties, including dusting, floor mopping, and sanitizing common areas.', '2024-12-27 04:16:12', '2024-12-27 04:16:12'),
+(7, 'services/q1Vk50cBwQALNLJwbhbmrBfbaGvoSDDOVGy3RMeM.png', 'Electrical', 3000.00, 'Electrical services including wiring, light fixture installations, and repairing power issues.', '2024-12-27 04:29:25', '2024-12-27 04:29:25'),
+(8, 'services/RZB624fFTrek1uoVdcJvQchHizSokZIout5XtUDn.png', 'Painting', 2000.00, 'Interior and exterior painting services for residential and commercial properties.', '2024-12-27 06:10:34', '2024-12-27 06:10:34');
+
 -- --------------------------------------------------------
 
 --
@@ -302,9 +311,20 @@ CREATE TABLE `service_providers` (
   `specialization` varchar(255) NOT NULL,
   `hourly_rate` decimal(10,2) NOT NULL,
   `availability_status` enum('available','unavailable') DEFAULT 'available',
+  `picture` varchar(255) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `service_providers`
+--
+
+INSERT INTO `service_providers` (`id`, `name`, `phone_number`, `email`, `address`, `specialization`, `hourly_rate`, `availability_status`, `picture`, `created_at`, `updated_at`) VALUES
+(1, 'Jasim', '01785546431', NULL, '4 motijheel, dhaka', 'Electrical', 400.00, 'available', 'service_provider_pictures/NfS2WypEfA4mbOKAf5dBwXF4OKRqXJMZQ4ytdsFM.png', '2024-12-28 06:36:07', '2024-12-28 06:36:07'),
+(2, 'Ratan', '01837493744', NULL, '44, Bonani, Dhaka', 'Painting', 500.00, 'available', 'service_provider_pictures/nzkjf4LvpCRC8hj3M2mf1xK5lXLjr113eGsgFWmR.png', '2024-12-28 06:38:17', '2024-12-28 06:38:17'),
+(3, 'Rubi', '+880 1983838058', NULL, '33 Rajarbag, Dhaka', 'Electrical', 500.00, 'available', 'service_provider_pictures/mxb0LmLHJazyoJtwarrHiWyUSgYRzLmPOQtBL1uK.png', '2024-12-28 06:39:16', '2024-12-28 06:39:16'),
+(4, 'sumon', '01736645873', NULL, 'House #23, Road # 6, Block-A, Lalamatia, Dhaka', 'Cleaning', 300.00, 'available', 'service_provider_pictures/D765rZBCoCvjNVqmTC99vcKDSqFPj61GXo1hGhzd.png', '2024-12-28 06:40:19', '2024-12-28 06:40:19');
 
 -- --------------------------------------------------------
 
@@ -619,13 +639,13 @@ ALTER TABLE `property_images`
 -- AUTO_INCREMENT for table `services`
 --
 ALTER TABLE `services`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `service_providers`
 --
 ALTER TABLE `service_providers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `service_requests`

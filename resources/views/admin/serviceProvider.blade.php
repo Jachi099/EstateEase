@@ -101,7 +101,7 @@
                 <td>{{ $provider->availability_status }}</td>
                 <td>
                     <!-- Edit button -->
-                    <a href=" " class="action-button">
+                    <a href="" class="action-button">
                         <img src="{{ asset('img/edit.svg') }}" alt="Edit" class="icon" />
                     </a>
 
