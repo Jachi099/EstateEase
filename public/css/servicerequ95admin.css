@@ -5,8 +5,8 @@
   background-color: var(--white);
   display: flex;
   gap: 91px;
-  height: 1024px;
-  width: 1440px;
+  height: 100%;
+  width: 100%;
 }
 
 .servicerequ95admin .overlap-group {
