@@ -115,7 +115,6 @@ Route::post('/visit-request/cancel/{property_id}', [UserController::class, 'canc
         Route::get('/visitor/properties/filter', [UserController::class, 'filterProperties'])->name('visitor.filter');
         Route::get('/visitor/properties/details/{id}', [UserController::class, 'showPropertyDetails'])->name('visitor.details');
         Route::get('/visitor/home/visit-requested-properties', [UserController::class, 'visitRequestedProperties'])->name('visitor.visit_req_list');
-        Route::get('/visitor/property/{property_id}', [UserController::class, 'showBookedPropertyDetails'])->name('visitor.bookedproperty_details');
 
 
 

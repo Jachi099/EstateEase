@@ -13,6 +13,8 @@ use App\Models\Tenant;
 use App\Models\Property;
 use GuzzleHttp\Client;
 use App\Models\Service;
+use App\Models\VisitRequest;
+
 
 
 
@@ -580,42 +582,38 @@ public function filterProperties(Request $request)
 
     public function showBookedPropertyDetails($property_id)
     {
-        // Get the authenticated tenant
-        $tenant = Auth::guard('tenant')->user();
+        // Get the authenticated visitor
+        $visitor = Auth::guard('visitor')->user();
 
-        if (!$tenant) {
-            return redirect()->back()->with('error', 'Tenant not found.');
+        if (!$visitor) {
+            return redirect()->route('visitor.user_home')->with('error', 'You need to log in to view this property.');
         }
 
-        // Fetch the property the tenant rented using the property_id
+        // Fetch the property details
         $property = Property::findOrFail($property_id);
 
-        // Fetch the tenant information for the given property
-        $tenant = Tenant::where('property_ID', $property_id)->first();
+        // Fetch visit request details for the visitor and property
+        $visitRequest = VisitRequest::where('user_id', $visitor->id)
+            ->where('property_id', $property_id)
+            ->first();
 
-        if (!$tenant) {
-            return redirect()->back()->with('error', 'No tenant found for this property.');
+        if (!$visitRequest) {
+            return redirect()->back()->with('error', 'No visit request found for this property.');
         }
 
-        // Determine the payment status for the tenant
-        $latestPayment = $tenant->tenantPayments()->latest()->first();
-        $paymentStatus = 'unpaid'; // Default value for payment status
-
-        if ($latestPayment) {
-            // Check if the latest payment status is 'paid' and within the current month
-            if ($latestPayment->status == 'paid' && $latestPayment->payment_date->month == now()->month) {
-                $paymentStatus = 'paid';
-            } else {
-                $paymentStatus = 'overdue'; // Payment overdue if not paid for the current month
-            }
+        // Determine the payment status for this visitor and property
+        $paymentStatus = 'unpaid'; // Default
+        if ($visitRequest->payment_status === 'paid') {
+            $paymentStatus = 'paid';
         }
 
-        // Get the tenant's profile picture (if any)
-        $profilePicture = $tenant->picture ?? null;
+        // Get the visitor's profile picture (if any)
+        $profilePicture = $visitor->picture ?? null;
 
-        // Pass the property, payment status, tenant info, and profile picture to the view
-        return view('tenant.bookedproperty_details', compact('property', 'paymentStatus', 'tenant', 'profilePicture'));
+        // Pass the data to the view
+        return view('visitor.bookedproperty_details', compact('property', 'visitRequest', 'paymentStatus', 'profilePicture'));
     }
+
 
 
 
