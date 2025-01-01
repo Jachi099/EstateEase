@@ -31,7 +31,9 @@ if (file_exists($maintenance = __DIR__.'/../storage/framework/maintenance.php'))
 |
 */
 
+// Change the paths to point to your Laravel app inside the `property-management` folder.
 require __DIR__.'/../vendor/autoload.php';
+
 
 /*
 |--------------------------------------------------------------------------
