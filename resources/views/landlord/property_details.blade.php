@@ -217,88 +217,91 @@
 
                   <div class="div_pro-add-info_card">
     <div class="checkbox-group">
-        <!-- First Column -->
-        <div class="checkbox-column">
-            <div>
-                <input type="checkbox" name="amenities[]" value="parking" id="parking"
-                    @if(in_array('parking', json_decode($property->amenities))) checked @endif disabled>
-                <label for="parking">Parking</label>
-            </div>
-            <div>
-                <input type="checkbox" name="amenities[]" value="lift" id="lift"
-                    @if(in_array('lift', json_decode($property->amenities))) checked @endif disabled>
-                <label for="lift">Lift/Elevator</label>
-            </div>
-            <div>
-                <input type="checkbox" name="amenities[]" value="generator_backup" id="generator_backup"
-                    @if(in_array('generator_backup', json_decode($property->amenities))) checked @endif disabled>
-                <label for="generator_backup">Generator Backup</label>
-            </div>
-            <div>
-                <input type="checkbox" name="amenities[]" value="security" id="security"
-                    @if(in_array('security', json_decode($property->amenities))) checked @endif disabled>
-                <label for="security">Security</label>
-            </div>
-            <div>
-                <input type="checkbox" name="amenities[]" value="gym" id="gym"
-                    @if(in_array('gym', json_decode($property->amenities))) checked @endif disabled>
-                <label for="gym">Gym</label>
-            </div>
-        </div>
+    @php
+    $amenities = json_decode($property->amenities) ?? [];
+@endphp
 
-        <!-- Second Column -->
-        <div class="checkbox-column">
-            <div>
-                <input type="checkbox" name="amenities[]" value="swimming_pool" id="swimming_pool"
-                    @if(in_array('swimming_pool', json_decode($property->amenities))) checked @endif disabled>
-                <label for="swimming_pool">Swimming Pool</label>
-            </div>
-            <div>
-                <input type="checkbox" name="amenities[]" value="private_pool" id="private_pool"
-                    @if(in_array('private_pool', json_decode($property->amenities))) checked @endif disabled>
-                <label for="private_pool">Private Pool (for villas)</label>
-            </div>
-            <div>
-                <input type="checkbox" name="amenities[]" value="playground" id="playground"
-                    @if(in_array('playground', json_decode($property->amenities))) checked @endif disabled>
-                <label for="playground">Playground</label>
-            </div>
-            <div>
-                <input type="checkbox" name="amenities[]" value="garden" id="garden"
-                    @if(in_array('garden', json_decode($property->amenities))) checked @endif disabled>
-                <label for="garden">Garden/Lawn</label>
-            </div>
+<div class="checkbox-column">
+    <div>
+        <input type="checkbox" name="amenities[]" value="parking" id="parking"
+            @if(in_array('parking', $amenities)) checked @endif disabled>
+        <label for="parking">Parking</label>
+    </div>
+    <div>
+        <input type="checkbox" name="amenities[]" value="lift" id="lift"
+            @if(in_array('lift', $amenities)) checked @endif disabled>
+        <label for="lift">Lift/Elevator</label>
+    </div>
+    <div>
+        <input type="checkbox" name="amenities[]" value="generator_backup" id="generator_backup"
+            @if(in_array('generator_backup', $amenities)) checked @endif disabled>
+        <label for="generator_backup">Generator Backup</label>
+    </div>
+    <div>
+        <input type="checkbox" name="amenities[]" value="security" id="security"
+            @if(in_array('security', $amenities)) checked @endif disabled>
+        <label for="security">Security</label>
+    </div>
+    <div>
+        <input type="checkbox" name="amenities[]" value="gym" id="gym"
+            @if(in_array('gym', $amenities)) checked @endif disabled>
+        <label for="gym">Gym</label>
+    </div>
+</div>
 
-        </div>
+<!-- Second Column -->
+<div class="checkbox-column">
+    <div>
+        <input type="checkbox" name="amenities[]" value="swimming_pool" id="swimming_pool"
+            @if(in_array('swimming_pool', $amenities)) checked @endif disabled>
+        <label for="swimming_pool">Swimming Pool</label>
+    </div>
+    <div>
+        <input type="checkbox" name="amenities[]" value="private_pool" id="private_pool"
+            @if(in_array('private_pool', $amenities)) checked @endif disabled>
+        <label for="private_pool">Private Pool (for villas)</label>
+    </div>
+    <div>
+        <input type="checkbox" name="amenities[]" value="playground" id="playground"
+            @if(in_array('playground', $amenities)) checked @endif disabled>
+        <label for="playground">Playground</label>
+    </div>
+    <div>
+        <input type="checkbox" name="amenities[]" value="garden" id="garden"
+            @if(in_array('garden', $amenities)) checked @endif disabled>
+        <label for="garden">Garden/Lawn</label>
+    </div>
+</div>
 
-        <!-- Third Column -->
-        <div class="checkbox-column">
-        <div>
-                <input type="checkbox" name="amenities[]" value="hot_water" id="hot_water"
-                    @if(in_array('hot_water', json_decode($property->amenities))) checked @endif disabled>
-                <label for="hot_water">Hot Water</label>
-            </div>
-            <div>
-                <input type="checkbox" name="amenities[]" value="gated_community" id="gated_community"
-                    @if(in_array('gated_community', json_decode($property->amenities))) checked @endif disabled>
-                <label for="gated_community">Gated Community</label>
-            </div>
-            <div>
-                <input type="checkbox" name="amenities[]" value="built_in_wardrobes" id="built_in_wardrobes"
-                    @if(in_array('built_in_wardrobes', json_decode($property->amenities))) checked @endif disabled>
-                <label for="built_in_wardrobes">Built-in Wardrobes</label>
-            </div>
-            <div>
-                <input type="checkbox" name="amenities[]" value="rooftop_access" id="rooftop_access"
-                    @if(in_array('rooftop_access', json_decode($property->amenities))) checked @endif disabled>
-                <label for="rooftop_access">Rooftop Access</label>
-            </div>
-            <div>
-                <input type="checkbox" name="amenities[]" value="pets_allowed" id="pets_allowed"
-                    @if(in_array('pets_allowed', json_decode($property->amenities))) checked @endif disabled>
-                <label for="pets_allowed">Pets Allowed</label>
-            </div>
-        </div>
+<!-- Third Column -->
+<div class="checkbox-column">
+    <div>
+        <input type="checkbox" name="amenities[]" value="hot_water" id="hot_water"
+            @if(in_array('hot_water', $amenities)) checked @endif disabled>
+        <label for="hot_water">Hot Water</label>
+    </div>
+    <div>
+        <input type="checkbox" name="amenities[]" value="gated_community" id="gated_community"
+            @if(in_array('gated_community', $amenities)) checked @endif disabled>
+        <label for="gated_community">Gated Community</label>
+    </div>
+    <div>
+        <input type="checkbox" name="amenities[]" value="built_in_wardrobes" id="built_in_wardrobes"
+            @if(in_array('built_in_wardrobes', $amenities)) checked @endif disabled>
+        <label for="built_in_wardrobes">Built-in Wardrobes</label>
+    </div>
+    <div>
+        <input type="checkbox" name="amenities[]" value="rooftop_access" id="rooftop_access"
+            @if(in_array('rooftop_access', $amenities)) checked @endif disabled>
+        <label for="rooftop_access">Rooftop Access</label>
+    </div>
+    <div>
+        <input type="checkbox" name="amenities[]" value="pets_allowed" id="pets_allowed"
+            @if(in_array('pets_allowed', $amenities)) checked @endif disabled>
+        <label for="pets_allowed">Pets Allowed</label>
+    </div>
+</div>
+
     </div>
 </div>
 

@@ -206,8 +206,8 @@ public function showPropertyDetails($id)
 
     // Determine the payment status
     if ($tenant) {
-        // Fetch the latest payment for the tenant
-        $latestPayment = $tenant->payments()->latest()->first();
+        // Fetch the latest payment for the tenant using the defined relationship
+        $latestPayment = $tenant->tenantPayments()->latest()->first();
 
         // Set the payment status to 'paid' or 'unpaid' based on the latest payment status
         $paymentStatus = $latestPayment && $latestPayment->status == 'paid' ? 'paid' : 'unpaid';
@@ -223,7 +223,6 @@ public function showPropertyDetails($id)
     // Pass the property, tenant, profile picture, and payment status to the view
     return view('landlord.property_details', compact('property', 'tenant', 'profilePicture', 'paymentStatus'));
 }
-
 
 
 

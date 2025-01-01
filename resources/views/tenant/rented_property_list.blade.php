@@ -90,14 +90,14 @@
 
 @endif
 
-
 <div class="visit_date">
-@foreach ($property->tenants as $tenant)
-        @if ($tenant->id == auth()->user()->id)  <!-- Check if the current tenant is authenticated -->
-            <span>{{ \Carbon\Carbon::parse($tenant->rental_start_date)->format('d M, Y') }}</span> <!-- Format the rental start date -->
+@if ($tenant && $tenant->rental_start_date)
+            {{ $tenant->rental_start_date }}
+        @else
+            <span>Not Rented</span>
         @endif
-    @endforeach
 </div>
+
 
             <!-- Requested Visit Date -->
             <div class="visit-requested-date visit-requested montserrat-normal-black-12px">

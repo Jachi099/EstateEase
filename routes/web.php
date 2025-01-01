@@ -61,6 +61,10 @@ Route::middleware(['auth:tenant'])->group(function () {
 
     // Define a route for showing all properties
     Route::get('/tenant/properties', [TenantController::class, 'showProperties'])->name('tenant.property_list');
+    Route::get('/tenant/properties/filter', [UserController::class, 'filterProperties'])->name('tenant.filter');
+    Route::get('/tenant/properties/details/{id}', [UserController::class, 'showPropertyDetails'])->name('tenant.details');
+    Route::get('/tenant/home/visit-requested-properties', [UserController::class, 'visitRequestedProperties'])->name('tenant.visit_req_list');
+
 
     // Define a separate route for showing rented properties, if needed
     Route::get('/rented-properties', [TenantController::class, 'showRentedProperties'])->name('tenant.rentedProperties');
