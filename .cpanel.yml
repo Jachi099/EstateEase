@@ -1,0 +1,4 @@
+deployment:
+  type: git
+  branch: main
+  remote: origin
