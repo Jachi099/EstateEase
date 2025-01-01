@@ -147,14 +147,7 @@
 
                 <div class="navbar-link-rented-date">RENTED DATE:</div>
  <!-- Date Rented -->
- <div class="rented_date">
 
-        @if ($tenant && $tenant->rental_start_date)
-            {{ $tenant->rental_start_date }}
-        @else
-            <span>Not Rented</span>
-        @endif
-    </div>
     <div class="property-details-page">
 
 </div>

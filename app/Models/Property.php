@@ -58,10 +58,11 @@ public function visitRequests()
         return $this->hasMany(PropertyImage::class, 'property_ID');
     }
 
-public function tenants()
-{
-    return $this->hasMany(Tenant::class, 'property_ID');
-}
+    public function tenant()
+    {
+        return $this->hasOne(Tenant::class, 'property_ID', 'property_ID'); // Ensure keys match your database schema
+    }
+
 
 // Property Model (App\Models\Property)
 
