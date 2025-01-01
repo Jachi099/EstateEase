@@ -81,6 +81,7 @@ HISTORY OF SERVICE REQUESTS              </h1>
     <div class="add-property-btn">REQUEST SERVICE</div>
 </a>
 
+
     @if($serviceRequests->isEmpty())
     <table class="overlap-group21">
             <thead>

@@ -78,12 +78,11 @@ Route::middleware(['auth:tenant'])->group(function () {
     Route::delete('/service-requests/{id}/cancel', [TenantController::class, 'cancelServiceRequest'])->name('tenant.cancelServiceRequest');
 
     // Show the service request form
+// Show the service request form
 Route::get('/tenant/service-request-form', [TenantController::class, 'showServiceRequestForm'])->name('tenant.serviceRequestT');
 
 // Submit the service request
-Route::post('/tenant/service-request-form', [TenantController::class, 'createServiceRequest'])->name('tenant.serviceRequests');
-
-
+Route::post('/tenant/service-request-form', [TenantController::class, 'createServiceRequest'])->name('tenant.createServiceRequest');
 
 
 

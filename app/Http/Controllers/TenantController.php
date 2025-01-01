@@ -334,36 +334,36 @@ public function viewServiceRequests()
 
 
     public function showServiceRequestForm(Request $request)
-
     {
+        Log::info('Service Request Form Loaded');
 
-        // Get the authenticated tenant
         $tenant = auth()->user();
-        $tenantWithProperty = Tenant::with('property')->findOrFail($tenant->id);
+        if (!$tenant) {
+            return redirect()->route('login')->withErrors(['error' => 'You must be logged in to access this page.']);
+        }
+
+        $tenantWithProperty = Tenant::with('property')->find($tenant->id);
         $services = Service::all();
         $profilePicture = $tenant->picture ?? null;
-        $selectedUrgency = 'medium';  // Default urgency level
-
-        // Ensure selectedService is set correctly
+        $selectedUrgency = 'medium';
         $selectedService = null;
-        if ($request->has('service_id') && $request->service_id) {
+
+        if ($request->has('service_id')) {
             $selectedService = Service::find($request->service_id);
+            if (!$selectedService) {
+                return redirect()->route('tenant.serviceRequestT')->withErrors(['service_id' => 'Invalid service selected.']);
+            }
         }
 
-        // Handle the error case where service is not found
-        if (!$selectedService) {
-            return redirect()->back()->withErrors(['service_id' => 'Invalid service selected.']);
-        }
-
-        // Calculate costs
         $platformFee = 100;
-        $laborCharge = $this->getLaborCharge($selectedService->type);
+        $laborCharge = $selectedService ? $this->getLaborCharge($selectedService->type) : 0;
         $urgencyFee = $this->getUrgencyFee($selectedUrgency);
-        $serviceCost = $selectedService->cost;
+        $serviceCost = $selectedService ? $selectedService->cost : 0;
         $totalCost = $serviceCost + $platformFee + $laborCharge + $urgencyFee;
 
         return view('tenant.serviceRequestT', compact('services', 'tenantWithProperty', 'tenant', 'profilePicture', 'platformFee', 'laborCharge', 'urgencyFee', 'totalCost', 'selectedService'));
     }
+
 
     // Get Labor Charge based on Service Type
     private function getLaborCharge($serviceType)
@@ -434,7 +434,7 @@ public function viewServiceRequests()
         $serviceRequest->save();
 
         // Redirect or return response
-        return redirect()->route('tenant.serviceRequests')->with('success', 'Service request submitted successfully.');
+        return redirect()->route('tenant.serviceRequestT')->with('success', 'Service request submitted successfully.');
     }
 
 }

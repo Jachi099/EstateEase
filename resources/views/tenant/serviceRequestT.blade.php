@@ -74,7 +74,7 @@ PROFILE            </div>
             <h1 class="estate-ease_logo-2 estate-ease_logo-3 lexendzetta-medium-beaver-25px">SERVICE REQUEST</h1>
 
 
-            <form action="{{ route('tenant.serviceRequests') }}" method="POST">
+            <form action="{{ route('tenant.serviceRequestT') }}" method="POST">
             @csrf
 
 
