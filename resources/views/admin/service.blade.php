@@ -48,9 +48,10 @@
               <div class="service-container">
                 <a href="{{ route('admin.add_service') }}"
                   ><div class="add-services montserrat-bold-black-20px">ADD SERVICES</div> </a
-                ><a href="servicerequ95admin.html"
-                  ><div class="check-service-requests montserrat-bold-black-20px">CHECK SERVICE REQUESTS</div>
-                </a>
+                ><a href="{{ route('admin.service-requests') }}">
+  <div class="check-service-requests montserrat-bold-black-20px">CHECK SERVICE REQUESTS</div>
+</a>
+
               </div>
               <div class="list-of-services montserrat-semi-bold-black-20px">LIST OF SERVICES</div>
             </div>

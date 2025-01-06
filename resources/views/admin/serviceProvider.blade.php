@@ -77,12 +77,13 @@
         <thead>
             <tr>
                 <th>ID</th>
+                <th>Picture</th>
                 <th>Name</th>
-                <th>Phone Number</th>
+                <th>Phone</th>
                 <th>Email</th>
                 <th>Address</th>
-                <th>Specialization</th>
-                <th>Hourly Rate (৳)</th>
+                <th>Service</th>
+
                 <th>Status</th>
                 <th>Action</th>
             </tr>
@@ -92,13 +93,21 @@
             @foreach ($serviceProviders as $provider)
             <tr>
                 <td>{{ $provider->id }}</td>
-                <td>{{ $provider->name }}</td>
-                <td>{{ $provider->phone_number }}</td>
-                <td>{{ $provider->email }}</td>
-                <td>{{ $provider->address }}</td>
-                <td>{{ $provider->specialization }}</td>
-                <td>৳{{ number_format($provider->hourly_rate, 2) }}</td>
-                <td>{{ $provider->availability_status }}</td>
+                <td>
+    @if($provider->picture)
+        <img src="{{ asset('storage/' . $provider->picture) }}" alt="Provider Picture" width="50" height="50" class="img-fluid">
+    @else
+        <span>No Picture</span>
+    @endif
+</td>
+<td>{{ $provider->name }}</td>
+<td>{{ $provider->phone_number }}</td>
+<td>{{ $provider->email }}</td>
+<td>{{ $provider->address }}</td>
+<td>{{ $provider->specialization }}</td>
+<td>{{ $provider->availability_status }}</td>
+
+
                 <td>
                     <!-- Edit button -->
                     <a href="" class="action-button">

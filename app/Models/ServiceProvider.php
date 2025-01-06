@@ -18,9 +18,23 @@ class ServiceProvider extends Model
         'email',
         'address',
         'specialization',
-        'hourly_rate',
         'availability_status',
         'picture', // Make sure 'picture' is included
     ];
 
+
+    // Relationship: A ServiceProvider offers many Services
+    public function services()
+    {
+        return $this->hasMany(Service::class, 'service_provider_id');
+    }
+
+    // Relationship: A ServiceProvider has many ServiceRequests
+    public function serviceRequests()
+    {
+        return $this->hasMany(ServiceRequest::class, 'service_provider_id');
+    }
 }
+
+
+

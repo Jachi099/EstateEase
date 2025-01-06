@@ -554,3 +554,49 @@
     align-items: center; /* Center vertically */
     justify-content: center; /* Center horizontally */
   }
+/* Container to handle scrolling */
+.visitu95property .table-container {
+    width: 1045px;  /* Fixed width */
+    height: 400px;  /* Fixed height */
+    overflow-y: auto;  /* Vertical scroll for container */
+    margin: 5px auto;
+    border: 2px solid var(--black);  /* Border around the container */
+}
+
+/* Table styling */
+.visitu95property .overlap-group2112 {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.visitu95property .overlap-group2112 th,
+.visitu95property .overlap-group2112 td {
+    padding: 5px; /* Padding inside cells */
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    height: 50px; /* Fixed row height */
+    vertical-align: middle; /* Vertically center content */
+    white-space: nowrap;  /* Prevent wrapping of text inside cells */
+    overflow-x: auto;  /* Enable horizontal scrolling inside td */
+}
+
+/* Sticky header */
+.visitu95property .overlap-group2112 th {
+    background-color: #f2f2f2;
+    position: sticky;
+    top: 0; /* Keep header fixed */
+    z-index: 10;
+}
+
+/* Row hover effect */
+.visitu95property .overlap-group2112 tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Ensure individual cells can scroll horizontally if the content overflows */
+.visitu95property .overlap-group2112 td {
+    max-width: 150px;  /* Fixed width for each cell */
+    white-space: nowrap; /* Ensure text stays in a single line */
+    overflow-x: auto;  /* Enable horizontal scrolling inside td */
+
+}

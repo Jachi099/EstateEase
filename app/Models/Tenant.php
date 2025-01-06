@@ -61,6 +61,9 @@ public function tenantPayments()
     {
         return $this->belongsTo(Property::class, 'property_ID', 'property_ID');
     }
-
+    public function serviceRequests()
+    {
+        return $this->hasMany(ServiceRequest::class, 'tenant_id');
+    }
 
 }

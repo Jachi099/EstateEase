@@ -295,10 +295,11 @@ public function viewServiceRequests()
     if (!$tenant) {
         return redirect()->route('tenant.login')->with('error', 'You must be logged in to view service requests.');
     }
+
     $profilePicture = $tenant->picture ?? null;
 
-    // Fetch tenant's service requests
-    $serviceRequests = ServiceRequest::with('service')
+    // Fetch tenant's service requests with provider data
+    $serviceRequests = ServiceRequest::with(['service', 'serviceProvider'])
         ->where('tenant_id', $tenant->id)
         ->get();
 
@@ -306,48 +307,57 @@ public function viewServiceRequests()
 }
 
 
+public function cancelServiceRequest($id)
+{
+    $tenant = Auth::guard('tenant')->user(); // Ensure tenant is authenticated
 
-    public function cancelServiceRequest($id)
-    {
-        $tenant = Auth::guard('tenant')->user(); // Ensure tenant is authenticated
-
-        if (!$tenant) {
-            return redirect()->route('tenant.login')->with('error', 'You must be logged in to cancel a service request.');
-        }
-
-        // Fetch the service request
-        $serviceRequest = ServiceRequest::where('id', $id)
-            ->where('tenant_id', $tenant->id)
-            ->where('status', 'pending')
-            ->whereNull('service_provider_id')
-            ->first();
-
-        if (!$serviceRequest) {
-            return redirect()->back()->with('error', 'This service request cannot be canceled.');
-        }
-
-        // Cancel the service request
-        $serviceRequest->delete();
-
-        return redirect()->back()->with('success', 'Service request has been canceled.');
+    if (!$tenant) {
+        return redirect()->route('tenant.login')->with('error', 'You must be logged in to cancel a service request.');
     }
+
+    // Fetch the service request
+    $serviceRequest = ServiceRequest::where('id', $id)
+        ->where('tenant_id', $tenant->id)
+        ->where('status', 'pending')
+        ->whereNull('service_provider_id') // Ensuring no provider is assigned yet
+        ->first();
+
+    if (!$serviceRequest) {
+        return redirect()->back()->with('error', 'This service request cannot be canceled.');
+    }
+
+    // Update the service request status to canceled
+    $serviceRequest->status = 'cancelled'; // Set status as canceled
+    $serviceRequest->save(); // Save the changes
+
+    return redirect()->back()->with('success', 'Service request has been canceled.');
+}
+
 
 
     public function showServiceRequestForm(Request $request)
     {
         Log::info('Service Request Form Loaded');
 
+        // Make sure the tenant is authenticated
         $tenant = auth()->user();
         if (!$tenant) {
             return redirect()->route('login')->withErrors(['error' => 'You must be logged in to access this page.']);
         }
 
+        // Load tenant with the property association
         $tenantWithProperty = Tenant::with('property')->find($tenant->id);
+        if (!$tenantWithProperty || !$tenantWithProperty->property) {
+            return redirect()->route('tenant.dashboard')->withErrors(['error' => 'You must be assigned to a property to make a service request.']);
+        }
+
+        // Get all services
         $services = Service::all();
         $profilePicture = $tenant->picture ?? null;
         $selectedUrgency = 'medium';
         $selectedService = null;
 
+        // Get selected service from query parameter if provided
         if ($request->has('service_id')) {
             $selectedService = Service::find($request->service_id);
             if (!$selectedService) {
@@ -355,7 +365,8 @@ public function viewServiceRequests()
             }
         }
 
-        $platformFee = 100;
+        // Define fees
+        $platformFee = 100; // A fixed platform fee
         $laborCharge = $selectedService ? $this->getLaborCharge($selectedService->type) : 0;
         $urgencyFee = $this->getUrgencyFee($selectedUrgency);
         $serviceCost = $selectedService ? $selectedService->cost : 0;
@@ -364,22 +375,20 @@ public function viewServiceRequests()
         return view('tenant.serviceRequestT', compact('services', 'tenantWithProperty', 'tenant', 'profilePicture', 'platformFee', 'laborCharge', 'urgencyFee', 'totalCost', 'selectedService'));
     }
 
-
     // Get Labor Charge based on Service Type
     private function getLaborCharge($serviceType)
     {
-        // Example labor charge based on service type (this can be dynamic)
         switch ($serviceType) {
             case 'Plumbing':
-                return 500;  // Example fixed labor charge for plumbing
+                return 500;
             case 'HVAC':
-                return 1500;  // Example fixed labor charge for HVAC
+                return 1500;
             case 'Electrical':
-                return 1000;  // Example fixed labor charge for electrical work
+                return 1000;
             case 'Cleaning':
-                return 300;   // Example fixed labor charge for cleaning
+                return 300;
             case 'Carpentry':
-                return 1200;  // Example fixed labor charge for carpentry
+                return 1200;
             default:
                 return 0;
         }
@@ -390,11 +399,11 @@ public function viewServiceRequests()
     {
         switch ($urgency) {
             case 'low':
-                return 0;    // No extra fee for low urgency
+                return 0;
             case 'medium':
-                return 10;   // 10% extra for medium urgency
+                return 10;
             case 'high':
-                return 20;   // 20% extra for high urgency
+                return 20;
             default:
                 return 0;
         }
@@ -406,25 +415,44 @@ public function viewServiceRequests()
         $request->validate([
             'service_id' => 'required|exists:services,id',
             'description' => 'required|string|max:255',
-            'property_id' => 'required|exists:properties,id', // Ensure 'id' is the correct column name
-            'service_date' => 'required|date|after:today',
+            'property_id' => 'required|exists:property,property_ID',
+            'service_date' => 'required|date|after:today', // Ensures the date is after today
             'urgency' => 'required|in:low,medium,high'
+        ], [
+            // Custom validation messages
+            'service_date.after' => 'The service date must be a future date.',
+            'service_date.required' => 'Please provide a service date.',
+            'service_date.date' => 'Please provide a valid date.',
         ]);
 
         // Get the service details
-        $service = Service::findOrFail($request->service_id);  // Use findOrFail for better error handling
-        $laborCost = $service->cost;  // Assuming the cost is the labor cost
-        $urgencyFee = $this->getUrgencyFee($request->urgency); // Get urgency fee based on urgency level
-        $platformFee = ($laborCost + $urgencyFee) * 0.10;  // 10% platform fee
+        $service = Service::findOrFail($request->service_id);
+        $laborCost = $service->cost;
+        $urgencyFee = $this->getUrgencyFee($request->urgency);
+        $platformFee = ($laborCost + $urgencyFee) * 0.10;
         $totalCost = $laborCost + $urgencyFee + $platformFee;
+
+        // Convert the service date to a Carbon instance (this includes both date and time)
+        $serviceDate = \Carbon\Carbon::parse($request->service_date);
+
+        // Check if a service request with the same service type, date, and property already exists
+        $existingRequest = ServiceRequest::where('tenant_id', auth()->user()->id)
+            ->where('service_id', $request->service_id)
+            ->where('property_ID', $request->property_id)
+            ->whereDate('requested_date', $serviceDate) // Ensure we match the date
+            ->exists();
+
+        if ($existingRequest) {
+            return redirect()->back()->withErrors(['error' => 'You already have a service request for this service on the selected date for this property. Please choose another date or service.']);
+        }
 
         // Create the service request
         $serviceRequest = new ServiceRequest();
         $serviceRequest->tenant_id = auth()->user()->id;
         $serviceRequest->service_id = $request->service_id;
         $serviceRequest->description = $request->description;
-        $serviceRequest->property_id = $request->property_id;
-        $serviceRequest->service_date = $request->service_date;
+        $serviceRequest->property_ID = $request->property_id;
+        $serviceRequest->requested_date = $serviceDate; // Store both date and time
         $serviceRequest->urgency = $request->urgency;
         $serviceRequest->status = 'pending';
         $serviceRequest->labor_cost = $laborCost;
@@ -433,8 +461,11 @@ public function viewServiceRequests()
         $serviceRequest->total_cost = $totalCost;
         $serviceRequest->save();
 
-        // Redirect or return response
+        // Return success message after form submission
         return redirect()->route('tenant.serviceRequestT')->with('success', 'Service request submitted successfully.');
     }
+
+
+
 
 }

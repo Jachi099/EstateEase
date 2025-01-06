@@ -11,6 +11,8 @@ use App\Http\Controllers\ServiceProviderController;
 use App\Http\Controllers\TenantController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\ServiceRequestController;
+
 
 use App\Models\Tenant; // Ensure you have created this model
 
@@ -75,7 +77,7 @@ Route::middleware(['auth:tenant'])->group(function () {
 
 
     Route::get('/service-requests', [TenantController::class, 'viewServiceRequests'])->name('tenant.serviceRlist');
-    Route::delete('/service-requests/{id}/cancel', [TenantController::class, 'cancelServiceRequest'])->name('tenant.cancelServiceRequest');
+    Route::put('/service-requests/{id}/cancel', [TenantController::class, 'cancelServiceRequest'])->name('tenant.cancelServiceRequest');
 
     // Show the service request form
 // Show the service request form
@@ -165,20 +167,21 @@ Route::post('/payment/update-status', [PaymentController::class, 'updatePaymentS
 
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 
-    // Route for the admin to view all properties
-    Route::get('/admin/properties', [Property1Controller::class, 'index'])->name('admin.properties.index');
-    Route::get('/admin/property-list', [Property1Controller::class, 'index'])->name('admin.property_list');
 
     Route::patch('admin/visit-requests/{id}/{status}', [AdminController::class, 'updateRequestStatus'])->name('admin.updateRequestStatus');
     Route::patch('admin/remove-visit-request/{id}', [AdminController::class, 'removeVisitRequest'])->name('admin.removeVisitRequest');
     Route::patch('admin/change-to-tenant/{id}', [AdminController::class, 'changeToTenant'])->name('admin.changeToTenant');
 
 
-   Route::get('/admin/service-providers', [ServiceProviderController::class, 'index'])->name('admin.serviceProvider');
+Route::get('/admin/service-providers', [ServiceProviderController::class, 'index'])->name('admin.serviceProvider');
 Route::delete('/admin/service-providers/{id}', [ServiceProviderController::class, 'destroy'])->name('admin.serviceProviders.delete');
 
 
-// Route to display the form for adding a new service provider
+Route::get('/admin/service-requests', [ServiceRequestController::class, 'index'])->name('admin.service-requests');
+Route::put('/admin/service-requests/{id}/update', [ServiceRequestController::class, 'update'])->name('admin.service-request.update');
+Route::get('/admin/service-requests/{id}/assign', [ServiceRequestController::class, 'assignProvider'])->name('admin.service-request.assign');
+
+
 Route::get('admin/add-provider', [ServiceProviderController::class, 'create'])->name('admin.addProvider');
 
 // Route to handle the form submission and store the new provider
@@ -188,7 +191,6 @@ Route::post('admin/add-provider', [ServiceProviderController::class, 'store'])->
     | Property Routes
     |--------------------------------------------------------------------------
     */
-    Route::get('/properties', [Property1Controller::class, 'index'])->name('properties.index');
 
     Route::get('/admin/visitor', [AdminController::class, 'viewVisitRequests'])->name('admin.visitor');
 

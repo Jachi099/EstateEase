@@ -80,65 +80,101 @@ HISTORY OF SERVICE REQUESTS              </h1>
             <a href="{{ route('tenant.serviceRequestT') }}">
     <div class="add-property-btn">REQUEST SERVICE</div>
 </a>
-
-
-    @if($serviceRequests->isEmpty())
-    <table class="overlap-group21">
+@if($serviceRequests->isEmpty())
+    <div class="table-container">
+        <table class="overlap-group2112">
             <thead>
                 <tr>
                     <th>Service</th>
-                    <th>Type</th>
+                    <th>Description</th>
                     <th>Cost</th>
                     <th>Status</th>
+                    <th>Provider</th>
+                    <th>Service Date</th>
+                    <th>Service Time</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
-            <tr>
-        <p>You have no service requests at the moment.</p>
-            </tr>
-        </tbody>
-    </table>
-    @else
-        <table class="overlap-group21">
+                <tr>
+                    <td colspan="8" class="text-center">You have no service requests at the moment.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+@else
+    <div class="table-container">
+        <table class="overlap-group2112">
             <thead>
                 <tr>
-                    <th>Service</th>
-                    <th>Type</th>
+                    <th>Service Type</th>
+                    <th>Description</th>
                     <th>Cost</th>
                     <th>Status</th>
+                    <th>Provider</th>
+                    <th>Service Date</th>
+                    <th>Service Time</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($serviceRequests as $request)
                     <tr>
-                        <td>
-                            <img src="{{ asset('storage/' . $request->service->picture) }}" alt="Service: {{ $request->service->description }}" width="50">
-                            {{ $request->service->description }}
-                        </td>
+                        <!-- Service Type -->
                         <td>{{ $request->service->type }}</td>
+
+                        <!-- Problem Description -->
+                        <td>{{ $request->description }}</td>
+
+                        <!-- Cost -->
                         <td>৳{{ number_format($request->service->cost, 2) }}</td>
+
+                        <!-- Status -->
                         <td>{{ ucfirst($request->status) }}</td>
+
+                        <!-- Provider Info -->
                         <td>
-                            @if($request->status == 'pending' && is_null($request->service_provider_id))
-                                <form action="{{ route('tenant.cancelServiceRequest', $request->id) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm">Cancel</button>
-                                </form>
+                            @if($request->service_provider_id)
+                                @php
+                                    $provider = $request->serviceProvider;
+                                @endphp
+                                <div>
+                                    <img src="{{ asset('storage/' . $provider->picture) }}" alt="Provider Picture" width="50" height="50">
+                                </div>
+                                <div>{{ $provider->name }}</div>
+                                <div>{{ $provider->phone }}</div>
                             @else
-                                <span class="text-muted">Not cancellable</span>
+                                No provider assigned
                             @endif
+                        </td>
+
+                        <!-- Service Date -->
+                        <td>{{ \Carbon\Carbon::parse($request->requested_date)->format('Y-m-d') }}</td>
+
+                        <!-- Service Time -->
+                        <td>{{ \Carbon\Carbon::parse($request->requested_date)->format('H:i:s') }}</td>
+
+                        <!-- Action -->
+                        <td>
+                        @if($request->status == 'pending' && is_null($request->service_provider_id))
+    <form action="{{ route('tenant.cancelServiceRequest', $request->id) }}" method="POST">
+        @csrf
+        @method('PUT') <!-- Use PUT for updating the record -->
+        <button type="submit" class="btn btn-danger btn-sm">Cancel</button>
+    </form>
+@elseif($request->status == 'canceled')
+    <span class="text-muted">This request has been canceled</span>
+@else
+    <span class="text-muted">Not cancellable</span>
+@endif
+
                         </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
-    @endif
-</div>
-
-
+    </div>
+@endif
 
 
 

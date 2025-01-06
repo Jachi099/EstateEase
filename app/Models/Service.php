@@ -17,4 +17,10 @@ class Service extends Model
         'cost',
         'description',
     ];
+
+    public function serviceRequests()
+    {
+        return $this->hasMany(ServiceRequest::class);
+    }
+
 }

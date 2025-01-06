@@ -11,6 +11,13 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css1/serviceu95requestu95tenant.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('css1/styleguide.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('css1/globals.css') }}" />
+<!-- Add Bootstrap CSS to your page -->
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Add Bootstrap JS and dependencies (for dismissing alerts) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
   </head>
   <body style="margin: 0; background: #ffffff">
@@ -71,178 +78,162 @@ PROFILE            </div>
             <div class="estate-ease_logo montserrat-semi-bold-beaver-18px">EstateEase</div>
             <div class="estate-ease_logo-1 estate-ease_logo-3 lexendzetta-extra-bold-white-15px">TENANT DASHBOARD</div>
           <div class="overlap-group1">
+          @if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Success!</strong> {{ session('success') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+@endif
+
+@if($errors->any())
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Error!</strong>
+        <ul>
+            @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+@endif
+
             <h1 class="estate-ease_logo-2 estate-ease_logo-3 lexendzetta-medium-beaver-25px">SERVICE REQUEST</h1>
-
-
             <form action="{{ route('tenant.serviceRequestT') }}" method="POST">
-            @csrf
 
+    @csrf
+    <div class="flex-row montserrat-medium-black-16px">
+        <div class="flex-col">
+            <div class="service-type service">SERVICE TYPE</div>
+            <select name="service_id" class="service_type" id="service" class="form-control" required>
+                <option value="">Select a service</option>
+                @if($services->isEmpty())
+                    <option value="">No services available</option>
+                @else
+                    @foreach($services as $service)
+                        <option value="{{ $service->id }}" data-labor-cost="{{ $service->cost }}">{{ $service->type }}</option>
+                    @endforeach
+                @endif
+            </select>
 
-            <div class="flex-row montserrat-medium-black-16px">
-              <div class="flex-col">
-                <div class="service-type service">SERVICE TYPE</div>
+            <div class="problem-details">PROBLEM DETAILS</div>
+            <textarea class="prblm_txtbox" name="description" id="description" class="form-control" rows="3" placeholder="Describe the issue in detail" required></textarea>
+        </div>
 
-                <select name="service_id" class="service_type" id="service" class="form-control" required>
-    <option value="">Select a service</option>
-    @if($services->isEmpty())
-        <option value="">No services available</option>
-    @else
-        @foreach($services as $service)
-            <option value="{{ $service->id }}">{{ $service->type }} - ৳{{ number_format($service->cost, 2) }}</option>
-        @endforeach
-    @endif
-</select>
+        <div class="flex-col-1 flex-col-4">
+            <div class="choose-a-property">CHOOSE A PROPERTY</div>
+            <select class="choose_property" name="property_id" id="property_id" class="form-control" required>
+                <option value="">Select a property</option>
+                @if($tenantWithProperty->property)
+                    <option value="{{ $tenantWithProperty->property->property_ID }}">{{ $tenantWithProperty->property->house_no }} - {{ $tenantWithProperty->property->area }}</option>
+                @else
+                    <p>No property found for this tenant.</p>
+                @endif
+            </select>
 
+            <div class="prefered-date-time">PREFERRED DATE &amp; TIME</div>
+            <input class="date_time" type="datetime-local" name="service_date" id="service_date" class="form-control" required>
 
-                <div class="problem-details">PROBLEM DETAILS</div>
-
-                <textarea class="prblm_txtbox" name="description" id="description" class="form-control" rows="3" placeholder="Describe the issue in detail" required></textarea>
-
-              </div>
-              <div class="flex-col-1 flex-col-4">
-                <div class="choose-a-property">CHOOSE A PROPERTY</div>
-
-
-                <select class="choose_property" name="property_id" id="property_id" class="form-control" required>
-    <option value="">Select a property</option>
-    @if($tenantWithProperty->property)
-        <option value="{{ $tenantWithProperty->property->property_ID }}">{{ $tenantWithProperty->property->house_no }} - {{ $tenantWithProperty->property->area }}</option>
-    @else
-        <p>No property found for this tenant.</p>
-    @endif
-</select>
-
-
-
-
-                <div class="prefered-date-time">PREFERED DATE &amp; TIME</div>
-                <input class="date_time" type="datetime-local" name="service_date" id="service_date" class="form-control" required>
-
-                <div class="urgency">URGENCY</div>
-
-                <select name="urgency" class="urgent_drop" id="urgency" class="form-control" required>
+            <div class="urgency">URGENCY</div>
+            <select name="urgency" class="urgent_drop" id="urgency" class="form-control" required>
                 <option value="low">Low</option>
                 <option value="medium">Medium</option>
                 <option value="high">High</option>
             </select>
-              </div>
-            </div>
-            <div class="flex-col-2 flex-col-4">
-
-              <div class="flex-row-2">
-                <div class="flex-col-3 flex-col-4">
-                <div class="flex-row-3 montserrat-medium-black-16px">
-
-                <div class="service-charge-label service">LABOR CHARGE&nbsp;</div>
-    <div class="service_charge">{{ number_format($laborCharge, 2) }}</div> <!-- Display labor charge -->
-    <div class="tk-2 montserrat-medium-black-16px">TK</div>
-
-                </div>
-<!-- Platform Charge -->
-<div class="flex-row-3 montserrat-medium-black-16px">
-    <div class="service-charge-label service">PLATFORM CHARGE&nbsp;</div> <!-- Left-aligned label -->
-    <div class="service_charge">{{ number_format($platformFee, 2) }}</div> <!-- Center-aligned charge -->
-    <div class="tk-2">TK</div> <!-- Right-aligned currency -->
-</div>
-
-<!-- Urgency Fee -->
-<div class="flex-row-3 montserrat-medium-black-16px">
-    <div class="service-charge-label service">URGENCY FEE&nbsp;</div> <!-- Left-aligned label -->
-    <div class="service_charge">{{ number_format($urgencyFee, 2) }}</div> <!-- Center-aligned charge -->
-    <div class="tk-2">TK</div> <!-- Right-aligned currency -->
-</div>
-
-<!-- Total Cost -->
-<div class="flex-row-3 montserrat-medium-black-16px">
-    <div class="service-charge-label service">TOTAL COST&nbsp;</div> <!-- Left-aligned label -->
-    <div class="service_charge">{{ number_format($totalCost, 2) }}</div> <!-- Center-aligned charge -->
-    <div class="tk-2">TK</div> <!-- Right-aligned currency -->
-</div>
-
-
-
-                  <p class="name_warnings">*** MATERIAL COSTS ARE SEPERATE AND WILL BE NOTIFIED IF NEEDED.**</p>
-                </div>
-
-
-                <div class="back-container">
-            <button type="submit" class="overlap-group2">REQUEST SERVICE</button>
-
-        <!-- Go Back Link -->
-        <a href="{{ route('tenant.serviceRlist') }}">
-            <div class="go_back"></div>
-            <div class="go-back montserrat-black-beaver-16px">GO BACK</div>
-        </a>
-    </div>
-              </div>
-            </div>
-
-            </form>
-
-
-          </div>
         </div>
-      </div>
-      </div>
     </div>
 
+    <div class="flex-col-2 flex-col-4">
+        <div class="flex-row-2">
+            <div class="flex-col-3 flex-col-4">
+                <div class="flex-row-3 montserrat-medium-black-16px">
+                    <div class="service-charge-label service">LABOR CHARGE&nbsp;</div>
+                    <div id="labor_charge" class="service_charge">0.00</div> <!-- Display labor charge -->
+                    <div class="tk-2 montserrat-medium-black-16px">TK</div>
+                </div>
 
+                <div class="flex-row-3 montserrat-medium-black-16px">
+                    <div class="service-charge-label service">PLATFORM CHARGE&nbsp;</div>
+                    <div id="platform_fee" class="service_charge">0.00</div> <!-- Display platform fee -->
+                    <div class="tk-2">TK</div>
+                </div>
 
+                <div class="flex-row-3 montserrat-medium-black-16px">
+                    <div class="service-charge-label service">URGENCY FEE&nbsp;</div>
+                    <div id="urgency_fee" class="service_charge">0.00</div> <!-- Display urgency fee -->
+                    <div class="tk-2">TK</div>
+                </div>
 
+                <div class="flex-row-3 montserrat-medium-black-16px">
+                    <div class="service-charge-label service">TOTAL COST&nbsp;</div>
+                    <div id="total_cost" class="service_charge">0.00</div> <!-- Display total cost -->
+                    <div class="tk-2">TK</div>
+                </div>
 
+                <p class="name_warnings">*** MATERIAL COSTS ARE SEPARATE AND WILL BE NOTIFIED IF NEEDED.**</p>
+            </div>
 
-    <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const serviceSelect = document.getElementById('service');
-        const urgencySelect = document.getElementById('urgency');
-        const laborCostElement = document.getElementById('labor_cost');
-        const platformFeeElement = document.getElementById('platform_fee');
-        const urgencyFeeElement = document.getElementById('urgency_fee');
-        const totalCostElement = document.getElementById('total_cost');
+            <div class="back-container">
+                <button type="submit" class="overlap-group2">REQUEST SERVICE</button>
+                <a href="{{ route('tenant.serviceRlist') }}">
+                    <div class="go_back"></div>
+                    <div class="go-back montserrat-black-beaver-16px">GO BACK</div>
+                </a>
+            </div>
+        </div>
+    </div>
+</form>
 
-        let baseLaborCost = 0;
-        let urgencyFee = 0;
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const serviceSelect = document.getElementById('service');
+    const urgencySelect = document.getElementById('urgency');
+    const laborCostElement = document.getElementById('labor_charge');
+    const platformFeeElement = document.getElementById('platform_fee');
+    const urgencyFeeElement = document.getElementById('urgency_fee');
+    const totalCostElement = document.getElementById('total_cost');
 
-        // Calculate costs on form changes
-        function calculateCost() {
-            const laborCost = baseLaborCost;
-            const platformFee = (laborCost + urgencyFee) * 0.10;  // Platform fee 10%
-            const totalCost = laborCost + urgencyFee + platformFee;
+    let baseLaborCost = 0;
+    let urgencyFee = 0;
 
-            // Update the displayed costs
-            laborCostElement.textContent = `৳${laborCost.toFixed(2)}`;
-            platformFeeElement.textContent = `৳${platformFee.toFixed(2)}`;
-            urgencyFeeElement.textContent = `৳${urgencyFee.toFixed(2)}`;
-            totalCostElement.textContent = `৳${totalCost.toFixed(2)}`;
-        }
+    // Calculate costs on form changes
+    function calculateCost() {
+        const laborCost = baseLaborCost;
+        const platformFee = (laborCost + urgencyFee) * 0.10;  // Platform fee 10%
+        const totalCost = laborCost + urgencyFee + platformFee;
 
-        // Handle service type change
-        serviceSelect.addEventListener('change', function () {
-            const serviceId = this.value;
+        // Update the displayed costs
+        laborCostElement.textContent = `৳${laborCost.toFixed(2)}`;
+        platformFeeElement.textContent = `৳${platformFee.toFixed(2)}`;
+        urgencyFeeElement.textContent = `৳${urgencyFee.toFixed(2)}`;
+        totalCostElement.textContent = `৳${totalCost.toFixed(2)}`;
+    }
 
-            // Fetch service data from the server using AJAX or use hardcoded values
-            fetch(`/get-service-details/${serviceId}`)
-                .then(response => response.json())
-                .then(data => {
-                    baseLaborCost = data.labor_cost;
-                    calculateCost();  // Recalculate cost based on the selected service
-                });
-        });
-
-        // Handle urgency change
-        urgencySelect.addEventListener('change', function () {
-            const urgency = this.value;
-            if (urgency === 'low') {
-                urgencyFee = 100; // low urgency fee
-            } else if (urgency === 'medium') {
-                urgencyFee = 300; // medium urgency fee
-            } else if (urgency === 'high') {
-                urgencyFee = 500; // high urgency fee
-            }
-            calculateCost();  // Recalculate cost based on selected urgency
-        });
+    // Handle service type change
+    serviceSelect.addEventListener('change', function () {
+        const selectedOption = serviceSelect.options[serviceSelect.selectedIndex];
+        baseLaborCost = parseFloat(selectedOption.getAttribute('data-labor-cost')) || 0;
+        calculateCost();  // Recalculate cost based on the selected service
     });
+
+    // Handle urgency change
+    urgencySelect.addEventListener('change', function () {
+        const urgency = this.value;
+        if (urgency === 'low') {
+            urgencyFee = 100; // low urgency fee
+        } else if (urgency === 'medium') {
+            urgencyFee = 300; // medium urgency fee
+        } else if (urgency === 'high') {
+            urgencyFee = 500; // high urgency fee
+        }
+        calculateCost();  // Recalculate cost based on selected urgency
+    });
+});
 </script>
+
 
   </body>
 </html>
