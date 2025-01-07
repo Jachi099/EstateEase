@@ -21,23 +21,25 @@
       <div class="addu95serviceu95provideru95admin screen">
         <div class="overlap-group2">
           <div class="estate-ease estate lexendzetta-black-mongoose-20px">EstateEase</div>
-          <div class="overlap-group15"><div class="dashboard montserrat-extra-bold-mongoose-20px">Dashboard</div></div>
-          <div class="overlap-group2-item">
+
+          <a href="{{ route('admin.dashboard') }}"><div class="overlap-group15"><div class="dashboard montserrat-extra-bold-mongoose-20px">Dashboard</div></div>
+          </a><div class="overlap-group2-item">
             <a href="profileu95admin.html"> <div class="link"></div></a>
             <div class="profile montserrat-extra-bold-mongoose-20px">Profile</div>
           </div>
           <div class="overlap-group9"><div class="property montserrat-extra-bold-mongoose-20px">Property</div></div>
           <div class="overlap-group13"><div class="landlord montserrat-extra-bold-mongoose-20px">Landlord</div></div>
-          <div class="overlap-group11">
+          <a href="{{ route('admin.visitor') }}"> <div class="overlap-group11">
             <div class="tenant-visitor montserrat-extra-bold-mongoose-20px">Tenant &amp; Visitor</div>
-          </div>
+          </div></a>
           <div class="overlap-group2-item">
-            <a href="serviceu95admin.html"> <div class="link"></div></a>
+            <a href="{{ route('admin.services') }}"> <div class="link"></div></a>
             <div class="service service-1 montserrat-extra-bold-mongoose-20px">Service</div>
           </div>
+          <a href="{{ route('admin.serviceProvider') }}">
           <div class="overlap-group7">
             <div class="service-provider service-1 montserrat-extra-bold-beaver-20px">Service Provider</div>
-          </div>
+          </div> </a>
           <div class="overlap-group2-item">
             <a href="visitor.html"> <div class="link"></div></a>
             <div class="feedback montserrat-extra-bold-mongoose-20px">Feedback</div>
@@ -101,11 +103,7 @@
                 <input type="text" class="_txtbox" name="address" placeholder="Enter service area" required />
             </div>
 
-            <!-- Hourly Rate -->
-            <div class="overlap-group3">
-                <div class="experience montserrat-medium-black-16px">HOURLY RATE</div>
-                <input type="number" class="_txtbox" name="hourly_rate" placeholder="Enter hourly rate" required min="0" />
-            </div>
+
 
             <!-- Picture Upload -->
             <div class="flex-row-2 flex-row-3">

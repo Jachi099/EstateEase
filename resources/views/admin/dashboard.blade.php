@@ -33,7 +33,7 @@
             <div class="overlap-group6"><div class="profile montserrat-extra-bold-mongoose-20px">Profile</div></div>
 
             <div class="overlap-group8">
-              <a href="{{ route('admin.property_list') }}">
+              <a href="">
                 <div class="link"></div>
             </a>
               <div class="property montserrat-extra-bold-beaver-20px">Property</div>
@@ -49,9 +49,9 @@
             <div class="overlap-group5">
               <div class="service service-1 montserrat-extra-bold-mongoose-20px">Service</div>
             </div></a>
-            <div class="overlap-group7">
+            <a href="{{ route('admin.serviceProvider') }}"> <div class="overlap-group7">
               <div class="service-1 montserrat-extra-bold-mongoose-20px">Service Provider</div>
-            </div>
+            </div></a>
             <div class="overlap-group10"><div class="feedback montserrat-extra-bold-mongoose-20px">Feedback</div></div>
             <div class="overlap-group12"><div class="log-out montserrat-extra-bold-mongoose-20px">Log out</div></div>
 
@@ -64,30 +64,30 @@
             <div class="overlap-group-container">
               <div class="total-container">
                 <div class="total montserrat-medium-black-15px">TOTAL PROPERTIES</div>
-                <div class="total-1"></div>
-              </div>
+                <div class="total-1">{{ $totalProperties }}</div> <!-- Display total properties -->
+                </div>
               <div class="provider-container">
                 <div class="total-service-providers montserrat-medium-black-15px">TOTAL SERVICE PROVIDERS</div>
-                <div class="totalprovider"></div>
-              </div>
+                <div class="total-1">{{ $totalServiceProviders }}</div> <!-- Display total service providers -->
+                </div>
             </div>
             <div class="total-container-1 total-container-4">
               <div class="total montserrat-medium-black-15px">TOTAL LANDLORDS</div>
-              <div class="totalland"></div>
-            </div>
+              <div class="total-1">{{ $totalLandlords }}</div> <!-- Display total landlords -->
+              </div>
           </div>
         </div>
         <div class="flex-row-1">
           <div class="total-container-2 total-container-4">
             <div class="total-tenants montserrat-medium-black-15px">TOTAL TENANTS</div>
-            <div class="total-1"></div>
-          </div>
+            <div class="total-1">{{ $totalTenants }}</div> <!-- Display total tenants -->
+            </div>
           <div class="flex-col-1">
             <div class="head_pic"></div>
             <div class="total-container-3 total-container-4">
               <div class="total-services montserrat-medium-black-15px">TOTAL SERVICES</div>
-              <div class="total-1"></div>
-            </div>
+              <div class="total-1">{{ $totalServices }}</div> <!-- Display total services -->
+              </div>
           </div>
         </div>
       </div>

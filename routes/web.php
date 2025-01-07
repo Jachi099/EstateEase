@@ -179,7 +179,8 @@ Route::delete('/admin/service-providers/{id}', [ServiceProviderController::class
 
 Route::get('/admin/service-requests', [ServiceRequestController::class, 'index'])->name('admin.service-requests');
 Route::put('/admin/service-requests/{id}/update', [ServiceRequestController::class, 'update'])->name('admin.service-request.update');
-Route::get('/admin/service-requests/{id}/assign', [ServiceRequestController::class, 'assignProvider'])->name('admin.service-request.assign');
+// Correct route for assigning provider (using POST method)
+Route::post('/admin/service-requests/{id}/assign', [ServiceRequestController::class, 'assignProvider'])->name('admin.service-request.assign');
 
 
 Route::get('admin/add-provider', [ServiceProviderController::class, 'create'])->name('admin.addProvider');

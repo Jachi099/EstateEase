@@ -301,10 +301,14 @@ public function viewServiceRequests()
     // Fetch tenant's service requests with provider data
     $serviceRequests = ServiceRequest::with(['service', 'serviceProvider'])
         ->where('tenant_id', $tenant->id)
+        ->orderByDesc('requested_date') // Sort by latest requested date
         ->get();
 
     return view('tenant.serviceRlist', compact('serviceRequests', 'profilePicture'));
 }
+
+
+
 
 
 public function cancelServiceRequest($id)

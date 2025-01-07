@@ -47,7 +47,6 @@ public function store(Request $request)
         'email' => 'nullable|email|unique:service_providers,email',
         'address' => 'required|string|max:255',
         'specialization' => 'required|string|max:255',
-        'hourly_rate' => 'required|numeric|min:0',
         'availability_status' => 'nullable|in:Available,Unavailable',
         'picture' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
     ]);

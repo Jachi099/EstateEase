@@ -20,16 +20,17 @@
       <div class="serviceu95admin screen">
         <div class="overlap-group">
           <div class="estate-ease estate lexendzetta-black-mongoose-20px">EstateEase</div>
-          <div class="overlap-group8"><div class="dashboard montserrat-extra-bold-mongoose-20px">Dashboard</div></div>
-          <div class="overlap-group-item">
+
+          <a href="{{ route('admin.dashboard') }}"><div class="overlap-group8"><div class="dashboard montserrat-extra-bold-mongoose-20px">Dashboard</div></div>
+          </a> <div class="overlap-group-item">
             <a href="profileu95admin.html"> <div class="link"></div></a>
             <div class="profile montserrat-extra-bold-mongoose-20px">Profile</div>
           </div>
           <div class="overlap-group2"><div class="property montserrat-extra-bold-mongoose-20px">Property</div></div>
           <div class="overlap-group9"><div class="landlord montserrat-extra-bold-mongoose-20px">Landlord</div></div>
-          <div class="overlap-group7">
+          <a href="{{ route('admin.visitor') }}">  <div class="overlap-group7">
             <div class="tenant-visitor montserrat-extra-bold-mongoose-20px">Tenant &amp; Visitor</div>
-          </div>
+          </div></a>
           <div class="overlap-group5"><div class="service montserrat-extra-bold-beaver-20px">Service</div></div>
           <div class="overlap-group-item">
             <a href="{{ route('admin.serviceProvider') }}"> <div class="link"></div></a>

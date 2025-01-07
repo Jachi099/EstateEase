@@ -85,7 +85,7 @@ HISTORY OF SERVICE REQUESTS              </h1>
         <table class="overlap-group2112">
             <thead>
                 <tr>
-                    <th>Service</th>
+                    <th>Service Type</th>
                     <th>Description</th>
                     <th>Cost</th>
                     <th>Status</th>
@@ -156,18 +156,17 @@ HISTORY OF SERVICE REQUESTS              </h1>
 
                         <!-- Action -->
                         <td>
-                        @if($request->status == 'pending' && is_null($request->service_provider_id))
-    <form action="{{ route('tenant.cancelServiceRequest', $request->id) }}" method="POST">
-        @csrf
-        @method('PUT') <!-- Use PUT for updating the record -->
-        <button type="submit" class="btn btn-danger btn-sm">Cancel</button>
-    </form>
-@elseif($request->status == 'canceled')
-    <span class="text-muted">This request has been canceled</span>
-@else
-    <span class="text-muted">Not cancellable</span>
-@endif
-
+                            @if($request->status == 'pending' && is_null($request->service_provider_id))
+                                <form action="{{ route('tenant.cancelServiceRequest', $request->id) }}" method="POST">
+                                    @csrf
+                                    @method('PUT') <!-- Use PUT for updating the record -->
+                                    <button type="submit" class="btn btn-danger btn-sm">Cancel</button>
+                                </form>
+                            @elseif($request->status == 'cancelled')
+                                <span class="text-muted">Cancelled</span>
+                            @else
+                                <span class="text-muted">{{ $request->status }}</span>
+                            @endif
                         </td>
                     </tr>
                 @endforeach
@@ -175,6 +174,7 @@ HISTORY OF SERVICE REQUESTS              </h1>
         </table>
     </div>
 @endif
+
 
 
 

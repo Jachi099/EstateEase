@@ -20,7 +20,7 @@
         <div class="overlap-group">
           <div class="estate-ease estate lexendzetta-black-mongoose-20px">EstateEase</div>
           <div class="dashb-container">
-            <a href="admin-dashboard.html"> <div class="link"></div></a>
+            <a href="{{ route('admin.dashboard') }}"> <div class="link"></div></a>
             <div class="dashboard montserrat-extra-bold-mongoose-20px">Dashboard</div>
           </div>
           <div class="overlap-group6"><div class="profile montserrat-extra-bold-mongoose-20px">Profile</div></div>

@@ -60,15 +60,16 @@ class AdminController extends Controller
     public function dashboard()
     {
         // Fetch totals from the database
-        $totalProperties = Property::count();
-        $totalLandlords = Landlord::count();
-        $totalTenants = Tenant::count();
-        //$totalServiceProviders = ServiceProvider::count();
 
-        // Pass data to the view
-        return view('admin.dashboard', compact('totalProperties', 'totalLandlords', 'totalTenants'));
+            $totalProperties = Property::count(); // Assuming you have a Property model
+            $totalServiceProviders = ServiceProvider::count(); // Assuming you have a ServiceProvider model
+            $totalLandlords = Landlord::count(); // Assuming you have a Landlord model
+            $totalTenants = Tenant::count(); // Assuming you have a Tenant model
+            $totalServices = Service::count(); // Assuming you have a Service model
 
-        // return view('admin.dashboard'); // Update to your actual view name
+            return view('admin.dashboard', compact('totalProperties', 'totalServiceProviders', 'totalLandlords', 'totalTenants', 'totalServices'));
+
+
     }
 
 

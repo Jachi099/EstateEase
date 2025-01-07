@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/styleguide.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('css/globals.css') }}" />
 
-  
+
   </head>
   <body style="margin: 0; background: #ffffff">
     <input type="hidden" id="anPageName" name="page" value="propertyu95listu95admin" />
@@ -22,7 +22,7 @@
           <div class="overlap-group1">
             <div class="estate-ease estate lexendzetta-black-mongoose-20px">EstateEase</div>
 
-            
+
 
             <div class="dashb-container">
               <a href="{{ route('admin.dashboard') }}">
@@ -32,19 +32,19 @@
           </div>
 
             <div class="overlap-group6"><div class="profile montserrat-extra-bold-mongoose-20px">Profile</div></div>
-            
+
             <div class="overlap-group8">
               <a href="{{ route('admin.property_list') }}">
                 <div class="link"></div>
             </a>
               <div class="property montserrat-extra-bold-beaver-20px">Property</div>
-          
+
           </div>
 
             <div class="overlap-group4"><div class="landlord montserrat-extra-bold-mongoose-20px">Landlord</div></div>
-            
+
             <div class="tenant-container">
-              <a href="{{ route('admin.visitRequests') }}">
+            <a href="{{ route('admin.visitor') }}">
                 <div class="link"></div>
             </a>
               <div class="tenant-visitor montserrat-extra-bold-mongoose-20px">Tenant &amp; Visitor</div>
@@ -52,7 +52,7 @@
             <div class="overlap-group5">
               <div class="service service-1 montserrat-extra-bold-mongoose-20px">Service</div>
             </div>
-            <div class="overlap-group7"> 
+            <div class="overlap-group7">
               <a href="{{ route('admin.serviceProviders') }}">
               <div class="link"></div>
           </a>
@@ -62,24 +62,24 @@
             <div class="overlap-group12"><div class="log-out montserrat-extra-bold-mongoose-20px">Log out</div></div>
 
 
-            
+
           </div>
 
           <div class="flex-col">
             <div class="flex-row">
               <div class="flex-col-1 flex-col-3">
                 <h1 class="estate-ease_logo estate lexendzetta-medium-beaver-25px">SERVICE PROVIDERS</h1>
-                
-            
-                
+
+
+
                 <div class="flex-row-2 montserrat-medium-black-16px">
                     <div class="total-properties">TOTAL SERVICE PROVIDERS:</div>
                     <div class="total">{{ $serviceProviders->count() }}</div>
-                    
+
                   </div>
 
 
-                
+
 
 
             <!-- Display Service providers -->
@@ -117,7 +117,7 @@
             </table>
             </div>
 
-            
+
 
 
         </div>

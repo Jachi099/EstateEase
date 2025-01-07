@@ -8,9 +8,9 @@
     <link rel="shortcut icon" type="image/png" href="https://animaproject.s3.amazonaws.com/home/favicon.png" />
     <meta name="og:type" content="website" />
     <meta name="twitter:card" content="photo" />
-  
+
     <link rel="stylesheet" type="text/css" href="{{ asset('css/tenant.css') }}" />
-    
+
     <link rel="stylesheet" type="text/css" href="{{ asset('css/styleguide.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('css/globals.css') }}" />
   </head>
@@ -21,7 +21,7 @@
       <div class="overlap-group">
           <div class="estate-ease estate lexendzetta-black-mongoose-20px">EstateEase</div>
           <div class="dashb-container">
-            <a href="admin-dashboard.html"> <div class="link"></div></a>
+            <a href="{{ route('admin.dashboard') }}"> <div class="link"></div></a>
             <div class="dashboard montserrat-extra-bold-mongoose-20px">Dashboard</div>
           </div>
           <div class="overlap-group6"><div class="profile montserrat-extra-bold-mongoose-20px">Profile</div></div>
@@ -33,12 +33,12 @@
           <div class="overlap-group12">
             <div class="tenant-visitor montserrat-extra-bold-beaver-20px">Tenant &amp; Visitor</div>
           </div>
-          <div class="overlap-group9">
+          <a href="{{ route('admin.services') }}"> <div class="overlap-group9">
             <div class="service service-1 montserrat-extra-bold-mongoose-20px">Service</div>
-          </div>
-          <div class="overlap-group5">
+          </div></a>
+          <a href="{{ route('admin.serviceProvider') }}"> <div class="overlap-group5">
             <div class="service-1 montserrat-extra-bold-mongoose-20px">Service Provider</div>
-          </div>
+          </div></a>
           <div class="overlap-group7"><div class="feedback montserrat-extra-bold-mongoose-20px">Feedback</div></div>
           <div class="overlap-group11"><div class="log-out montserrat-extra-bold-mongoose-20px">Log out</div></div>
         </div>
@@ -48,10 +48,10 @@
             <a href="profileu95admin.html"> <div class="head_pic"></div></a>
           </div>
           <div class="overlap-group2">
-          
+
             <div class="tenant_btn">  <div class="tenant-1">TENANT</div>
             </div>
-          
+
             <a href="{{ route('admin.visitor') }}">
             <div class="visitor_btn"> </div>
             <div class="visitor">VISITOR</div>
@@ -60,9 +60,9 @@
           <div class="flex-row-2 montserrat-medium-black-16px">
                     <div class="total-properties">TOTAL VISIT REQUESTS:</div>
                     <div class="total">{{ $visitRequests->count() }}</div>
-                    
+
                   </div>
-                  
+
           <div class="list-of-visit-requests montserrat-semi-bold-black-20px">LIST OF VISIT REQUESTS</div>
           <div class="overlap-group3">
 
@@ -89,14 +89,14 @@
                               <td>{{ $request->visit_date }}</td>
                               <td>{{ $request->visit_time }}</td>
                               <td>{{ ucfirst($request->status) }}</td>
-                              
+
                               <td>
                                   <form action="{{ route('admin.updateRequestStatus', [$request->id, 'accepted']) }}" method="POST" class="action-form">
                                       @csrf
                                       @method('PATCH')
                                       <button type="submit" class="accept-btn">Accept</button>
                                   </form>
-                                  
+
                               </td>
                               <td>
                                 <form action="{{ route('admin.updateRequestStatus', [$request->id, 'rejected']) }}" method="POST" class="action-form">

@@ -38,7 +38,7 @@ class ServiceRequest extends Model
      */
     public function property()
     {
-        return $this->belongsTo(Property::class, 'property_ID', 'id');
+        return $this->belongsTo(Property::class, 'property_ID');
     }
 
     /**
