@@ -3,15 +3,12 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\Property1Controller;
 
 use App\Http\Controllers\LandlordController;
 use App\Http\Controllers\VisitRequestController;
 use App\Http\Controllers\ServiceProviderController;
 use App\Http\Controllers\TenantController;
-use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\NotificationController;
-use App\Http\Controllers\ServiceRequestController;
+
 
 
 use App\Models\Tenant; // Ensure you have created this model
@@ -46,8 +43,7 @@ Route::middleware(['auth:landlord'])->group(function () {
     Route::get('/landlord/edit-profile', [LandlordController::class, 'editProfile'])->name('landlord.edit_profile');
     Route::post('/landlord/store-property', [LandlordController::class, 'storeProperty'])->name('landlord.store_property');
     Route::get('/landlord/property/{id}', [LandlordController::class, 'showPropertyDetails'])->name('landlord.property_details');
-    Route::get('landlord/notifications', [NotificationController::class, 'index'])->name('landlord.notifications');
-Route::post('notifications/{id}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
+
 // Add this route for the property list
 Route::get('/landlord/properties', [LandlordController::class, 'showPropertiesList'])->name('landlord.properties_list');
 
@@ -59,45 +55,10 @@ Route::get('/landlord/properties', [LandlordController::class, 'showPropertiesLi
 Route::middleware(['auth:tenant'])->group(function () {
     Route::get('/tenant/home', [UserController::class, 'tenantHome'])->name('tenant.user_home');
     Route::get('/tenant/profile', [TenantController::class, 'profile'])->name('tenant.profile');
-    Route::get('/tenant/edit-profile', [TenantController::class, 'editProfile'])->name('tenant.edit_profile');
-
-    // Define a route for showing all properties
-    Route::get('/tenant/properties', [TenantController::class, 'showProperties'])->name('tenant.property_list');
-    Route::get('/tenant/properties/filter', [UserController::class, 'filterProperties'])->name('tenant.filter');
-    Route::get('/tenant/properties/details/{id}', [UserController::class, 'showPropertyDetails'])->name('tenant.details');
-    Route::get('/tenant/home/visit-requested-properties', [UserController::class, 'visitRequestedProperties'])->name('tenant.visit_req_list');
-
-
-    // Define a separate route for showing rented properties, if needed
-    Route::get('/rented-properties', [TenantController::class, 'showRentedProperties'])->name('tenant.rentedProperties');
-
-    Route::get('/rented-property/{property_id}', [TenantController::class, 'showRentedPropertyDetails'])->name('tenant.showRentedPropertyDetails');
-    Route::post('/payment/process/{tenant_id}', [PaymentController::class, 'processTenantPayment'])->name('tenant.payment.process');
-    Route::post('/tenant/move-out-request', [TenantController::class, 'requestMoveOut'])->name('tenant.moveOutRequest');
-
-
-    Route::get('/service-requests', [TenantController::class, 'viewServiceRequests'])->name('tenant.serviceRlist');
-    Route::put('/service-requests/{id}/cancel', [TenantController::class, 'cancelServiceRequest'])->name('tenant.cancelServiceRequest');
-
-    // Show the service request form
-// Show the service request form
-Route::get('/tenant/service-request-form', [TenantController::class, 'showServiceRequestForm'])->name('tenant.serviceRequestT');
-
-// Submit the service request
-Route::post('/tenant/service-request-form', [TenantController::class, 'createServiceRequest'])->name('tenant.createServiceRequest');
-
-
-
     Route::get('/check-tenant/{propertyId}', function ($propertyId) {
         $hasTenant = Tenant::where('property_ID', $propertyId)->exists();
         return response()->json(['hasTenant' => $hasTenant]);
     });
-
-    // Store payment for a tenant
-Route::post('/tenant/{tenantId}/payment', [PaymentController::class, 'storePayment'])->name('payment.store');
-
-// Show payment history for a tenant
-Route::get('/tenant/{tenantId}/payments', [PaymentController::class, 'showPayments'])->name('payment.history');
 
 
 });
@@ -122,12 +83,6 @@ Route::post('/visit-request/cancel/{property_id}', [UserController::class, 'canc
         Route::get('/visitor/home/visit-requested-properties', [UserController::class, 'visitRequestedProperties'])->name('visitor.visit_req_list');
 
 
-
-        Route::post('/payment/{visitor_id}', [PaymentController::class, 'processPayment'])->name('payment.process');
-
-
-// In routes/web.php or routes/api.php
-Route::post('/payment/update-status', [PaymentController::class, 'updatePaymentStatus'])->name('payment.updateStatus');
 
 
         Route::post('/logout', [UserController::class, 'logout'])->name('user.logout');
@@ -177,10 +132,6 @@ Route::get('/admin/service-providers', [ServiceProviderController::class, 'index
 Route::delete('/admin/service-providers/{id}', [ServiceProviderController::class, 'destroy'])->name('admin.serviceProviders.delete');
 
 
-Route::get('/admin/service-requests', [ServiceRequestController::class, 'index'])->name('admin.service-requests');
-Route::put('/admin/service-requests/{id}/update', [ServiceRequestController::class, 'update'])->name('admin.service-request.update');
-// Correct route for assigning provider (using POST method)
-Route::post('/admin/service-requests/{id}/assign', [ServiceRequestController::class, 'assignProvider'])->name('admin.service-request.assign');
 
 
 Route::get('admin/add-provider', [ServiceProviderController::class, 'create'])->name('admin.addProvider');

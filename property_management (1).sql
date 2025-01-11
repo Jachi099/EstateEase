@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 28, 2024 at 01:45 PM
+-- Generation Time: Jan 05, 2025 at 04:24 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -144,7 +144,8 @@ CREATE TABLE `notifications` (
 
 INSERT INTO `notifications` (`id`, `landlord_id`, `message`, `status`, `created_at`, `updated_at`) VALUES
 (3, 17, 'Your property has been assigned a new tenant: 73500.00 TK', 'unread', '2024-12-15 23:55:39', '2024-12-15 23:55:39'),
-(4, 17, 'Your property has been assigned a new tenant: 73500.00 TK', 'unread', '2024-12-16 00:02:53', '2024-12-16 00:02:53');
+(4, 17, 'Your property has been assigned a new tenant: 73500.00 TK', 'unread', '2024-12-16 00:02:53', '2024-12-16 00:02:53'),
+(5, 17, 'Your property has been assigned a new tenant: 42000.00 TK', 'unread', '2024-12-31 23:47:40', '2024-12-31 23:47:40');
 
 -- --------------------------------------------------------
 
@@ -375,7 +376,8 @@ CREATE TABLE `tenants` (
 --
 
 INSERT INTO `tenants` (`id`, `full_name`, `email`, `password`, `picture`, `current_address`, `phone_number`, `account_type`, `created_at`, `updated_at`, `property_ID`, `rental_start_date`, `rent`) VALUES
-(20, 'Jachi Sangma', 'jessisangma7@gmail.com', '$2y$10$bV3Ts3EEgq3pmpHsRrKMouii3ZahNJk2B/XDMjs0b0QzFeFCMcjvi', 'profile_pictures/ygRNisurERo803PThgAE196cNnLaUFKt4kUJ2KmW.png', 'ka-50/8c, kalachandpur, gulshan, dhaka', '01785546431', 'tenant', '2024-12-16 00:02:53', '2024-12-16 00:02:53', 19, '2024-12-16', 73500.00);
+(20, 'Jachi Sangma', 'jessisangma7@gmail.com', '$2y$10$bV3Ts3EEgq3pmpHsRrKMouii3ZahNJk2B/XDMjs0b0QzFeFCMcjvi', 'profile_pictures/ygRNisurERo803PThgAE196cNnLaUFKt4kUJ2KmW.png', 'ka-50/8c, kalachandpur, gulshan, dhaka', '01785546431', 'tenant', '2024-12-16 00:02:53', '2024-12-16 00:02:53', 19, '2024-12-16', 73500.00),
+(21, 'Jachi Sangma', 'jsangma211099@bscse.uiu.ac.bd', '$2y$10$FpF6NgSUOhpXUaoC.2nSKel3RUWKjwy.6vNoEQW9v0ChaUrx1KS7a', 'profile_pictures/9DtD7c1ltnUch1rsMeVwr7rOY8t41km4w9HJkKMR.png', 'ka-50/8c, kalachandpur, gulshan, dhaka', '01785546431', 'tenant', '2024-12-31 23:47:39', '2024-12-31 23:47:39', 17, '2025-01-01', 42000.00);
 
 -- --------------------------------------------------------
 
@@ -398,7 +400,8 @@ CREATE TABLE `tenant_payments` (
 --
 
 INSERT INTO `tenant_payments` (`id`, `tenant_id`, `amount`, `status`, `payment_date`, `created_at`, `updated_at`) VALUES
-(6, 20, 73500.00, 'paid', '2024-12-16 06:02:48', '2024-12-16 00:02:53', '2024-12-16 00:02:53');
+(6, 20, 73500.00, 'paid', '2024-12-16 06:02:48', '2024-12-16 00:02:53', '2024-12-16 00:02:53'),
+(7, 21, 42000.00, 'paid', '2025-01-01 03:59:20', '2024-12-31 23:47:39', '2024-12-31 23:47:39');
 
 -- --------------------------------------------------------
 
@@ -609,13 +612,13 @@ ALTER TABLE `move_out_requests`
 -- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -657,25 +660,25 @@ ALTER TABLE `service_requests`
 -- AUTO_INCREMENT for table `tenants`
 --
 ALTER TABLE `tenants`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `tenant_payments`
 --
 ALTER TABLE `tenant_payments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `visit_requests`
 --
 ALTER TABLE `visit_requests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- Constraints for dumped tables

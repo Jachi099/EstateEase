@@ -30,3 +30,4 @@ class Landlord extends Authenticatable
 
 }
 
+

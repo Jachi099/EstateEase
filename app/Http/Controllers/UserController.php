@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Log;
 use App\Models\Landlord;
 use App\Models\Tenant;
 use App\Models\Property;
-use GuzzleHttp\Client;
 use App\Models\Service;
 use App\Models\VisitRequest;
 
@@ -21,15 +20,10 @@ use App\Models\VisitRequest;
 class UserController extends Controller
 {
     // Method to display the user homepage
-
     public function index()
     {
         return view('user.home'); // Updated to match the new view file name
     }
-
-
-
-
 
 
 
@@ -401,7 +395,7 @@ public function tenantHome()
     $tenant = auth()->guard('tenant')->user();
 
     if (!$tenant) {
-        return redirect()->route('login')->with('error', 'Please log in first.'); // Adjust this according to your routing
+        return redirect()->route('user.login')->with('error', 'Please log in first.'); // Adjust this according to your routing
     }
 
     // Get the profile picture
@@ -418,7 +412,7 @@ public function visitorHome()
 
     // Check if the visitor is authenticated
     if (!$visitor) {
-        return redirect()->route('login')->with('error', 'Please log in first.'); // Adjust this according to your routing
+        return redirect()->route('user.login')->with('error', 'Please log in first.'); // Adjust this according to your routing
     }
 
     // Get the profile picture path from the visitor object

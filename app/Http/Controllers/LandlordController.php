@@ -229,3 +229,5 @@ public function showPropertyDetails($id)
 
 
 }
+
+

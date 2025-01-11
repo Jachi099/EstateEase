@@ -24,3 +24,4 @@ class PropertyImage extends Model
         return $this->belongsTo(Property::class, 'property_ID', 'property_ID');
     }
 }
+
