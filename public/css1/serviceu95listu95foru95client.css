@@ -1,0 +1,114 @@
+/* screen - serviceu95listu95foru95client */
+
+.serviceu95listu95foru95client {
+  align-items: flex-start;
+  background-color: var(--white);
+  display: flex;
+  flex-direction: column;
+  height: 731px;
+  width: 1440px;
+}
+
+.serviceu95listu95foru95client .navbar {
+  align-items: center;
+  background-color: var(--white);
+  border: 3px solid;
+  border-color: var(--beaver);
+  display: flex;
+  height: 87px;
+  justify-content: flex-end;
+  min-width: 1440px;
+  padding: 4px 34px;
+}
+
+.serviceu95listu95foru95client .navbar-link-estate-ease_logo {
+  letter-spacing: 0;
+  line-height: normal;
+  margin-bottom: 7.0px;
+  min-height: 22px;
+  min-width: 102px;
+}
+
+.serviceu95listu95foru95client .navbar-link-place {
+  margin-bottom: 7.0px;
+  margin-left: 327px;
+  min-width: 50px;
+}
+
+.serviceu95listu95foru95client .navbar-link-about {
+  margin-bottom: 7.0px;
+  margin-left: 95px;
+  min-width: 50px;
+}
+
+.serviceu95listu95foru95client .navbar-link-properties {
+  margin-bottom: 7.0px;
+  margin-left: 95px;
+  min-width: 83px;
+}
+
+.serviceu95listu95foru95client .navbar-link-services {
+  margin-bottom: 7.0px;
+  margin-left: 95px;
+  min-width: 66px;
+}
+
+.serviceu95listu95foru95client .navbar-link-notification {
+  margin-bottom: 9.0px;
+  margin-left: 90px;
+  min-width: 94px;
+}
+
+.serviceu95listu95foru95client .head_pic {
+  align-self: flex-start;
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--beaver);
+  border-radius: 38.5px/36.5px;
+  height: 73px;
+  margin-left: 89px;
+  width: 77px;
+}
+
+.serviceu95listu95foru95client .estate-ease_logo {
+  letter-spacing: 0;
+  line-height: normal;
+  margin-left: 65px;
+  margin-top: 35px;
+  min-height: 31px;
+  width: 623px;
+}
+
+.serviceu95listu95foru95client .flex-row {
+  align-items: center;
+  align-self: flex-end;
+  display: flex;
+  margin-top: 1px;
+  min-width: 621px;
+}
+
+.serviceu95listu95foru95client .flex-col {
+  align-items: flex-start;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-top: 8px;
+  min-height: 472px;
+  width: 1334px;
+}
+
+.serviceu95listu95foru95client .overlap-group {
+  background-color: var(--white);
+  border: 3px solid;
+  border-color: var(--black);
+  height: 443px;
+  position: relative;
+  width: 1334px;
+}
+
+.serviceu95listu95foru95client .navbar-link {
+  letter-spacing: 0;
+  line-height: normal;
+  min-height: 20px;
+}

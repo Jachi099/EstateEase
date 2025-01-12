@@ -1,0 +1,870 @@
+
+.visitoru95dashboard {
+  align-items: flex-start;
+  background-color: var(--white);
+  display: flex;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  overflow-y: hidden; /* Allows vertical scrolling */
+  overflow-x: hidden; /* Prevents horizontal scrolling */
+}
+
+
+.visitoru95dashboard  .navbar-link-estate-ease_logo {
+  letter-spacing: 0;
+  line-height: normal;
+  min-height: 22px;
+  min-width: 102px;
+}
+.container {
+  width: 100%;
+  margin: 5px auto;
+  padding: 1rem;
+  border: 2px solid black; /* Black border */
+  border-radius: 10px;
+  height: 380px; /* Set fixed height for the container */
+  overflow-y: auto;
+  margin-left: -20px; /* Enable vertical scrolling */
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+
+
+
+}
+
+
+.property-card {
+  width: 250px; /* Fixed width for property card */
+  height: 340px; /* Set height for the property card */
+  border: 1px solid #000; /* Black border for property card */
+  border-radius: 5px;
+  padding: 15px;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden; /* Prevent overflow of content */
+  position: relative; /* For tooltip positioning */
+
+}
+
+.property-image-link {
+  position: relative; /* For tooltip positioning */
+  display: block; /* Ensure the link takes up full space */
+}
+
+.property-image {
+  width: 100%; /* Make image responsive */
+  height: 150px; /* Fixed height for the image */
+  object-fit: cover; /* Cover to maintain aspect ratio */
+  transition: filter 0.3s ease; /* Smooth transition for grey effect */
+}
+
+.property-image-link:hover .property-image {
+  filter: grayscale(80%); /* Apply grey effect on hover */
+}
+
+.property-image-link:hover .tooltip {
+  display: block; /* Show tooltip on hover */
+}
+
+.tooltip {
+  display: none; /* Hidden by default */
+  position: absolute; /* Position relative to parent */
+  top: 30%; /* Center vertically */
+  left: 50%; /* Center horizontally */
+  transform: translate(-50%, -50%); /* Adjust position */
+  background-color: rgba(0, 0, 0, 0.7); /* Black background with transparency */
+  color: white; /* White text */
+  padding: 5px;
+  border-radius: 5px;
+  font-family: 'Montserrat', sans-serif; /* Font style */
+  font-size: 14px; /* Font size for tooltip */
+  z-index: 10; /* Ensure it's above other elements */
+}
+
+.property-title {
+  font-family: 'Montserrat', sans-serif; /* Montserrat font */
+  font-size: 18px; /* Title font size */
+  font-weight: bold; /* Bold title */
+  margin: 10px 0; /* Margin around the title */
+}
+
+.property-details {
+  flex: 1; /* Allow details to take remaining space */
+  display: flex; /* Use flexbox for alignment */
+  flex-direction: column; /* Stack items vertically */
+  margin-left: 10px; /* Margin to separate image and details */
+  align-items: flex-start; /* Align items to the start (left) */
+  /* Add a small gap between items */
+
+}
+.detail-item {
+  flex: 1; /* Make each item take up equal space */
+  font-family: 'Montserrat', sans-serif; /* Font style */
+  font-size: 14px; /* Smaller font size */
+  line-height: 1.2; /* Line height for better readability */
+}
+
+
+
+.visitoru95dashboard .navbar-link-place {
+  cursor: pointer;
+  letter-spacing: 0;
+  line-height: normal;
+  margin-left: 327px;
+  margin-top: 1px;
+  min-height: 20px;
+  min-width: 50px;
+}
+.visitoru95dashboard .navbar-link-about {
+  cursor: pointer;
+  letter-spacing: 0;
+  line-height: normal;
+  margin-left: 95px;
+  margin-top: 1px;
+  min-height: 20px;
+  min-width: 50px;
+}
+
+.visitoru95dashboard .navbar-link-properties {
+  cursor: pointer;
+  letter-spacing: 0;
+  line-height: normal;
+  margin-left: 95px;
+  margin-top: 1px;
+  min-height: 20px;
+  min-width: 83px;
+}
+
+.visitoru95dashboard .navbar-link-services {
+  cursor: pointer;
+  letter-spacing: 0;
+  line-height: normal;
+  margin-left: 95px;
+  margin-top: 1px;
+  min-height: 20px;
+  min-width: 66px;
+}
+.visitoru95dashboard .overlap-group-container {
+  height: 731px;
+  position: relative;
+  width: 1440px;
+}
+
+.visitoru95dashboard .overlap-group2 {
+  height: 731px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 1440px;
+}
+.visitoru95dashboard .visit_btn {
+  background-color: var(--black);
+  border: 2px solid;
+  cursor: pointer;
+  border: 2px solid;
+  border-color: var(--white);
+  height: 74px;
+  left: 0;
+  position: absolute;
+  top: 310px;
+  width: 214px;
+
+  display: inline-flex; /* Change to inline-flex for centering */
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+}
+
+.visitoru95dashboard .help_btn {
+  background-color: var(--black);
+  border: 2px solid;
+  cursor: pointer;
+  border: 2px solid;
+  border-color: var(--white);
+  height: 74px;
+  left: 0;
+  position: absolute;
+  top: 384px;
+  width: 214px;
+
+  letter-spacing: 0;
+  line-height: normal;
+  text-align: center;
+  color: var(--white);
+
+
+  font-family: 'Montserrat', sans-serif; /* Ensure you have the Montserrat font imported */
+  font-size: 16px; /* Adjust based on your design */
+  font-weight: bolder;
+
+  display: inline-flex; /* Change to inline-flex for centering */
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+}
+
+.visitoru95dashboard .logout_btn {
+  background-color: var(--black);
+  border: 2px solid;
+  cursor: pointer;
+  border: 2px solid;
+  border-color: var(--white);
+  height: 74px;
+  left: 0;
+  position: absolute;
+  top: 458px;
+  width: 214px;
+  color: var(--white);
+  letter-spacing: 0;
+  line-height: normal;
+  text-align: center;
+  font-family: 'Montserrat', sans-serif; /* Ensure you have the Montserrat font imported */
+  font-size: 16px; /* Adjust based on your design */
+  font-weight: bolder;
+
+  display: inline-flex; /* Change to inline-flex for centering */
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+}
+
+.visitoru95dashboard .visit-requested-properties {
+  cursor: pointer;
+  letter-spacing: 0;
+  line-height: normal;
+  text-align: center;
+  color: var(--white);
+
+
+  font-family: 'Montserrat', sans-serif; /* Ensure you have the Montserrat font imported */
+  font-size: 16px; /* Adjust based on your design */
+  font-weight: bolder;
+}
+.visitoru95dashboard .profile_btn {
+  background-color: var(--white);
+  border: 2px solid;
+  border-color: var(--white);
+  height: 74px;
+  left: 0;
+  position: absolute;
+  top: 235px;
+  width: 214px;
+
+  display: inline-flex; /* Change to inline-flex for centering */
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+
+
+
+  letter-spacing: 0;
+  line-height: normal;
+  text-align: center;
+
+  color: var(--black);
+
+
+  font-family: 'Montserrat', sans-serif; /* Ensure you have the Montserrat font imported */
+  font-size: 16px; /* Adjust based on your design */
+  font-weight: bolder;
+
+}
+
+
+
+.visitoru95dashboard .services {
+  cursor: pointer;
+  left: 993px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 33px;
+}
+
+.visitoru95dashboard .estate-ease_logo {
+  left: 96px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 32px;
+}
+
+
+.profile-picture {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%; /* For a circular profile image */
+  object-fit: cover;
+}
+
+
+.visitoru95dashboard  .head_pic {
+  align-self: flex-start;
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--beaver);
+  border-radius: 38.5px/36.5px;
+  cursor: pointer;
+  height: 73px;
+  margin-left: 170px;
+  margin-top: -25px; /* Adjust this value as needed */
+  width: 73px;
+}
+.head_pic img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block; /* Removes potential whitespace */
+}
+
+.visitoru95dashboard .profile {
+  left: 73px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 261px;
+}
+
+.visitoru95dashboard .flex-col {
+  align-items: flex-start;
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--beaver);
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  left: 214px;
+  min-height: 352px;
+  padding: 29px 70px;
+  position: absolute;
+  top: 87px;
+  width: 1226px;
+}
+
+.visitoru95dashboard .flex-row {
+  align-items: center;
+  display: flex;
+  height: 31px;
+  margin-top: 6px;
+  min-width: 489px;
+}
+
+.visitoru95dashboard .estate-ease_logo-2 {
+  min-height: 31px;
+  width: 412px;
+}
+
+.visitoru95dashboard .edit {
+  cursor: pointer;
+  height: 24px;
+  margin-bottom: 1.0px;
+  margin-left: 14px;
+  width: 24px;
+}
+
+.visitoru95dashboard .trash-2 {
+  height: 24px;
+  margin-bottom: 1.0px;
+  margin-left: 15px;
+  width: 24px;
+}
+
+.visitoru95dashboard .flex-row-1 {
+  align-items: flex-start;
+  align-self: center;
+  display: flex;
+  gap: 23px;
+  height: 221px;
+  margin-left: 6.0px;
+  min-width: 1056px;
+}
+
+.visitoru95dashboard .flex-col-1 {
+  align-items: center;
+  align-self: flex-end;
+  gap: 4px;
+  min-height: 212px;
+  width: 171px;
+}
+
+.visitoru95dashboard .account-type {
+  color: var(--black);
+  font-family: var(--font-family-montserrat);
+  font-size: var(--font-size-s);
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: normal;
+  margin-right: 2.0px;
+  min-height: 15px;
+  min-width: 97px;
+}
+
+.visitoru95dashboard .flex-col-2 {
+  align-items: flex-start;
+  min-height: 179px;
+  width: 862px;
+}
+
+.visitoru95dashboard .name-container {
+  align-items: center;
+  display: flex;
+  gap: 13px;
+  min-width: 801px;
+  margin-top: 23px;
+
+}
+
+.visitoru95dashboard .full-name {
+  letter-spacing: 0;
+  line-height: normal;
+  margin-bottom: 2.0px;
+  min-height: 20px;
+  min-width: 105px;
+}
+
+.visitoru95dashboard ._txt {
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--beaver-2);
+  border-radius: 10px;
+  height: 30px;
+  width: 683px;
+}
+
+.visitoru95dashboard .email-container {
+  align-items: flex-start;
+  display: flex;
+  gap: 18px;
+  margin-top: 23px;
+  min-width: 762px;
+}
+
+.visitoru95dashboard .email {
+  letter-spacing: 0;
+  line-height: normal;
+  margin-top: 1px;
+  min-height: 20px;
+  min-width: 61px;
+}
+
+.visitoru95dashboard .address-container {
+  align-items: center;
+  display: flex;
+  gap: 5px;
+  margin-top: 17px;
+  min-width: 862px;
+}
+
+.visitoru95dashboard .current-address {
+  letter-spacing: 0;
+  line-height: normal;
+  margin-bottom: 2.0px;
+  min-height: 20px;
+  min-width: 174px;
+}
+
+.visitoru95dashboard .flex-row-2 {
+  align-items: center;
+  display: flex;
+  gap: 11px;
+  margin-top: 19px;
+  min-width: 844px;
+}
+
+.visitoru95dashboard .phone-number {
+  letter-spacing: 0;
+  line-height: normal;
+  margin-bottom: 2.0px;
+  min-height: 20px;
+  min-width: 150px;
+}
+
+.visitoru95dashboard .overlap-group {
+  align-items: center;
+  background-color: var(--white);
+  border: 2px solid;
+  border-color: var(--beaver);
+  display: flex;
+  height: 292px;
+  left: 214px;
+  min-width: 1226px;
+  padding: 22px 9px;
+  position: absolute;
+  top: 439px;
+}
+
+.visitoru95dashboard .arrow-left-circle {
+  height: 24px;
+  margin-top: 20.0px;
+  width: 24px;
+}
+
+.visitoru95dashboard .flex-col-3 {
+  align-items: flex-start;
+  align-self: flex-start;
+  gap: 8px;
+  margin-left: 6px;
+  min-height: 236px;
+  width: 1115px;
+}
+
+.visitoru95dashboard .estate-ease_logo-3 {
+  color: var(--beaver);
+  font-family: var(--font-family-montserrat);
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  min-height: 24px;
+  width: 496px;
+}
+
+.visitoru95dashboard .overlap-group3 {
+  background-color: var(--white);
+  border: 2px solid;
+  border-color: var(--black);
+  height: 204px;
+  margin-left: 3px;
+  position: relative;
+  width: 1050px;
+}
+
+.visitoru95dashboard .rented-date {
+  left: 161px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 88px;
+}
+
+.visitoru95dashboard .pro_pic {
+  background-color: var(--white);
+  border: 2px solid;
+  border-color: var(--beaver);
+  height: 148px;
+  left: 26px;
+  position: absolute;
+  top: 26px;
+  width: 128px;
+}
+.profile-picture1 {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.font-bold {
+  font-weight: bolder; /* Make text bold */
+  font-family: 'Montserrat', sans-serif; /* Ensure the same font is used */
+  font-size: 16px; /* Set the same font size as labels */
+}
+
+
+.visitoru95dashboard .pro_add {
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--cloud);
+  height: 37px;
+  left: 163px;
+  position: absolute;
+  top: 45px;
+  width: 153px;
+}
+
+.visitoru95dashboard .pro_detail_btn {
+  background-color: var(--mongoose);
+  border-radius: 10px;
+  box-shadow: 0px 4px 4px #00000040;
+  height: 21px;
+  left: 163px;
+  position: absolute;
+  top: 145px;
+  width: 153px;
+}
+
+.visitoru95dashboard .arrow-right-circle {
+  height: 24px;
+  margin-left: -54px; /* Use a negative value to move left */
+  margin-top: 18.0px;
+  width: 24px;
+}
+
+
+.visitoru95dashboard .flex-col-4 {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Property Details Section */
+.property-details-wrapper {
+  display: flex; /* Use flexbox for layout */
+  justify-content: space-between; /* Space between property and tenant info */
+  width: 100%; /* Full width */
+  max-width: 800px; /* Limit the width of the details section */
+  margin: 0 auto; /* Center the container */
+  padding: 20px; /* Add some padding */
+  border: 1px solid #000; /* Optional: Border around the details */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+/* Property Images */
+.property-images-wrapper {
+  display: flex; /* Flexbox for horizontal layout */
+  justify-content: center; /* Center the images */
+  flex-wrap: wrap; /* Wrap images to the next line if needed */
+  gap: 10px; /* Space between images */
+}
+
+.property-image-small {
+  width: 200px; /* Set a fixed width for images */
+  height: 190px; /* Set a fixed height for images */
+  object-fit: cover; /* Cover to maintain aspect ratio */
+  border-radius: 5px; /* Rounded corners for images */
+}
+
+/* Property Details Content */
+.property-details-content-wrapper {
+  text-align: left; /* Align text to the left */
+  margin-top: 10px; /* Space above details */
+}
+
+/* Tenant Info Section */
+.tenant-info-wrapper {
+  margin-left: 20px; /* Space to separate from property details */
+  text-align: left; /* Align text to the left */
+}
+
+.tenant-info-title {
+  font-size: 20px; /* Title font size for tenant info */
+  font-weight: bold; /* Bold title */
+}
+
+.tenant-info-item {
+  font-size: 14px; /* Smaller font size for tenant details */
+  margin: 5px 0; /* Space between tenant details */
+}
+
+/* General Font Style */
+.normal-text {
+  font-family: 'Montserrat', sans-serif; /* Montserrat font */
+}
+
+.table {
+  width: 100%;
+  margin: 5px auto;
+  padding: 20px;
+  border: 2px solid black; /* Black border */
+  border-radius: 10px;
+  height: 380px; /* Set fixed height for the container */
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
+
+.table-container {
+  max-height: 380px; /* Set max height for the container */
+  overflow-y: auto; /* Enable vertical scrolling */
+  border: 2px solid black; /* Border around the table */
+  border-radius: 10px; /* Rounded corners */
+  background-color: #f9f9f9; /* Background color for better contrast */
+}
+
+.table {
+  width: 100%;
+  margin: 0; /* Remove margin for better alignment */
+  padding: 0; /* Remove padding to prevent excess space */
+  border-collapse: collapse; /* Collapse borders */
+}
+
+.table th, .table td {
+  padding: 12px 15px; /* Add some padding for better spacing */
+  text-align: left; /* Align text to the left */
+  border-bottom: 2px solid #ccc; /* Light grey bottom border for table rows */
+}
+
+.table th {
+  background-color: var(--beaver); /* Blue background for the header */
+  color: white; /* White text color for header */
+  font-weight: bold; /* Bold font for header */
+  height: 20px;
+}
+
+.table tbody tr:hover {
+  background-color: #f1f1f1; /* Light grey background on row hover */
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none; /* Remove bottom border for the last row */
+}
+
+
+.visitoru95dashboard  .visit_btn1 {
+  background-color: var(--white);
+  border: 2px solid;
+  cursor: pointer;
+  border: 2px solid;
+  border-color: var(--white);
+  height: 74px;
+  left: 0;
+  position: absolute;
+  top: 310px;
+  width: 214px;
+
+  display: inline-flex; /* Change to inline-flex for centering */
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+}
+.visitoru95dashboard   .visit-requested-properties1 {
+  cursor: pointer;
+  letter-spacing: 0;
+  line-height: normal;
+  text-align: center;
+
+  color: var(--black);
+
+
+  font-family: 'Montserrat', sans-serif; /* Ensure you have the Montserrat font imported */
+  font-size: 16px; /* Adjust based on your design */
+  font-weight: bolder;
+}
+
+.visitoru95dashboard   .profile_btn1{
+  background-color: var(--black);
+  border: 2px solid;
+  border-color: var(--white);
+  height: 74px;
+  left: 0;
+  position: absolute;
+  top: 235px;
+  width: 214px;
+  color: var(--white);
+
+
+  letter-spacing: 0;
+  line-height: normal;
+  text-align: center;
+
+
+
+
+  font-family: 'Montserrat', sans-serif; /* Ensure you have the Montserrat font imported */
+  font-size: 16px; /* Adjust based on your design */
+  font-weight: bolder;
+  display: inline-flex; /* Change to inline-flex for centering */
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+}
+
+.container1 {
+  width: 100%;
+  margin: 5px auto;
+  padding: 1rem;
+  border: 2px solid black; /* Black border */
+  border-radius: 10px;
+  height: 380px; /* Set fixed height for the container */
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* Display 4 items per row */
+  gap: 1rem;
+}
+
+.property-card1 {
+  border: 1px solid #ddd; /* Add a border to each property card */
+  padding: 10px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column; /* Arrange content vertically */
+}
+
+.property-details1 {
+  display: flex;
+  flex-wrap: wrap; /* Allow items to wrap if necessary */
+  gap: 10px; /* Space between items */
+  font-size: 14px;
+}
+
+.detail-item1 {
+  flex: 1 1 calc(50% - 10px); /* Display two items side by side, adjusting for gaps */
+  display: flex;
+  justify-content: space-between; /* Align label and value to ends */
+}
+
+.detail-item12 {
+    flex: calc(50%); /* Display two items side by side, adjusting for gaps */
+    display: flex;
+    justify-content: space-between; /* Align label and value to ends */
+
+  }
+
+.detail-item1 strong {
+  font-weight: bold;
+}
+.detail-item12 strong {
+    font-weight: bold;
+  }
+.property-header1 {
+  display: flex;
+  justify-content: center; /* Centers horizontally */
+  align-items: center; /* Centers vertically */
+  gap: 10px; /* Space between title and status */
+  margin-top: 10px; /* Adds space above */
+  margin-bottom: 20px; /* Adds space below */
+}
+
+.property-title1 {
+  font-size: 20px; /* Title font size */
+  font-weight: bold; /* Makes the title bold */
+  margin: 0; /* Removes default margin */
+  text-align: center; /* Centers the title text */
+}
+
+/* Available - Green */
+.tenant-info-available {
+  color: #28a745; /* Bright green */
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 5px; /* Space for icon if used */
+}
+
+/* Rented - Gray */
+.tenant-info-rented {
+  color: #6c757d; /* Neutral gray */
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 5px; /* Space for icon if used */
+}
+.sort-container {
+  display: flex; /* Use flexbox to align the items side by side */
+  justify-content: flex-end; /* Align the items to the right side */
+  gap: 10px; /* Adds space between the items, adjust as needed */
+  margin-left: 800px; /* Moves the container to the right */
+  margin-top: -70px; /* Adjust this value to move it up */
+}
+
+.sort {
+  background-color: var(--white);
+  border: 2px solid;
+  border-color: var(--beaver);
+  height: 35px;
+  width: 200px; /* Reduced width to fit side by side */
+}
+
+.sort-by {
+  height: 35px;
+  width: auto; /* Allow width to adjust based on content */
+  line-height: 35px; /* Vertically center the text */
+}
+
+
+
+.add-property-btn {
+  background-color: var(--beaver); /* Green background */
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  border-radius: 5px;
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 50px;
+  font-weight: bolder;
+
+}
