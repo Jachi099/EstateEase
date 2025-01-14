@@ -27,7 +27,7 @@ class ServiceRequestController extends Controller
             ->whereIn('address', $pendingRequests->pluck('property.thana')->toArray())
             ->get();
 
-        return view('admin.servicereqs', compact('pendingRequests', 'completedRequests', 'providers'));
+        return view('admin.serviceReqs', compact('pendingRequests', 'completedRequests', 'providers'));
     }
 
 

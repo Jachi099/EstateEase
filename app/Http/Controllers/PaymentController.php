@@ -78,6 +78,7 @@ class PaymentController extends Controller
         }
     }
 
+
 //for tenants
 public function processTenantPayment(Request $request)
 {
