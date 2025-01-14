@@ -336,4 +336,3 @@ document.getElementById('property_form').addEventListener('submit', function (e)
 
   </body>
 </html>
-

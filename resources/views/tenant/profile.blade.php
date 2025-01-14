@@ -35,11 +35,24 @@
             </div>
             </a>
 
+            <a href="{{ route('tenant.rentedProperties') }}">
+                <div class="visit_btn">
+                    <div class="visit-requested-properties">RENTED PROPERTIES</div>
+                </div>
+            </a>
+
+            <a href="{{ route('tenant.serviceRlist') }}">
+                <div class="help_btn">
+                   REQUEST SERVICES</div>
+                </div>
+            </a>
+
             <div class="navbar-link-container">
                   <div class="navbar-link-estate-ease_logo montserrat-semi-bold-beaver-18px">EstateEase</div>
                   <a href="{{ route('tenant.user_home') }}"><div class="navbar-link-place navbar-link montserrat-normal-black-16px">Home</div> </a
             > <a href="{{ route('tenant.user_home') }}"><div class="navbar-link-about navbar-link montserrat-normal-black-16px">About</div> </a
-            >
+            >  <a href="{{ route('tenant.property_list') }}"><div class="navbar-link-properties montserrat-normal-black-16px">Properties</div> </a
+              >
 
 
               <a href="{{ route('tenant.profile') }}"><div class="head_pic">
@@ -93,6 +106,24 @@
               </div>
             </div>
           </div>
+          <div class="overlap-group">
+            <img class="arrow-left-circle" src="{{ asset('img/arrow-left-circle.svg') }}" alt="arrow-left-circle" />
+            <div class="flex-col-3 flex-col-4">
+              <p class="estate-ease_logo-3 estate-ease_logo-4">CURRENTLY VISIT REQUESTED PROPERTY LIST</p>
+              <div class="overlap-group3">
+                <div class="pro_card"></div>
+                <div class="visit_date"></div>
+                <div class="rented-date montserrat-normal-black-12px">RENTED DATE:</div>
+                <div class="property-address montserrat-normal-black-12px">PROPERTY ADDRESS:</div>
+                <div class="pro_pic"></div>
+                <div class="pro_add"></div>
+                <div class="pro_detail_btn"></div>
+                <div class="details">DETAILS</div>
+                <div class="status"></div>
+              </div>
+            </div>
+            <img class="arrow-right-circle" src="{{ asset('img/arrow-right-circle.svg') }}" alt="arrow-right-circle" />
+        </div>
         </div>
       </div>
     </div>

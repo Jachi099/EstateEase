@@ -160,7 +160,7 @@
 .propertyu95detailsu95landlord .flex-col {
   background-color: var(--white);
   border: 1px solid;
-  border-color: transparent;
+  border-color: var(--beaver);
   flex-direction: column;
   left: 216px;
   min-height: 644px;
@@ -943,8 +943,7 @@
     background-color: var(--white);
     border: 1px solid;
     border-color: var(--black);
-    min-height: 219px;
-    height: 100%;
+    height: 219px;
     margin-left: 1px;
     min-width: 446px;
     padding: 29px 21.2px;

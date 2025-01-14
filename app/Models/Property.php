@@ -84,7 +84,3 @@ public function serviceRequests()
     return $this->hasMany(ServiceRequest::class, 'property_ID', 'property_ID');
 }
 }
-
-
-
-

@@ -469,7 +469,7 @@
 .side_div {
   background-color: var(--black);
   border: 2px solid;
-  height: 647px;
+  height: 100%;
   left: 0;
   position: absolute;
   top: 84px;

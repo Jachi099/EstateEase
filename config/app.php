@@ -182,10 +182,6 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
 
-
-    Spatie\LaravelIgnition\IgnitionServiceProvider::class,
-
-
         /*
          * Package Service Providers...
          */

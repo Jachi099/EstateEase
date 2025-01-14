@@ -455,23 +455,26 @@
   <!-- The Form -->
 <form id="payment-form" action="{{ route('tenant.payment.process', ['tenant_id' => auth()->user()->id]) }}" method="POST" onsubmit="submitPayment(event)">
     @csrf
-  <!-- Payment Method Selection -->
-<select class="name-14" name="payment_method" id="payment-method" required>
-    <option value="" disabled selected>Select Payment Method</option>
-    <option value="debit">Debit Card</option>
-    <option value="credit">Credit Card</option>
-</select>
+    <!-- Payment Method Selection -->
+    <select class="name-14" name="payment_method" id="payment-method" required>
+        <option value="" disabled selected>Select Payment Method</option>
+        <option value="nagad">Nagad</option>
+        <option value="bkash">bKash</option>
+        <option value="debit">Debit Card</option>
+        <option value="credit">Credit Card</option>
+    </select>
 
-<!-- Input for Credit/Debit Card -->
-<div id="card-input-container" style="display:none;">
-    <div id="card-element" class="name-16"></div> <!-- Card Number input -->
-    <div id="expiry-element" class="name-16"></div> <!-- Expiration Date input -->
-    <div id="cvv-element" class="name-16"></div> <!-- CVV input -->
-    <div id="card-errors" role="alert"></div> <!-- Error messages -->
-</div>
-
+    <!-- Input for Credit/Debit Card -->
+    <div id="card-input-container" style="display:none;">
+        <div id="card-element" class="name-16"></div> <!-- Stripe Card input element -->
+        <div id="card-errors" role="alert"></div> <!-- Error messages -->
+    </div>
 
     <!-- Payment Method Details for bKash, Nagad -->
+    <div id="payment-method-details" style="display:none;">
+        <label for="payment-details" id="payment-label"></label>
+        <input type="text" class="name-16" id="payment-input" name="payment_details" placeholder="Enter Payment Details" />
+    </div>
 
     <!-- Display Total Rent with Service Charge -->
     <div class="name-15">
@@ -613,14 +616,12 @@ overlay.addEventListener('click', (event) => {
 
 
 
+
+
 // Initialize Stripe
 var stripe = Stripe('pk_test_51QUU8KP2zO95Ub2TwNeybmjvtzavKiZPXeD2n7c5CdoWvwKDSdVtIf8W7C2sqoGdAHsk2PfkEwV1WOpiTjmsvAnr00VCJSHnh2');
 var elements = stripe.elements();
-
-// Create individual elements for each input
-var cardNumber = elements.create('cardNumber');
-var cardExpiry = elements.create('cardExpiry');
-var cardCvc = elements.create('cardCvc');
+var card = elements.create('card');
 
 // Handle Payment Method Selection
 document.getElementById('payment-method').addEventListener('change', function () {
@@ -631,13 +632,9 @@ document.getElementById('payment-method').addEventListener('change', function ()
     var paymentInput = document.getElementById('payment-input');
 
     if (paymentMethod === 'debit' || paymentMethod === 'credit') {
+        card.mount('#card-element');  // Mount Stripe card only once
         cardInputContainer.style.display = 'block';
         paymentDetails.style.display = 'none';
-
-        // Mount the individual Stripe elements
-        cardNumber.mount('#card-element');
-        cardExpiry.mount('#expiry-element');
-        cardCvc.mount('#cvv-element');
     } else {
         cardInputContainer.style.display = 'none';
         paymentDetails.style.display = 'block';
@@ -676,7 +673,7 @@ function submitPayment(event) {
     var tenantId = document.querySelector('input[name="tenant_id"]').value;
 
     if (paymentMethod === 'debit' || paymentMethod === 'credit') {
-        stripe.createToken(cardNumber).then(function(result) {
+        stripe.createToken(card).then(function(result) {
             if (result.error) {
                 showPopup('Payment failed: ' + result.error.message);
             } else {
@@ -715,6 +712,8 @@ function processTenantPayment(token) {
 function showPopup(message) {
     alert(message);  // Replace with custom popup logic if needed
 }
+
+
 
 
 
