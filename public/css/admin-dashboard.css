@@ -54,7 +54,7 @@ html, body {
 
 .admin-dashboard .overlap-group8 {
   align-items: flex-start;
-
+  
   display: flex;
   height: 77px;
   justify-content: flex-end;
@@ -188,6 +188,15 @@ html, body {
   width: 164px;
 }
 
+.admin-dashboard .total-1 {
+  align-self: center;
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--mongoose-2);
+  height: 61px;
+  margin-right: 3.0px;
+  width: 114px;
+}
 
 .admin-dashboard .provider-container {
   align-items: flex-end;
@@ -210,31 +219,15 @@ html, body {
   width: 231px;
 }
 
-.admin-dashboard .totalprovider,
-.admin-dashboard .total-1,
-.admin-dashboard .totalland {
+.admin-dashboard .totalprovider {
   align-self: center;
   background-color: var(--white);
   border: 1px solid;
-  border-color: transparent;
-  height: 61px; /* Keep the height consistent */
+  border-color: var(--mongoose-2);
+  height: 62px;
+  margin-right: 4.0px;
   width: 114px;
-  display: flex; /* Use flexbox to center content */
-  justify-content: center; /* Horizontally center the content */
-  align-items: center; /* Vertically center the content */
-  font-size: 40px; /* Increase the font size */
-  font-weight: bold; /* Make the text bold */
 }
-
-/* Optional: Adjust the margin if needed for layout */
-.admin-dashboard .total-1 {
-  margin-right: 3.0px;
-}
-
-.admin-dashboard .totalland {
-  margin-right: 33px;
-}
-
 
 .admin-dashboard .total-container-1 {
   align-items: flex-end;
@@ -243,6 +236,14 @@ html, body {
   width: 248px;
 }
 
+.admin-dashboard .totalland {
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: var(--mongoose-2);
+  height: 61px;
+  margin-right: 33px;
+  width: 114px;
+}
 
 .admin-dashboard .flex-row-1 {
   align-items: flex-end;

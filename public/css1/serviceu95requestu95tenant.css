@@ -4,12 +4,7 @@
   align-items: flex-start;
   background-color: var(--white);
   display: flex;
-  width: 100%;
-  height: 100%;
-  /* Use 100% to prevent horizontal scroll issues */
-  min-height: 100vh;
-  overflow-y: auto;   /* Allows vertical scrolling */
-  overflow-x: hidden; /* Prevents horizontal scrolling */
+  width: 1440px;
 }
 
 .serviceu95requestu95tenant .overlap-group-container {
@@ -19,7 +14,7 @@
 }
 
 .serviceu95requestu95tenant .overlap-group {
-  height: 100%;
+  height: 731px;
   left: 0;
   position: absolute;
   top: 0;
@@ -134,7 +129,7 @@
   align-items: flex-end;
   background-color: var(--white);
   border: 1px solid;
-  border-color: transparent;
+  border-color: var(--beaver);
   display: flex;
   flex-direction: column;
   left: 214px;

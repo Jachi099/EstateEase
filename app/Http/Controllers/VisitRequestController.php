@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\VisitRequest; // Ensure you have created this model
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-use App\Models\Tenant; // Ensure you have created this model
 use App\Models\Property;
 use Carbon\Carbon;
 

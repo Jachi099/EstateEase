@@ -40,16 +40,7 @@
             </a>
 
 
-
-<a href="{{ route('landlord.notifications') }}">
-    <div class="help_btn">
-        NOTIFICATIONS
-    </div>
-</a>
-
-
             <div class="div_top"></div>
-            <div class="about montserrat-normal-black-16px">Notifications</div>
 
             <div class="estate-ease_logo montserrat-semi-bold-beaver-18px">EstateEase</div>
                   <a href="{{ route('landlord.user_home') }}"><div class="place montserrat-normal-black-16px">Home</div> </a
@@ -438,3 +429,5 @@
 
   </body>
 </html>
+
+
