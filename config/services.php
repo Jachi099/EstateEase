@@ -34,6 +34,12 @@ return [
     'sslcommerz' => [
     'store_id' => env('SSLCOMMERZ_STORE_ID'),
     'store_password' => env('SSLCOMMERZ_STORE_PASSWORD'),
+
+    'stripe' => [
+    'public' => env('STRIPE_KEY'),
+    'secret' => env('STRIPE_SECRET'),
+],
+
 ],
 
 

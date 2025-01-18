@@ -644,5 +644,18 @@ public function cancelVisitRequest($property_id)
 }
 
 
+// PaymentController.php
+public function showPaymentPage()
+{
+    // Retrieve the visit request for the authenticated user
+    $visitRequest = VisitRequest::where('user_id', auth()->id())->first();
+
+    // Retrieve the property associated with the visit request (assuming 'property_id' is in the VisitRequest model)
+    $property = Property::find($visitRequest->property_id);
+
+    // Return the payment view with both visitRequest and property
+    return view('visitor.payment', compact('visitRequest', 'property'));
+}
+
 
 }

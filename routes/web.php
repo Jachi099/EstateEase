@@ -13,7 +13,8 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ServiceRequestController;
 
-
+use Stripe\Stripe;
+use Stripe\Checkout\Session;
 use App\Models\Tenant; // Ensure you have created this model
 
 
@@ -122,9 +123,38 @@ Route::post('/visit-request/cancel/{property_id}', [UserController::class, 'canc
         Route::get('/visitor/home/visit-requested-properties', [UserController::class, 'visitRequestedProperties'])->name('visitor.visit_req_list');
 
 
+        Route::post('/create-checkout-session', function () {
+            // Set your secret key
+            Stripe::setApiKey(env('STRIPE_SECRET'));
 
-        Route::post('/payment/{visitor_id}', [PaymentController::class, 'processPayment'])->name('payment.process');
+            // Create the checkout session
+            $session = Session::create([
+                'payment_method_types' => ['card'],
+                'line_items' => [
+                    [
+                        'price_data' => [
+                            'currency' => 'usd',  // Or 'bdt' for Bangladeshi Taka
+                            'product_data' => [
+                                'name' => 'Rent Payment',
+                            ],
+                            'unit_amount' => 1000,  // The price in cents (e.g., 1000 = $10)
+                        ],
+                        'quantity' => 1,
+                    ],
+                ],
+                'mode' => 'payment',
+                'success_url' => route('payment.success'), // URL for success page
+                'cancel_url' => route('payment.cancel'), // URL for cancel page
+            ]);
 
+            return response()->json(['id' => $session->id]);
+        });
+
+
+// web.php
+Route::get('/payment', [UserController::class, 'showPaymentPage'])->name('payment.show');
+// Handle the payment processing
+Route::post('/payment-process', [PaymentController::class, 'processPayment'])->name('payment.process');
 
 // In routes/web.php or routes/api.php
 Route::post('/payment/update-status', [PaymentController::class, 'updatePaymentStatus'])->name('payment.updateStatus');

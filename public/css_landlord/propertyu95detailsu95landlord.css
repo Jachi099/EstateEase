@@ -1051,3 +1051,14 @@
     margin-left: 95px;
     min-width: 83px;
   }
+
+  .overlap-group15112 {
+    display: flex;
+    background-color: var(--white);
+    border: 1px solid;
+    border-color: var(--black);
+    height: 403px;
+    margin-left: 1px;
+    min-width: 446px;
+    padding: 29px 21.2px;
+}

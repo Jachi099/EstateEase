@@ -355,8 +355,7 @@
 <div class="flex-col-71 montserrat-normal-black-12px">
     <div class="name12">VISIT REQUESTED DATE:</div>
     <div class="phone12">STATUS:</div>
-    <div class="email12">CHOOSE PAYMENT METHOD:</div>
-    <label id="payment-label" class="cardorphninfo">CARD NUMBER/PHONE:</label>
+
     <div class="permanent-address12">RENT AMOUNT:</div>
 </div>
 
@@ -391,30 +390,6 @@
 
 
 
-   <!-- The Form -->
-<form id="payment-form" action="{{ route('payment.process', ['visitor_id' => auth()->user()->id]) }}" method="POST" onsubmit="submitPayment(event)">
-    @csrf
-    <!-- Payment Method Selection -->
-    <select class="name-14" name="payment_method" id="payment-method" required>
-        <option value="" disabled selected>Select Payment Method</option>
-        <option value="nagad">Nagad</option>
-        <option value="bkash">bKash</option>
-        <option value="debit">Debit Card</option>
-        <option value="credit">Credit Card</option>
-    </select>
-
-    <!-- Input for Credit/Debit Card -->
-    <div id="card-input-container" style="display:none;">
-        <div id="card-element" class="name-16"></div> <!-- Stripe Card input element -->
-        <div id="card-errors" role="alert"></div> <!-- Error messages -->
-    </div>
-
-    <!-- Payment Method Details for bKash, Nagad -->
-    <div id="payment-method-details" style="display:none;">
-        <label for="payment-details" id="payment-label"></label>
-        <input type="text" class="name-16" id="payment-input" name="payment_details" placeholder="Enter Payment Details" />
-    </div>
-
     <!-- Display Total Rent with Service Charge -->
     <div class="name-15">
         <span id="total-rent">
@@ -431,19 +406,15 @@
         </span>
     </div>
 
-    <!-- Hidden Fields for User Data -->
-    <input type="hidden" name="name" value="{{ auth()->user()->full_name }}" />
-    <input type="hidden" name="email" value="{{ auth()->user()->email }}" />
-    <input type="hidden" name="phone" value="{{ auth()->user()->phone_number }}" />
-    <input type="hidden" name="address" value="{{ auth()->user()->current_address }}" />
-    <input type="hidden" name="property_id" value="{{ $property->property_ID }}">
-    <input type="hidden" name="visitor_id" value="{{ auth()->user()->id }}" />
 
-    @if ($visitRequest && $visitRequest->status == 'accepted')
+ <!-- details.blade.php -->
+@if ($visitRequest && $visitRequest->status == 'accepted')
     <!-- Show the Pay Now button only when the status is accepted -->
-    <button id="pay-btn" class="pay-btn" type="button">Pay Now</button>
+    <a href="{{ route('payment.show') }}">
+        <button id="pay-btn" class="pay-btn" type="button">Pay Now</button>
+    </a>
 @endif
-</form>
+
 
 
 </div>
@@ -486,134 +457,9 @@
         </div>
       </div>
     </div>
-    <div id="confirmation-popup" style="display:none;">
-    <div class="popup-content">
-        <h2>Are you sure you want to pay?</h2>
-        <button id="confirm-payment">Yes, Pay Now</button>
-        <button id="cancel-payment">Cancel</button>
+
     </div>
-</div>
-    </div>
-    <script>
-// Initialize Stripe
-var stripe = Stripe('pk_test_51QUU8KP2zO95Ub2TwNeybmjvtzavKiZPXeD2n7c5CdoWvwKDSdVtIf8W7C2sqoGdAHsk2PfkEwV1WOpiTjmsvAnr00VCJSHnh2');
-var elements = stripe.elements();
-var card = elements.create('card');
 
-// Handle Payment Method Selection
-document.getElementById('payment-method').addEventListener('change', function () {
-    var paymentMethod = this.value;
-    var cardInputContainer = document.getElementById('card-input-container');
-    var paymentDetails = document.getElementById('payment-method-details');
-    var paymentLabel = document.getElementById('payment-label');
-    var paymentInput = document.getElementById('payment-input');
-
-    if (paymentMethod === 'debit' || paymentMethod === 'credit') {
-        card.mount('#card-element');  // Mount Stripe card only once
-        cardInputContainer.style.display = 'block';
-        paymentDetails.style.display = 'none';
-    } else {
-        cardInputContainer.style.display = 'none';
-        paymentDetails.style.display = 'block';
-
-        if (paymentMethod === 'bkash') {
-            paymentLabel.textContent = 'bKash Number:';
-            paymentInput.setAttribute('placeholder', 'Enter bKash Number');
-        } else if (paymentMethod === 'nagad') {
-            paymentLabel.textContent = 'Nagad Number:';
-            paymentInput.setAttribute('placeholder', 'Enter Nagad Number');
-        }
-    }
-});
-// Show confirmation popup when 'Pay Now' is clicked
-document.getElementById('pay-btn').addEventListener('click', function() {
-    document.getElementById('confirmation-popup').style.display = 'flex';
-});
-
-// Close the confirmation popup when 'Cancel' is clicked
-document.getElementById('cancel-payment').addEventListener('click', function() {
-    document.getElementById('confirmation-popup').style.display = 'none';
-});
-
-// Proceed with payment when 'Confirm' is clicked
-document.getElementById('confirm-payment').addEventListener('click', function() {
-    document.getElementById('confirmation-popup').style.display = 'none';
-    submitPayment(event); // Call the submitPayment function
-});
-
-// Function to handle payment submission
-function submitPayment(event) {
-    event.preventDefault();
-
-    var paymentMethod = document.getElementById('payment-method').value;
-    var visitorId = document.querySelector('input[name="visitor_id"]').value;
-
-    if (paymentMethod === 'debit' || paymentMethod === 'credit') {
-        stripe.createToken(card).then(function(result) {
-            if (result.error) {
-                showPopup('Payment failed: ' + result.error.message);
-            } else {
-                processPayment(result.token.id);
-            }
-        });
-    } else {
-        // Submit form for bKash or Nagad
-        event.target.submit();
-    }
-}
-
-// Process Payment (AJAX)
-function processPayment(token) {
-    var formData = new FormData(document.getElementById('payment-form'));
-    formData.append('token', token);
-
-    fetch("{{ route('payment.process', ['visitor_id' => auth()->user()->id]) }}", {
-        method: "POST",
-        body: formData,
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            showPopup('Payment successful!');
-        } else if (data.error) {
-            showPopup(data.error);  // Show error message (e.g., "You have already paid for this month.")
-        }
-    })
-    .catch(error => {
-        showPopup('Payment failed: ' + error.message);
-    });
-}
-
-// Show Popup Message
-function showPopup(message) {
-    alert(message);  // Replace with custom popup logic if needed
-}
-
-
-
-        document.getElementById('payment-method').addEventListener('change', function() {
-    var paymentMethod = this.value;
-    var label = document.getElementById('payment-label');
-    var input = document.getElementById('payment-input');
-
-    // Change the label and placeholder text based on the selected payment method
-    if (paymentMethod === 'bkash') {
-        label.textContent = 'bKash Number:';
-        input.setAttribute('placeholder', 'Enter bKash Number');
-    } else if (paymentMethod === 'nagad') {
-        label.textContent = 'Nagad Number:';
-        input.setAttribute('placeholder', 'Enter Nagad Number');
-    } else if (paymentMethod === 'debit' || paymentMethod === 'credit') {
-        label.textContent = 'CARD Number:';
-        input.setAttribute('placeholder', 'Enter Card Number');
-    }
-});
-
-
-
-
-
-</script>
 
   </body>
 </html>
