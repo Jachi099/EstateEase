@@ -106,7 +106,6 @@ Route::get('/tenant/{tenantId}/payments', [PaymentController::class, 'showPaymen
 Route::middleware(['auth:visitor'])->group(function () {
     Route::get('/visitor/home', [UserController::class, 'visitorHome'])->name('visitor.user_home');
     Route::get('/visitor/profile', [UserController::class, 'profile'])->name('visitor.profile');
-    Route::get('/visitor/edit-profile', [UserController::class, 'editProfile'])->name('visitor.edit_profile');
     Route::post('/visit-requests', [VisitRequestController::class, 'store'])->middleware('auth'); // Ensure only authenticated users can book visits
     Route::post('/visit/request', [UserController::class, 'requestVisit'])->name('visit.request');
 // web.php (routes file)
@@ -131,6 +130,9 @@ Route::post('/payment/update-status', [PaymentController::class, 'updatePaymentS
 
 
         Route::post('/logout', [UserController::class, 'logout'])->name('user.logout');
+     
+
+
         Route::get('/user/profile/edit', [UserController::class, 'editProfile'])->name('visitor.edit_profile');
         Route::post('/user/profile/update', [UserController::class, 'updateProfile'])->name('user.profile.update');
 
