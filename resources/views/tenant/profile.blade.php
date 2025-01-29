@@ -44,7 +44,6 @@
             <a href="{{ route('tenant.serviceRlist') }}">
                 <div class="help_btn">
                    REQUEST SERVICES</div>
-                </div>
             </a>
 
             <div class="navbar-link-container">
@@ -55,15 +54,16 @@
               >
 
 
-              <a href="{{ route('tenant.profile') }}"><div class="head_pic">
-                  @if($profilePicture)
-                      <img src="{{ asset('storage/' . $profilePicture) }}" alt="User Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
-                  @else
-                      <img src="path/to/default/image.png" alt="Default Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
-                  @endif
-              </div>
-
-          </a>
+                   
+<a href="{{ route('tenant.profile') }}">
+    <div class="head_pic">
+        @if($profilePicture)
+            <img src="{{ asset($profilePicture) }}" alt="User Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
+        @else
+            <img src="{{ asset('path/to/default/image.png') }}" alt="Default Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
+        @endif
+    </div>
+</a>
             <div class="estate-ease_logo-1 estate-ease_logo-4 lexendzetta-extra-bold-white-15px">TENANT DASHBOARD</div>
           </div>
 
@@ -75,16 +75,16 @@
                 <img class="edit" src="{{ asset('img/edit.svg') }}" alt="edit" />
             </a>
 
-            <img class="trash-2" src="{{ asset('img/trash-2.svg') }}" alt="trash-2" />
+            <img class="trash-2" src="{{ asset('img/trash-2.svg') }}" alt="trash-2" onclick="deleteProfile()" style="background-color: rgba(255, 0, 0, 0.5);" />
 
             </div>
             <div class="flex-row-1">
               <div class="flex-col-1 flex-col-4">
-                <div class="pic"> @if($profilePicture)
-                    <img src="{{ asset('storage/' . $profilePicture) }}" alt="User Profile Picture" style="width: 100%; height: 100%; ">
-                @else
-                    <img src="path/to/default/image.png" alt="Default Profile Picture" style="width: 100%; height: 100%; ">
-                @endif</div>
+                <div class="pic">  @if($profilePicture)
+            <img src="{{ asset($profilePicture) }}" alt="User Profile Picture" style="width: 100%; height: 100%;">
+        @else
+            <img src="{{ asset('path/to/default/image.png') }}" alt="Default Profile Picture" style="width: 100%; height: 100%;">
+        @endif</div>
                 <div class="account-type">ACCOUNT TYPE</div>
                 <span class="font-bold">{{ $account_type }}  </span>            </div>
               <div class="flex-col-2 flex-col-4">
@@ -126,6 +126,33 @@
         </div>
         </div>
       </div>
-    </div>
+    </div><script>
+    function deleteProfile() {
+        if (confirm('Are you sure you want to delete your profile? This action cannot be undone.')) {
+            // Send AJAX request to delete the profile
+            fetch('{{ route('profile.delete') }}', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(data.message);
+                    // Redirect or perform further actions if needed
+                    window.location.href = '/';  // Redirect to the homepage or another page
+                } else {
+                    alert(data.message); // Show the error message if payment is confirmed
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again later.');
+            });
+        }
+    }
+</script>
   </body>
 </html>

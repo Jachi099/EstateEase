@@ -4,173 +4,109 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Stripe\Stripe;
-use Stripe\PaymentIntent;
+use Stripe\Checkout\Session;
+use App\Models\User;  // Make sure you import User model
 use App\Models\Payment;
-use Illuminate\Support\Facades\Log;
-use App\Models\TenantPayment;
-use App\Models\Notification;
-
-use App\Models\Property;
 
 class PaymentController extends Controller
 {
-
-    //for visitors
-    public function processPayment(Request $request)
+    public function createCheckoutSession(Request $request, $visitor_id)
     {
-        Stripe::setApiKey(env('STRIPE_SECRET'));
-
+        Stripe::setApiKey(config('services.stripe.secret'));
+    
+        $visitor = User::findOrFail($visitor_id);
+        $bdtAmount = $request->amount;  // Get the amount passed from the frontend
+    
+        // Conversion rate from BDT to USD
+        $conversionRate = 100;
+        $usdAmount = $bdtAmount / $conversionRate;
+        $amountInCents = round($usdAmount * 100);  // Amount in cents
+    
         try {
-            $request->validate([
-                'token' => 'nullable|string',
-                'payment_method' => 'required|string',
-                'amount' => 'required|numeric',
-                'visitor_id' => 'required|integer',
+            // Create a Stripe Checkout session with USD currency
+            $session = Session::create([
+                'payment_method_types' => ['card'],
+                'line_items' => [
+                    [
+                        'price_data' => [
+                            'currency' => 'usd',
+                            'product_data' => [
+                                'name' => 'Property Payment',
+                                'description' => "Payment for Visitor ID: $visitor_id",
+                            ],
+                            'unit_amount' => $amountInCents,
+                        ],
+                        'quantity' => 1,
+                    ],
+                ],
+                'mode' => 'payment',
+                'success_url' => route('payment.success', ['visitor_id' => $visitor_id]),
+                'cancel_url' => route('payment.cancel', ['visitor_id' => $visitor_id]),
             ]);
-
-            // Check if the visitor has already made a payment
-            $existingPayment = Payment::where('visitor_id', $request->visitor_id)
-                                      ->where('status', 'confirmed')
-                                      ->first();
-
-            // If a payment already exists, prevent further payments
-            if ($existingPayment) {
-                return response()->json(['error' => 'You have already paid for this month.']);
-            }
-
-            // Calculate service charge (5% of the amount)
-            $serviceCharge = ($request->amount * 5) / 100;
-
-            // Handle payment methods
-            if ($request->payment_method === 'debit' || $request->payment_method === 'credit') {
-                // Create a PaymentIntent for card payments
-                $paymentIntent = PaymentIntent::create([
-                    'amount' => $request->amount * 100,  // Amount in cents
-                    'currency' => 'BDT',
-                    'payment_method_types' => ['card'],
-                    'description' => 'Property Rent Payment',
-                ]);
-
-                Payment::create([
-                    'visitor_id'     => $request->visitor_id,
-                    'amount'         => $request->amount,
-                    'service_charge' => $serviceCharge,
-                    'status'         => 'confirmed',  // Mark as 'confirmed'
-                    'payment_method' => $request->payment_method,
-                ]);
-
-                return response()->json(['success' => true]);
+    
+            // Save the payment in the database
+            $payment = new Payment();
+            $payment->visitor_id = $visitor_id;
+            $payment->payment_date = now();  // Store the payment creation date
+            $payment->amount = $bdtAmount;
+            $payment->service_charge = ($bdtAmount * 5) / 100;
+            $payment->status = 'confirmed';  // Initial status is 'pending'
+            $payment->payment_method = 'Stripe';
+            $payment->save();
+    
+            return response()->json(['id' => $session->id]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()]);
+        }
+    }
+    
+    public function paymentSuccess(Request $request, $visitor_id)
+    {
+        $session_id = $request->get('session_id');
+        Stripe::setApiKey(config('services.stripe.secret'));
+    
+        try {
+            // Retrieve the session object from Stripe
+            $session = Session::retrieve($session_id);
+    
+            // You can also use the session's `payment_intent` to fetch more details
+            $paymentIntent = \Stripe\PaymentIntent::retrieve($session->payment_intent);
+    
+            // Find the payment record from the database
+            $payment = Payment::where('visitor_id', $visitor_id)
+                              ->where('status', 'pending')  // Only update pending payments
+                              ->first();
+    
+            if ($payment) {
+                if ($paymentIntent->status === 'succeeded') {
+                    // Mark the payment as confirmed
+                    $payment->status = 'confirmed';  
+                    $payment->stripe_payment_id = $paymentIntent->id;  // Save the payment intent ID
+                    $payment->save();
+    
+                    return redirect()->route('visitor.visit_req_list')
+                                     ->with('success', 'Payment successful!');
+                } else {
+                    // Handle failed payment or incomplete payment
+                    return redirect()->route('visitor.visit_req_list')
+                                     ->with('error', 'Payment verification failed.');
+                }
             } else {
-                // Handle other payment methods (bKash/Nagad)
-                Payment::create([
-                    'visitor_id'     => $request->visitor_id,
-                    'amount'         => $request->amount,
-                    'service_charge' => $serviceCharge,
-                    'status'         => 'confirmed',  // Mark as 'confirmed'
-                    'payment_method' => $request->payment_method,
-                ]);
-
-                return response()->json(['success' => true]);
+                return redirect()->route('visitor.visit_req_list')
+                                 ->with('error', 'Payment not found.');
             }
         } catch (\Exception $e) {
-            Log::error('Payment failed:', ['error' => $e->getMessage()]);
-            return response()->json(['error' => 'Payment failed: ' . $e->getMessage()]);
+            // Log or handle any exceptions that occur
+            return redirect()->route('visitor.visit_req_list')
+                             ->with('error', 'Payment verification failed: ' . $e->getMessage());
         }
     }
-
-//for tenants
-public function processTenantPayment(Request $request)
-{
-    Stripe::setApiKey(env('STRIPE_SECRET'));
-
-    try {
-        // Validate the incoming request
-        $request->validate([
-            'token' => 'nullable|string',
-            'payment_method' => 'required|string',
-            'amount' => 'required|numeric',
-            'tenant_id' => 'required|integer',
-            'property_id' => 'required|integer',  // Ensure the property ID is passed
-        ]);
-
-        // Check if the tenant has already made a payment for the current month
-        $existingPayment = TenantPayment::where('tenant_id', $request->tenant_id)
-                                        ->where('status', 'paid')
-                                        ->whereMonth('payment_date', now()->month) // Check if payment exists for the current month
-                                        ->first();
-
-        // If a payment already exists for the current month, prevent further payments
-        if ($existingPayment) {
-            return response()->json(['error' => 'You have already paid for this month.']);
-        }
-
-        // Calculate service charge (5% of the amount)
-        $serviceCharge = ($request->amount * 5) / 100;
-
-        // Handle payment methods
-        if ($request->payment_method === 'debit' || $request->payment_method === 'credit') {
-            // Create a PaymentIntent for card payments
-            $paymentIntent = \Stripe\PaymentIntent::create([
-                'amount' => $request->amount * 100,  // Amount in cents
-                'currency' => 'BDT',
-                'payment_method_types' => ['card'],
-                'description' => 'Property Rent Payment',
-            ]);
-
-            // Save the payment details in the tenant_payments table
-            $payment = TenantPayment::create([
-                'tenant_id'      => $request->tenant_id,
-                'amount'         => $request->amount,
-                'service_charge' => $serviceCharge,
-                'status'         => 'paid',  // Mark as 'paid'
-                'payment_method' => $request->payment_method,
-                'payment_date'   => now(),
-                'property_id'    => $request->property_id, // Store property ID
-            ]);
-
-            // Send notification to the landlord
-            $property = Property::findOrFail($request->property_id);
-            $landlord = $property->owner; // Assuming property has an owner relationship
-            $landlord->notifications()->create([
-                'message' => 'Tenant ' . $payment->tenant->full_name . ' has made a payment of ৳' . number_format($payment->amount, 2) . ' for the property ' . $property->name,
-                'user_id' => $landlord->id, // Landlord's ID
-                'is_read' => false,
-            ]);
-
-            return response()->json(['success' => true, 'payment_intent' => $paymentIntent]);
-        } else {
-            // Handle other payment methods (bKash/Nagad)
-            $payment = TenantPayment::create([
-                'tenant_id'      => $request->tenant_id,
-                'amount'         => $request->amount,
-                'service_charge' => $serviceCharge,
-                'status'         => 'paid',  // Mark as 'paid'
-                'payment_method' => $request->payment_method,
-                'payment_date'   => now(),
-                'property_id'    => $request->property_id, // Store property ID
-            ]);
-
-           // Send notification to the landlord
-$property = Property::findOrFail($request->property_id);
-
-// Ensure the property has a landlord
-$landlord = $property->landlord; // Use the `landlord` relationship defined in the Property model
-
-if ($landlord) {
-    // Create a notification for the landlord
-    Notification::create([
-        'message' => 'A tenant has paid ৳' . number_format($payment->amount, 2) . ' for the property: ' . $property->property_ID,
-        'landlord_id' => $landlord->landlord_id, // Ensure landlord_id is set correctly
-        'status' => 'unread', // Initially mark as unread
-    ]);
-}
-
-            return response()->json(['success' => true]);
-        }
-    } catch (\Exception $e) {
-        Log::error('Payment failed:', ['error' => $e->getMessage()]);
-        return response()->json(['error' => 'Payment failed: ' . $e->getMessage()]);
+    
+    public function paymentCancel(Request $request, $visitor_id)
+    {
+        return redirect()->route('visitor.visit_req_list')
+                         ->with('error', 'Payment was canceled.');
     }
-}
+    
 
 }

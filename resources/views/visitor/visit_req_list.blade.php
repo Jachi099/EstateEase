@@ -48,16 +48,16 @@
             >  <a href="{{ route('visitor.property_list') }}"><div class="navbar-link-properties montserrat-normal-black-16px">Properties</div> </a
               >
 
+              <a href="{{ route('visitor.profile') }}">
+    <div class="head_pic">
+        @if($profilePicture)
+            <img src="{{ asset($profilePicture) }}" alt="User Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
+        @else
+            <img src="{{ asset('path/to/default/image.png') }}" alt="Default Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
+        @endif
+    </div>
+</a>
 
-              <a href="{{ route('visitor.profile') }}"><div class="head_pic">
-                  @if($profilePicture)
-                      <img src="{{ asset('storage/' . $profilePicture) }}" alt="User Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
-                  @else
-                      <img src="path/to/default/image.png" alt="Default Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
-                  @endif
-              </div>
-
-          </a>
             <div class="estate-ease_logo-1 estate-ease_logo-4 lexendzetta-extra-bold-white-15px">VISITOR DASHBOARD</div>
           </div>
 
@@ -74,24 +74,21 @@
         <!-- Property Card -->
         <div class="pro_card1">
             <!-- Property Picture -->
-            @php
+
+@php
+    // Fetch the first image for the property from the PropertyImage model
     $propertyImage = \App\Models\PropertyImage::where('property_ID', $property->property_ID)->first();
 @endphp
 
 @if ($propertyImage)
     <!-- Display the first image from PropertyImage model -->
-
-        <img src="{{ asset('storage/' . $propertyImage->image_path) }}" alt="Property Image" class="pro_pic">
-
+        <img src="{{ asset($propertyImage->image_path) }}" alt="Property Image" class="pro_pic">
 @else
     <!-- Fallback to default image if no property images exist -->
-
         <img src="{{ asset('path/to/default/image.png') }}" alt="Default Property Image" class="pro_pic">
-
 @endif
 
-
-            <div class="visit_date">
+<div class="visit_date">
                 @foreach ($property->visitRequests as $visitRequest)
                     @if ($visitRequest->user_id == auth()->user()->id)
                         <span>{{ $visitRequest->visit_date->format('d M, Y') }}</span> <!-- Updated date format -->

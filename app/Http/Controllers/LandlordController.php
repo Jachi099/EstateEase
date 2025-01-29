@@ -144,12 +144,15 @@ public function storeProperty(Request $request)
     // Handle image uploads
     if ($request->hasFile('images')) {
         foreach ($request->file('images') as $image) {
-            $path = $image->store('properties', 'public');
+            // Save the image directly in the 'public/properties' folder
+            $fileName = time() . '_' . $image->getClientOriginalName();
+            $destinationPath = public_path('properties');
+            $image->move($destinationPath, $fileName);
 
             // Save each image in the property_images table
             PropertyImage::create([
                 'property_ID' => $property->property_ID,
-                'image_path' => $path,
+                'image_path' => 'properties/' . $fileName,
             ]);
         }
     }
@@ -157,7 +160,6 @@ public function storeProperty(Request $request)
     // Redirect back to the properties list with a success message
     return redirect()->route('landlord.properties_list')->with('success', 'Property added successfully!');
 }
-
 
 
 
@@ -204,28 +206,96 @@ public function showPropertyDetails($id)
     // Fetch tenant information for the given property ID (if a tenant exists)
     $tenant = Tenant::where('property_ID', $id)->first();
 
-    // Determine the payment status
+    // Determine the payment status and fetch the profile picture for the tenant
     if ($tenant) {
         // Fetch the latest payment for the tenant using the defined relationship
         $latestPayment = $tenant->tenantPayments()->latest()->first();
 
         // Set the payment status to 'paid' or 'unpaid' based on the latest payment status
-        $paymentStatus = $latestPayment && $latestPayment->status == 'paid' ? 'paid' : 'unpaid';
+        $paymentStatus = $latestPayment && $latestPayment->status === 'paid' ? 'paid' : 'unpaid';
 
-        // Get the tenant's profile picture
-        $profilePicture = $tenant->picture ?? null;
+        // Get the tenant's profile picture, ensuring the correct path for public storage
+        $tenantProfilePicture = $tenant->picture ? asset($tenant->picture) : null;
     } else {
         // If no tenant exists, set payment status to 'unpaid' by default
         $paymentStatus = 'unpaid';
-        $profilePicture = null;
+        $tenantProfilePicture = null; // No tenant, so no profile picture
     }
 
-    // Pass the property, tenant, profile picture, and payment status to the view
-    return view('landlord.property_details', compact('property', 'tenant', 'profilePicture', 'paymentStatus'));
+    // Get the landlord's profile picture (for the landlord's own profile picture)
+    $landlord = Auth::guard('landlord')->user();
+    $landlordProfilePicture = $landlord->picture ? asset($landlord->picture) : null;
+
+    // Pass the property, tenant, profile pictures, and payment status to the view
+    return view('landlord.property_details', compact('property', 'tenant', 'tenantProfilePicture', 'landlordProfilePicture', 'paymentStatus'));
 }
 
 
+public function editProfile(Request $request)
+{
+    // Get the authenticated landlord
+    $landlord = Auth::guard('landlord')->user(); // Use the landlord guard
 
+    // Check if the landlord is a valid instance of the Landlord model
+    if (!$landlord instanceof Landlord) {
+        return redirect()->route('landlord.profile')->with('error', 'Landlord not found.');
+    }
+
+    // Prepare the profile picture path
+    $profilePicture = $landlord->picture; // Adjust according to your Landlord model's picture attribute
+
+    // Return the edit profile view with the landlord data and profile picture
+    return view('landlord.edit_profile', compact('landlord', 'profilePicture'));
+}
+
+public function updateProfile(Request $request)
+{
+    // Validate request data
+    $request->validate([
+        'full_name' => 'nullable|string|max:255',
+        'current_address' => 'nullable|string|max:255',
+        'phone_number' => 'nullable|string|max:15',
+        'email' => 'nullable|email|max:255',
+        'password' => 'nullable|string|min:6|confirmed',
+        'picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
+
+    // Get the authenticated landlord
+    $landlord = Auth::guard('landlord')->user(); // Use the landlord guard
+
+    // Check if the landlord is a valid instance of Landlord model
+    if (!$landlord instanceof Landlord) {
+        return redirect()->route('landlord.profile')->with('error', 'Landlord not found.');
+    }
+
+    // Prepare an array of attributes to update
+    $data = $request->only(['full_name', 'current_address', 'phone_number', 'email']);
+
+    // Handle password if provided
+    if ($request->filled('password')) {
+        $data['password'] = Hash::make($request->input('password'));
+    }
+
+    // Handle picture upload if present
+    if ($request->hasFile('picture')) {
+        $data['picture'] = $request->file('picture')->store('profile_pictures', 'public');
+    }
+
+    // Debugging: Check the data array
+    // dd($data); // Uncomment this to see the values being saved
+
+    // Update the landlord attributes
+    foreach ($data as $key => $value) {
+        if ($value !== null) { // Only update fields that are provided
+            $landlord->$key = $value;
+        }
+    }
+
+    // Save the updated landlord instance
+    $landlord->save(); // Ensure $landlord is a valid Landlord instance here
+
+    return redirect()->route('landlord.profile')->with('success', 'Profile updated successfully.');
+}
 
 
 }

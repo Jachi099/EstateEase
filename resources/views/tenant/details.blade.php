@@ -72,19 +72,23 @@
               <div class="navbar-link-about navbar-link montserrat-normal-black-16px">About</div>
             </a>
 
+          
             <a href="{{ route('tenant.property_list') }}"><div class="navbar-link-properties navbar-link montserrat-normal-black-16px">Properties</div>
             </a>
 
+  <a href="{{ route('tenant.profile') }}">
+    <div class="head_pic">
+        @if($tenantProfilePicture)
+            <!-- Assuming the profile picture is stored directly in public directory -->
+            <img src="{{ asset($tenantProfilePicture) }}" alt="User Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
+        @else
+            <img src="{{ asset('path/to/default/image.png') }}" alt="Default Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
+        @endif
+    </div>
+</a>
 
-            <a href="{{ route('tenant.profile') }}">
-                <div class="head_pic">
-                    @if(isset($profilePicture) && $profilePicture)
-                        <img src="{{ asset('storage/' . $profilePicture) }}" alt="User Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
-                    @else
-                        <img src="path/to/default/image.png" alt="Default Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
-                    @endif
-                </div>
-            </a>
+
+
 
           </div>
 
@@ -146,14 +150,15 @@
 
           <div class="overlap-group-container-12">
 
-@php
+          @php
+    // Fetch up to 15 images for the property from the PropertyImage model
     $propertyImages = \App\Models\PropertyImage::where('property_ID', $property->property_ID)->limit(15)->get();
 @endphp
 
-@if($propertyImages->isNotEmpty())
-    @foreach($propertyImages as $image)
-        <div class="pic">
-            <img src="{{ asset('storage/' . $image->image_path) }}" alt="Property Image" class="pro_pic1 pro_pic-12">
+@if ($propertyImages->isNotEmpty())
+    @foreach ($propertyImages as $image)
+        <div class="overlap-group1">
+            <img src="{{ asset($image->image_path) }}" alt="Property Image" class="pro_pic pro_pic-2">
         </div>
     @endforeach
 @else
@@ -311,11 +316,9 @@
           </div>
         </div>
         <div class="overlap-group-container-2 overlap-group-container-3">
-          <div class="back-container">
+        <div class="back-container">
             <a href="{{ route('tenant.property_list') }}" data-turbolinks="false">
-              <div class="go_back"> <div class="go-back montserrat-black-beaver-16px">GO BACK</div></div
-            >
-
+              <div class="go_back"> <div class="go-back montserrat-black-beaver-16px">GO BACK</div></div>
             </a>
           </div>
 

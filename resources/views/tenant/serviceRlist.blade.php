@@ -57,15 +57,15 @@
               >
 
 
-              <a href="{{ route('tenant.profile') }}"><div class="head_pic">
-                  @if($profilePicture)
-                      <img src="{{ asset('storage/' . $profilePicture) }}" alt="User Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
-                  @else
-                      <img src="path/to/default/image.png" alt="Default Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
-                  @endif
-              </div>
-
-          </a>
+              <a href="{{ route('tenant.profile') }}">
+    <div class="head_pic">
+        @if($profilePicture)
+            <img src="{{ asset($profilePicture) }}" alt="User Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
+        @else
+            <img src="{{ asset('path/to/default/image.png') }}" alt="Default Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
+        @endif
+    </div>
+</a>
             <div class="estate-ease_logo-1 estate-ease_logo-4 lexendzetta-extra-bold-white-15px">TENANT DASHBOARD</div>
           </div>
 
@@ -134,18 +134,18 @@ HISTORY OF SERVICE REQUESTS              </h1>
 
                         <!-- Provider Info -->
                         <td>
-                            @if($request->service_provider_id)
-                                @php
-                                    $provider = $request->serviceProvider;
-                                @endphp
-                                <div>
-                                    <img src="{{ asset('storage/' . $provider->picture) }}" alt="Provider Picture" width="50" height="50">
-                                </div>
-                                <div>{{ $provider->name }}</div>
-                                <div>{{ $provider->phone }}</div>
-                            @else
-                                No provider assigned
-                            @endif
+                        @if($request->service_provider_id)
+    @php
+        $provider = $request->serviceProvider;
+    @endphp
+
+    <div>{{ $provider->name }}</div>
+    <div>{{ $provider->phone_number }}</div>
+@else
+    No provider assigned
+@endif
+
+
                         </td>
 
                         <!-- Service Date -->

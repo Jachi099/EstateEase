@@ -40,6 +40,11 @@
                 </div>
             </a>
 
+            <a href="{{ route('tenant.serviceRlist') }}">
+    <div class="help_btn" style="color: white; font-family: 'Montserrat', sans-serif; font-size: 16px; font-weight: bolder;">REQUEST SERVICES</div>
+</a>
+
+
 
             <div class="navbar-link-container">
                   <div class="navbar-link-estate-ease_logo montserrat-semi-bold-beaver-18px">EstateEase</div>
@@ -50,11 +55,11 @@
 
 
               <a href="{{ route('tenant.profile') }}"><div class="head_pic">
-                  @if($profilePicture)
-                      <img src="{{ asset('storage/' . $profilePicture) }}" alt="User Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
-                  @else
-                      <img src="path/to/default/image.png" alt="Default Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
-                  @endif
+              @if($profilePicture)
+            <img src="{{ asset($profilePicture) }}" alt="User Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
+        @else
+            <img src="{{ asset('path/to/default/image.png') }}" alt="Default Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
+        @endif
               </div>
 
           </a>
@@ -74,20 +79,18 @@
         <!-- Property Card -->
         <div class="pro_card1">
             <!-- Property Picture -->
-            @php
+   
+@php
+    // Fetch the first image for the property from the PropertyImage model
     $propertyImage = \App\Models\PropertyImage::where('property_ID', $property->property_ID)->first();
 @endphp
 
 @if ($propertyImage)
     <!-- Display the first image from PropertyImage model -->
-
-        <img src="{{ asset('storage/' . $propertyImage->image_path) }}" alt="Property Image" class="pro_pic">
-
+        <img src="{{ asset($propertyImage->image_path) }}" alt="Property Image" class="pro_pic">
 @else
     <!-- Fallback to default image if no property images exist -->
-
         <img src="{{ asset('path/to/default/image.png') }}" alt="Default Property Image" class="pro_pic">
-
 @endif
 
 <div class="visit_date">

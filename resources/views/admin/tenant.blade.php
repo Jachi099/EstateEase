@@ -113,8 +113,44 @@
                   </div>
           <div class="list-of-tenants montserrat-semi-bold-black-20px">LIST OF TENANTS</div>
           <div class="overlap-group3">
-            <div class="visit_accept_heading"></div>
-          </div>
+    <table class="tenant-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>Picture</th>
+                <th>Current Address</th>
+                <th>Phone Number</th>
+                <th>Property ID</th>
+                <th>Rental Start Date</th>
+                <th>Rent</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($tenants as $tenant)
+                <tr>
+                    <td>{{ $tenant->id }}</td>
+                    <td>{{ $tenant->full_name }}</td>
+                    <td>{{ $tenant->email }}</td>
+                    <td>
+                        @if($tenant->picture)
+                            <img src="{{ asset($tenant->picture) }}" alt="Tenant Picture" class="tenant-pic" style="width: 50px; height: 50px; border-radius: 50%;">
+                        @else
+                            <span>No picture</span>
+                        @endif
+                    </td>
+                    <td>{{ $tenant->current_address }}</td>
+                    <td>{{ $tenant->phone_number }}</td>
+                    <td>{{ $tenant->property_ID }}</td>
+                    <td>{{ $tenant->rental_start_date }}</td>
+                    <td>{{ $tenant->rent }}</td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
+
         </div>
       </div>
     </div>

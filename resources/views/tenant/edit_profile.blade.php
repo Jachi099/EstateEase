@@ -21,14 +21,14 @@
      
         <div class="navbar-link-container">
             <div class="navbar-link-estate-ease_logo montserrat-semi-bold-beaver-18px">EstateEase</div>
-     <a href="{{ route('visitor.user_home') }}"><div class="navbar-link-place navbar-link montserrat-normal-black-16px">Home</div> </a
-      ><a href="{{ route('visitor.user_home') }}"><div class="navbar-link-about navbar-link montserrat-normal-black-16px">About</div> </a
-      >  <a href="{{ route('visitor.property_list') }}"><div class="navbar-link-properties montserrat-normal-black-16px">Properties</div> </a
+     <a href="{{ route('tenant.user_home') }}"><div class="navbar-link-place navbar-link montserrat-normal-black-16px">Home</div> </a
+      ><a href="{{ route('tenant.user_home') }}"><div class="navbar-link-about navbar-link montserrat-normal-black-16px">About</div> </a
+      >  <a href="{{ route('tenant.property_list') }}"><div class="navbar-link-properties montserrat-normal-black-16px">Properties</div> </a
         > 
         
       
       
-        <a href="{{ route('visitor.profile') }}">
+        <a href="{{ route('tenant.profile') }}">
     <div class="head_pic">
         @if($profilePicture)
             <img src="{{ asset($profilePicture) }}" alt="User Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
@@ -46,12 +46,12 @@
           <div class="flex-row flex">
             <div class="flex-col-1 flex-col-7">
               <div class="flex-row-1">
-                <h1 class="estate-ease_logo lexendzetta-medium-beaver-25px">VISITOR DASHBOARD</h1>
+                <h1 class="estate-ease_logo lexendzetta-medium-beaver-25px">TENANT DASHBOARD</h1>
                 <img class="trash-2" src="{{ asset('img/trash-2.svg') }}" alt="trash-2" onclick="deleteProfile()" style="background-color: rgba(255, 0, 0, 0.5);" />
                 </div>
 
 
-            <form action="{{ route('user.profile.update') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('tenant.update_profile') }}" method="POST" enctype="multipart/form-data">
                 @csrf
             
                 <div class="flex-row-2">
@@ -67,12 +67,12 @@
                         </div>
                     <div class="flex-col-3 flex-col-7">
                         <div class="full-name montserrat-medium-black-16px">FULL NAME</div>
-                        <input type="text" class="name_txtbox" name="full_name" id="full_name" value="{{ old('full_name', $user->full_name) }}" />
+                        <input type="text" class="name_txtbox" name="full_name" id="full_name" value="{{ old('full_name', $tenant->full_name) }}" />
                     
                       <div class="current-address montserrat-medium-black-16px">CURRENT ADDRESS</div>
-                      <input type="text" class="address_txtbox" name="current_address" id="current_address" value="{{ old('current_address', $user->current_address) }}" />
+                      <input type="text" class="address_txtbox" name="current_address" id="current_address" value="{{ old('current_address', $tenant->current_address) }}" />
                       <div class="phone-number montserrat-medium-black-16px">PHONE NUMBER</div>
-                      <input type="text" class="phn_txtbox" name="phone_number" id="phone_number" value="{{ old('phone_number', $user->phone_number) }}" />
+                      <input type="text" class="phn_txtbox" name="phone_number" id="phone_number" value="{{ old('phone_number', $tenant->phone_number) }}" />
 
                     </div>
                   </div>
@@ -80,7 +80,7 @@
 
                 <div class="flex-col-4 flex-col-7">
                     <div class="email montserrat-medium-black-16px">EMAIL</div>
-                    <input type="email" class="email_txtbox" name="email" id="email" value="{{ old('email', $user->email) }}" />
+                    <input type="email" class="email_txtbox" name="email" id="email" value="{{ old('email', $tenant->email) }}" />
 
                     <div class="pass-container">
                       <div class="password montserrat-medium-black-16px">PASSWORD</div>
@@ -109,7 +109,7 @@
                 <div class="update-profile">UPDATE PROFILE</div>
               </button>
               <div class="back-container">
-                <a href="{{ route('visitor.profile') }}"> <div class="go_back"> 
+                <a href="{{ route('tenant.profile') }}"> <div class="go_back"> 
                     <div class="go-back">GO BACK</div>
                 </div></a>
               </div>

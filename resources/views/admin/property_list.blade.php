@@ -23,17 +23,6 @@
             <div class="estate-ease estate lexendzetta-black-mongoose-20px">EstateEase</div>
 
             
-                        {{-- 
-            <a href="{{ route('user.profile') }}">
-                <div class="head_pic">
-                    @if(isset($profilePicture) && $profilePicture)
-                        <img src="{{ asset('storage/' . $profilePicture) }}" alt="User Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
-                    @else
-                        <img src="path/to/default/image.png" alt="Default Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
-                    @endif
-                </div>
-            </a>
-            --}}
 
 
             <div class="dashb-container">

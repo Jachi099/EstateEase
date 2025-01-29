@@ -25,7 +25,7 @@ class NotificationController extends Controller
                                          ->get();
 
             // Get the profile picture (assuming the column is 'profile_picture')
-            $profilePicture = $landlord->profile_picture;
+            $profilePicture = $landlord->picture ?? null; // Assuming `picture` is a field in the landlord table
 
             return view('landlord.notifications', compact('notifications', 'profilePicture'));
         }

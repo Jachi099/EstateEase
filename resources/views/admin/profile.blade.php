@@ -8,17 +8,21 @@
     <link rel="shortcut icon" type="image/png" href="https://animaproject.s3.amazonaws.com/home/favicon.png" />
     <meta name="og:type" content="website" />
     <meta name="twitter:card" content="photo" />
+
     <link rel="stylesheet" type="text/css" href="{{ asset('css/admin-dashboard.css') }}" />
 
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/styleguide.css') }}" />
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/globals.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/profileu95admin.css') }}" />
 
+<link rel="stylesheet" type="text/css" href="{{ asset('css/styleguide.css') }}" />
+<link rel="stylesheet" type="text/css" href="{{ asset('css/globals.css') }}" />
   </head>
   <body style="margin: 0; background: #ffffff">
-    <input type="hidden" id="anPageName" name="page" value="admin-dashboard" />
+    <input type="hidden" id="anPageName" name="page" value="profileu95admin" />
     <div class="container-center-horizontal">
       <div class="admin-dashboard screen">
-      <div class="overlap-group1">
+
+
+        <div class="overlap-group1">
             <div class="estate-ease estate lexendzetta-black-mongoose-20px">EstateEase</div>
 
 
@@ -36,13 +40,13 @@
     </div>
 </a>
 
-<a href="{{ route('admin.property_list') }}">
-    <div class="overlap-group8">
-        <div class="link"></div>
-        <div class="property montserrat-extra-bold-beaver-20px">Property</div>
-    </div>
-</a>
+            <div class="overlap-group8">
+              <a href="">
+                <div class="link"></div>
+            </a>
+              <div class="property montserrat-extra-bold-beaver-20px">Property</div>
 
+          </div>
 
             <div class="overlap-group4"><div class="landlord montserrat-extra-bold-mongoose-20px">Landlord</div></div>
             <div class="tenant-container">
@@ -68,38 +72,60 @@
 
 
 
+
           </div>
+
+
+
+
         <div class="flex-col flex">
-          <h1 class="estate-ease_logo estate lexendzetta-medium-beaver-25px">ADMIN DASHBOARD</h1>
           <div class="flex-row flex">
-            <div class="overlap-group-container">
-              <div class="total-container">
-                <div class="total montserrat-medium-black-15px">TOTAL PROPERTIES</div>
-                <div class="total-1">{{ $totalProperties }}</div> <!-- Display total properties -->
-                </div>
-              <div class="provider-container">
-                <div class="total-service-providers montserrat-medium-black-15px">TOTAL SERVICE PROVIDERS</div>
-                <div class="total-1">{{ $totalServiceProviders }}</div> <!-- Display total service providers -->
-                </div>
-            </div>
-            <div class="total-container-1 total-container-4">
-              <div class="total montserrat-medium-black-15px">TOTAL LANDLORDS</div>
-              <div class="total-1">{{ $totalLandlords }}</div> <!-- Display total landlords -->
-              </div>
+            <h1 class="estate-ease_logo estate lexendzetta-medium-beaver-25px">EDIT PROFILE</h1>
           </div>
+        
+
+<div class="flex-row-1 flex-row-3">
+    <form action="{{ route('admin.profile.update') }}" method="POST" enctype="multipart/form-data">
+        @csrf
+
+        <div class="flex-col-1">
+
+            <div class="email montserrat-medium-black-16px">EMAIL</div>
+            
+                <input type="email" name="email" value="{{ old('email', $admin->email) }}" class="email_txtbox" required>
+   
+            @error('email')
+                <div class="email_warnings montserrat-medium-black-14px text-red-500">{{ $message }}</div>
+            @enderror
+
+            <div class="pass-container">
+                <div class="password montserrat-medium-black-16px">PASSWORD</div>
+          
+                    <input type="password" name="password" class="pass_txtbox">
+     
+            </div>
+
+            <div class="pass-container-1">
+                <div class="password montserrat-medium-black-16px">RE-TYPE PASSWORD</div>
+        
+                    <input type="password" name="password_confirmation" class="repass_txtbox">
+
+            </div>
+            @error('password')
+                <div class="pass_warnings montserrat-medium-black-14px text-red-500">{{ $message }}</div>
+            @enderror
+
+
+        
+                <button type="submit" class="overlap-group2">
+                    UPDATE PROFILE
+                </button>
+    
         </div>
-        <div class="flex-row-1">
-          <div class="total-container-2 total-container-4">
-            <div class="total-tenants montserrat-medium-black-15px">TOTAL TENANTS</div>
-            <div class="total-1">{{ $totalTenants }}</div> <!-- Display total tenants -->
-            </div>
-          <div class="flex-col-1">
-            <div class="head_pic"></div>
-            <div class="total-container-3 total-container-4">
-              <div class="total-services montserrat-medium-black-15px">TOTAL SERVICES</div>
-              <div class="total-1">{{ $totalServices }}</div> <!-- Display total services -->
-              </div>
-          </div>
+    </form>
+</div>
+
+
         </div>
       </div>
     </div>

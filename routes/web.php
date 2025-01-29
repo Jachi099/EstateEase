@@ -43,7 +43,6 @@ Route::middleware(['auth:landlord'])->group(function () {
     Route::get('/landlord/home', [UserController::class, 'landlordHome'])->name('landlord.user_home');
     Route::get('/landlord/add-property', [LandlordController::class, 'addProperty'])->name('landlord.add_property');
     Route::get('/landlord/profile', [LandlordController::class, 'profile'])->name('landlord.profile');
-    Route::get('/landlord/edit-profile', [LandlordController::class, 'editProfile'])->name('landlord.edit_profile');
     Route::post('/landlord/store-property', [LandlordController::class, 'storeProperty'])->name('landlord.store_property');
     Route::get('/landlord/property/{id}', [LandlordController::class, 'showPropertyDetails'])->name('landlord.property_details');
     Route::get('landlord/notifications', [NotificationController::class, 'index'])->name('landlord.notifications');
@@ -51,6 +50,8 @@ Route::post('notifications/{id}/mark-as-read', [NotificationController::class, '
 // Add this route for the property list
 Route::get('/landlord/properties', [LandlordController::class, 'showPropertiesList'])->name('landlord.properties_list');
 
+Route::get('/landlord/edit-profile', [LandlordController::class, 'editProfile'])->name('landlord.edit_profile');
+Route::post('/landlord/update-profile', [LandlordController::class, 'updateProfile'])->name('landlord.update_profile');
 
 // Add this route for the property list
 
@@ -59,12 +60,16 @@ Route::get('/landlord/properties', [LandlordController::class, 'showPropertiesLi
 Route::middleware(['auth:tenant'])->group(function () {
     Route::get('/tenant/home', [UserController::class, 'tenantHome'])->name('tenant.user_home');
     Route::get('/tenant/profile', [TenantController::class, 'profile'])->name('tenant.profile');
+
     Route::get('/tenant/edit-profile', [TenantController::class, 'editProfile'])->name('tenant.edit_profile');
+    Route::post('/tenant/update-profile', [TenantController::class, 'updateProfile'])->name('tenant.update_profile');
+
+
 
     // Define a route for showing all properties
     Route::get('/tenant/properties', [TenantController::class, 'showProperties'])->name('tenant.property_list');
     Route::get('/tenant/properties/filter', [UserController::class, 'filterProperties'])->name('tenant.filter');
-    Route::get('/tenant/properties/details/{id}', [UserController::class, 'showPropertyDetails'])->name('tenant.details');
+    Route::get('/tenant/properties/details/{id}', [TenantController::class, 'showPropertyDetailsForPublic'])->name('tenant.details');
     Route::get('/tenant/home/visit-requested-properties', [UserController::class, 'visitRequestedProperties'])->name('tenant.visit_req_list');
 
 
@@ -99,6 +104,7 @@ Route::post('/tenant/{tenantId}/payment', [PaymentController::class, 'storePayme
 // Show payment history for a tenant
 Route::get('/tenant/{tenantId}/payments', [PaymentController::class, 'showPayments'])->name('payment.history');
 
+Route::delete('/delete-profile', [UserController::class, 'deleteProfile'])->name('profile.delete');
 
 });
 
@@ -106,11 +112,9 @@ Route::get('/tenant/{tenantId}/payments', [PaymentController::class, 'showPaymen
 Route::middleware(['auth:visitor'])->group(function () {
     Route::get('/visitor/home', [UserController::class, 'visitorHome'])->name('visitor.user_home');
     Route::get('/visitor/profile', [UserController::class, 'profile'])->name('visitor.profile');
-    Route::get('/visitor/edit-profile', [UserController::class, 'editProfile'])->name('visitor.edit_profile');
     Route::post('/visit-requests', [VisitRequestController::class, 'store'])->middleware('auth'); // Ensure only authenticated users can book visits
     Route::post('/visit/request', [UserController::class, 'requestVisit'])->name('visit.request');
 // web.php (routes file)
-Route::get('/booked-property-details/{property_id}', [UserController::class, 'showBookedPropertyDetails'])->name('visitor.bookedproperty_details');
 
 Route::post('/visit-request/cancel/{property_id}', [UserController::class, 'cancelVisitRequest'])->name('visitor.cancelVisitRequest');
 
@@ -122,28 +126,33 @@ Route::post('/visit-request/cancel/{property_id}', [UserController::class, 'canc
         Route::get('/visitor/home/visit-requested-properties', [UserController::class, 'visitRequestedProperties'])->name('visitor.visit_req_list');
 
 
+        Route::get('/booked-property-details/{property_id}', [UserController::class, 'showBookedPropertyDetails'])->name('visitor.bookedproperty_details');
 
-        Route::post('/payment/{visitor_id}', [PaymentController::class, 'processPayment'])->name('payment.process');
-
-
-// In routes/web.php or routes/api.php
-Route::post('/payment/update-status', [PaymentController::class, 'updatePaymentStatus'])->name('payment.updateStatus');
-
-
-        Route::post('/logout', [UserController::class, 'logout'])->name('user.logout');
+        Route::post('/payment/session/{visitor_id}', [PaymentController::class, 'createCheckoutSession'])->name('payment.session');
+        
+        Route::get('/payment-success/{visitor_id}/', [PaymentController::class, 'paymentSuccess'])->name('payment.success');
+        Route::get('/payment-cancel/{visitor_id}/', [PaymentController::class, 'paymentCancel'])->name('payment.cancel');
+        
         Route::get('/user/profile/edit', [UserController::class, 'editProfile'])->name('visitor.edit_profile');
         Route::post('/user/profile/update', [UserController::class, 'updateProfile'])->name('user.profile.update');
 
 
 
 
+        Route::delete('/delete-profile', [UserController::class, 'deleteProfile'])->name('profile.delete');
 
 
 
 
     });
 
-
+    Route::get('/logout', function (Request $request) {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect('/')->with('success', 'You have been logged out.');
+    })->name('user.logout');
+    
 
     // Property-related routes
 
@@ -151,7 +160,7 @@ Route::post('/payment/update-status', [PaymentController::class, 'updatePaymentS
     | Admin Routes
     |--------------------------------------------------------------------------
     */
-
+    
     // Admin login routes
     Route::get('/admin/login', [AdminController::class, 'showLoginForm'])->name('admin.login');
     Route::post('/admin/login', [AdminController::class, 'login'])->name('admin.login');
@@ -211,3 +220,32 @@ Route::get('/admin/services/create', [AdminController::class, 'create'])->name('
 
 // Store the new service
 Route::post('/admin/services', [AdminController::class, 'store'])->name('admin.services.store');
+
+Route::middleware(['auth:admin'])->group(function () {
+
+    // Log when a route is accessed by an admin
+    Route::get('/admin/profile', function() {
+        Log::info('Admin is accessing profile page');
+        return view('admin.profile');
+    })->name('admin.profile.edit');
+
+    Route::post('/admin/profile', function(Request $request) {
+        Log::info('Admin is updating profile', ['request' => $request->all()]);
+        // Handle profile update logic here
+        return back()->with('success', 'Profile updated successfully');
+    })->name('admin.profile.update');
+
+    // Example for the properties route
+    Route::get('/admin/properties', function() {
+        Log::info('Admin is accessing properties page');
+        // Handle properties logic here
+        return view('admin.property_list');
+    })->name('admin.property_list');
+
+    // Log when the logout route is accessed
+    Route::post('/logout', function () {
+        Log::info('Admin logging out');
+        Auth::guard('admin')->logout();
+        return redirect('/');
+    })->name('logout');
+});

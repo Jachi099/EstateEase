@@ -65,7 +65,7 @@
 
 </style>
 
-    <script src="https://js.stripe.com/v3/"></script>
+<script src="https://js.stripe.com/v3/"></script>
 
 </head>
   <body style="margin: 0; background: #ffffff">
@@ -107,15 +107,14 @@
             >
 
             <a href="{{ route('visitor.profile') }}">
-                <div class="head_pic">
-                    @if(isset($profilePicture) && $profilePicture)
-                        <img src="{{ asset('storage/' . $profilePicture) }}" alt="User Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
-                    @else
-                        <img src="path/to/default/image.png" alt="Default Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
-                    @endif
-                </div>
-            </a>
-
+    <div class="head_pic">
+        @if($profilePicture)
+            <img src="{{ asset($profilePicture) }}" alt="User Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
+        @else
+            <img src="{{ asset('path/to/default/image.png') }}" alt="Default Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
+        @endif
+    </div>
+</a>
 
           <div class="flex-col flex">
             <div class="flex-col-1">
@@ -145,6 +144,7 @@
 
 
 
+
                 <div class="navbar-link-rented-date">RENTED DATE:</div>
  <!-- Date Rented -->
 
@@ -160,19 +160,21 @@
                   <div class="images montserrat-bold-black-12px">IMAGES (click to view)</div>
 
                   <div class="overlap-group-container-1">
-    @php
-        $propertyImages = \App\Models\PropertyImage::where('property_ID', $property->property_ID)->limit(15)->get();
-    @endphp
+                  @php
+    // Fetch up to 15 images for the property from the PropertyImage model
+    $propertyImages = \App\Models\PropertyImage::where('property_ID', $property->property_ID)->limit(15)->get();
+@endphp
 
-    @if($propertyImages->isNotEmpty())
-        @foreach($propertyImages as $image)
-            <div class="overlap-group1">
-                <img src="{{ asset('storage/' . $image->image_path) }}" alt="Property Image" class="pro_pic pro_pic-2">
-            </div>
-        @endforeach
-    @else
-        <p>No images available for this property.</p>
-    @endif
+@if ($propertyImages->isNotEmpty())
+    @foreach ($propertyImages as $image)
+        <div class="overlap-group1">
+            <img src="{{ asset($image->image_path) }}" alt="Property Image" class="pro_pic pro_pic-2">
+        </div>
+    @endforeach
+@else
+    <p>No images available for this property.</p>
+@endif
+
 </div>
 
 
@@ -355,9 +357,7 @@
 <div class="flex-col-71 montserrat-normal-black-12px">
     <div class="name12">VISIT REQUESTED DATE:</div>
     <div class="phone12">STATUS:</div>
-    <div class="email12">CHOOSE PAYMENT METHOD:</div>
-    <label id="payment-label" class="cardorphninfo">CARD NUMBER/PHONE:</label>
-    <div class="permanent-address12">RENT AMOUNT:</div>
+    <label id="payment-label" class="cardorphninfo">RENT AMOUNT:</label>
 </div>
 
 <!-- Right Column -->
@@ -388,48 +388,21 @@
     @endif
 </div>
 
-
-
-
-   <!-- The Form -->
-<form id="payment-form" action="{{ route('payment.process', ['visitor_id' => auth()->user()->id]) }}" method="POST" onsubmit="submitPayment(event)">
-    @csrf
-    <!-- Payment Method Selection -->
-    <select class="name-14" name="payment_method" id="payment-method" required>
-        <option value="" disabled selected>Select Payment Method</option>
-        <option value="nagad">Nagad</option>
-        <option value="bkash">bKash</option>
-        <option value="debit">Debit Card</option>
-        <option value="credit">Credit Card</option>
-    </select>
-
-    <!-- Input for Credit/Debit Card -->
-    <div id="card-input-container" style="display:none;">
-        <div id="card-element" class="name-16"></div> <!-- Stripe Card input element -->
-        <div id="card-errors" role="alert"></div> <!-- Error messages -->
-    </div>
-
-    <!-- Payment Method Details for bKash, Nagad -->
-    <div id="payment-method-details" style="display:none;">
-        <label for="payment-details" id="payment-label"></label>
-        <input type="text" class="name-16" id="payment-input" name="payment_details" placeholder="Enter Payment Details" />
-    </div>
-
     <!-- Display Total Rent with Service Charge -->
     <div class="name-15">
-        <span id="total-rent">
-            @if ($property->rent)
-                @php
-                    $serviceCharge = ($property->rent * 5) / 100; // 5% service charge
-                    $totalRent = $property->rent + $serviceCharge;
-                @endphp
-                <input type="hidden" name="amount" value="{{ $totalRent }}"> <!-- Hidden amount input -->
-                ৳ {{ number_format($totalRent, 2) }} <!-- Total Rent + Service Charge -->
-            @else
-                N/A
-            @endif
-        </span>
-    </div>
+    <span id="total-rent">
+        @if ($property->rent)
+            @php
+                $serviceCharge = ($property->rent * 5) / 100; // 5% service charge
+                $totalRent = $property->rent + $serviceCharge;
+            @endphp
+            <input type="hidden" id="total-amount" name="amount" value="{{ $totalRent }}">
+            ৳ {{ number_format($totalRent, 2) }} <!-- Total Rent + Service Charge -->
+        @else
+            N/A
+        @endif
+    </span>
+</div>
 
     <!-- Hidden Fields for User Data -->
     <input type="hidden" name="name" value="{{ auth()->user()->full_name }}" />
@@ -440,10 +413,13 @@
     <input type="hidden" name="visitor_id" value="{{ auth()->user()->id }}" />
 
     @if ($visitRequest && $visitRequest->status == 'accepted')
-    <!-- Show the Pay Now button only when the status is accepted -->
-    <button id="pay-btn" class="pay-btn" type="button">Pay Now</button>
+    @if ($paymentStatus == 'paid')  <!-- Check if the payment status is 'paid' -->
+        <button class="pay-btn" type="button" disabled>Paid</button> <!-- Disable button and show "Paid" -->
+    @else
+        <button id="checkout-button" class="pay-btn" type="button">Pay Now</button> <!-- Show "Pay Now" if not paid -->
+    @endif
 @endif
-</form>
+
 
 
 </div>
@@ -486,134 +462,52 @@
         </div>
       </div>
     </div>
-    <div id="confirmation-popup" style="display:none;">
-    <div class="popup-content">
-        <h2>Are you sure you want to pay?</h2>
-        <button id="confirm-payment">Yes, Pay Now</button>
-        <button id="cancel-payment">Cancel</button>
-    </div>
-</div>
+ 
     </div>
     <script>
-// Initialize Stripe
-var stripe = Stripe('pk_test_51QUU8KP2zO95Ub2TwNeybmjvtzavKiZPXeD2n7c5CdoWvwKDSdVtIf8W7C2sqoGdAHsk2PfkEwV1WOpiTjmsvAnr00VCJSHnh2');
-var elements = stripe.elements();
-var card = elements.create('card');
+    const stripe = Stripe('{{ env('STRIPE_KEY') }}');
 
-// Handle Payment Method Selection
-document.getElementById('payment-method').addEventListener('change', function () {
-    var paymentMethod = this.value;
-    var cardInputContainer = document.getElementById('card-input-container');
-    var paymentDetails = document.getElementById('payment-method-details');
-    var paymentLabel = document.getElementById('payment-label');
-    var paymentInput = document.getElementById('payment-input');
+    document.getElementById('checkout-button').addEventListener('click', async () => {
+        const totalAmount = document.getElementById('total-amount').value;  // Get the total amount in BDT
+        const visitorId = '{{ $visitor->id }}';  // Access visitor's ID
+        const propertyId = '{{ $property->property_id }}';  // Access property_id in your view
 
-    if (paymentMethod === 'debit' || paymentMethod === 'credit') {
-        card.mount('#card-element');  // Mount Stripe card only once
-        cardInputContainer.style.display = 'block';
-        paymentDetails.style.display = 'none';
-    } else {
-        cardInputContainer.style.display = 'none';
-        paymentDetails.style.display = 'block';
-
-        if (paymentMethod === 'bkash') {
-            paymentLabel.textContent = 'bKash Number:';
-            paymentInput.setAttribute('placeholder', 'Enter bKash Number');
-        } else if (paymentMethod === 'nagad') {
-            paymentLabel.textContent = 'Nagad Number:';
-            paymentInput.setAttribute('placeholder', 'Enter Nagad Number');
-        }
-    }
-});
-// Show confirmation popup when 'Pay Now' is clicked
-document.getElementById('pay-btn').addEventListener('click', function() {
-    document.getElementById('confirmation-popup').style.display = 'flex';
-});
-
-// Close the confirmation popup when 'Cancel' is clicked
-document.getElementById('cancel-payment').addEventListener('click', function() {
-    document.getElementById('confirmation-popup').style.display = 'none';
-});
-
-// Proceed with payment when 'Confirm' is clicked
-document.getElementById('confirm-payment').addEventListener('click', function() {
-    document.getElementById('confirmation-popup').style.display = 'none';
-    submitPayment(event); // Call the submitPayment function
-});
-
-// Function to handle payment submission
-function submitPayment(event) {
-    event.preventDefault();
-
-    var paymentMethod = document.getElementById('payment-method').value;
-    var visitorId = document.querySelector('input[name="visitor_id"]').value;
-
-    if (paymentMethod === 'debit' || paymentMethod === 'credit') {
-        stripe.createToken(card).then(function(result) {
-            if (result.error) {
-                showPopup('Payment failed: ' + result.error.message);
-            } else {
-                processPayment(result.token.id);
-            }
+        // Send the amount in BDT and property_id to the backend for conversion to USD
+        const response = await fetch('{{ route('payment.session', ':visitor_id') }}'.replace(':visitor_id', visitorId), {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            },
+            body: JSON.stringify({
+                amount: totalAmount,  // Pass the total amount in BDT to the backend
+                property_id: propertyId,  // Pass the property_ID to the backend (corrected)
+            }),
         });
-    } else {
-        // Submit form for bKash or Nagad
-        event.target.submit();
-    }
-}
 
-// Process Payment (AJAX)
-function processPayment(token) {
-    var formData = new FormData(document.getElementById('payment-form'));
-    formData.append('token', token);
+        const session = await response.json();
 
-    fetch("{{ route('payment.process', ['visitor_id' => auth()->user()->id]) }}", {
-        method: "POST",
-        body: formData,
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            showPopup('Payment successful!');
-        } else if (data.error) {
-            showPopup(data.error);  // Show error message (e.g., "You have already paid for this month.")
+        if (session.error) {
+            alert(session.error);
+        } else if (session.id) {
+            // Redirect to Stripe Checkout
+            const { error } = await stripe.redirectToCheckout({ sessionId: session.id });
+
+            if (error) {
+                console.error('Error during checkout redirect:', error);
+            }
         }
-    })
-    .catch(error => {
-        showPopup('Payment failed: ' + error.message);
     });
-}
-
-// Show Popup Message
-function showPopup(message) {
-    alert(message);  // Replace with custom popup logic if needed
-}
-
-
-
-        document.getElementById('payment-method').addEventListener('change', function() {
-    var paymentMethod = this.value;
-    var label = document.getElementById('payment-label');
-    var input = document.getElementById('payment-input');
-
-    // Change the label and placeholder text based on the selected payment method
-    if (paymentMethod === 'bkash') {
-        label.textContent = 'bKash Number:';
-        input.setAttribute('placeholder', 'Enter bKash Number');
-    } else if (paymentMethod === 'nagad') {
-        label.textContent = 'Nagad Number:';
-        input.setAttribute('placeholder', 'Enter Nagad Number');
-    } else if (paymentMethod === 'debit' || paymentMethod === 'credit') {
-        label.textContent = 'CARD Number:';
-        input.setAttribute('placeholder', 'Enter Card Number');
-    }
-});
-
-
-
-
-
 </script>
+
+
+      
+
+
+
+
+
+
 
   </body>
 </html>

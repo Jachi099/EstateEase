@@ -55,16 +55,15 @@
                   <a href="{{ route('landlord.user_home') }}"><div class="place montserrat-normal-black-16px">Home</div> </a
             >
 
-
-              <a href="{{ route('landlord.profile') }}"><div class="head_pic">
-                  @if($profilePicture)
-                      <img src="{{ asset('storage/' . $profilePicture) }}" alt="User Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
-                  @else
-                      <img src="path/to/default/image.png" alt="Default Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
-                  @endif
-              </div>
-
-          </a>
+            <a href="{{ route('landlord.profile') }}">
+    <div class="head_pic">
+        @if($landlordProfilePicture)  <!-- Use the variable for the landlord's picture -->
+            <img src="{{ $landlordProfilePicture }}" alt="Landlord Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
+        @else
+            <img src="{{ asset('path/to/default/image.png') }}" alt="Default Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
+        @endif
+    </div>
+</a>
           <div class="flex-col flex">
             <div class="flex-col-1">
               <h1 class="estate-ease_logo-1 lexendzetta-medium-beaver-25px">PROPERTY DETAILS</h1>
@@ -118,19 +117,21 @@
                   <div class="images montserrat-bold-black-12px">IMAGES (click to view)</div>
 
                   <div class="overlap-group-container-1">
-    @php
-        $propertyImages = \App\Models\PropertyImage::where('property_ID', $property->property_ID)->limit(15)->get();
-    @endphp
+                  @php
+    // Fetch up to 15 images for the property from the PropertyImage model
+    $propertyImages = \App\Models\PropertyImage::where('property_ID', $property->property_ID)->limit(15)->get();
+@endphp
 
-    @if($propertyImages->isNotEmpty())
-        @foreach($propertyImages as $image)
-            <div class="overlap-group1">
-                <img src="{{ asset('storage/' . $image->image_path) }}" alt="Property Image" class="pro_pic pro_pic-2">
-            </div>
-        @endforeach
-    @else
-        <p>No images available for this property.</p>
-    @endif
+@if ($propertyImages->isNotEmpty())
+    @foreach ($propertyImages as $image)
+        <div class="overlap-group1">
+            <img src="{{ asset($image->image_path) }}" alt="Property Image" class="pro_pic pro_pic-2">
+        </div>
+    @endforeach
+@else
+    <p>No images available for this property.</p>
+@endif
+
 </div>
 
 
@@ -312,19 +313,9 @@
                   <div class="tenant-information montserrat-bold-black-12px">TENANT INFORMATION</div>
                   <div class="overlap-group15">
                     <div class="overlap-group10">
-                     <!-- Tenant Profile Picture -->
-<div class="pro_pic-1 pro_pic-2">
-    @if($tenant && $tenant->picture)
-        <img src="{{ asset('storage/' . $tenant->picture) }}" alt="Tenant Picture" class="tenant-pic">
-    @else
-        <span>No picture available</span> <!-- Optional message if no picture -->
-    @endif
-</div>
-
-                    </div>
+          </div>
                     <div class="flex-col-7 montserrat-normal-black-12px">
                       <div class="name">NAME:</div>
-                      <div class="phone">PHONE:</div>
                       <div class="email">EMAIL:</div>
                       <div class="permanent-address">PERMANENT ADDRESS:</div>
                     </div>
@@ -334,14 +325,6 @@
         <span>{{ $property->tenant->full_name }}</span>
     @else
         <span>No tenant yet</span>
-    @endif
-</div>
-
-<div class="flex-col-item-2 flex-col-item-3">
-    @if($property->tenant)
-        <span>{{ $property->tenant->phone_number }}</span>
-    @else
-        <span>N/A</span>
     @endif
 </div>
 
@@ -371,7 +354,6 @@
             <div class="overlap-group5"><div class="go-back montserrat-black-beaver-16px">GO BACK</div></div>
 
 </a>
-              <div class="overlap-group9"><div class="update montserrat-black-white-16px">UPDATE</div></div>
             </div>
 
 <!-- Modal for displaying the zoomed image -->

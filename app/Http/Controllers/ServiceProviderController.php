@@ -37,7 +37,6 @@ return view('admin.addProvider', compact('services'));
     // Show the form to add a new service provider
 }
 
-
 public function store(Request $request)
 {
     // Validation
@@ -53,8 +52,20 @@ public function store(Request $request)
 
     // Handle Picture Upload
     if ($request->hasFile('picture')) {
-        $picturePath = $request->file('picture')->store('service_provider_pictures', 'public');  // Store in the 'public' disk
-        $validatedData['picture'] = $picturePath;
+        $picture = $request->file('picture');
+        $pictureName = time() . '.' . $picture->getClientOriginalExtension();
+        $picturePath = public_path('service_provider_pictures'); // Directory where you want to store the image
+        
+        // Ensure the directory exists
+        if (!file_exists($picturePath)) {
+            mkdir($picturePath, 0777, true);
+        }
+
+        // Move the file to the public directory
+        $picture->move($picturePath, $pictureName);
+
+        // Store the path in the database
+        $validatedData['picture'] = 'service_provider_pictures/' . $pictureName;
     }
 
     // Set default availability status if not provided

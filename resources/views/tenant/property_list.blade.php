@@ -29,14 +29,17 @@
 
 
             <a href="{{ route('tenant.profile') }}">
-                <div class="head_pic">
-                    @if(isset($profilePicture) && $profilePicture)
-                        <img src="{{ asset('storage/' . $profilePicture) }}" alt="User Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
-                    @else
-                        <img src="path/to/default/image.png" alt="Default Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
-                    @endif
-                </div>
-            </a>
+    <div class="head_pic">
+        @if($profilePicture)
+            <img src="{{ asset($profilePicture) }}" alt="User Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
+        @else
+            <img src="{{ asset('path/to/default/image.png') }}" alt="Default Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
+        @endif
+    </div>
+</a>
+
+
+       
 
           </div>
 
@@ -138,10 +141,11 @@
     $propertyImage = \App\Models\PropertyImage::where('property_ID', $property->property_ID)->first();
 @endphp
 
+
 @if ($propertyImage)
     <!-- Display the first image from PropertyImage model -->
     <a href="{{ route('tenant.details', $property->property_ID) }}" class="property-image-link">
-        <img src="{{ asset('storage/' . $propertyImage->image_path) }}" alt="Property Image" class="property-image">
+        <img src="{{ asset($propertyImage->image_path) }}" alt="Property Image" class="property-image">
         <span class="tooltip">More Details</span>
     </a>
 @else
@@ -151,7 +155,6 @@
         <span class="tooltip">More Details</span>
     </a>
 @endif
-
 
 
 <div class="property-header1">

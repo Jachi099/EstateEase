@@ -59,22 +59,22 @@
             
             
             
-              <a href="{{ route('landlord.profile') }}"><div class="head_pic">
-                  @if($profilePicture)
-                      <img src="{{ asset('storage/' . $profilePicture) }}" alt="User Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
-                  @else
-                      <img src="path/to/default/image.png" alt="Default Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
-                  @endif
-              </div>
-              
-          </a>
+            <a href="{{ route('landlord.profile') }}">
+    <div class="head_pic">
+        @if($profilePicture)
+            <img src="{{ asset($profilePicture) }}" alt="User Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
+        @else
+            <img src="{{ asset('path/to/default/image.png') }}" alt="Default Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
+        @endif
+    </div>
+</a>
             <div class="estate-ease_logo-1 estate-ease_logo-4 lexendzetta-extra-bold-white-15px">LANDLORD DASHBOARD</div>
           </div>
           <div class="flex-col">
             <div class="flex-row">
               <h1 class="estate-ease_logo-2 estate-ease_logo-4 lexendzetta-medium-beaver-25px">LANDLORD DASHBOARD</h1>
               <a href="{{ route('landlord.edit_profile') }}">
-                <img class="edit" src="{{ asset('img/edit.svg') }}" alt="edit" />
+              <img class="edit" src="{{ asset('img/edit.svg') }}" alt="edit" />
             </a>
             
             <img class="trash-2" src="{{ asset('img/trash-2.svg') }}" alt="trash-2" />
@@ -82,11 +82,13 @@
             </div>
             <div class="flex-row-1">
               <div class="flex-col-1 flex-col-4">
-                <div class="pic"> @if($profilePicture)
-                    <img src="{{ asset('storage/' . $profilePicture) }}" alt="User Profile Picture" style="width: 100%; height: 100%; ">
-                @else
-                    <img src="path/to/default/image.png" alt="Default Profile Picture" style="width: 100%; height: 100%; ">
-                @endif</div>
+                <div class="pic">  
+        @if($profilePicture)
+            <img src="{{ asset($profilePicture) }}" alt="User Profile Picture" style="width: 100%; height: 100%;">
+        @else
+            <img src="{{ asset('path/to/default/image.png') }}" alt="Default Profile Picture" style="width: 100%; height: 100%;">
+        @endif
+   </div>
                 <div class="account-type">ACCOUNT TYPE</div>
                 <span class="font-bold">{{ $account_type }}  </span>            </div>
               <div class="flex-col-2 flex-col-4">

@@ -60,11 +60,16 @@ class TenantController extends Controller
 
         // Execute the query and get the properties
         $properties = $query->get();
-        $profilePicture = $tenant->picture ?? null;
+
+        $user = Auth::guard('tenant')->user(); // Ensure the tenant guard is used
+
+        $profilePicture = $user->picture ?? null; // Assuming `picture` is a field in the tenant table
 
         // Render the properties view with the filtered and sorted properties
         return view('tenant.property_list', compact('properties', 'profilePicture'));
     }
+
+
     public function filterProperties(Request $request)
     {
         $location = $request->input('location'); // Location input corresponds to the 'thana' column in DB
@@ -96,31 +101,31 @@ class TenantController extends Controller
     {
         // Fetch the property by its ID or fail with a 404 error if not found
         $property = Property::findOrFail($id);
-
+    
         // Check if the property has a tenant
         $tenant = Tenant::where('property_ID', $id)->first();
-
+    
         // Default payment status
         $paymentStatus = 'unpaid';
         $tenantProfilePicture = null;
-
+    
         if ($tenant) {
             // Fetch the latest payment for the tenant from tenant_payments table
             $latestPayment = $tenant->tenantPayments()->latest()->first();
-
+    
             // Set payment status based on the latest payment
             if ($latestPayment && $latestPayment->status === 'paid') {
                 $paymentStatus = 'paid';
             }
-
+    
             // Get the tenant's profile picture if available
             $tenantProfilePicture = $tenant->picture ?? null;
         }
-
+    
         // Pass data to the view
-        return view('tenant.property_details', compact('property', 'paymentStatus', 'tenantProfilePicture', 'tenant'));
+        return view('tenant.details', compact('property', 'paymentStatus', 'tenantProfilePicture', 'tenant'));
     }
-
+    
     public function profile()
     {
         // Get the authenticated landlord
@@ -142,35 +147,73 @@ class TenantController extends Controller
         ]);
     }
 
-    public function editProfile()
+    public function editProfile(Request $request)
     {
         // Get the authenticated tenant
-        $tenant = Auth::guard('tenant')->user();
-
-        // Return the edit profile view with tenant data
-        return view('tenant.edit_profile', ['tenant' => $tenant]);
+        $tenant = Auth::guard('tenant')->user(); // Use the tenant guard
+    
+        // Check if the tenant is a valid instance of the Tenant model
+        if (!$tenant instanceof Tenant) {
+            return redirect()->route('tenant.profile')->with('error', 'Tenant not found.');
+        }
+    
+        // Prepare the profile picture path
+        $profilePicture = $tenant->picture; // Adjust according to your Tenant model's picture attribute
+    
+        // Return the edit profile view with the tenant data and profile picture
+        return view('tenant.edit_profile', compact('tenant', 'profilePicture'));
     }
+    
 
     public function updateProfile(Request $request)
     {
         // Validate request data
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            // Add other validation rules as needed
+            'full_name' => 'nullable|string|max:255',
+            'current_address' => 'nullable|string|max:255',
+            'phone_number' => 'nullable|string|max:15',
+            'email' => 'nullable|email|max:255',
+            'password' => 'nullable|string|min:6|confirmed',
+            'picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-
+    
         // Get the authenticated tenant
-        $tenant = Auth::guard('tenant')->user();
-
-        // Update tenant details
-        $tenant->name = $request->name;
-        $tenant->email = $request->email;
-        // Update other fields as necessary
-
-        return redirect()->route('tenant.profile')->with('success', 'Profile updated successfully!');
+        $tenant = Auth::guard('tenant')->user(); // Use the tenant guard
+    
+        // Check if the tenant is a valid instance of Tenant model
+        if (!$tenant instanceof Tenant) {
+            return redirect()->route('tenant.profile')->with('error', 'Tenant not found.');
+        }
+    
+        // Prepare an array of attributes to update
+        $data = $request->only(['full_name', 'current_address', 'phone_number', 'email']);
+    
+        // Handle password if provided
+        if ($request->filled('password')) {
+            $data['password'] = Hash::make($request->input('password'));
+        }
+    
+        // Handle picture upload if present
+        if ($request->hasFile('picture')) {
+            $data['picture'] = $request->file('picture')->store('profile_pictures', 'public');
+        }
+    
+        // Debugging: Check the data array
+        // dd($data); // Uncomment this to see the values being saved
+    
+        // Update the tenant attributes
+        foreach ($data as $key => $value) {
+            if ($value !== null) { // Only update fields that are provided
+                $tenant->$key = $value;
+            }
+        }
+    
+        // Save the updated tenant instance
+        $tenant->save(); // Ensure $tenant is a valid Tenant instance here
+    
+        return redirect()->route('tenant.profile')->with('success', 'Profile updated successfully.');
     }
-
+    
 
 
  // In your Controller
@@ -471,5 +514,28 @@ public function cancelServiceRequest($id)
 
 
 
+
+    public function deleteProfile(Request $request)
+{
+    $tenant = Auth::guard('tenant')->user(); // Get the authenticated tenant
+    
+    // Check if the tenant has a related unpaid payment
+    $payment = TenantPayment::where('tenant_id', $tenant->id)
+                            ->where('status', 'unpaid')  // Only allow deletion if payment is unpaid
+                            ->first();
+    
+    // If payment is confirmed, don't allow deletion
+    if (!$payment) {
+        // Proceed to delete the tenant profile and related data
+        $tenant->delete(); // Delete tenant profile
+
+        // Optionally, delete related data if needed, such as visit requests or other relations
+        // $tenant->visitRequests()->delete(); // Uncomment this if you need to delete visit requests
+
+        return response()->json(['success' => true, 'message' => 'Profile deleted successfully.']);
+    } else {
+        return response()->json(['success' => false, 'message' => 'Profile cannot be deleted after payment.']);
+    }
+}
 
 }

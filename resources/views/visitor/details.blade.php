@@ -77,14 +77,15 @@
 
 
             <a href="{{ route('visitor.profile') }}">
-                <div class="head_pic">
-                    @if(isset($profilePicture) && $profilePicture)
-                        <img src="{{ asset('storage/' . $profilePicture) }}" alt="User Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
-                    @else
-                        <img src="path/to/default/image.png" alt="Default Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
-                    @endif
-                </div>
-            </a>
+    <div class="head_pic">
+        @if($profilePicture)
+            <img src="{{ asset($profilePicture) }}" alt="User Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
+        @else
+            <img src="{{ asset('path/to/default/image.png') }}" alt="Default Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
+        @endif
+    </div>
+</a>
+
 
           </div>
 
@@ -146,19 +147,21 @@
 
           <div class="overlap-group-container-12">
 
-@php
+          @php
+    // Fetch up to 15 images for the property from the PropertyImage model
     $propertyImages = \App\Models\PropertyImage::where('property_ID', $property->property_ID)->limit(15)->get();
 @endphp
 
-@if($propertyImages->isNotEmpty())
-    @foreach($propertyImages as $image)
-        <div class="pic">
-            <img src="{{ asset('storage/' . $image->image_path) }}" alt="Property Image" class="pro_pic1 pro_pic-12">
+@if ($propertyImages->isNotEmpty())
+    @foreach ($propertyImages as $image)
+        <div class="overlap-group1">
+            <img src="{{ asset($image->image_path) }}" alt="Property Image" class="pro_pic pro_pic-2">
         </div>
     @endforeach
 @else
     <p>No images available for this property.</p>
 @endif
+
 </div>
 
             <div class="overlap-group-container-1 overlap-group-container-3 montserrat-bold-black-12px">

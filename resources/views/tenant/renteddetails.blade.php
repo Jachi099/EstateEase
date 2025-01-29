@@ -145,7 +145,9 @@
                 </div>
             </a>
 
-
+            <a href="{{ route('tenant.serviceRlist') }}">
+    <div class="help_btn" style="color: white; font-family: 'Montserrat', sans-serif; font-size: 16px; font-weight: bolder;">REQUEST SERVICES</div>
+</a>
 
             <div class="div_top"></div>
             <div class="about montserrat-normal-black-16px">Notifications</div>
@@ -155,17 +157,17 @@
             >
             <a href="{{ route('tenant.property_list') }}"><div class="navbar-link-properties montserrat-normal-black-16px">Properties</div> </a
             >
-
+                   
             <a href="{{ route('tenant.profile') }}">
-                <div class="head_pic">
-                    @if(isset($profilePicture) && $profilePicture)
-                        <img src="{{ asset('storage/' . $profilePicture) }}" alt="User Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
-                    @else
-                        <img src="path/to/default/image.png" alt="Default Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
-                    @endif
-                </div>
-            </a>
-
+    <div class="head_pic">
+        @if($profilePicture)
+            <img src="{{ asset($profilePicture) }}" alt="User Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
+        @else
+            <img src="{{ asset('path/to/default/image.png') }}" alt="Default Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
+        @endif
+    </div>
+</a>
+        
 
           <div class="flex-col flex">
             <div class="flex-col-1">
@@ -206,19 +208,20 @@
                   <div class="images montserrat-bold-black-12px">IMAGES (click to view)</div>
 
                   <div class="overlap-group-container-1">
-    @php
-        $propertyImages = \App\Models\PropertyImage::where('property_ID', $property->property_ID)->limit(15)->get();
-    @endphp
+         @php
+    // Fetch up to 15 images for the property from the PropertyImage model
+    $propertyImages = \App\Models\PropertyImage::where('property_ID', $property->property_ID)->limit(15)->get();
+@endphp
 
-    @if($propertyImages->isNotEmpty())
-        @foreach($propertyImages as $image)
-            <div class="overlap-group1">
-                <img src="{{ asset('storage/' . $image->image_path) }}" alt="Property Image" class="pro_pic pro_pic-2">
-            </div>
-        @endforeach
-    @else
-        <p>No images available for this property.</p>
-    @endif
+@if ($propertyImages->isNotEmpty())
+    @foreach ($propertyImages as $image)
+        <div class="overlap-group1">
+            <img src="{{ asset($image->image_path) }}" alt="Property Image" class="pro_pic pro_pic-2">
+        </div>
+    @endforeach
+@else
+    <p>No images available for this property.</p>
+@endif
 </div>
 
 
@@ -455,26 +458,23 @@
   <!-- The Form -->
 <form id="payment-form" action="{{ route('tenant.payment.process', ['tenant_id' => auth()->user()->id]) }}" method="POST" onsubmit="submitPayment(event)">
     @csrf
-    <!-- Payment Method Selection -->
-    <select class="name-14" name="payment_method" id="payment-method" required>
-        <option value="" disabled selected>Select Payment Method</option>
-        <option value="nagad">Nagad</option>
-        <option value="bkash">bKash</option>
-        <option value="debit">Debit Card</option>
-        <option value="credit">Credit Card</option>
-    </select>
+  <!-- Payment Method Selection -->
+<select class="name-14" name="payment_method" id="payment-method" required>
+    <option value="" disabled selected>Select Payment Method</option>
+    <option value="debit">Debit Card</option>
+    <option value="credit">Credit Card</option>
+</select>
 
-    <!-- Input for Credit/Debit Card -->
-    <div id="card-input-container" style="display:none;">
-        <div id="card-element" class="name-16"></div> <!-- Stripe Card input element -->
-        <div id="card-errors" role="alert"></div> <!-- Error messages -->
-    </div>
+<!-- Input for Credit/Debit Card -->
+<div id="card-input-container" style="display:none;">
+    <div id="card-element" class="name-16"></div> <!-- Card Number input -->
+    <div id="expiry-element" class="name-16"></div> <!-- Expiration Date input -->
+    <div id="cvv-element" class="name-16"></div> <!-- CVV input -->
+    <div id="card-errors" role="alert"></div> <!-- Error messages -->
+</div>
+
 
     <!-- Payment Method Details for bKash, Nagad -->
-    <div id="payment-method-details" style="display:none;">
-        <label for="payment-details" id="payment-label"></label>
-        <input type="text" class="name-16" id="payment-input" name="payment_details" placeholder="Enter Payment Details" />
-    </div>
 
     <!-- Display Total Rent with Service Charge -->
     <div class="name-15">
@@ -616,12 +616,14 @@ overlay.addEventListener('click', (event) => {
 
 
 
-
-
 // Initialize Stripe
 var stripe = Stripe('pk_test_51QUU8KP2zO95Ub2TwNeybmjvtzavKiZPXeD2n7c5CdoWvwKDSdVtIf8W7C2sqoGdAHsk2PfkEwV1WOpiTjmsvAnr00VCJSHnh2');
 var elements = stripe.elements();
-var card = elements.create('card');
+
+// Create individual elements for each input
+var cardNumber = elements.create('cardNumber');
+var cardExpiry = elements.create('cardExpiry');
+var cardCvc = elements.create('cardCvc');
 
 // Handle Payment Method Selection
 document.getElementById('payment-method').addEventListener('change', function () {
@@ -632,9 +634,13 @@ document.getElementById('payment-method').addEventListener('change', function ()
     var paymentInput = document.getElementById('payment-input');
 
     if (paymentMethod === 'debit' || paymentMethod === 'credit') {
-        card.mount('#card-element');  // Mount Stripe card only once
         cardInputContainer.style.display = 'block';
         paymentDetails.style.display = 'none';
+
+        // Mount the individual Stripe elements
+        cardNumber.mount('#card-element');
+        cardExpiry.mount('#expiry-element');
+        cardCvc.mount('#cvv-element');
     } else {
         cardInputContainer.style.display = 'none';
         paymentDetails.style.display = 'block';
@@ -673,7 +679,7 @@ function submitPayment(event) {
     var tenantId = document.querySelector('input[name="tenant_id"]').value;
 
     if (paymentMethod === 'debit' || paymentMethod === 'credit') {
-        stripe.createToken(card).then(function(result) {
+        stripe.createToken(cardNumber).then(function(result) {
             if (result.error) {
                 showPopup('Payment failed: ' + result.error.message);
             } else {
@@ -712,8 +718,6 @@ function processTenantPayment(token) {
 function showPopup(message) {
     alert(message);  // Replace with custom popup logic if needed
 }
-
-
 
 
 

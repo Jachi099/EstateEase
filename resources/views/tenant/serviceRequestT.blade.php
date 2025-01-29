@@ -62,18 +62,18 @@ PROFILE            </div>
               >
 
 
-              <a href="{{ route('tenant.profile') }}"><div class="head_pic">
-                  @if($profilePicture)
-                      <img src="{{ asset('storage/' . $profilePicture) }}" alt="User Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
-                  @else
-                      <img src="path/to/default/image.png" alt="Default Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
-                  @endif
-
+              <a href="{{ route('tenant.profile') }}">
+    <div class="head_pic">
+        @if($profilePicture)
+            <img src="{{ asset($profilePicture) }}" alt="User Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
+        @else
+            <img src="{{ asset('path/to/default/image.png') }}" alt="Default Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
+        @endif
+    </div>
 </a>
               </div>
 
             <div class="notification montserrat-normal-black-16px">Notification</div>
-            <div class="services montserrat-normal-black-16px">Services</div>
 
             <div class="estate-ease_logo montserrat-semi-bold-beaver-18px">EstateEase</div>
             <div class="estate-ease_logo-1 estate-ease_logo-3 lexendzetta-extra-bold-white-15px">TENANT DASHBOARD</div>

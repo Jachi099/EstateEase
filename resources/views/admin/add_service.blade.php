@@ -135,7 +135,7 @@
             <tr>
                 <td>{{ $service->id }}</td>
                 <td>
-                <img src="{{ asset('storage/' . $service->picture) }}" alt="{{ $service->type }}" class="service-img" />
+                <img src="{{ asset($service->picture) }}" alt="{{ $service->type }}" class="service-img" />
                 </td>
                 <td>{{ $service->type }}</td>
                 <td>৳{{ number_format($service->cost, 2) }}</td>

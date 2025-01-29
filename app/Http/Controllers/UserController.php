@@ -14,6 +14,7 @@ use App\Models\Property;
 use GuzzleHttp\Client;
 use App\Models\Service;
 use App\Models\VisitRequest;
+use App\Models\Payment;
 
 
 
@@ -235,76 +236,68 @@ class UserController extends Controller
         return view('user.signup'); // Ensure this path matches your view file
     }
     public function signupSubmit(Request $request)
-    {
-        // Validate the input data
-        $validatedData = $request->validate([
-            'full_name' => 'required|string|max:255',
-            'current_address' => 'required|string|max:255',
-            'phone_number' => 'required|numeric|digits_between:10,15',
-            'account_type' => 'required|in:landlord,visitor',
-            'email' => 'required|email|unique:users,email|unique:landlord,email',
-            'password' => [
-                'required',
-                'confirmed',
-                Password::min(8)
-                    ->mixedCase()
-                    ->letters()
-                    ->numbers()
-                    ->symbols()
-            ],
-            'picture' => 'required|image|mimes:jpeg,png,jpg|max:2048'
+{
+    // Validate the input data
+    $validatedData = $request->validate([
+        'full_name' => 'required|string|max:255',
+        'current_address' => 'required|string|max:255',
+        'phone_number' => 'required|numeric|digits_between:10,15',
+        'account_type' => 'required|in:landlord,visitor',
+        'email' => 'required|email|unique:users,email|unique:landlord,email',
+        'password' => [
+            'required',
+            'confirmed',
+            Password::min(8)
+                ->mixedCase()
+                ->letters()
+                ->numbers()
+                ->symbols()
+        ],
+        'picture' => 'required|image|mimes:jpeg,png,jpg|max:2048'
+    ]);
+
+    // Save the profile picture in the 'public/profile_pictures' directory
+    $pictureFile = $request->file('picture');
+    $pictureName = time() . '_' . $pictureFile->getClientOriginalName(); // Unique file name
+    $picturePath = 'profile_pictures/' . $pictureName; // Relative path
+    $pictureFile->move(public_path('profile_pictures'), $pictureName); // Move file to public/profile_pictures
+
+    // Handle account creation based on account type (landlord or visitor)
+    if ($validatedData['account_type'] === 'landlord') {
+        $landlord = Landlord::create([
+            'name' => $validatedData['full_name'],
+            'current_address' => $validatedData['current_address'],
+            'email' => $validatedData['email'],
+            'phone' => $validatedData['phone_number'],
+            'password' => Hash::make($validatedData['password']),
+            'picture' => $picturePath, // Save relative path in database
+            'account_type' => 'landlord'
         ]);
 
-        // Get the email address from the validated data
-        $email = $validatedData['email'];
+        // Log the landlord in
+        Auth::guard('landlord')->login($landlord);
 
-        // Abstract API validation code...
+        // Redirect to the landlord's homepage
+        return redirect()->route('landlord.user_home')->with('success', 'Registration successful!');
+    } else {
+        $user = User::create([
+            'full_name' => $validatedData['full_name'],
+            'current_address' => $validatedData['current_address'],
+            'phone_number' => $validatedData['phone_number'],
+            'account_type' => 'visitor',
+            'email' => $validatedData['email'],
+            'password' => Hash::make($validatedData['password']),
+            'picture' => $picturePath // Save relative path in database
+        ]);
 
-        // Store the profile picture
-        $picturePath = $request->file('picture')->store('profile_pictures', 'public');
+        // Log the user in
+        Auth::guard('visitor')->login($user);
 
-        // Handle account creation based on account type (landlord or visitor)
-        if ($validatedData['account_type'] === 'landlord') {
-            $landlord = Landlord::create([
-                'name' => $validatedData['full_name'],
-                'current_address' => $validatedData['current_address'],
-
-                'email' => $validatedData['email'],
-                'phone' => $validatedData['phone_number'],
-                'password' => Hash::make($validatedData['password']),
-                'picture' => $picturePath,
-                'account_type' => 'landlord'
-            ]);
-
-            // Log the landlord in using the default web guard
-            Auth::guard('landlord')->login($landlord); // For landlords
-
-            // Debugging: Log the authentication session
-            Log::info('Landlord logged in successfully', ['landlord_id' => $landlord->id]);
-
-            // Redirect to the landlord's homepage
-            return redirect()->route('landlord.user_home')->with('success', 'Registration successful!');
-        } else {
-            $user = User::create([
-                'full_name' => $validatedData['full_name'],
-                'current_address' => $validatedData['current_address'],
-                'phone_number' => $validatedData['phone_number'],
-                'account_type' => 'visitor',
-                'email' => $validatedData['email'],
-                'password' => Hash::make($validatedData['password']),
-                'picture' => $picturePath
-            ]);
-
-            // Log the user in using the default web guard
-            Auth::guard('visitor')->login($user); // For visitors
-
-            // Debugging: Log the authentication session
-            Log::info('Visitor logged in successfully', ['user_id' => $user->id]);
-
-            // Redirect to the visitor's homepage
-            return redirect()->route('visitor.user_home')->with('success', 'Registration successful!');
-        }
+        // Redirect to the visitor's homepage
+        return redirect()->route('visitor.user_home')->with('success', 'Registration successful!');
     }
+}
+
 
     // UserController.php
     public function showLoginForm()
@@ -372,16 +365,20 @@ class UserController extends Controller
         return back()->withErrors(['email' => 'No user found with that email. Please check your credentials and try again.'])->withInput();
     }
 
-public function logout(Request $request)
-{
-    Auth::logout();
-    $request->session()->invalidate();
-    $request->session()->regenerateToken();
+    public function logout(Request $request)
+    {
+        // Log the user out
+        Auth::logout();
 
-    return redirect('/login')->with('success', 'You have been logged out.');
-}
+        // Invalidate the session
+        $request->session()->invalidate();
 
+        // Regenerate the CSRF token to prevent session fixation
+        $request->session()->regenerateToken();
 
+        // Redirect to the main page (or login page)
+        return redirect('/')->with('success', 'You have been logged out.');
+    }
 
 public function landlordHome()
 {
@@ -584,35 +581,42 @@ public function filterProperties(Request $request)
     {
         // Get the authenticated visitor
         $visitor = Auth::guard('visitor')->user();
-
+    
         if (!$visitor) {
             return redirect()->route('visitor.user_home')->with('error', 'You need to log in to view this property.');
         }
-
+    
         // Fetch the property details
         $property = Property::findOrFail($property_id);
-
+    
         // Fetch visit request details for the visitor and property
         $visitRequest = VisitRequest::where('user_id', $visitor->id)
             ->where('property_id', $property_id)
             ->first();
-
+    
         if (!$visitRequest) {
             return redirect()->back()->with('error', 'No visit request found for this property.');
         }
-
-        // Determine the payment status for this visitor and property
-        $paymentStatus = 'unpaid'; // Default
-        if ($visitRequest->payment_status === 'paid') {
+    
+        // Fetch the payment status from the payments table based on visitor_id
+        $payment = Payment::where('visitor_id', $visitor->id)->first(); // Retrieve the first payment for this visitor
+    
+        // Default payment status is 'unpaid'
+        $paymentStatus = 'unpaid';
+    
+        // Check if payment exists and its status is confirmed
+        if ($payment && $payment->status === 'confirmed') {
             $paymentStatus = 'paid';
         }
-
+    
         // Get the visitor's profile picture (if any)
         $profilePicture = $visitor->picture ?? null;
-
+    
         // Pass the data to the view
-        return view('visitor.bookedproperty_details', compact('property', 'visitRequest', 'paymentStatus', 'profilePicture'));
+        return view('visitor.bookedproperty_details', compact('property', 'visitRequest', 'paymentStatus', 'profilePicture', 'visitor'));
     }
+    
+    
 
 
 
@@ -630,19 +634,4 @@ public function cancelVisitRequest($property_id)
 
     // Check if the visit request exists and its status is 'pending'
     if ($visitRequest && $visitRequest->status == 'pending') {
-        // Update the status to 'canceled'
-        $visitRequest->update(['status' => 'canceled']);
-
-        // Optionally, you can redirect with a success message
-        return redirect()->route('visitor.bookedproperty_details', $property_id)
-                         ->with('success', 'Visit request has been canceled.');
-    }
-
-    // If the request is not pending, redirect with an error message
-    return redirect()->route('visitor.bookedproperty_details', $property_id)
-                     ->with('error', 'You can only cancel a pending visit request.');
-}
-
-
-
-}
+        // Update the status 

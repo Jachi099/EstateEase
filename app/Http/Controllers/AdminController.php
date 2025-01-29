@@ -220,13 +220,16 @@ if ($landlord) {
 // AdminController.php
 public function showTenant()
 {
-    $visitRequests = VisitRequest::with(['visitor', 'property']) ->get();
+    $visitRequests = VisitRequest::with(['visitor', 'property'])->get();
 
     $acceptedRequests = VisitRequest::with(['visitor', 'property'])
-    ->where('status', 'accepted') // Fetch only accepted requests
-    ->get();
+        ->where('status', 'accepted') // Fetch only accepted requests
+        ->get();
 
-    return view('admin.tenant', compact('visitRequests', 'acceptedRequests'));
+    // Fetch all tenants (or apply filters if needed)
+    $tenants = Tenant::all();
+
+    return view('admin.tenant', compact('visitRequests', 'acceptedRequests', 'tenants'));
 }
 
 
@@ -271,12 +274,15 @@ public function store(Request $request)
     ]);
 
     // Handle the file upload
-    $picturePath = $request->file('picture')->store('services', 'public');
+    if ($request->hasFile('picture')) {
+        // Store the picture in the 'public' directory directly
+        $picturePath = $request->file('picture')->move(public_path('service_pictures'), $request->file('picture')->getClientOriginalName());
+    }
 
     // Create the service in the database
     Service::create([
         'type' => $request->input('type'),
-        'picture' => $picturePath,
+        'picture' => 'service_pictures/' . $request->file('picture')->getClientOriginalName(),
         'cost' => $request->input('cost'),
         'description' => $request->input('description'),
     ]);
@@ -285,5 +291,70 @@ public function store(Request $request)
     return redirect()->route('admin.add_service')->with('success', 'Service added successfully!');
 }
 
+
+
+
+
+
+
+
+public function editProfile()
+{
+    // Log the current admin authentication status
+    Log::info('Checking if admin is authenticated:', ['authenticated' => auth()->guard('admin')->check()]);
+
+    if (!auth()->guard('admin')->check()) {
+        Log::info('Admin is not authenticated, redirecting to home.');
+        return redirect('/'); // If not authenticated, redirect to the main page
+    }
+
+    $admin = auth()->guard('admin')->user();
+    Log::info('Admin is authenticated:', ['admin' => $admin]); // Log the authenticated admin details
+    
+    return view('admin.profile', compact('admin'));
+}
+
+public function updateProfile(Request $request)
+{
+    // Log request data and validation status
+    Log::info('Updating admin profile', ['request_data' => $request->all()]);
+    
+    $request->validate([
+        'email' => 'required|email|unique:admins,email,' . auth()->id(),
+        'password' => 'nullable|confirmed|min:8',
+    ]);
+    
+    $admin = auth()->guard('admin')->user();
+    Log::info('Admin found for update:', ['admin' => $admin]);
+    
+    // Check if a new password is provided and hash it before saving
+    if ($request->password) {
+        Log::info('Updating admin password');
+        $admin->password = Hash::make($request->password);
+    }
+
+    $admin->save();
+    Log::info('Admin profile updated successfully:', ['admin' => $admin]);
+
+    return back()->with('success', 'Profile updated successfully.');
+}
+public function showProperties(Request $request)
+{
+    $properties = Property::select( /* ... */ );
+    // Handle the query, sorting, etc.
+    $admin = Auth::guard('admin')->user();
+    $profilePicture = $admin->picture;
+
+    return view('admin.property_list', compact('properties', 'profilePicture'));
+}
+
+public function filterProperties(Request $request)
+{
+    $properties = Property::query(); // Filter properties as per the request
+    $admin = Auth::guard('admin')->user();
+    $profilePicture = $admin->picture;
+
+    return view('admin.property_list', compact('properties', 'profilePicture'));
+}
 
 }

@@ -103,7 +103,7 @@
                 <td>{{ $provider->id }}</td>
                 <td>
     @if($provider->picture)
-        <img src="{{ asset('storage/' . $provider->picture) }}" alt="Provider Picture" width="50" height="50" class="img-fluid">
+        <img src="{{ asset($provider->picture) }}" alt="Provider Picture" width="50" height="50" class="img-fluid">
     @else
         <span>No Picture</span>
     @endif
