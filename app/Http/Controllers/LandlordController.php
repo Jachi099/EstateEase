@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Log;
 use App\Models\Property; // Import the Property model
 use Illuminate\Http\Request;
 use App\Models\PropertyImage;
+use App\Models\TenantPayment;
+
 
 
 class LandlordController extends Controller
@@ -224,8 +226,107 @@ public function showPropertyDetails($id)
     return view('landlord.property_details', compact('property', 'tenant', 'profilePicture', 'paymentStatus'));
 }
 
+public function editProfile(Request $request)
+{
+    // Get the authenticated landlord
+    $landlord = auth()->guard('landlord')->user();
+
+    // Check if the landlord is a valid instance of the Landlord model
+    if (!$landlord instanceof Landlord) {
+        return redirect()->route('landlord.profile')->with('error', 'Landlord not found.');
+    }
+
+    // Prepare the profile picture path
+    $profilePicture = $landlord->picture; // Adjust according to your Landlord model's picture attribute
+
+    // Return the edit profile view with the landlord data and profile picture
+    return view('landlord.profile_edit', compact('landlord', 'profilePicture'));
+}
 
 
+public function updateProfile(Request $request)
+{
+    // Validate request data
+    $request->validate([
+        'name' => 'nullable|string|max:255',
+        'email' => 'nullable|email|max:255',
+        'phone' => 'nullable|string|max:15',
+        'current_address' => 'nullable|string|max:255',
+        'password' => [
+            'nullable', // Password is optional
+            'confirmed', // Must match password_confirmation
+            Password::min(8)
+                ->mixedCase() // Requires at least one uppercase and one lowercase letter
+                ->letters() // Requires at least one letter
+                ->numbers() // Requires at least one number
+                ->symbols(), // Requires at least one special character
+        ],
+        'picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
+
+    // Get the authenticated landlord
+    $landlord = auth()->guard('landlord')->user();
+
+    // Check if the landlord is a valid instance of the Landlord model
+    if (!$landlord instanceof Landlord) {
+        return redirect()->route('landlord.profile')->with('error', 'Landlord not found.');
+    }
+
+    // Prepare an array of attributes to update
+    $data = $request->only(['name', 'email', 'phone', 'current_address']);
+
+    // Handle password if provided
+    if ($request->filled('password')) {
+        $data['password'] = Hash::make($request->input('password'));
+    }
+
+    // Handle picture upload if present
+    if ($request->hasFile('picture')) {
+        // Store the file in the `public/profile_pictures` directory
+        $data['picture'] = $request->file('picture')->store('profile_pictures', 'public');
+    }
+
+    // Update the landlord attributes
+    foreach ($data as $key => $value) {
+        if ($value !== null) { // Only update fields that are provided
+            $landlord->$key = $value;
+        }
+    }
+
+    // Save the updated landlord instance
+    $landlord->save();
+
+    return redirect()->route('landlord.profile')->with('success', 'Profile updated successfully.');
+}
+
+public function deleteProfile(Request $request)
+{
+    // Get the authenticated landlord
+    $landlord = auth()->guard('landlord')->user();
+
+    // Ensure $landlord is an instance of the Landlord model
+    if (!$landlord instanceof Landlord) {
+        return response()->json(['success' => false, 'message' => 'Landlord not found.']);
+    }
+
+    // Check if the landlord has a related payment
+    $payment = TenantPayment::where('landlord_id', $landlord->id)
+                      ->where('status', 'pending')  // Only allow deletion if payment is pending
+                      ->first();
+
+    // If payment is confirmed, don't allow deletion
+    if (!$payment) {
+        // Proceed to delete the landlord profile and related data
+        $landlord->delete(); // Delete landlord profile
+
+        // Optionally, delete related data if needed
+        // $landlord->properties()->delete();
+
+        return response()->json(['success' => true, 'message' => 'Profile deleted successfully.']);
+    } else {
+        return response()->json(['success' => false, 'message' => 'Profile cannot be deleted after payment.']);
+    }
+}
 
 
 }

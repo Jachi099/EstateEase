@@ -328,7 +328,7 @@
   align-items: flex-start;
   background-color: var(--white);
   border: 1px solid;
-  border-color: var(--beaver);
+  border-color: transparent;
   display: flex;
   flex-direction: column;
   gap: 36px;

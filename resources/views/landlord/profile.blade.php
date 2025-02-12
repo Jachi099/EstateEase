@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css1/visitoru95dashboard.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('css1/styleguide.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('css1/globals.css') }}" />
-   
+
   </head>
   <body style="margin: 0; background: #ffffff">
     <input type="hidden" id="anPageName" name="page" value="visitoru95dashboard" />
@@ -24,7 +24,7 @@
 <!-- Logout Button -->
 <form id="logout-form" action="{{ route('user.logout') }}" method="POST" style="display: inline;">
     @csrf
-    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" 
+    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
     class="logout_btn" style="cursor: pointer;">
         LOGOUT
     </a>
@@ -40,7 +40,7 @@
                     <div class="visit-requested-properties">PROPERTY LIST</div>
                 </div>
             </a>
-           
+
 
 
 
@@ -50,15 +50,15 @@
     </div>
 </a>
 
-   
+
                 <div class="navbar-link-container">
                   <div class="navbar-link-estate-ease_logo montserrat-semi-bold-beaver-18px">EstateEase</div>
                   <a href="{{ route('landlord.user_home') }}"><div class="navbar-link-place navbar-link montserrat-normal-black-16px">Home</div> </a
             > <a href="{{ route('landlord.user_home') }}"><div class="navbar-link-about navbar-link montserrat-normal-black-16px">About</div> </a
-            >  
-            
-            
-            
+            >
+
+
+
               <a href="{{ route('landlord.profile') }}"><div class="head_pic">
                   @if($profilePicture)
                       <img src="{{ asset('storage/' . $profilePicture) }}" alt="User Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
@@ -66,18 +66,24 @@
                       <img src="path/to/default/image.png" alt="Default Profile Picture" style="width: 100%; height: 100%; border-radius: 50%;">
                   @endif
               </div>
-              
+
           </a>
             <div class="estate-ease_logo-1 estate-ease_logo-4 lexendzetta-extra-bold-white-15px">LANDLORD DASHBOARD</div>
           </div>
           <div class="flex-col">
             <div class="flex-row">
               <h1 class="estate-ease_logo-2 estate-ease_logo-4 lexendzetta-medium-beaver-25px">LANDLORD DASHBOARD</h1>
-              <a href="{{ route('landlord.edit_profile') }}">
+              <a href="{{ route('landlord.profile_edit') }}">
                 <img class="edit" src="{{ asset('img/edit.svg') }}" alt="edit" />
             </a>
-            
-            <img class="trash-2" src="{{ asset('img/trash-2.svg') }}" alt="trash-2" />
+
+            <form action="{{ route('landlord.delete_profile') }}" method="POST" onsubmit="return confirm('Are you sure you want to delete your profile? This action cannot be undone.');">
+    @csrf
+    <button type="submit" style="border: none; background: transparent;">
+        <img class="trash-2" src="{{ asset('img/trash-2.svg') }}" alt="Delete Profile" />
+    </button>
+</form>
+
 
             </div>
             <div class="flex-row-1">
@@ -108,24 +114,7 @@
               </div>
             </div>
           </div>
-          <div class="overlap-group">
-            <img class="arrow-left-circle" src="{{ asset('img/arrow-left-circle.svg') }}" alt="arrow-left-circle" />
-            <div class="flex-col-3 flex-col-4">
-              <p class="estate-ease_logo-3 estate-ease_logo-4">CURRENTLY VISIT REQUESTED PROPERTY LIST</p>
-              <div class="overlap-group3">
-                <div class="pro_card"></div>
-                <div class="visit_date"></div>
-                <div class="rented-date montserrat-normal-black-12px">RENTED DATE:</div>
-                <div class="property-address montserrat-normal-black-12px">PROPERTY ADDRESS:</div>
-                <div class="pro_pic"></div>
-                <div class="pro_add"></div>
-                <div class="pro_detail_btn"></div>
-                <div class="details">DETAILS</div>
-                <div class="status"></div>
-              </div>
-            </div>
-            <img class="arrow-right-circle" src="{{ asset('img/arrow-right-circle.svg') }}" alt="arrow-right-circle" />
-        </div>
+
         </div>
       </div>
     </div>

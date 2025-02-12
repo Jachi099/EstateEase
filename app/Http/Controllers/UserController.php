@@ -388,12 +388,14 @@ public function landlordHome()
     // Get the authenticated landlord
     $landlord = auth()->guard('landlord')->user();
 
-    // Get the profile picture
+    // Get the profile picture and name
     $profilePicture = $landlord->picture ?? null; // Assuming `picture` is a field in the landlord table
+    $landlordName = $landlord->name ?? 'Guest'; // Assuming `full_name` is the field for the landlord's name
 
-    // Pass the picture to the view
-    return view('landlord.home', compact('profilePicture'));
+    // Pass the picture and name to the view
+    return view('landlord.home', compact('profilePicture', 'landlordName'));
 }
+
 
 public function tenantHome()
 {
