@@ -21,8 +21,9 @@ class Landlord extends Authenticatable
 
     public function properties()
     {
-        return $this->hasMany(Property::class);
+        return $this->hasMany(Property::class, 'landlord_id');  // Correctly reference the 'landlord_id' column
     }
+
     public function notifications()
 {
     return $this->hasMany(Notification::class, 'notifiable_id');

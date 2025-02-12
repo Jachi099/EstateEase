@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\DB;
 
 use App\Models\Landlord;
 use App\Models\Tenant;
@@ -301,6 +302,7 @@ public function updateProfile(Request $request)
 
 public function deleteProfile(Request $request)
 {
+
     // Get the authenticated landlord
     $landlord = auth()->guard('landlord')->user();
 
@@ -309,13 +311,17 @@ public function deleteProfile(Request $request)
         return response()->json(['success' => false, 'message' => 'Landlord not found.']);
     }
 
-    // Check if the landlord has a related payment
-    $payment = TenantPayment::where('landlord_id', $landlord->id)
-                      ->where('status', 'pending')  // Only allow deletion if payment is pending
-                      ->first();
+    // Check if the landlord has any properties with paid tenants
+    $propertyWithPaidTenant = $landlord->properties()
+        ->whereHas('tenant.tenantPayments', function ($query) {
+            $query->where('status', 'paid'); // Check if tenant has a paid payment
+        })
+        ->exists();
 
-    // If payment is confirmed, don't allow deletion
-    if (!$payment) {
+    // If there's a property with a paid tenant, prevent profile deletion
+    if ($propertyWithPaidTenant) {
+        return response()->json(['success' => false, 'message' => 'Profile cannot be deleted while there is a property with a paid tenant.']);
+    } else {
         // Proceed to delete the landlord profile and related data
         $landlord->delete(); // Delete landlord profile
 
@@ -323,10 +329,7 @@ public function deleteProfile(Request $request)
         // $landlord->properties()->delete();
 
         return response()->json(['success' => true, 'message' => 'Profile deleted successfully.']);
-    } else {
-        return response()->json(['success' => false, 'message' => 'Profile cannot be deleted after payment.']);
     }
 }
-
 
 }
