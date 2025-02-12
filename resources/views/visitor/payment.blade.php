@@ -162,14 +162,11 @@
                     <div class="x-information montserrat-bold-black-12px">LOCATION INFORMATION</div>
                     <div class="flex-row-2 flex-row-3">
                       <div class="flex-col-5 montserrat-normal-black-12px">
-                        <div class="division">Amenities:</div>
 
                         <div class="surname surname-2">ADDRESS:</div>
                       </div>
                       <div class="flex-col-6">
-                      <div class="division-1">
-    {{ $property->amenities ?? 'N/A' }}
-</div>
+
 
 
 
@@ -212,7 +209,8 @@
             <span>No visit requested.</span>
         @endif
     </div>
-
+    <form action="/create-payment" method="POST">
+    @csrf
     <div class="name-13">
     <span id="total-rent">
         @if ($property->rent)
@@ -228,6 +226,8 @@
         @endif
     </span>
 </div>
+<input type="text" name="tran_id" value="{{ uniqid() }}" hidden>
+<input type="hidden" name="service_charge" value="{{ $platformCharge }}">
 
 <!-- Display the platform charge (5% of rent) -->
 <div class="name-15">
@@ -240,31 +240,46 @@
     </span>
 </div>
 
-<!-- Display total amount (Rent + Platform Charge) -->
-<div class="name-14" id="total-amount">
-    <span id="total-amount-value">
-        @if ($property->rent)
-            ৳ {{ number_format($totalAmount, 2) }}
-        @else
-            N/A
-        @endif
-    </span>
-</div>
-<!-- Card Payment Section -->
-<div id="card-element" class="name-16">
+    <!-- Display total amount (Rent + Platform Charge) -->
+    <div class="name-14" id="total-amount">
+        <span id="total-amount-value">
+            @if ($property->rent)
+                ৳ {{ number_format($totalAmount, 2) }}
+            @else
+                N/A
+            @endif
+        </span>
+    </div>
 
-</div>
-<div id="card-type-icon" class="card-type-icon">
-            <img id="visa-icon" src="visa-icon.png" style="display:none" alt="Visa">
-            <img id="mastercard-icon" src="mastercard-icon.png" style="display:none" alt="MasterCard">
-            <img id="amex-icon" src="amex-icon.png" style="display:none" alt="American Express">
-            <img id="discover-icon" src="discover-icon.png" style="display:none" alt="Discover">
-        </div>
+    <!-- Payment Method Dropdown -->
+    <select id="payment-method" name="payment_method" class="name-16" required>
+        <option value="bkash">bKash</option>
+        <option value="nagad">Nagad</option>
+    </select>
 
-<div id="card-errors" role="alert"></div>
+    <!-- Dynamically Updated Payment Details Section -->
+    <div id="payment-details">
+        <!-- This section will be updated dynamically based on the selected payment method -->
+    </div>
 
-<button id="submit" class="btn">Pay Now</button>
+    <!-- Hidden Input for Visitor ID (Fetched from Session) -->
+<!-- Remove visitor-id input -->
+<input type="hidden" name="visitor_id" value="{{ auth()->user()->id }}">
 
+    <!-- Pay Now Button -->
+    <button type="submit" class="btn">Pay Now</button>
+</form>
+
+@if(session('success'))
+    <div class="alert alert-success">{{ session('success') }}</div>
+@endif
+
+@if(session('error'))
+    <div class="alert alert-danger">{{ session('error') }}</div>
+@endif
+
+<!-- Loading Spinner -->
+<div id="loading" style="display: none;">Processing...</div>
 
 
 </div>
@@ -298,27 +313,40 @@
     </div>
 
     <script>
-    const stripe = Stripe('your-publishable-key-here'); // Replace with your Stripe public key
 
-    const payButton = document.getElementById('pay-now-btn');
-    payButton.addEventListener('click', async () => {
-        // Make a request to your server to create a Checkout session
-        const response = await fetch('/create-checkout-session', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
 
-        const session = await response.json();
 
-        // Redirect to the Stripe Checkout page
-        const { error } = await stripe.redirectToCheckout({ sessionId: session.id });
+// JavaScript to dynamically show payment details input based on the selected method
+const paymentMethodSelect = document.getElementById('payment-method');
+const paymentDetailsDiv = document.getElementById('payment-details');
 
-        if (error) {
-            console.error('Error redirecting to checkout:', error);
-        }
-    });
-    </script>
+paymentMethodSelect.addEventListener('change', function () {
+    const selectedMethod = paymentMethodSelect.value;
+
+    // Clear previous inputs
+    paymentDetailsDiv.innerHTML = '';
+
+    // Generate payment details input based on selected method
+    if (selectedMethod === 'bkash') {
+        paymentDetailsDiv.innerHTML = `<input type="text" id="phone-number" placeholder="Enter bKash number" required>`;
+    } else if (selectedMethod === 'nagad') {
+        paymentDetailsDiv.innerHTML = `<input type="text" id="phone-number" placeholder="Enter Nagad number" required>`;
+    } else if (selectedMethod === 'rocket') {
+        paymentDetailsDiv.innerHTML = `<input type="text" id="phone-number" placeholder="Enter Rocket number" required>`;
+    } else if (selectedMethod === 'bank-transfer') {
+        paymentDetailsDiv.innerHTML = `
+            <input type="text" id="account-number" placeholder="Enter Bank Account Number" required>
+            <input type="text" id="bank-name" placeholder="Enter Bank Name" required>
+        `;
+    }
+
+
+// Trigger change event initially to load payment details based on default selection
+paymentMethodSelect.dispatchEvent(new Event('change'));
+
+});
+
+
+</script>
   </body>
 </html>

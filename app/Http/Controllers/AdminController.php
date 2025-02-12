@@ -220,15 +220,17 @@ if ($landlord) {
 // AdminController.php
 public function showTenant()
 {
-    $visitRequests = VisitRequest::with(['visitor', 'property']) ->get();
+    $visitRequests = VisitRequest::with(['visitor', 'property'])->get();
 
     $acceptedRequests = VisitRequest::with(['visitor', 'property'])
-    ->where('status', 'accepted') // Fetch only accepted requests
-    ->get();
+        ->where('status', 'accepted') // Fetch only accepted requests
+        ->get();
 
-    return view('admin.tenant', compact('visitRequests', 'acceptedRequests'));
+    // Fetch all tenants (or apply filters if needed)
+    $tenants = Tenant::all();
+
+    return view('admin.tenant', compact('visitRequests', 'acceptedRequests', 'tenants'));
 }
-
 
 
 

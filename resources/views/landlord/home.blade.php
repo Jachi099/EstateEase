@@ -52,7 +52,7 @@
           <div class="div_mid div_mid-2" id="div_mid"></div>
           <div class="div_pic"></div>
           <p class="manage-your-properties-with-ease">Manage Your Properties with Ease</p>
-          <h1 class="title">WELCOME '{{  $landlordName}}'</h1>
+          <h1 class="title">WELCOME Landlord</h1>
           <div class="list-manage-earn lexendzetta-semi-bold-mongoose-30px">List,<br />Manage,<br />Earn</div>
           <p class="list-your-property-i montserrat-normal-black-14px">
             List your property in just a few clicks, manage every detail with ease, and start earning from reliable

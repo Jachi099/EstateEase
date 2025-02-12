@@ -154,12 +154,8 @@ Route::post('/visit-request/cancel/{property_id}', [UserController::class, 'canc
 
 // web.php
 Route::get('/payment', [UserController::class, 'showPaymentPage'])->name('payment.show');
-// Handle the payment processing
-Route::post('/payment-process', [PaymentController::class, 'processPayment'])->name('payment.process');
 
-// In routes/web.php or routes/api.php
-Route::post('/payment/update-status', [PaymentController::class, 'updatePaymentStatus'])->name('payment.updateStatus');
-
+Route::post('/create-payment', [PaymentController::class, 'createPayment'])->name('create.payment');
 
         Route::post('/logout', [UserController::class, 'logout'])->name('user.logout');
         Route::get('/user/profile/edit', [UserController::class, 'editProfile'])->name('visitor.edit_profile');
